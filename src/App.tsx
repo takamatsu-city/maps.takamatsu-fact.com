@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from './Header'
 import Sidebar from './Sidebar'
+import SidebarDetail from './SidebarDetail'
 import './App.css';
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
       <Header />
       <div className="container">
         <Sidebar />
+        <SidebarDetail />
       </div>
     </div>
   );
