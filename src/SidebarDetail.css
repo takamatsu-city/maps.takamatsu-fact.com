@@ -1,0 +1,8 @@
+.sidebar-detail {
+  background: #3E3E3EF2;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.22);
+  width: 372px;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: scroll;
+}

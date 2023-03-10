@@ -10,4 +10,5 @@ body,
   width: 100%;
   height: calc(100% - 60px);
   padding-top: 60px;
+  display: flex;
 }
