@@ -3,16 +3,18 @@ import Header from './Header'
 import Sidebar from './Sidebar'
 import SidebarDetail from './SidebarDetail'
 import Map from './Map'
-import './App.css';
+import './App.scss';
 
 function App() {
+  const [map, setMap] = React.useState()
+
   return (
     <div className="App">
       <Header />
       <div className="container">
         <Sidebar />
         <SidebarDetail />
-        <Map />
+        <Map className='map' setmap={setMap} />
       </div>
     </div>
   );
