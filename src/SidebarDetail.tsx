@@ -1,93 +1,38 @@
 import React from 'react';
+import isObjEmpty from './utils/isObjEmpty';
 
-const Content = () => {
+type Props = {
+  selectData: any
+}
+
+const Content = (props: Props) => {
+
+  const { selectData } = props
 
   return (
     <>
-      <div className='sidebar-detail'>
-        <ul>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-        </ul>
-      </div>
+      {
+        selectData &&
+        <div className='sidebar-detail'>
+          <h2>{selectData.name}</h2>
+          <ul>
+            {
+              isObjEmpty(selectData.metadata) ?
+                <p>メタデータがありません</p>
+                :
+                <>
+                  {
+                    Object.keys(selectData.metadata).map((key, index) => {
+                      return (
+                        <li key={index}>{key}: {selectData.metadata[key]}</li>
+                      )
+                    })
+                  }
+                </>
+            }
+          </ul>
+        </div>
+      }
     </>
   );
 }
