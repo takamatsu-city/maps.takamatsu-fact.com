@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react';
+import './Sidebar.scss';
 
 const Content = () => {
 
@@ -22,7 +23,7 @@ const Content = () => {
           {
             data && data.map((item: any, index: number) => {
               return (
-                <li key={index}>
+                <li className="sidebar-item" key={index}>
                   <a href='./'>{item.name}</a>
                 </li>
               )
