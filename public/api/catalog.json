@@ -1,0 +1,17 @@
+[
+  {"name": "下水", "metadata": {"データ１": "値１", "データ２": "値２"}},
+  {"name": "都市高速鉄道", "metadata": {}},
+  {"name": "緑地", "metadata": {}},
+  {"name": "ハザードマップ", "metadata": {}},
+  {"name": "地区計画", "metadata": {}},
+  {"name": "駐車場整備地区", "metadata": {}},
+  {"name": "臨港地区", "metadata": {}},
+  {"name": "駐輪場整備地区", "metadata": {}},
+  {"name": "都市計画", "metadata": {}},
+  {"name": "土地区画整理事業", "metadata": {}},
+  {"name": "風致地区", "metadata": {}},
+  {"name": "市街地再開発事業", "metadata": {}},
+  {"name": "特別用途地区", "metadata": {}},
+  {"name": "都市再生特別地区", "metadata": {}},
+  {"name": "都市計画道路", "metadata": {}}
+]
