@@ -22,20 +22,21 @@ const Content = () => {
   return (
     <>
       <div className='sidebar'>
-        <ul>
+        <h2 className='title'>都市情報</h2>
+        <div className='sidebar-item-container'>
           {
             data && data.map((item: any, index: number) => {
               return (
-                <li className="sidebar-item" key={index} onClick={() => {
+                <div className="sidebar-item" key={index} onClick={() => {
                   setIsOpen(true)
                   setSelected(item)
                 }}>
-                  {item.name}
-                </li>
+                  <div className="label">{item.name}</div>
+                </div>
               )
             })
           }
-        </ul>
+        </div>
       </div>
       <SidebarDetail selectData={selected} setIsOpen={setIsOpen} isOpen={isOpen} />
     </>
