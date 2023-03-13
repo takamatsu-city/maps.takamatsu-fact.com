@@ -1,9 +1,12 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
+import SidebarDetail from './SidebarDetail';
 import './Sidebar.scss';
 
 const Content = () => {
 
   const [data, setData] = useState<any>(null)
+  const [selected, setSelected] = useState<any>(null)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
 
   useEffect(() => {
 
@@ -23,14 +26,18 @@ const Content = () => {
           {
             data && data.map((item: any, index: number) => {
               return (
-                <li className="sidebar-item" key={index}>
-                  <a href='./'>{item.name}</a>
+                <li className="sidebar-item" key={index} onClick={() => {
+                  setIsOpen(true)
+                  setSelected(item)
+                }}>
+                  {item.name}
                 </li>
               )
             })
           }
         </ul>
       </div>
+      <SidebarDetail selectData={selected} setIsOpen={setIsOpen} isOpen={isOpen} />
     </>
   );
 }

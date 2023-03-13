@@ -1,7 +1,6 @@
 import React from 'react';
 import Header from './Header'
 import Sidebar from './Sidebar'
-import SidebarDetail from './SidebarDetail'
 import Map from './Map'
 
 import type * as maplibregl from 'maplibre-gl';
@@ -17,7 +16,6 @@ function App() {
       <Header />
       <div className="container">
         <Sidebar />
-        <SidebarDetail />
         <Map className='map' setMap={setMap} />
       </div>
     </div>
