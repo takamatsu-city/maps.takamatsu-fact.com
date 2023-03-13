@@ -1,6 +1,15 @@
 .sidebar-detail {
   padding: 20px;
 
+  .close-btn-container {
+    display: flex;
+    justify-content: flex-end;
+
+    .close {
+      cursor: pointer;
+    }
+  }
+
   .title {
     font-weight: 700;
     font-size: 23px;

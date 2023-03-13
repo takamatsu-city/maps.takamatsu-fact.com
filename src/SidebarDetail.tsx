@@ -1,20 +1,27 @@
 import React from 'react';
 import isObjEmpty from './utils/isObjEmpty';
+import { AiOutlineClose } from "react-icons/ai";
 import './SidebarDetail.scss'
 
+
 type Props = {
-  selectData: any
+  selectData: any,
+  isOpen: boolean,
+  setIsOpen: (isOpen: boolean) => void
 }
 
 const Content = (props: Props) => {
 
-  const { selectData } = props
+  const { selectData, isOpen, setIsOpen } = props
 
   return (
     <>
       {
-        selectData &&
+        (selectData && isOpen) &&
         <div className='sidebar-detail'>
+          <div className='close-btn-container'>
+            <AiOutlineClose className='close' onClick={() => {setIsOpen(false)}}/>
+          </div>
           <h2 className='title'>{selectData.name}</h2>
           <div>
             {
