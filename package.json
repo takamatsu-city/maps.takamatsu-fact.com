@@ -42,6 +42,7 @@
   },
   "homepage": "./",
   "devDependencies": {
+    "maplibre-gl": "^2.4.0",
     "sass": "^1.59.2"
   }
 }
