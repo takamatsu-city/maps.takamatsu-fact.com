@@ -1,0 +1,40 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #0079C4;
+  padding: 0 30px;
+
+  .brand {
+    display: flex;
+
+    title {
+      margin: 0;
+    }
+
+    .logo {
+      width: 35px;
+      margin-right: 12px;
+    }
+  }
+
+  .docs-link {
+    display: flex;
+    background: #FFFFFF;
+    border: 2px solid #0079C4;
+    border-radius: 8px;
+    padding: 7px 14px;
+    margin-right: -17px;
+
+    p, div {
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 17px;
+    }
+
+    p {
+      margin: 0 4px;
+
+    }
+  }
+}
