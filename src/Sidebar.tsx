@@ -11,7 +11,7 @@ const Content = () => {
   useEffect(() => {
 
     const fetchData = async () => {
-      const res = await fetch('/api/catalog.json')
+      const res = await fetch('./api/catalog.json')
       const data = await res.json()
       setData(data)
     }
