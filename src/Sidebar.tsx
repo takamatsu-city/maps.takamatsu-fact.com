@@ -2,14 +2,14 @@ import {useEffect, useState} from 'react';
 
 const Content = () => {
 
-  // /api/catalog.json を fetch で取ってくる
+  const [data, setData] = useState<any>(null)
 
   useEffect(() => {
 
     const fetchData = async () => {
       const res = await fetch('/api/catalog.json')
       const data = await res.json()
-      console.log(data)
+      setData(data)
     }
 
     fetchData()
@@ -19,86 +19,15 @@ const Content = () => {
     <>
       <div className='sidebar'>
         <ul>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
+          {
+            data && data.map((item: any, index: number) => {
+              return (
+                <li key={index}>
+                  <a href='./'>{item.name}</a>
+                </li>
+              )
+            })
+          }
         </ul>
       </div>
     </>
