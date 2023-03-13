@@ -1,6 +1,28 @@
-.sidebar-item {
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 23px;
-  list-style: none;
+.sidebar {
+  padding: 20px;
+
+  .title {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 26px;
+    margin-bottom: 8px;
+  }
+
+  .sidebar-item-container {
+    background-color: #ffffff;
+
+    .sidebar-item {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 23px;
+      padding: 5px 0;
+      border-bottom: 1px solid #E9E9E9;
+      cursor: pointer;
+
+      .label {
+        padding: 0px 15px;
+      }
+    }
+  }
 }
+
