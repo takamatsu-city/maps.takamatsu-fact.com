@@ -1,4 +1,4 @@
 [
   {name: "下水", {metadata: {}}},
-  {name: "都市高速鉄道"}
+  {name: "都市高速鉄道", {metadata: {}}}
 ]
