@@ -1,22 +1,52 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import Header from './Header'
 import Sidebar from './Sidebar'
-import Map from './Map'
+import MainMap from './MainMap'
 
-import type * as maplibregl from 'maplibre-gl';
+// import type * as maplibregl from 'maplibre-gl';
 
 import './App.scss';
+import { useQuery } from 'react-query';
+import { CatalogFeature, getCatalog } from './api/catalog';
+import SidebarDetail from './SidebarDetail';
 
 function App() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_map, setMap] = React.useState<maplibregl.Map | undefined>(undefined);
+  const catalog = useQuery('catalog', getCatalog);
+  const [selectedLayers, setSelectedLayers] = useState<string[]>([]);
+  const [selectedFeatures, setSelectedFeatures] = useState<CatalogFeature[]>([]);
+
+  const catalogSuccess = catalog.isSuccess;
+  const catalogData = catalog.data;
+  useEffect(() => {
+    if (!catalogSuccess || !catalogData) {
+      return;
+    }
+
+    setSelectedLayers(catalogData.map(item => item.class));
+  }, [ catalogSuccess, catalogData, setSelectedLayers ]);
+
+  useEffect(() => {
+    console.log(selectedLayers);
+  }, [selectedLayers]);
 
   return (
     <div className="App">
       <Header />
       <div className="container">
-        <Sidebar />
-        <Map className='map' setMap={setMap} />
+        <Sidebar
+          catalogData={catalog.data || []}
+          selectedLayers={selectedLayers}
+          setSelectedLayers={setSelectedLayers}
+        />
+        { selectedFeatures.length > 0 && <SidebarDetail
+          selected={selectedFeatures}
+          setSelected={setSelectedFeatures}
+        /> }
+        <MainMap
+          catalogData={catalog.data || []}
+          selectedLayers={selectedLayers}
+          setSelectedFeatures={setSelectedFeatures}
+        />
       </div>
     </div>
   );

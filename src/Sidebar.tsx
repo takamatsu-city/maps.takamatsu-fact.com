@@ -1,46 +1,64 @@
-import { useEffect, useState } from 'react';
-import SidebarDetail from './SidebarDetail';
+import { useCallback } from 'react';
 import './Sidebar.scss';
+import { SingleCatalogItem } from './api/catalog';
 
-const Content = () => {
+type SingleSidebarItemProps = {
+  layerSelected: boolean
+  setSelectedLayers: React.Dispatch<React.SetStateAction<string[]>>
+  item: SingleCatalogItem
+}
 
-  const [data, setData] = useState<any>(null)
-  const [selected, setSelected] = useState<any>(null)
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+const SingleSidebarItem: React.FC<SingleSidebarItemProps> = ({layerSelected, setSelectedLayers, item}) => {
+  const itemClass = item.class;
 
-  useEffect(() => {
+  const handleCheckboxChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>((event) => {
+    const checked = event.target.checked;
 
-    const fetchData = async () => {
-      const res = await fetch('./api/catalog.json')
-      const data = await res.json()
-      setData(data)
-    }
+    setSelectedLayers((prev) => {
+      if (checked) {
+        return [...prev, itemClass];
+      } else {
+        const index = prev.indexOf(itemClass);
+        if (index >= 0) {
+          const out = [...prev];
+          out.splice(index, 1);
+          return out;
+        }
+      }
+      return prev;
+    });
+  }, [itemClass, setSelectedLayers]);
 
-    fetchData()
-  }, [])
+  return <div className="sidebar-item">
+    <label className="label">
+      <input type="checkbox" checked={layerSelected} onChange={handleCheckboxChange} />
+      {item.name}
+    </label>
+  </div>;
+};
 
+type SidebarProps = {
+  selectedLayers: string[]
+  catalogData: SingleCatalogItem[]
+  setSelectedLayers: React.Dispatch<React.SetStateAction<string[]>>
+}
+
+const Sidebar: React.FC<SidebarProps> = ({selectedLayers, setSelectedLayers, catalogData}) => {
   return (
-    <>
-      <div className='sidebar'>
-        <h2 className='title'>都市情報</h2>
-        <div className='sidebar-item-container'>
-          {
-            data && data.map((item: any, index: number) => {
-              return (
-                <div className="sidebar-item" key={index} onClick={() => {
-                  setIsOpen(true)
-                  setSelected(item)
-                }}>
-                  <div className="label">{item.name}</div>
-                </div>
-              )
-            })
-          }
-        </div>
+    <div className='sidebar'>
+      <h2 className='title'>都市情報</h2>
+      <div className='sidebar-item-container'>
+        { catalogData.map((item) =>
+          <SingleSidebarItem
+            key={item.class}
+            layerSelected={selectedLayers.includes(item.class)}
+            setSelectedLayers={setSelectedLayers}
+            item={item}
+          />
+        ) }
       </div>
-      <SidebarDetail selectData={selected} setIsOpen={setIsOpen} isOpen={isOpen} />
-    </>
+    </div>
   );
 }
 
-export default Content;
+export default Sidebar;
