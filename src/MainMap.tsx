@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type * as maplibregl from 'maplibre-gl';
 import { CatalogFeature, SingleCatalogItem } from './api/catalog';
+import { lineWidth_thin, WEB_COLORS } from './utils/mapStyling';
 
 declare global {
   interface Window {
@@ -18,38 +19,62 @@ type LayerTemplate = (LayerSpecification & {
   source?: string | maplibregl.SourceSpecification | undefined;
 });
 
-const LAYER_TEMPLATES: [string, LayerTemplate][] = [
-  [ "Polygon", {
-    id: "",
-    source: "takamatsu",
-    "source-layer": "main",
-    type: "fill",
-    paint: {
-      "fill-color": "#0f0",
-      "fill-opacity": 0.8,
-    },
+const LAYER_TEMPLATES: [string, (idx: number) => LayerTemplate[]][] = [
+  [ "Polygon", (i) => {
+    const color = WEB_COLORS[i * 1999 % WEB_COLORS.length];
+    return [
+      {
+        id: "",
+        source: "takamatsu",
+        "source-layer": "main",
+        type: "fill",
+        paint: {
+          "fill-color": color,
+          "fill-opacity": 0.3,
+        },
+      },
+      {
+        id: "/outline",
+        source: "takamatsu",
+        "source-layer": "main",
+        type: "line",
+        paint: {
+          "line-color": color,
+          "line-width": lineWidth_thin,
+        },
+      },
+    ]
   } ],
-  [ "LineString", {
-    id: "",
-    source: "takamatsu",
-    "source-layer": "main",
-    type: "line",
-    paint: {
-      "line-color": "#0f0",
-      "line-opacity": 0.8,
-      "line-width": 1,
-    },
-  } ],
-  [ "Point", {
-    id: "",
-    source: "takamatsu",
-    "source-layer": "main",
-    type: "circle",
-    paint: {
-      "circle-color": "#0f0",
-      "circle-radius": 5,
-    }
-  } ],
+  [ "LineString", (i) => {
+    const color = WEB_COLORS[i * 1999 % WEB_COLORS.length];
+    return [{
+      id: "",
+      source: "takamatsu",
+      "source-layer": "main",
+      type: "line",
+      paint: {
+        "line-color": color,
+        "line-width": lineWidth_thin,
+      },
+    }]
+  }],
+  [ "Point", (i) => {
+    const color = WEB_COLORS[i * 1999 % WEB_COLORS.length];
+    return [{
+      id: "",
+      source: "takamatsu",
+      "source-layer": "main",
+      type: "circle",
+      paint: {
+        'circle-radius': 7,
+        'circle-color': color,
+        'circle-opacity': .8,
+        'circle-stroke-width': 1,
+        'circle-stroke-color': 'gray',
+        'circle-stroke-opacity': 1,
+      }
+    }]
+  }],
 ];
 
 interface Props {
@@ -103,6 +128,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
   useEffect(() => {
     if (!map) return;
 
+    let index = 0;
     for (const definition of catalogData) {
       const layer = definition.class;
       const isSelected = selectedLayers.includes(layer);
@@ -111,15 +137,19 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
         const fullLayerName = `takamatsu/${layer}/${sublayerName}`;
         const mapLayer = map.getLayer(fullLayerName);
         if (!mapLayer && isSelected) {
-          map.addLayer({
-            ...template,
-            filter: ["all", ["==", "$type", sublayerName], ["==", "class", layer]],
-            id: fullLayerName,
-          });
+          for (const subtemplate of template(index)) {
+            map.addLayer({
+              ...subtemplate,
+              filter: ["all", ["==", "$type", sublayerName], ["==", "class", layer]],
+              id: fullLayerName + subtemplate.id,
+            });
+          }
         } else if (mapLayer && !isSelected) {
           map.removeLayer(fullLayerName);
         }
       }
+
+      index += 1;
     }
   }, [map, catalogData, selectedLayers]);
 
