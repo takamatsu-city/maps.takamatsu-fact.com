@@ -38,14 +38,18 @@ body,
 
     background: #313731;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.22);
+    top: 0;
+    bottom: 0;
+    left: 0;
     width: 372px;
-    height: 100%;
     box-sizing: border-box;
     overflow: scroll;
     color: #FFFFFF;
   }
 
   .map-container {
+    position: relative;
+
     flex-grow: 1;
     width: auto;
     height: 100%;
