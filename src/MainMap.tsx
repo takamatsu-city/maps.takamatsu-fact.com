@@ -136,16 +136,16 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
       for (const [sublayerName, template] of LAYER_TEMPLATES) {
         const fullLayerName = `takamatsu/${layer}/${sublayerName}`;
         const mapLayer = map.getLayer(fullLayerName);
-        if (!mapLayer && isSelected) {
-          for (const subtemplate of template(index)) {
+        for (const subtemplate of template(index)) {
+          if (!mapLayer && isSelected) {
             map.addLayer({
               ...subtemplate,
               filter: ["all", ["==", "$type", sublayerName], ["==", "class", layer]],
               id: fullLayerName + subtemplate.id,
             });
+          } else if (mapLayer && !isSelected) {
+            map.removeLayer(fullLayerName + subtemplate.id);
           }
-        } else if (mapLayer && !isSelected) {
-          map.removeLayer(fullLayerName);
         }
       }
 

@@ -44,9 +44,23 @@ type SidebarProps = {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({selectedLayers, setSelectedLayers, catalogData}) => {
+  const selectAllHandler = useCallback<React.MouseEventHandler<HTMLButtonElement>>((event) => {
+    event.preventDefault();
+    setSelectedLayers(catalogData.map(v => v.class));
+  }, [catalogData, setSelectedLayers]);
+
+  const selectNoneHandler = useCallback<React.MouseEventHandler<HTMLButtonElement>>((event) => {
+    event.preventDefault();
+    setSelectedLayers([]);
+  }, [setSelectedLayers]);
+
   return (
     <div className='sidebar'>
       <h2 className='title'>都市情報</h2>
+      <div>
+        <button type="button" onClick={selectAllHandler}>全選択</button>
+        <button type="button" onClick={selectNoneHandler}>全選択解除</button>
+      </div>
       <div className='sidebar-item-container'>
         { catalogData.map((item) =>
           <SingleSidebarItem
