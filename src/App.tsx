@@ -25,9 +25,9 @@ function App() {
     setSelectedLayers(catalogData.map(item => item.class));
   }, [ catalogSuccess, catalogData, setSelectedLayers ]);
 
-  useEffect(() => {
-    console.log(selectedLayers);
-  }, [selectedLayers]);
+  // useEffect(() => {
+  //   console.log(selectedLayers);
+  // }, [selectedLayers]);
 
   return (
     <div className="App">
@@ -38,15 +38,17 @@ function App() {
           selectedLayers={selectedLayers}
           setSelectedLayers={setSelectedLayers}
         />
-        { selectedFeatures.length > 0 && <SidebarDetail
-          selected={selectedFeatures}
-          setSelected={setSelectedFeatures}
-        /> }
-        <MainMap
-          catalogData={catalog.data || []}
-          selectedLayers={selectedLayers}
-          setSelectedFeatures={setSelectedFeatures}
-        />
+        <div className="map-container">
+          { selectedFeatures.length > 0 && <SidebarDetail
+            selected={selectedFeatures}
+            setSelected={setSelectedFeatures}
+          /> }
+          <MainMap
+            catalogData={catalog.data || []}
+            selectedLayers={selectedLayers}
+            setSelectedFeatures={setSelectedFeatures}
+          />
+        </div>
       </div>
     </div>
   );

@@ -31,8 +31,11 @@ body,
     box-sizing: border-box;
     overflow: scroll;
   }
-  
+
   .sidebar-detail {
+    position: absolute;
+    z-index: 10;
+
     background: #313731;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.22);
     width: 372px;
@@ -41,12 +44,16 @@ body,
     overflow: scroll;
     color: #FFFFFF;
   }
-  
-  .map {
+
+  .map-container {
     flex-grow: 1;
     width: auto;
     height: 100%;
     box-sizing: border-box;
+
+    .map {
+      width: 100%;
+      height: 100%;
+    }
   }
-  
 }
