@@ -112,11 +112,20 @@ export const WEB_COLORS = Object.entries({
 });
 
 
-export const AREA_COLORS: {[key:string]:{[key:string]:string}} = {
+export const AREA_COLORS: {[key:string]:{[key:string]:{[key:string]:string}}} = {
   "「一般・環境保全型(平地部)」": {
-    "Polygon": "red",
-    "LineString": "yellow",
-    "Point": "blue",
+    "Polygon": {
+      "color": "red",
+      "outlineColor": "blue",
+    },
+    "LineString": {
+      "color": "red",
+      "outlineColor": "blue",
+    },
+    "Point": {
+      "color": "red",
+      "outlineColor": "blue",
+    },
   }
   // "「一般・環境保全型(森林部)」": "blue",
   // "「幹線沿道型I型」": "",

@@ -19,8 +19,8 @@ type LayerTemplate = (LayerSpecification & {
   source?: string | maplibregl.SourceSpecification | undefined;
 });
 
-const LAYER_TEMPLATES: [string, (color: {[key:string]: string}) => LayerTemplate[]][] = [
-  [ "Polygon", (color) => {
+const LAYER_TEMPLATES: [string, (style: {[key:string]: {[key:string]:string}}) => LayerTemplate[]][] = [
+  [ "Polygon", (style) => {
     return [
       {
         id: "",
@@ -28,7 +28,7 @@ const LAYER_TEMPLATES: [string, (color: {[key:string]: string}) => LayerTemplate
         "source-layer": "main",
         type: "fill",
         paint: {
-          "fill-color": color.Polygon,
+          "fill-color": style.Polygon.color,
           "fill-opacity": 0.3,
         },
       },
@@ -38,25 +38,25 @@ const LAYER_TEMPLATES: [string, (color: {[key:string]: string}) => LayerTemplate
         "source-layer": "main",
         type: "line",
         paint: {
-          "line-color": color.Polygon,
+          "line-color": style.Polygon.outlineColor,
           "line-width": lineWidth_thin,
         },
       },
     ]
   } ],
-  [ "LineString", (color) => {
+  [ "LineString", (style) => {
     return [{
       id: "",
       source: "takamatsu",
       "source-layer": "main",
       type: "line",
       paint: {
-        "line-color": color.Polygon,
+        "line-color": style.LineString.color,
         "line-width": lineWidth_thin,
       },
     }]
   }],
-  [ "Point", (color) => {
+  [ "Point", (style) => {
     return [{
       id: "",
       source: "takamatsu",
@@ -64,7 +64,7 @@ const LAYER_TEMPLATES: [string, (color: {[key:string]: string}) => LayerTemplate
       type: "circle",
       paint: {
         'circle-radius': 7,
-        'circle-color': color.Point,
+        'circle-color': style.Point.color,
         'circle-opacity': .8,
         'circle-stroke-width': 1,
         'circle-stroke-color': 'gray',
@@ -135,7 +135,9 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
 
         const mapLayer = map.getLayer(fullLayerName);
 
-        let color = AREA_COLORS[layer] || { Polygon: "#000000", Point: "#000000", LineString: "#000000"}
+        const defaultColor = {color: "red", outlineColor: "blue"}
+
+        let color = AREA_COLORS[layer] || { Polygon: defaultColor, Point:defaultColor, LineString:defaultColor}
 
         for (const subtemplate of template(color)) {
           if (!mapLayer && isSelected) {
