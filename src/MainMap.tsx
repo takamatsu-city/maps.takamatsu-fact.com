@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type * as maplibregl from 'maplibre-gl';
-import { CatalogDataItem, CatalogFeature, CatalogItem, walkCategories } from './api/catalog';
+import { CatalogFeature, CatalogItem, walkCategories } from './api/catalog';
 import { lineWidth_thin, WEB_COLORS } from './utils/mapStyling';
 
 declare global {
