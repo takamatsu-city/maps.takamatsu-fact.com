@@ -114,8 +114,8 @@ export const WEB_COLORS = Object.entries({
 export const AREA_COLORS: {[key:string]:{[key:string]:{[key:string]:string}}} = {
   "第一種低層住居専用地域(60_40)": {
     "Polygon": {
-      "color": "rgb(36,190,159)",
-      "outlineColor": "rgb(156,84,160)"
+      "pattern": "first_low_resident_60_40",
+      "outlineColor": "rgb(156,84,160)",
     },
     "LineString": {
       "color": "rgb(36,190,159)",
@@ -128,7 +128,7 @@ export const AREA_COLORS: {[key:string]:{[key:string]:{[key:string]:string}}} = 
   },
   "第一種低層住居専用地域(80_50)": {
     "Polygon": {
-      "color": "rgb(36,190,159)",
+      "pattern": "first_low_resident_80_50",
       "outlineColor": "rgb(156,84,160)"
     },
     "LineString": {
@@ -156,7 +156,7 @@ export const AREA_COLORS: {[key:string]:{[key:string]:{[key:string]:string}}} = 
   },
   "第二種低層住居専用地域(100_60)": {
     "Polygon": {
-      "color": "rgb(215,237,229)",
+      "pattern": "second_low_resident_100_60",
       "outlineColor": "rgb(156,84,160)"
     },
     "LineString": {
@@ -254,7 +254,7 @@ export const AREA_COLORS: {[key:string]:{[key:string]:{[key:string]:string}}} = 
   },
   "近隣商業地域(200_80)": {
     "Polygon": {
-      "color": "rgb(252,226,225)",
+      "pattern": "near_commerce_200_80",
       "outlineColor": "rgb(179,114,173)"
     },
     "LineString": {
@@ -282,7 +282,7 @@ export const AREA_COLORS: {[key:string]:{[key:string]:{[key:string]:string}}} = 
   },
   "商業地域(200_80)": {
     "Polygon": {
-      "color": "rgb(241,93,125)",
+      "pattern": "commerce_200_80",
       "outlineColor": "rgb(179,114,173)"
     },
     "LineString": {
@@ -296,7 +296,7 @@ export const AREA_COLORS: {[key:string]:{[key:string]:{[key:string]:string}}} = 
   },
   "商業地域(300_80)": {
     "Polygon": {
-      "color": "rgb(247,166,172)",
+      "pattern": "commerce_300_80",
       "outlineColor": "rgb(179,114,173)"
     },
     "LineString": {
@@ -324,7 +324,7 @@ export const AREA_COLORS: {[key:string]:{[key:string]:{[key:string]:string}}} = 
   },
   "商業地域(500_80)": {
     "Polygon": {
-      "color": "rgb(241,93,125)",
+      "pattern": "commerce_500_80",
       "outlineColor": "rgb(179,114,173)"
     },
     "LineString": {
@@ -338,7 +338,7 @@ export const AREA_COLORS: {[key:string]:{[key:string]:{[key:string]:string}}} = 
   },
   "商業地域(600_80)": {
     "Polygon": {
-      "color": "rgb(241,93,125)",
+      "pattern": "commerce_600_80",
       "outlineColor": "rgb(179,114,173)"
     },
     "LineString": {
@@ -352,7 +352,7 @@ export const AREA_COLORS: {[key:string]:{[key:string]:{[key:string]:string}}} = 
   },
   "商業地域(700_80)": {
     "Polygon": {
-      "color": "rgb(241,93,125)",
+      "pattern": "commerce_700_80",
       "outlineColor": "rgb(179,114,173)"
     },
     "LineString": {
@@ -366,7 +366,7 @@ export const AREA_COLORS: {[key:string]:{[key:string]:{[key:string]:string}}} = 
   },
   "商業地域(800_80)": {
     "Polygon": {
-      "color": "rgb(241,93,125)",
+      "pattern": "commerce_800_80",
       "outlineColor": "rgb(179,114,173)"
     },
     "LineString": {

@@ -21,6 +21,9 @@ type LayerTemplate = (LayerSpecification & {
 
 const LAYER_TEMPLATES: [string, (style: {[key:string]: {[key:string]:string}}) => LayerTemplate[]][] = [
   [ "Polygon", (style) => {
+
+    const fill = style.Polygon.pattern ? {"fill-pattern": style.Polygon.pattern} : {"fill-color": style.Polygon.color}
+
     return [
       {
         id: "",
@@ -28,7 +31,7 @@ const LAYER_TEMPLATES: [string, (style: {[key:string]: {[key:string]:string}}) =
         "source-layer": "main",
         type: "fill",
         paint: {
-          "fill-color": style.Polygon.color,
+          ...fill,
           "fill-opacity": 0.5,
         },
       },
