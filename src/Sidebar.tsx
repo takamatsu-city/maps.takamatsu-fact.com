@@ -1,4 +1,7 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+
+import { AiFillCaretRight, AiFillCaretDown } from 'react-icons/ai';
+
 import './Sidebar.scss';
 import { CatalogCategory, CatalogDataItem, CatalogItem, walkCategories } from './api/catalog';
 
@@ -9,6 +12,7 @@ type SidebarItemProps = {
 }
 
 const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory }> = (props) => {
+  const [ isOpen, setIsOpen ] = useState<boolean>(false);
   const {item, selectedLayers, setSelectedLayers} = props;
 
   const classesOfThisCategory = useMemo(() => {
@@ -39,18 +43,26 @@ const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory }
     });
   }, [classesOfThisCategory, setSelectedLayers]);
 
+  const toggleIsOpen = useCallback<React.MouseEventHandler<HTMLButtonElement>>((event) => {
+    event.preventDefault();
+    setIsOpen(isOpen => !isOpen);
+  }, []);
+
   return <div className='sidebar-item-category'>
     <div className='sidebar-item'>
+      <button className='category-toggle' type="button" onClick={toggleIsOpen}>
+        { isOpen ? <AiFillCaretDown /> : <AiFillCaretRight /> }
+      </button>
       <label className='label category-label'>
         <input type="checkbox" checked={checked} onChange={handleCheckboxChange} />
         {item.name}
       </label>
     </div>
-    <div className="sidebar-item-category-items">
+    { isOpen && <div className="sidebar-item-category-items">
       {item.items.map(item => (
         <SingleSidebarItem {...props} item={item} />
       ))}
-    </div>
+    </div> }
   </div>
 }
 
