@@ -19,6 +19,7 @@ const Content = (props: Props) => {
   // const catalogItems = Object.fromEntries(selected.map(item => [item.catalog.class, item.catalog]));
   const groupedFeatures: { [key: string]: CatalogFeature[] } = {};
   for (const feature of selected) {
+    if (feature.catalog.type !== "DataItem") continue;
     const ary = groupedFeatures[feature.catalog.class] ||= [];
     ary.push(feature);
   }
