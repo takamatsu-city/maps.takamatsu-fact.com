@@ -34,14 +34,14 @@ const Content = (props: Props) => {
           <h2 className='title'>{features[0].catalog.name}</h2>
           <div>
             { features.map((feature, idx) => (
-              <div className='sidebar-detail-single-feature' key={idx}>
-                { Object.entries(feature.properties).filter(([key, _value]) => key !== 'class').map(([key, value]) => (
-                  <div className="sidebar-detail-item" key={key}>
-                    <span className='label'>{key}</span>
-                    <span className='content'>{value}</span>
-                  </div>
+              <table className='sidebar-detail-single-feature' key={idx}>
+                { Object.entries(feature.properties).filter(([key, _value]) => key !== 'class' && !key.startsWith('_viewer_')).map(([key, value]) => (
+                  <tr className="sidebar-detail-item" key={key}>
+                    <th className='label'>{key}</th>
+                    <td className='content'>{value}</td>
+                  </tr>
                 ))}
-              </div>
+              </table>
             )) }
           </div>
         </div>

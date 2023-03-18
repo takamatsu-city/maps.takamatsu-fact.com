@@ -19,26 +19,23 @@
     border-bottom: 1.3px solid #ffffff;
   }
 
+  .sidebar-detail-single-feature {
+    width: 100%;
+  }
+
   .sidebar-detail-item {
-    display: flex;
-    padding: 6px 0;
     border-bottom: 1.3px solid rgba(255, 255, 255, 0.1);
 
     .label {
       font-weight: 700;
       font-size: 15px;
       line-height: 22px;
-      display: flex;
-      align-items: center;
-      color: #FFFFFF;
-      width: 100px;
+      text-align: left;
     }
     .content {
       font-weight: 400;
       font-size: 15px;
       line-height: 22px;
-      display: flex;
-      align-items: center;
       color: #FFFFFF;
     }
   }

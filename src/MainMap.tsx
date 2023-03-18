@@ -112,7 +112,9 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
     });
 
     map.on('click', (e) => {
-      const features = map.queryRenderedFeatures(e.point).filter(feature => feature.source === 'takamatsu');
+      const features = map
+        .queryRenderedFeatures(e.point)
+        .filter(feature => feature.source === 'takamatsu' || feature.properties._viewer_selectable === true);
       if (features.length === 0) {
         setSelectedFeatures([]);
         return;
@@ -133,28 +135,62 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
   useEffect(() => {
     if (!map) return;
 
-    let index = 0;
-    for (const definition of walkCategories(catalogData)) {
-      const layer = definition.class;
-      const isSelected = selectedLayers.includes(layer);
+    let shouldStop = false;
+    (async () => {
+      let index = 0;
+      for (const definition of walkCategories(catalogData)) {
+        if (shouldStop) return;
 
-      for (const [sublayerName, template] of LAYER_TEMPLATES) {
-        const fullLayerName = `takamatsu/${layer}/${sublayerName}`;
-        const mapLayer = map.getLayer(fullLayerName);
-        for (const subtemplate of template(index)) {
-          if (!mapLayer && isSelected) {
-            map.addLayer({
-              ...subtemplate,
-              filter: ["all", ["==", "$type", sublayerName], ["==", "class", layer]],
-              id: fullLayerName + subtemplate.id,
+        const layer = definition.class;
+        const isSelected = selectedLayers.includes(layer);
+
+        let geojsonEndpoint: string | undefined = undefined;
+        if ("geojsonEndpoint" in definition) {
+          // this is a GeoJSON layer
+          geojsonEndpoint = definition.geojsonEndpoint;
+
+          const mapSource = map.getSource(layer);
+          if (!mapSource && isSelected) {
+            const geojsonResp = await fetch(geojsonEndpoint);
+            const geojson = await geojsonResp.json();
+            for (const feature of geojson.features) {
+              feature.properties.class = layer;
+              feature.properties._viewer_selectable = true;
+            }
+            map.addSource(layer, {
+              type: 'geojson',
+              data: geojson,
             });
-          } else if (mapLayer && !isSelected) {
-            map.removeLayer(fullLayerName + subtemplate.id);
           }
         }
-      }
 
-      index += 1;
+        for (const [sublayerName, template] of LAYER_TEMPLATES) {
+          const fullLayerName = `takamatsu/${layer}/${sublayerName}`;
+          const mapLayer = map.getLayer(fullLayerName);
+          for (const subtemplate of template(index)) {
+            if (!mapLayer && isSelected) {
+              const layerConfig: maplibregl.LayerSpecification = {
+                ...subtemplate,
+                filter: ["all", ["==", "$type", sublayerName], ["==", "class", layer]],
+                id: fullLayerName + subtemplate.id,
+              };
+              if (geojsonEndpoint) {
+                layerConfig.source = layer;
+                delete layerConfig['source-layer'];
+              }
+              map.addLayer(layerConfig);
+            } else if (mapLayer && !isSelected) {
+              map.removeLayer(fullLayerName + subtemplate.id);
+            }
+          }
+        }
+
+        index += 1;
+      }
+    })();
+
+    return () => {
+      shouldStop = true;
     }
   }, [map, catalogData, selectedLayers]);
 
