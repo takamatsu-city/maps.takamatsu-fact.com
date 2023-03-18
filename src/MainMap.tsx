@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type * as maplibregl from 'maplibre-gl';
 import { CatalogFeature, SingleCatalogItem } from './api/catalog';
-import { lineWidth_thin, WEB_COLORS } from './utils/mapStyling';
+import { lineWidth_thin, AREA_COLORS } from './utils/mapStyling';
 
 declare global {
   interface Window {
@@ -19,9 +19,8 @@ type LayerTemplate = (LayerSpecification & {
   source?: string | maplibregl.SourceSpecification | undefined;
 });
 
-const LAYER_TEMPLATES: [string, (idx: number) => LayerTemplate[]][] = [
-  [ "Polygon", (i) => {
-    const color = WEB_COLORS[i * 1999 % WEB_COLORS.length];
+const LAYER_TEMPLATES: [string, (color: {[key:string]: string}) => LayerTemplate[]][] = [
+  [ "Polygon", (color) => {
     return [
       {
         id: "",
@@ -29,7 +28,7 @@ const LAYER_TEMPLATES: [string, (idx: number) => LayerTemplate[]][] = [
         "source-layer": "main",
         type: "fill",
         paint: {
-          "fill-color": color,
+          "fill-color": color.Polygon,
           "fill-opacity": 0.3,
         },
       },
@@ -39,27 +38,25 @@ const LAYER_TEMPLATES: [string, (idx: number) => LayerTemplate[]][] = [
         "source-layer": "main",
         type: "line",
         paint: {
-          "line-color": color,
+          "line-color": color.Polygon,
           "line-width": lineWidth_thin,
         },
       },
     ]
   } ],
-  [ "LineString", (i) => {
-    const color = WEB_COLORS[i * 1999 % WEB_COLORS.length];
+  [ "LineString", (color) => {
     return [{
       id: "",
       source: "takamatsu",
       "source-layer": "main",
       type: "line",
       paint: {
-        "line-color": color,
+        "line-color": color.Polygon,
         "line-width": lineWidth_thin,
       },
     }]
   }],
-  [ "Point", (i) => {
-    const color = WEB_COLORS[i * 1999 % WEB_COLORS.length];
+  [ "Point", (color) => {
     return [{
       id: "",
       source: "takamatsu",
@@ -67,7 +64,7 @@ const LAYER_TEMPLATES: [string, (idx: number) => LayerTemplate[]][] = [
       type: "circle",
       paint: {
         'circle-radius': 7,
-        'circle-color': color,
+        'circle-color': color.Point,
         'circle-opacity': .8,
         'circle-stroke-width': 1,
         'circle-stroke-color': 'gray',
@@ -128,15 +125,19 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
   useEffect(() => {
     if (!map) return;
 
-    let index = 0;
     for (const definition of catalogData) {
       const layer = definition.class;
       const isSelected = selectedLayers.includes(layer);
 
       for (const [sublayerName, template] of LAYER_TEMPLATES) {
+
         const fullLayerName = `takamatsu/${layer}/${sublayerName}`;
+
         const mapLayer = map.getLayer(fullLayerName);
-        for (const subtemplate of template(index)) {
+
+        let color = AREA_COLORS[layer] || { Polygon: "#000000", Point: "#000000", LineString: "#000000"}
+
+        for (const subtemplate of template(color)) {
           if (!mapLayer && isSelected) {
             map.addLayer({
               ...subtemplate,
@@ -148,8 +149,6 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
           }
         }
       }
-
-      index += 1;
     }
   }, [map, catalogData, selectedLayers]);
 
