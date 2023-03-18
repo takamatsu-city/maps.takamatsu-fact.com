@@ -20,7 +20,16 @@ export type CatalogGeoJSONDataItem = {
   metadata: Record<string, string>
 }
 
-export type CatalogDataItem = CatalogVectorDataItem | CatalogGeoJSONDataItem;
+export type CatalogLiveLocationDataItem = {
+  type: "DataItem"
+  id: string
+  name: string
+  class: string
+  liveLocationId: string
+  metadata: Record<string, string>
+}
+
+export type CatalogDataItem = CatalogVectorDataItem | CatalogGeoJSONDataItem | CatalogLiveLocationDataItem;
 
 export type CatalogCategory = {
   type: "Category"

@@ -941,5 +941,60 @@
         ]
       }
     ]
+  },
+  {
+    "type": "Category",
+    "id": "防災情報",
+    "name": "防災情報",
+    "items": [
+      {
+        "type": "DataItem",
+        "id": "防災情報/冠水状況",
+        "name": "冠水状況",
+        "class": "冠水状況",
+        "liveLocationId": "FloodSituation",
+        "metadata": {}
+      },
+      {
+        "type": "DataItem",
+        "id": "防災情報/降雨量",
+        "name": "降雨量",
+        "class": "降雨量",
+        "liveLocationId": "Rainfall",
+        "metadata": {}
+      },
+      {
+        "type": "DataItem",
+        "id": "防災情報/水位",
+        "name": "水位",
+        "class": "水位",
+        "liveLocationId": "WaterLevel",
+        "metadata": {}
+      },
+      {
+        "type": "DataItem",
+        "id": "防災情報/水位（県防災）",
+        "name": "水位（県防災）",
+        "class": "水位（県防災）",
+        "liveLocationId": "PrefectureWaterLevel",
+        "metadata": {}
+      },
+      {
+        "type": "DataItem",
+        "id": "防災情報/潮位",
+        "name": "潮位",
+        "class": "潮位",
+        "liveLocationId": "TideLevel",
+        "metadata": {}
+      },
+      {
+        "type": "DataItem",
+        "id": "防災情報/潮位（県防災）",
+        "name": "潮位（県防災）",
+        "class": "潮位（県防災）",
+        "liveLocationId": "PrefectureTideLevel",
+        "metadata": {}
+      }
+    ]
   }
 ]

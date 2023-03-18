@@ -29,7 +29,13 @@ async function main() {
   let out = [];
 
   for (const line of lines) {
-    const [cat1n, cat2n, dataName] = line.trim().split('\t').map(x => x.trim());
+    const lineParts = line.split('\t').map(x => x.trim());
+    console.log(lineParts);
+    const [flag, cat1n, cat2n, dataName, _fileName, fiwareName] = lineParts;
+    if (flag === '') {
+      // skip lines that aren't ready yes
+      continue;
+    }
     console.log('cat1:', cat1n, 'cat2:', cat2n, 'name', dataName);
 
     let itemCat;
@@ -58,7 +64,17 @@ async function main() {
     idParts.push(dataName);
     const id = idParts.join('/');
     const openDataMeta = openDataCatalog.find(x => x.name === dataName && x.location === true);
-    if (openDataMeta) {
+    if (!!fiwareName) {
+      console.log(fiwareName);
+      itemCat.items.push({
+        type: "DataItem",
+        id,
+        name: dataName,
+        class: dataName,
+        liveLocationId: fiwareName,
+        metadata: {},
+      });
+    } else if (openDataMeta) {
       itemCat.items.push({
         type: "DataItem",
         id,
