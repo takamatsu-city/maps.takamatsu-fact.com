@@ -182,7 +182,7 @@ export const AREA_COLORS: {[key:string]:{[key:string]:{[key:string]:string}}} = 
       "outlineColor": "rgb(156,84,160)"
     }
   },
-  "第一種中高層住居専用地域(200_60)": {
+  "第一種中高層住居専用地域": { // NOTE: 第一種中高層住居専用地域(200_60) を 第一種中高層住居専用地域 に変更
     "Polygon": {
       "color": "rgb(198,224,159)",
       "outlineColor": "rgb(156,84,160)"
@@ -196,7 +196,7 @@ export const AREA_COLORS: {[key:string]:{[key:string]:{[key:string]:string}}} = 
       "outlineColor": "rgb(156,84,160)"
     }
   },
-  "第二種中高層住居専用地域(200_60)": {
+  "第二種中高層住居専用地域": { // NOTE: 第二種中高層住居専用地域(200_60) を 第二種中高層住居専用地域 に変更
     "Polygon": {
       "color": "rgb(234,243,220)",
       "outlineColor": "rgb(156,84,160)"
@@ -210,7 +210,7 @@ export const AREA_COLORS: {[key:string]:{[key:string]:{[key:string]:string}}} = 
       "outlineColor": "rgb(156,84,160)"
     }
   },
-  "第一種住居地域(200_60)": {
+  "第一種住居地域": { // NOTE: 第一種住居地域(200_60) を 第一種住居地域 に変更
     "Polygon": {
       "color": "rgb(255,246,152)",
       "outlineColor": "rgb(156,84,160)"
@@ -224,7 +224,7 @@ export const AREA_COLORS: {[key:string]:{[key:string]:{[key:string]:string}}} = 
       "outlineColor": "rgb(156,84,160)"
     }
   },
-  "第二種住居地域(200_60)": {
+  "第二種住居地域": { // NOTE: 第二種住居地域(200_60) を 第二種住居地域 に変更
     "Polygon": {
       "color": "rgb(255,253,237)",
       "outlineColor": "rgb(156,84,160)"
@@ -238,7 +238,7 @@ export const AREA_COLORS: {[key:string]:{[key:string]:{[key:string]:string}}} = 
       "outlineColor": "rgb(156,84,160)"
     }
   },
-  "準住居地域(200_60)": {
+  "準住居地域": { // NOTE: 準住居地域(200_60) を 準住居地域 に変更
     "Polygon": {
       "color": "rgb(251,194,144)",
       "outlineColor": "rgb(156,84,160)"
@@ -378,7 +378,7 @@ export const AREA_COLORS: {[key:string]:{[key:string]:{[key:string]:string}}} = 
       "outlineColor": "rgb(179,114,173)"
     }
   },
-  "準工業地域(200_60)": {
+  "準工業地域": { // NOTE: 準工業地域(200_60) を 準工業地域 に変更
     "Polygon": {
       "color": "rgb(220,201,225)",
       "outlineColor": "rgb(179,114,173)"
@@ -392,7 +392,7 @@ export const AREA_COLORS: {[key:string]:{[key:string]:{[key:string]:string}}} = 
       "outlineColor": "rgb(179,114,173)"
     }
   },
-  "工業地域(200_60)": {
+  "工業地域": { // NOTE: 工業地域(200_60) を 工業地域 に変更
     "Polygon": {
       "color": "rgb(217,235,248)",
       "outlineColor": "rgb(179,114,173)"
@@ -406,7 +406,7 @@ export const AREA_COLORS: {[key:string]:{[key:string]:{[key:string]:string}}} = 
       "outlineColor": "rgb(179,114,173)"
     }
   },
-  "工業専用地域(200_60)": {
+  "工業専用地域": { // NOTE: 工業専用地域(200_60) を 工業専用地域 に変更
     "Polygon": {
       "color": "rgb(145,201,237)",
       "outlineColor": "rgb(179,114,173)"
