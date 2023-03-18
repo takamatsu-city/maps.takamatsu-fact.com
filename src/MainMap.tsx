@@ -29,7 +29,7 @@ const LAYER_TEMPLATES: [string, (style: {[key:string]: {[key:string]:string}}) =
         type: "fill",
         paint: {
           "fill-color": style.Polygon.color,
-          "fill-opacity": 0.3,
+          "fill-opacity": 0.5,
         },
       },
       {
