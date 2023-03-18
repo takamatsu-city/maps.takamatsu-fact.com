@@ -22,7 +22,7 @@ function App() {
       return;
     }
 
-    setSelectedLayers(catalogData.map(item => item.class));
+    // setSelectedLayers(catalogData.map(item => item.class));
   }, [ catalogSuccess, catalogData, setSelectedLayers ]);
 
   // useEffect(() => {

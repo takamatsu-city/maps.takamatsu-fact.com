@@ -1,6 +1,6 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type * as maplibregl from 'maplibre-gl';
-import { CatalogFeature, SingleCatalogItem } from './api/catalog';
+import { CatalogDataItem, CatalogFeature, CatalogItem, walkCategories } from './api/catalog';
 import { lineWidth_thin, WEB_COLORS } from './utils/mapStyling';
 
 declare global {
@@ -78,7 +78,7 @@ const LAYER_TEMPLATES: [string, (idx: number) => LayerTemplate[]][] = [
 ];
 
 interface Props {
-  catalogData: SingleCatalogItem[];
+  catalogData: CatalogItem[];
   selectedLayers: string[];
   setSelectedFeatures: React.Dispatch<React.SetStateAction<CatalogFeature[]>>
 }
@@ -86,6 +86,10 @@ interface Props {
 const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatures}) => {
   const [map, setMap] = useState<maplibregl.Map | undefined>(undefined);
   const mapContainer = useRef<HTMLDivElement>(null);
+
+  const catalogDataItems = useMemo(() => {
+    return [...walkCategories(catalogData)];
+  }, [catalogData]);
 
   useLayoutEffect(() => {
     const map: maplibregl.Map = new window.geolonia.Map({
@@ -109,12 +113,13 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
 
     map.on('click', (e) => {
       const features = map.queryRenderedFeatures(e.point).filter(feature => feature.source === 'takamatsu');
-      if(features.length === 0) {
-        return
+      if (features.length === 0) {
+        setSelectedFeatures([]);
+        return;
       }
       setSelectedFeatures(features.map(feature => {
         return {
-          catalog: catalogData.find(item => item.class === feature.properties.class)!,
+          catalog: catalogDataItems.find(item => item.type === "DataItem" && item.class === feature.properties.class)!,
           properties: feature.properties,
         }
       }));
@@ -123,13 +128,13 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
     return () => {
       map.remove();
     };
-  }, [catalogData, mapContainer, setMap, setSelectedFeatures]);
+  }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures]);
 
   useEffect(() => {
     if (!map) return;
 
     let index = 0;
-    for (const definition of catalogData) {
+    for (const definition of walkCategories(catalogData)) {
       const layer = definition.class;
       const isSelected = selectedLayers.includes(layer);
 

@@ -1,6 +1,10 @@
 .sidebar {
   padding: 20px;
 
+  .button-container {
+    margin-bottom: 12px;
+  }
+
   .title {
     font-weight: 700;
     font-size: 18px;
@@ -23,6 +27,14 @@
         padding: 0px 15px;
       }
     }
+  }
+
+  .category-label {
+    font-weight: bold;
+  }
+
+  .sidebar-item-category-items {
+    padding-left: 0.3em;
   }
 }
 

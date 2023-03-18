@@ -1,14 +1,61 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import './Sidebar.scss';
-import { SingleCatalogItem } from './api/catalog';
+import { CatalogCategory, CatalogDataItem, CatalogItem, walkCategories } from './api/catalog';
 
-type SingleSidebarItemProps = {
-  layerSelected: boolean
+type SidebarItemProps = {
+  selectedLayers: string[]
   setSelectedLayers: React.Dispatch<React.SetStateAction<string[]>>
-  item: SingleCatalogItem
+  item: CatalogItem
 }
 
-const SingleSidebarItem: React.FC<SingleSidebarItemProps> = ({layerSelected, setSelectedLayers, item}) => {
+const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory }> = (props) => {
+  const {item, selectedLayers, setSelectedLayers} = props;
+
+  const classesOfThisCategory = useMemo(() => {
+    return [...walkCategories(item.items)].map(x => x.class);
+  }, [item]);
+
+  const checked = useMemo(() => {
+    return classesOfThisCategory.every(className => selectedLayers.includes(className));
+  }, [selectedLayers, classesOfThisCategory]);
+
+  const handleCheckboxChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>((event) => {
+    const checked = event.target.checked;
+
+    setSelectedLayers((prev) => {
+      if (checked) {
+        const newLayers = new Set([...prev, ...classesOfThisCategory]);
+        return [...newLayers];
+      } else {
+        let out = [...prev];
+        for (const itemClass of classesOfThisCategory) {
+          const index = out.indexOf(itemClass);
+          if (index >= 0) {
+            out.splice(index, 1);
+          }
+        }
+        return out;
+      }
+    });
+  }, [classesOfThisCategory, setSelectedLayers]);
+
+  return <div className='sidebar-item-category'>
+    <div className='sidebar-item'>
+      <label className='label category-label'>
+        <input type="checkbox" checked={checked} onChange={handleCheckboxChange} />
+        {item.name}
+      </label>
+    </div>
+    <div className="sidebar-item-category-items">
+      {item.items.map(item => (
+        <SingleSidebarItem {...props} item={item} />
+      ))}
+    </div>
+  </div>
+}
+
+const DataSidebarItem: React.FC<SidebarItemProps & { item: CatalogDataItem }> = (props) => {
+  const {selectedLayers, setSelectedLayers, item} = props;
   const itemClass = item.class;
 
   const handleCheckboxChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>((event) => {
@@ -31,22 +78,33 @@ const SingleSidebarItem: React.FC<SingleSidebarItemProps> = ({layerSelected, set
 
   return <div className="sidebar-item">
     <label className="label">
-      <input type="checkbox" checked={layerSelected} onChange={handleCheckboxChange} />
+      <input type="checkbox" checked={selectedLayers.includes(item.class)} onChange={handleCheckboxChange} />
       {item.name}
     </label>
   </div>;
 };
 
+const SingleSidebarItem: React.FC<SidebarItemProps> = (props) => {
+  const {item} = props;
+  if (item.type === "Category") {
+    return <CategorySidebarItem {...props} item={item} />;
+  } else if (item.type === "DataItem") {
+    return <DataSidebarItem {...props} item={item} />;
+  } else {
+    return <>Error</>;
+  }
+}
+
 type SidebarProps = {
   selectedLayers: string[]
-  catalogData: SingleCatalogItem[]
+  catalogData: CatalogItem[]
   setSelectedLayers: React.Dispatch<React.SetStateAction<string[]>>
 }
 
 const Sidebar: React.FC<SidebarProps> = ({selectedLayers, setSelectedLayers, catalogData}) => {
   const selectAllHandler = useCallback<React.MouseEventHandler<HTMLButtonElement>>((event) => {
     event.preventDefault();
-    setSelectedLayers(catalogData.map(v => v.class));
+    setSelectedLayers([...walkCategories(catalogData)].map(v => v.class));
   }, [catalogData, setSelectedLayers]);
 
   const selectNoneHandler = useCallback<React.MouseEventHandler<HTMLButtonElement>>((event) => {
@@ -57,15 +115,15 @@ const Sidebar: React.FC<SidebarProps> = ({selectedLayers, setSelectedLayers, cat
   return (
     <div className='sidebar'>
       <h2 className='title'>都市情報</h2>
-      <div>
+      <div className='button-container'>
         <button type="button" onClick={selectAllHandler}>全選択</button>
         <button type="button" onClick={selectNoneHandler}>全選択解除</button>
       </div>
       <div className='sidebar-item-container'>
         { catalogData.map((item) =>
           <SingleSidebarItem
-            key={item.class}
-            layerSelected={selectedLayers.includes(item.class)}
+            key={item.id}
+            selectedLayers={selectedLayers}
             setSelectedLayers={setSelectedLayers}
             item={item}
           />
