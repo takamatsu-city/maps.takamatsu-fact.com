@@ -60,7 +60,7 @@ const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory }
     </div>
     { isOpen && <div className="sidebar-item-category-items">
       {item.items.map(item => (
-        <SingleSidebarItem {...props} item={item} />
+        <SingleSidebarItem key={item.id} {...props} item={item} />
       ))}
     </div> }
   </div>
