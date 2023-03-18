@@ -35,7 +35,7 @@ const Content = (props: Props) => {
           <div>
             { features.map((feature, idx) => (
               <table className='sidebar-detail-single-feature' key={idx}>
-                { Object.entries(feature.properties).filter(([key, _value]) => key !== 'class' && !key.startsWith('_viewer_')).map(([key, value]) => (
+                { Object.entries(feature.properties).filter(([key, _value]) => key !== 'class' && key !== 'subclass' && !key.startsWith('_viewer_')).map(([key, value]) => (
                   <tr className="sidebar-detail-item" key={key}>
                     <th className='label'>{key}</th>
                     <td className='content'>{value}</td>

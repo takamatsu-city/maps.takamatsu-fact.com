@@ -30,9 +30,10 @@ async function main() {
 
   for (const line of lines) {
     const [cat1n, cat2n, dataName] = line.trim().split('\t').map(x => x.trim());
-    console.log(cat1n, cat2n, dataName);
+    console.log('cat1:', cat1n, 'cat2:', cat2n, 'name', dataName);
 
     let itemCat;
+    const idParts = [cat1n];
     let cat1 = out.find((x) => x.type === "Category" && x.name === cat1n);
     if (!cat1) {
       cat1 = { type: "Category", id: cat1n, name: cat1n, items: [] };
@@ -40,7 +41,8 @@ async function main() {
     }
     itemCat = cat1;
 
-    if (cat2n !== 'ー') {
+    if (cat2n !== 'ー' && cat2n !== '') {
+      idParts.push(cat2n);
       let cat2 = cat1.items.find((x) => x.type === "Category" && x.name === cat2n);
       if (!cat2) {
         cat2 = { type: "Category", id: `${cat1n}/${cat2n}`, name: cat2n, items: [] };
@@ -49,11 +51,17 @@ async function main() {
       itemCat = cat2;
     }
 
+    if (itemCat.items.findIndex((x) => x.name === dataName) >= 0) {
+      continue;
+    }
+
+    idParts.push(dataName);
+    const id = idParts.join('/');
     const openDataMeta = openDataCatalog.find(x => x.name === dataName && x.location === true);
     if (openDataMeta) {
       itemCat.items.push({
         type: "DataItem",
-        id: `${cat1n}/${cat2n}/${dataName}`,
+        id,
         name: dataName,
         class: dataName,
         geojsonEndpoint: openDataMeta.json,
@@ -62,7 +70,7 @@ async function main() {
     } else {
       itemCat.items.push({
         type: "DataItem",
-        id: `${cat1n}/${cat2n}/${dataName}`,
+        id,
         name: dataName,
         class: dataName,
         metadata: {},
