@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type * as maplibregl from 'maplibre-gl';
 import { CatalogFeature, SingleCatalogItem } from './api/catalog';
-import { lineWidth_thin, AREA_COLORS } from './utils/mapStyling';
+import { lineWidth_thin, AREA_COLORS, WEB_COLORS } from './utils/mapStyling';
 
 declare global {
   interface Window {
@@ -125,6 +125,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
   useEffect(() => {
     if (!map) return;
 
+    let index = 0;
     for (const definition of catalogData) {
       const layer = definition.class;
       const isSelected = selectedLayers.includes(layer);
@@ -135,11 +136,13 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
 
         const mapLayer = map.getLayer(fullLayerName);
 
-        const defaultColor = {color: "red", outlineColor: "blue"}
+        const defaultColor = WEB_COLORS[index * 1999 % WEB_COLORS.length];
+        const defaultPaint = { color: defaultColor, outlineColor: defaultColor }
+        const defaultStyle = { Polygon: defaultPaint , Point: defaultPaint, LineString:defaultPaint}
 
-        let color = AREA_COLORS[layer] || { Polygon: defaultColor, Point:defaultColor, LineString:defaultColor}
+        const style = AREA_COLORS[layer] || defaultStyle
 
-        for (const subtemplate of template(color)) {
+        for (const subtemplate of template(style)) {
           if (!mapLayer && isSelected) {
             map.addLayer({
               ...subtemplate,
@@ -151,6 +154,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
           }
         }
       }
+      index += 1;
     }
   }, [map, catalogData, selectedLayers]);
 

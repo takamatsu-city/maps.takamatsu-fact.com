@@ -111,78 +111,313 @@ export const WEB_COLORS = Object.entries({
   return `rgb(${r}, ${g}, ${b})`;
 });
 
-
 export const AREA_COLORS: {[key:string]:{[key:string]:{[key:string]:string}}} = {
-  "「一般・環境保全型(平地部)」": {
+  "第一種低層住居専用地域(60_40)": {
     "Polygon": {
-      "color": "red",
-      "outlineColor": "blue",
+      "color": "rgb(36,190,159)",
+      "outlineColor": "rgb(156,84,160)"
     },
     "LineString": {
-      "color": "red",
-      "outlineColor": "blue",
+      "color": "rgb(36,190,159)",
+      "outlineColor": "rgb(156,84,160)"
     },
     "Point": {
-      "color": "red",
-      "outlineColor": "blue",
+      "color": "rgb(36,190,159)",
+      "outlineColor": "rgb(156,84,160)"
+    }
+  },
+  "第一種低層住居専用地域(80_50)": {
+    "Polygon": {
+      "color": "rgb(36,190,159)",
+      "outlineColor": "rgb(156,84,160)"
     },
+    "LineString": {
+      "color": "rgb(36,190,159)",
+      "outlineColor": "rgb(156,84,160)"
+    },
+    "Point": {
+      "color": "rgb(36,190,159)",
+      "outlineColor": "rgb(156,84,160)"
+    }
+  },
+  "第一種低層住居専用地域(100_60)": {
+    "Polygon": {
+      "color": "rgb(36,190,159)",
+      "outlineColor": "rgb(156,84,160)"
+    },
+    "LineString": {
+      "color": "rgb(36,190,159)",
+      "outlineColor": "rgb(156,84,160)"
+    },
+    "Point": {
+      "color": "rgb(36,190,159)",
+      "outlineColor": "rgb(156,84,160)"
+    }
+  },
+  "第二種低層住居専用地域(100_60)": {
+    "Polygon": {
+      "color": "rgb(215,237,229)",
+      "outlineColor": "rgb(156,84,160)"
+    },
+    "LineString": {
+      "color": "rgb(215,237,229)",
+      "outlineColor": "rgb(156,84,160)"
+    },
+    "Point": {
+      "color": "rgb(215,237,229)",
+      "outlineColor": "rgb(156,84,160)"
+    }
+  },
+  "第二種低層住居専用地域(150_60)": {
+    "Polygon": {
+      "color": "rgb(215,237,229)",
+      "outlineColor": "rgb(156,84,160)"
+    },
+    "LineString": {
+      "color": "rgb(215,237,229)",
+      "outlineColor": "rgb(156,84,160)"
+    },
+    "Point": {
+      "color": "rgb(215,237,229)",
+      "outlineColor": "rgb(156,84,160)"
+    }
+  },
+  "第一種中高層住居専用地域(200_60)": {
+    "Polygon": {
+      "color": "rgb(198,224,159)",
+      "outlineColor": "rgb(156,84,160)"
+    },
+    "LineString": {
+      "color": "rgb(198,224,159)",
+      "outlineColor": "rgb(156,84,160)"
+    },
+    "Point": {
+      "color": "rgb(198,224,159)",
+      "outlineColor": "rgb(156,84,160)"
+    }
+  },
+  "第二種中高層住居専用地域(200_60)": {
+    "Polygon": {
+      "color": "rgb(234,243,220)",
+      "outlineColor": "rgb(156,84,160)"
+    },
+    "LineString": {
+      "color": "rgb(234,243,220)",
+      "outlineColor": "rgb(156,84,160)"
+    },
+    "Point": {
+      "color": "rgb(234,243,220)",
+      "outlineColor": "rgb(156,84,160)"
+    }
+  },
+  "第一種住居地域(200_60)": {
+    "Polygon": {
+      "color": "rgb(255,246,152)",
+      "outlineColor": "rgb(156,84,160)"
+    },
+    "LineString": {
+      "color": "rgb(255,246,152)",
+      "outlineColor": "rgb(156,84,160)"
+    },
+    "Point": {
+      "color": "rgb(255,246,152)",
+      "outlineColor": "rgb(156,84,160)"
+    }
+  },
+  "第二種住居地域(200_60)": {
+    "Polygon": {
+      "color": "rgb(255,253,237)",
+      "outlineColor": "rgb(156,84,160)"
+    },
+    "LineString": {
+      "color": "rgb(255,253,237)",
+      "outlineColor": "rgb(156,84,160)"
+    },
+    "Point": {
+      "color": "rgb(255,253,237)",
+      "outlineColor": "rgb(156,84,160)"
+    }
+  },
+  "準住居地域(200_60)": {
+    "Polygon": {
+      "color": "rgb(251,194,144)",
+      "outlineColor": "rgb(156,84,160)"
+    },
+    "LineString": {
+      "color": "rgb(251,194,144)",
+      "outlineColor": "rgb(156,84,160)"
+    },
+    "Point": {
+      "color": "rgb(251,194,144)",
+      "outlineColor": "rgb(156,84,160)"
+    }
+  },
+  "近隣商業地域(200_80)": {
+    "Polygon": {
+      "color": "rgb(252,226,225)",
+      "outlineColor": "rgb(179,114,173)"
+    },
+    "LineString": {
+      "color": "rgb(252,226,225)",
+      "outlineColor": "rgb(179,114,173)"
+    },
+    "Point": {
+      "color": "rgb(252,226,225)",
+      "outlineColor": "rgb(179,114,173)"
+    }
+  },
+  "近隣商業地域(300_80)": {
+    "Polygon": {
+      "color": "rgb(252,226,225)",
+      "outlineColor": "rgb(179,114,173)"
+    },
+    "LineString": {
+      "color": "rgb(252,226,225)",
+      "outlineColor": "rgb(179,114,173)"
+    },
+    "Point": {
+      "color": "rgb(252,226,225)",
+      "outlineColor": "rgb(179,114,173)"
+    }
+  },
+  "商業地域(200_80)": {
+    "Polygon": {
+      "color": "rgb(241,93,125)",
+      "outlineColor": "rgb(179,114,173)"
+    },
+    "LineString": {
+      "color": "rgb(241,93,125)",
+      "outlineColor": "rgb(179,114,173)"
+    },
+    "Point": {
+      "color": "rgb(241,93,125)",
+      "outlineColor": "rgb(179,114,173)"
+    }
+  },
+  "商業地域(300_80)": {
+    "Polygon": {
+      "color": "rgb(247,166,172)",
+      "outlineColor": "rgb(179,114,173)"
+    },
+    "LineString": {
+      "color": "rgb(247,166,172)",
+      "outlineColor": "rgb(179,114,173)"
+    },
+    "Point": {
+      "color": "rgb(247,166,172)",
+      "outlineColor": "rgb(179,114,173)"
+    }
+  },
+  "商業地域(400_80)": {
+    "Polygon": {
+      "color": "rgb(247,166,172)",
+      "outlineColor": "rgb(179,114,173)"
+    },
+    "LineString": {
+      "color": "rgb(247,166,172)",
+      "outlineColor": "rgb(179,114,173)"
+    },
+    "Point": {
+      "color": "rgb(247,166,172)",
+      "outlineColor": "rgb(179,114,173)"
+    }
+  },
+  "商業地域(500_80)": {
+    "Polygon": {
+      "color": "rgb(241,93,125)",
+      "outlineColor": "rgb(179,114,173)"
+    },
+    "LineString": {
+      "color": "rgb(241,93,125)",
+      "outlineColor": "rgb(179,114,173)"
+    },
+    "Point": {
+      "color": "rgb(241,93,125)",
+      "outlineColor": "rgb(179,114,173)"
+    }
+  },
+  "商業地域(600_80)": {
+    "Polygon": {
+      "color": "rgb(241,93,125)",
+      "outlineColor": "rgb(179,114,173)"
+    },
+    "LineString": {
+      "color": "rgb(241,93,125)",
+      "outlineColor": "rgb(179,114,173)"
+    },
+    "Point": {
+      "color": "rgb(241,93,125)",
+      "outlineColor": "rgb(179,114,173)"
+    }
+  },
+  "商業地域(700_80)": {
+    "Polygon": {
+      "color": "rgb(241,93,125)",
+      "outlineColor": "rgb(179,114,173)"
+    },
+    "LineString": {
+      "color": "rgb(241,93,125)",
+      "outlineColor": "rgb(179,114,173)"
+    },
+    "Point": {
+      "color": "rgb(241,93,125)",
+      "outlineColor": "rgb(179,114,173)"
+    }
+  },
+  "商業地域(800_80)": {
+    "Polygon": {
+      "color": "rgb(241,93,125)",
+      "outlineColor": "rgb(179,114,173)"
+    },
+    "LineString": {
+      "color": "rgb(241,93,125)",
+      "outlineColor": "rgb(179,114,173)"
+    },
+    "Point": {
+      "color": "rgb(241,93,125)",
+      "outlineColor": "rgb(179,114,173)"
+    }
+  },
+  "準工業地域(200_60)": {
+    "Polygon": {
+      "color": "rgb(220,201,225)",
+      "outlineColor": "rgb(179,114,173)"
+    },
+    "LineString": {
+      "color": "rgb(220,201,225)",
+      "outlineColor": "rgb(179,114,173)"
+    },
+    "Point": {
+      "color": "rgb(220,201,225)",
+      "outlineColor": "rgb(179,114,173)"
+    }
+  },
+  "工業地域(200_60)": {
+    "Polygon": {
+      "color": "rgb(217,235,248)",
+      "outlineColor": "rgb(179,114,173)"
+    },
+    "LineString": {
+      "color": "rgb(217,235,248)",
+      "outlineColor": "rgb(179,114,173)"
+    },
+    "Point": {
+      "color": "rgb(217,235,248)",
+      "outlineColor": "rgb(179,114,173)"
+    }
+  },
+  "工業専用地域(200_60)": {
+    "Polygon": {
+      "color": "rgb(145,201,237)",
+      "outlineColor": "rgb(179,114,173)"
+    },
+    "LineString": {
+      "color": "rgb(145,201,237)",
+      "outlineColor": "rgb(179,114,173)"
+    },
+    "Point": {
+      "color": "rgb(145,201,237)",
+      "outlineColor": "rgb(179,114,173)"
+    }
   }
-  // "「一般・環境保全型(森林部)」": "blue",
-  // "「幹線沿道型I型」": "",
-  // "「幹線沿道型㈼型」": "",
-  // "ごみ処理場": "",
-  // "ごみ焼却場": "",
-  // "その他公共空地": "",
-  // "ため池": "",
-  // "と畜場": "",
-  // "公共下水道": "",
-  // "商業地域(200_80)": "",
-  // "商業地域(300_80)": "",
-  // "商業地域(400_80)": "",
-  // "商業地域(500_80)": "",
-  // "商業地域(600_80)": "",
-  // "商業地域(700_80)": "",
-  // "商業地域(800_80)": "",
-  // "土地区画整理事業": "",
-  // "地区計画": "",
-  // "墓園": "",
-  // "工業地域": "#9EAFB7",
-  // "工業専用地域": "#5E86A6",
-  // "市場": "",
-  // "市街地再開発事業": "",
-  // "河川": "",
-  // "流域下水道": "",
-  // "準住居地域": "#B25D37",
-  // "準工業地域": "",
-  // "準防火地域": "",
-  // "火葬場": "",
-  // "特別用途地区": "",
-  // "用途白地地域": "",
-  // "社会福祉施設": "",
-  // "第一種中高層住居専用地域": "#92A444",
-  // "第一種低層住居専用地域(100_60)": "#396A4C",
-  // "第一種低層住居専用地域(60_40)": "",
-  // "第一種低層住居専用地域(80_50)": "",
-  // "第一種住居地域": "#EED752",
-  // "第二種中高層住居専用地域": "#C6CBAD",
-  // "第二種低層住居専用地域(100_60)": "",
-  // "第二種低層住居専用地域(150_60)": "#92A89F",
-  // "第二種住居地域": "#DDB99D",
-  // "緑地": "",
-  // "緑地ポリゴン": "",
-  // "臨港地区": "",
-  // "自動車ターミナル": "",
-  // "近隣商業地域(200_80)": "",
-  // "近隣商業地域(300_80)": "#CAA5A3",
-  // "都市再生特別地区": "",
-  // "都市計画区域界": "#BC8D83",
-  // "都市計画道路": "",
-  // "都市高速鉄道": "",
-  // "防火地域": "",
-  // "風致地区": "",
-  // "駅前広場": "",
-  // "駐車場": "",
-  // "駐車場整備地区": "",
-  // "駐輪場整備地区": "",
-  // "高度利用地域": "",
 }
