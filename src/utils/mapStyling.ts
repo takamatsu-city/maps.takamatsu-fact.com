@@ -1,4 +1,5 @@
 import type { DataDrivenPropertyValueSpecification } from "maplibre-gl";
+import { CatalogDataItem } from "../api/catalog";
 
 export const lineWidth_thin: DataDrivenPropertyValueSpecification<number> = {
   type: "interval",
@@ -110,3 +111,298 @@ export const WEB_COLORS = Object.entries({
   const [r, g, b] = value.split(' ').map(val => parseInt(val, 10));
   return `rgb(${r}, ${g}, ${b})`;
 });
+
+export type CustomStyle = {
+  id: string
+  filter?: any
+  pattern?: string
+  outlineColor?: string
+  fillColor?: string
+  lineColor?: string
+  pointColor?: string
+}
+
+const AREA_COLORS: { [key: string]: CustomStyle[] } = {
+  "第一種低層住居専用地域": [
+    {
+      id: "/60_40",
+      filter: ["==", "subclass", "第一種低層住居専用地域(60_40)"],
+      pattern: "first_low_resident_60_40",
+      outlineColor: "rgb(156,84,160)",
+      lineColor: "rgb(36,190,159)",
+    },
+    {
+      id: "/80_50",
+      filter: ["==", "subclass", "第一種低層住居専用地域(80_50)"],
+      pattern: "first_low_resident_80_50",
+      outlineColor: "rgb(156,84,160)",
+      lineColor: "rgb(36,190,159)",
+    },
+    {
+      id: "/100_60",
+      filter: ["==", "subclass", "第一種低層住居専用地域(100_60)"],
+      fillColor: "rgb(36,190,159)",
+      outlineColor: "rgb(156,84,160)",
+      lineColor: "rgb(36,190,159)",
+    },
+  ],
+  "第二種低層住居専用地域": [
+    {
+      id: "/100_60",
+      filter: ["==", "subclass", "第二種低層住居専用地域(100_60)"],
+      outlineColor: "rgb(156,84,160)",
+      pattern: "second_low_resident_100_60",
+    },
+    {
+      id: "/150_60",
+      filter: ["==", "subclass", "第二種低層住居専用地域(150_60)"],
+      outlineColor: "rgb(156,84,160)",
+      fillColor: "rgb(215,237,229)",
+    }
+  ],
+  "第一種中高層住居専用地域": [
+    {
+      id: "",
+      "fillColor": "rgb(198,224,159)",
+      "outlineColor": "rgb(156,84,160)",
+    }
+  ],
+  "第二種中高層住居専用地域": [
+    {
+      id: "",
+      "fillColor": "rgb(234,243,220)",
+      "outlineColor": "rgb(156,84,160)"
+    }
+  ],
+  "第一種住居地域": [
+    {
+      id: "",
+      "fillColor": "rgb(255,246,152)",
+      "outlineColor": "rgb(156,84,160)"
+    }
+  ],
+  "第二種住居地域": [
+    {
+      id: "",
+      "fillColor": "rgb(255,253,237)",
+      "outlineColor": "rgb(156,84,160)"
+    },
+  ],
+  "準住居地域": [
+    {
+      id: "",
+      "fillColor": "rgb(251,194,144)",
+      "outlineColor": "rgb(156,84,160)"
+    }
+  ],
+  "近隣商業地域": [
+    {
+      id: "/200_80",
+      filter: ["==", "subclass", "近隣商業地域(200_80)"],
+      outlineColor: "rgb(179,114,173)",
+      pattern: "near_commerce_200_80",
+    },
+    {
+      id: "/300_80",
+      filter: ["==", "subclass", "近隣商業地域(300_80)"],
+      outlineColor: "rgb(179,114,173)",
+      fillColor: "rgb(252,226,225)",
+    }
+  ],
+  "商業地域": [
+    {
+      id: "/200_80",
+      filter: ["==", "subclass", "商業地域(200_80)"],
+      pattern: "commerce_200_80",
+      outlineColor: "rgb(179,114,173)",
+      lineColor: "rgb(241,93,125)",
+    },
+    {
+      id: "/300_80",
+      filter: ["==", "subclass", "商業地域(300_80)"],
+      pattern: "commerce_300_80",
+      outlineColor: "rgb(179,114,173)",
+      lineColor: "rgb(241,93,125)",
+    },
+    {
+      id: "/400_80",
+      filter: ["==", "subclass", "商業地域(400_80)"],
+      fillColor: "rgb(247,166,172)",
+      outlineColor: "rgb(179,114,173)",
+      lineColor: "rgb(241,93,125)",
+    },
+    {
+      id: "/500_80",
+      filter: ["==", "subclass", "商業地域(500_80)"],
+      pattern: "commerce_500_80",
+      outlineColor: "rgb(179,114,173)",
+      lineColor: "rgb(241,93,125)",
+    },
+    {
+      id: "/600_80",
+      filter: ["==", "subclass", "商業地域(600_80)"],
+      pattern: "commerce_600_80",
+      outlineColor: "rgb(179,114,173)",
+      lineColor: "rgb(241,93,125)",
+    },
+    {
+      id: "/700_80",
+      filter: ["==", "subclass", "商業地域(700_80)"],
+      pattern: "commerce_700_80",
+      outlineColor: "rgb(179,114,173)",
+      lineColor: "rgb(241,93,125)",
+    },
+    {
+      id: "/800_80",
+      filter: ["==", "subclass", "商業地域(800_80)"],
+      pattern: "commerce_800_80",
+      outlineColor: "rgb(179,114,173)",
+      lineColor: "rgb(241,93,125)",
+    },
+  ],
+  "準工業地域": [
+    {
+      id: "",
+      "fillColor": "rgb(220,201,225)",
+      "outlineColor": "rgb(179,114,173)"
+    }
+  ],
+  "工業地域": [
+    {
+      id: "",
+      "fillColor": "rgb(217,235,248)",
+      "outlineColor": "rgb(179,114,173)"
+    }
+  ],
+  "工業専用地域": [
+    {
+      id: "",
+      "fillColor": "rgb(145,201,237)",
+      "outlineColor": "rgb(179,114,173)"
+    }
+  ]
+};
+
+export const getCustomStyle: (layerDefinition: CatalogDataItem) => CustomStyle[] | undefined = (def) => {
+  return AREA_COLORS[def.class];
+};
+
+export type LayerSpecification = (
+  maplibregl.FillLayerSpecification |
+  maplibregl.LineLayerSpecification |
+  maplibregl.SymbolLayerSpecification |
+  maplibregl.CircleLayerSpecification
+)
+
+export type LayerTemplate = (LayerSpecification & {
+  source?: string | maplibregl.SourceSpecification | undefined;
+});
+
+export const customStyleToPolygonTemplate: (customStyle: CustomStyle, defaultColor: string) => LayerTemplate[] = (style, color) => {
+  const fillPaint = style.pattern ? { 'fill-pattern': style.pattern } : { 'fill-color': style.fillColor || color };
+  return [
+    {
+      "id": `${style.id}`,
+      source: "takamatsu",
+      "source-layer": "main",
+      type: "fill",
+      filter: style.filter,
+      paint: {
+        "fill-opacity": 0.5,
+        ...fillPaint,
+      },
+    },
+    {
+      "id": `${style.id}/outline`,
+      source: "takamatsu",
+      "source-layer": "main",
+      type: "line",
+      filter: style.filter,
+      paint: {
+        "line-color": style.outlineColor || color,
+        "line-width": lineWidth_thin,
+      },
+    }
+  ];
+}
+
+export const customStyleToLineStringTemplate: (customStyle: CustomStyle, defaultColor: string) => LayerTemplate[] = (style, color) => [
+  {
+    "id": `${style.id}`,
+    source: "takamatsu",
+    "source-layer": "main",
+    type: "line",
+    filter: style.filter,
+    paint: {
+      "line-color": style.lineColor || color,
+      "line-width": lineWidth_thin,
+    },
+  },
+];
+
+export const customStyleToPointTemplate: (customStyle: CustomStyle, defaultColor: string) => LayerTemplate[] = (style, color) => [
+  {
+    "id": `${style.id}`,
+    source: "takamatsu",
+    "source-layer": "main",
+    type: "circle",
+    filter: style.filter,
+    paint: {
+      'circle-radius': 7,
+      'circle-color': style.pointColor || color,
+      'circle-opacity': .8,
+      'circle-stroke-width': 1,
+      'circle-stroke-color': 'gray',
+      'circle-stroke-opacity': 1,
+    }
+  },
+];
+
+export const DEFAULT_POLYGON_STYLE: (color: string) => LayerTemplate[] = (color) => [
+  {
+    id: "",
+    source: "takamatsu",
+    "source-layer": "main",
+    type: "fill",
+    paint: {
+      "fill-color": color,
+      "fill-opacity": 0.3,
+    },
+  },
+  {
+    id: "/outline",
+    source: "takamatsu",
+    "source-layer": "main",
+    type: "line",
+    paint: {
+      "line-color": color,
+      "line-width": lineWidth_thin,
+    },
+  },
+];
+
+export const DEFAULT_LINESTRING_STYLE: (color: string) => LayerTemplate[] = (color) => [{
+  id: "",
+  source: "takamatsu",
+  "source-layer": "main",
+  type: "line",
+  paint: {
+    "line-color": color,
+    "line-width": lineWidth_thin,
+  },
+}];
+
+export const DEFAULT_POINT_STYLE: (color: string) => LayerTemplate[] = (color) => [{
+  id: "",
+  source: "takamatsu",
+  "source-layer": "main",
+  type: "circle",
+  paint: {
+    'circle-radius': 7,
+    'circle-color': color,
+    'circle-opacity': .8,
+    'circle-stroke-width': 1,
+    'circle-stroke-color': 'gray',
+    'circle-stroke-opacity': 1,
+  }
+}];

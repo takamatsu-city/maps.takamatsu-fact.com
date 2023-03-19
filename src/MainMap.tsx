@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type * as maplibregl from 'maplibre-gl';
 import { CatalogFeature, CatalogItem, walkCategories } from './api/catalog';
-import { lineWidth_thin, WEB_COLORS } from './utils/mapStyling';
+import { CustomStyle, customStyleToLineStringTemplate, customStyleToPointTemplate, customStyleToPolygonTemplate, DEFAULT_LINESTRING_STYLE, DEFAULT_POINT_STYLE, DEFAULT_POLYGON_STYLE, getCustomStyle, LayerTemplate, WEB_COLORS } from './utils/mapStyling';
 import CityOS__Takamatsu from './cityos/cityos_takamatsu';
 
 declare global {
@@ -10,71 +10,24 @@ declare global {
   }
 }
 
-type LayerSpecification = (
-  maplibregl.FillLayerSpecification |
-  maplibregl.LineLayerSpecification |
-  maplibregl.SymbolLayerSpecification |
-  maplibregl.CircleLayerSpecification
-)
-type LayerTemplate = (LayerSpecification & {
-  source?: string | maplibregl.SourceSpecification | undefined;
-});
-
-const LAYER_TEMPLATES: [string, (idx: number) => LayerTemplate[]][] = [
-  [ "Polygon", (i) => {
+const LAYER_TEMPLATES: [string, (idx: number, customStyle?: CustomStyle[]) => LayerTemplate[]][] = [
+  [ "Polygon", (i, customStyle) => {
     const color = WEB_COLORS[i * 1999 % WEB_COLORS.length];
-    return [
-      {
-        id: "",
-        source: "takamatsu",
-        "source-layer": "main",
-        type: "fill",
-        paint: {
-          "fill-color": color,
-          "fill-opacity": 0.3,
-        },
-      },
-      {
-        id: "/outline",
-        source: "takamatsu",
-        "source-layer": "main",
-        type: "line",
-        paint: {
-          "line-color": color,
-          "line-width": lineWidth_thin,
-        },
-      },
-    ]
+    return customStyle ?
+      customStyle.flatMap((style) => customStyleToPolygonTemplate(style, color)) :
+      DEFAULT_POLYGON_STYLE(color);
   } ],
-  [ "LineString", (i) => {
+  [ "LineString", (i, customStyle) => {
     const color = WEB_COLORS[i * 1999 % WEB_COLORS.length];
-    return [{
-      id: "",
-      source: "takamatsu",
-      "source-layer": "main",
-      type: "line",
-      paint: {
-        "line-color": color,
-        "line-width": lineWidth_thin,
-      },
-    }]
+    return customStyle ?
+      customStyle.flatMap((style) => customStyleToLineStringTemplate(style, color)) :
+      DEFAULT_LINESTRING_STYLE(color);
   }],
-  [ "Point", (i) => {
+  [ "Point", (i, customStyle) => {
     const color = WEB_COLORS[i * 1999 % WEB_COLORS.length];
-    return [{
-      id: "",
-      source: "takamatsu",
-      "source-layer": "main",
-      type: "circle",
-      paint: {
-        'circle-radius': 7,
-        'circle-color': color,
-        'circle-opacity': .8,
-        'circle-stroke-width': 1,
-        'circle-stroke-color': 'gray',
-        'circle-stroke-opacity': 1,
-      }
-    }]
+    return customStyle ?
+      customStyle.flatMap((style) => customStyleToPointTemplate(style, color)) :
+      DEFAULT_POINT_STYLE(color);
   }],
 ];
 
@@ -181,12 +134,17 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
 
         for (const [sublayerName, template] of LAYER_TEMPLATES) {
           const fullLayerName = `takamatsu/${layer}/${sublayerName}`;
-          const mapLayer = map.getLayer(fullLayerName);
-          for (const subtemplate of template(index)) {
-            if (!mapLayer && isSelected) {
+          const mapLayers = map.getStyle().layers.filter((layer) => layer.id.startsWith(fullLayerName));
+          const customStyle = getCustomStyle(definition);
+          for (const subtemplate of template(index, customStyle)) {
+            if (mapLayers.length === 0 && isSelected) {
+              const filterExp: maplibregl.FilterSpecification = ["all", ["==", "$type", sublayerName], ["==", "class", layer]];
+              if (subtemplate.filter) {
+                filterExp.push(subtemplate.filter as any);
+              }
               const layerConfig: maplibregl.LayerSpecification = {
                 ...subtemplate,
-                filter: ["all", ["==", "$type", sublayerName], ["==", "class", layer]],
+                filter: filterExp,
                 id: fullLayerName + subtemplate.id,
               };
               if (geojsonEndpoint) {
@@ -194,8 +152,14 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
                 delete layerConfig['source-layer'];
               }
               map.addLayer(layerConfig);
-            } else if (mapLayer && !isSelected) {
-              map.removeLayer(fullLayerName + subtemplate.id);
+              if (!map.getLayer(layerConfig.id)) {
+                console.error(`Failed to add layer ${layerConfig.id}!!!`);
+                debugger;
+              }
+            } else if (mapLayers.length > 0 && !isSelected) {
+              for (const mapLayer of mapLayers) {
+                map.removeLayer(mapLayer.id);
+              }
             }
           }
         }
