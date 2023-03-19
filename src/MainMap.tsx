@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type * as maplibregl from 'maplibre-gl';
 import { CatalogFeature, CatalogItem, walkCategories } from './api/catalog';
 import { lineWidth_thin, WEB_COLORS } from './utils/mapStyling';
+import CityOS__Takamatsu from './cityos/cityos_takamatsu';
 
 declare global {
   interface Window {
@@ -85,6 +86,7 @@ interface Props {
 
 const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatures}) => {
   const [map, setMap] = useState<maplibregl.Map | undefined>(undefined);
+  const [cityOS, setCityOS] = useState<CityOS__Takamatsu | undefined>(undefined);
   const mapContainer = useRef<HTMLDivElement>(null);
 
   const catalogDataItems = useMemo(() => {
@@ -101,6 +103,9 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
     });
 
     (window as any)._mainMap = map;
+
+    const cityOS = new CityOS__Takamatsu(map);
+    setCityOS(cityOS);
 
     map.on("load", () => {
       map.addSource('takamatsu', {
@@ -123,7 +128,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
         return {
           catalog: catalogDataItems.find(item => item.type === "DataItem" && item.class === feature.properties.class)!,
           properties: feature.properties,
-        }
+        };
       }));
     });
 
@@ -143,6 +148,16 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
 
         const layer = definition.class;
         const isSelected = selectedLayers.includes(layer);
+
+        if ("liveLocationId" in definition) {
+          // CityOS SDK will take care of the rest
+          if (isSelected) {
+            cityOS?.addLiveDataSet(definition.liveLocationId, { layerName: layer });
+          } else {
+            cityOS?.removeLiveDataSet(definition.liveLocationId);
+          }
+          continue;
+        }
 
         let geojsonEndpoint: string | undefined = undefined;
         if ("geojsonEndpoint" in definition) {
