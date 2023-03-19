@@ -207,7 +207,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
     return () => {
       shouldStop = true;
     }
-  }, [map, catalogData, selectedLayers]);
+  }, [map, catalogData, selectedLayers, cityOS]);
 
   return (
     <div
