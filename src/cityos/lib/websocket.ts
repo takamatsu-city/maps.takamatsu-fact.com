@@ -8,32 +8,48 @@ type WebSocketMessageEventDetail = {
 }
 export class WebSocketMessageEvent extends CustomEvent<WebSocketMessageEventDetail> {}
 
-class WebSocketController extends EventTarget {
+export type MessageCallbackFunc = (message: any) => void
+
+class WebSocketController {
   ws: WebSocket
-  subscriptions: string[]
+  subscriptions: { [key: string]: Set<MessageCallbackFunc> }
 
   constructor() {
-    super();
     this.ws = this._startWebSocket();
-    this.subscriptions = [];
+    this.subscriptions = {};
     window.setTimeout(this._sendPing.bind(this), WS_PING_INTERVAL);
   }
 
-  subscribe(channel: string) {
-    this.ws.send(JSON.stringify({
-      action: "subscribe",
-      channel,
-    }));
+  subscribe(channel: string, messageCallback: MessageCallbackFunc) {
+    const callbacksForThisChannel = this.subscriptions[channel] ||= new Set();
+    callbacksForThisChannel.add(messageCallback);
+
+    // Send the subscribe message only if we are open.
+    // We don't need to do this if we aren't open, because
+    // we have an event handler listening for the open event
+    if (this.ws.readyState === WebSocket.OPEN) {
+      this.ws.send(JSON.stringify({
+        action: "subscribe",
+        channel,
+      }));
+    }
+  }
+
+  unsubscribe(channel: string, messageCallback: MessageCallbackFunc) {
+    const callbacksForThisChannel = this.subscriptions[channel] ||= new Set();
+    callbacksForThisChannel.delete(messageCallback);
   }
 
   private _startWebSocket() {
     const ws = new WebSocket(WS_URL);
     ws.addEventListener('open', () => {
       // re-subscribe to any channels that we were previously connected to
-      for (const channel of this.subscriptions) {
-        this.subscribe(channel);
+      for (const channel of Object.keys(this.subscriptions)) {
+        ws.send(JSON.stringify({
+          action: "subscribe",
+          channel,
+        }));
       }
-      this.dispatchEvent(new Event('open'));
     });
     ws.addEventListener('close', async () => {
       await sleep(300);
@@ -44,12 +60,13 @@ class WebSocketController extends EventTarget {
       if (data.msg === 'pong' && data.now) {
         // this._filterFeaturesByTTL(data.now);
       } else if (data.msg === 'subscribed') {
-        if (!this.subscriptions.includes(data.channel)) {
-          this.subscriptions.push(data.channel);
-        }
+        // no-op, this is just a message verifying that we've been subscribed
       } else if (typeof data.id !== 'undefined') {
-        console.log(data);
-        this.dispatchEvent(new WebSocketMessageEvent('message', { detail: { message: data } }));
+        const channel = data.chan;
+        const callbacksForThisChannel = this.subscriptions[channel] || new Set();
+        for (const callback of callbacksForThisChannel) {
+          callback(data);
+        }
       } else {
         console.warn('Unrecognized WS message: ', message.data);
       }

@@ -1,10 +1,7 @@
 import { Space } from "@spatial-id/javascript-sdk";
+import websocket, { MessageCallbackFunc } from "./websocket";
 import type GeoJSON from "geojson";
 
-const sleep = (ms: number) => new Promise((resolve) => window.setTimeout(resolve, ms));
-
-const WS_PING_INTERVAL = 30_000; // 30 seconds
-const WS_URL = 'wss://api-ws.geolonia.com/dev';
 const WS_HTTP_URL = `https://api-ws-admin.geolonia.com/dev`;
 
 const dataToGeoJSONFeature: (data: any) => GeoJSON.Feature = (data) => {
@@ -34,36 +31,37 @@ export class LiveDataSetEvent extends CustomEvent<LiveDataSetEventDetail> {}
 
 export default class LiveDataSet extends EventTarget {
   id: string;
-  ws: WebSocket | undefined;
   features: GeoJSON.Feature[];
 
-  private _removed: boolean;
   private _internalPingTimeout: number | undefined;
-  private _pingTimeout: number | undefined;
+  private _wsMessageHandler: MessageCallbackFunc;
 
   constructor(id: string) {
     super();
 
-    this._removed = false;
     this.id = id;
     this.features = [];
-    this._startWebSocket();
+    this._wsMessageHandler = (data) => {
+      const newFeature = dataToGeoJSONFeature(data);
+      this.features = [
+        ...this.features.filter((feat) => feat.id !== data.id),
+        newFeature,
+      ];
+      this.dispatchEvent(new LiveDataSetEvent('featuresUpdated', { detail: { features: this.features } }));
+    };
+    websocket.subscribe(this.id, this._wsMessageHandler);
     this._retrieveInitialDataSet().catch(e => {
       // ignore error for now
       console.warn(`Initial data set couldn't be loaded:`, e);
     });
 
-    this._pingTimeout = window.setTimeout(this._sendPing.bind(this), WS_PING_INTERVAL);
     this._internalPing();
   }
 
   /** Call this when you no longer want to use this LiveDataSet. */
   remove() {
-    this._removed = true;
-    if (this._pingTimeout) window.clearTimeout(this._pingTimeout);
     if (this._internalPingTimeout) window.clearTimeout(this._internalPingTimeout);
-    this.ws?.close();
-    this.ws = undefined;
+    websocket.unsubscribe(this.id, this._wsMessageHandler);
   }
 
   private _filterFeaturesByTTL(nowTs?: number) {
@@ -78,46 +76,14 @@ export default class LiveDataSet extends EventTarget {
   }
 
   private _startWebSocket() {
-    const ws = new WebSocket(WS_URL);
-    this.ws = ws;
-    this.ws.addEventListener('open', () => {
-      ws.send(JSON.stringify({
-        action: "subscribe",
-        channel: this.id,
-      }));
-    });
+    websocket.subscribe(this.id, (data) => {
 
-    this.ws.addEventListener('close', async () => {
-      if (this._removed) return;
-      await sleep(100);
-      this._startWebSocket();
-    });
-
-    this.ws.addEventListener('message', (message: MessageEvent<string>) => {
-      const data = JSON.parse(message.data);
-      if (data.msg === 'pong' && data.now) {
-        this._filterFeaturesByTTL(data.now);
-      } else if (typeof data.id !== 'undefined') {
-        const newFeature = dataToGeoJSONFeature(data);
-        this.features = [
-          ...this.features.filter((feat) => feat.id !== data.id),
-          newFeature,
-        ];
-        this.dispatchEvent(new LiveDataSetEvent('featuresUpdated', { detail: { features: this.features } }));
-      }
     });
   }
 
   private _internalPing() {
     this._filterFeaturesByTTL();
     this._internalPingTimeout = window.setTimeout(this._internalPing.bind(this), 300);
-  }
-
-  private _sendPing() {
-    if (this.ws && this.ws.readyState === WebSocket.OPEN) {
-      this.ws.send(JSON.stringify({"action": "ping"}));
-    }
-    this._pingTimeout = window.setTimeout(this._sendPing.bind(this), WS_PING_INTERVAL);
   }
 
   private async _retrieveInitialDataSet() {
