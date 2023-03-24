@@ -75,12 +75,6 @@ export default class LiveDataSet extends EventTarget {
     }
   }
 
-  private _startWebSocket() {
-    websocket.subscribe(this.id, (data) => {
-
-    });
-  }
-
   private _internalPing() {
     this._filterFeaturesByTTL();
     this._internalPingTimeout = window.setTimeout(this._internalPing.bind(this), 300);

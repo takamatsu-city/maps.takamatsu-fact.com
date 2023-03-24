@@ -103,9 +103,34 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
         const isSelected = selectedLayers.includes(layer);
 
         if ("liveLocationId" in definition) {
-          // CityOS SDK will take care of the rest
           if (isSelected) {
-            cityOS?.addLiveDataSet(definition.liveLocationId, { layerName: layer });
+            const color = WEB_COLORS[index * 1999 % WEB_COLORS.length];
+            // CityOS SDK will take care of the data fetching
+            // and the map will be updated automatically.
+            // But we have to add a style layer to the map manually.
+            const sourceId = cityOS?.addLiveDataSet(definition.liveLocationId, {
+              featureFilter: (feature) => {
+                feature.properties ||= {};
+                feature.properties.class = layer;
+                feature.properties!._viewer_selectable = true;
+                return feature;
+              }
+            });
+            if (sourceId) {
+              map.addLayer({
+                id: `${sourceId}-points`,
+                type: 'circle',
+                source: sourceId,
+                paint: {
+                  'circle-radius': 7,
+                  'circle-color': color,
+                  'circle-opacity': .8,
+                  'circle-stroke-width': 1,
+                  'circle-stroke-color': 'gray',
+                  'circle-stroke-opacity': 1,
+                }
+              });
+            }
           } else {
             cityOS?.removeLiveDataSet(definition.liveLocationId);
           }

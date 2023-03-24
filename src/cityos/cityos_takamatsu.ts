@@ -1,7 +1,8 @@
 import type { Map as GeoloniaMap, GeoJSONSource } from "maplibre-gl";
 import turfBBox from "@turf/bbox";
 import LiveDataSet, { LiveDataSetEvent } from "./lib/live_data_set";
-import { WEB_COLORS } from "../utils/mapStyling";
+
+type FeatureFilter = (feature: GeoJSON.Feature) => GeoJSON.Feature;
 
 class CityOS__Takamatsu {
   map: GeoloniaMap;
@@ -12,52 +13,37 @@ class CityOS__Takamatsu {
     this.liveDataSets = [];
   }
 
-  addLiveDataSet(id: string, options?: { layerName?: string, stayFitToBounds?: boolean }) {
-    const color = WEB_COLORS[Math.floor(Math.random() * WEB_COLORS.length)];
+  addLiveDataSet(id: string, options?: { featureFilter?: FeatureFilter, stayFitToBounds?: boolean }) {
     const internalId = `cityos-kawaga-takamatsu-${id}`;
+    const mapSourceId = `gl-live-data-${id}`;
 
     const existingLds = this.liveDataSets.find(lds => lds.id === internalId);
     if (typeof existingLds !== 'undefined') {
       // this live data set is already added to the map
-      return existingLds;
+      return mapSourceId;
     }
     const lds = new LiveDataSet(internalId);
-    const sourceId = `gl-live-data-${id}`;
-
     const stayFitToBounds = !!options?.stayFitToBounds;
 
-    this.map.addSource(sourceId, {
+    this.map.addSource(mapSourceId, {
       type: 'geojson',
       data: { type: "FeatureCollection", features: [] },
-    });
-    this.map.addLayer({
-      id: `gl-live-data-${id}-points`,
-      type: 'circle',
-      source: sourceId,
-      paint: {
-        'circle-radius': 7,
-        'circle-color': color,
-        'circle-opacity': .8,
-        'circle-stroke-width': 1,
-        'circle-stroke-color': 'gray',
-        'circle-stroke-opacity': 1,
-      }
     });
 
     lds.addEventListener('featuresUpdated', (_event) => {
       const event = _event as LiveDataSetEvent;
       const features = event.detail.features.map(feature => {
         const props = {...feature.properties};
-        props.class = options?.layerName || 'undefined';
-        props._viewer_selectable = true;
+        // props.class = options?.layerName || 'undefined';
+        // props._viewer_selectable = true;
         delete props.tilehash;
         delete props.ttl;
         delete props.coords;
         feature.properties = props;
-        return feature;
+        return options?.featureFilter ? options.featureFilter(feature) : feature;
       });
       const data: GeoJSON.FeatureCollection = {type: "FeatureCollection", features};
-      (this.map.getSource(sourceId) as GeoJSONSource).setData(data);
+      (this.map.getSource(mapSourceId) as GeoJSONSource).setData(data);
       if (stayFitToBounds && data.features.length > 0) {
         const bbox = turfBBox(data);
         // we only have 2d data in here
@@ -67,7 +53,8 @@ class CityOS__Takamatsu {
       }
     });
     this.liveDataSets.push(lds);
-    return lds;
+
+    return mapSourceId;
   }
 
   removeLiveDataSet(id: string) {
@@ -76,7 +63,11 @@ class CityOS__Takamatsu {
     const liveDataSetIndex = this.liveDataSets.findIndex((lds) => lds.id === internalId);
     if (liveDataSetIndex === -1) return;
 
-    this.map.removeLayer(`gl-live-data-${id}-points`);
+    for (const layer of this.map.getStyle().layers) {
+      if ('source' in layer && layer.source === sourceId) {
+        this.map.removeLayer(layer.id);
+      }
+    }
     this.map.removeSource(sourceId);
     const [lds] = this.liveDataSets.splice(liveDataSetIndex, 1);
     lds.remove();
