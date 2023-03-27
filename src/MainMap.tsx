@@ -95,8 +95,9 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
 
     let shouldStop = false;
     (async () => {
-      let index = 0;
+      let index = -1;
       for (const definition of walkCategories(catalogData)) {
+        index += 1;
         if (shouldStop) return;
 
         const layer = definition.class;
@@ -188,8 +189,6 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
             }
           }
         }
-
-        index += 1;
       }
     })();
 
