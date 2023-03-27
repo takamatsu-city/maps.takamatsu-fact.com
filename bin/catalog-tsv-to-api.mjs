@@ -72,7 +72,7 @@ async function main() {
         type: "DataItem",
         id,
         name: dataName,
-        class: className,
+        class: dataName, // className is empty for FIWARE, so use dataName instead.
         liveLocationId: fiwareName,
         metadata: {},
       });
