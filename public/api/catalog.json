@@ -1,225 +1,323 @@
 [
   {
     "type": "Category",
-    "id": "都市計画区分",
-    "name": "都市計画区分",
+    "id": "都市計画",
+    "name": "都市計画",
     "items": [
       {
-        "type": "DataItem",
-        "id": "都市計画区分/第一種低層住居専用地域",
-        "name": "第一種低層住居専用地域",
-        "class": "第一種低層住居専用地域",
-        "metadata": {}
+        "type": "Category",
+        "id": "都市計画/用途地域",
+        "name": "用途地域",
+        "items": [
+          {
+            "type": "DataItem",
+            "id": "都市計画/用途地域/第一種低層住居専用地域",
+            "name": "第一種低層住居専用地域",
+            "class": "第一種低層住居専用地域",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/用途地域/第二種低層住居専用地域",
+            "name": "第二種低層住居専用地域",
+            "class": "第二種低層住居専用地域",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/用途地域/第一種中高層住居専用地域",
+            "name": "第一種中高層住居専用地域",
+            "class": "第一種中高層住居専用地域",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/用途地域/第二種中高層住居専用地域",
+            "name": "第二種中高層住居専用地域",
+            "class": "第二種中高層住居専用地域",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/用途地域/第一種住居地域",
+            "name": "第一種住居地域",
+            "class": "第一種住居地域",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/用途地域/第二種住居地域",
+            "name": "第二種住居地域",
+            "class": "第二種住居地域",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/用途地域/準住居地域",
+            "name": "準住居地域",
+            "class": "準住居地域",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/用途地域/近隣商業地域",
+            "name": "近隣商業地域",
+            "class": "近隣商業地域",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/用途地域/商業地域",
+            "name": "商業地域",
+            "class": "商業地域",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/用途地域/準工業地域",
+            "name": "準工業地域",
+            "class": "準工業地域",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/用途地域/工業地域",
+            "name": "工業地域",
+            "class": "工業地域",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/用途地域/工業専用地域",
+            "name": "工業専用地域",
+            "class": "工業専用地域",
+            "metadata": {}
+          }
+        ]
       },
       {
-        "type": "DataItem",
-        "id": "都市計画区分/第二種低層住居専用地域",
-        "name": "第二種低層住居専用地域",
-        "class": "第二種低層住居専用地域",
-        "metadata": {}
+        "type": "Category",
+        "id": "都市計画/特定用途制限地域",
+        "name": "特定用途制限地域",
+        "items": [
+          {
+            "type": "DataItem",
+            "id": "都市計画/特定用途制限地域/特別用途地区",
+            "name": "特別用途地区",
+            "class": "特別用途地区",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/特定用途制限地域/高度利用地域",
+            "name": "高度利用地域",
+            "class": "高度利用地域",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/特定用途制限地域/都市再生特別地区",
+            "name": "都市再生特別地区",
+            "class": "都市再生特別地区",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/特定用途制限地域/防火地域",
+            "name": "防火地域",
+            "class": "防火地域",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/特定用途制限地域/準防火地域",
+            "name": "準防火地域",
+            "class": "準防火地域",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/特定用途制限地域/法22条地域",
+            "name": "法22条地域",
+            "class": "法22条地域",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/特定用途制限地域/風致地区",
+            "name": "風致地区",
+            "class": "風致地区",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/特定用途制限地域/臨港地区",
+            "name": "臨港地区",
+            "class": "臨港地区",
+            "metadata": {}
+          }
+        ]
       },
       {
-        "type": "DataItem",
-        "id": "都市計画区分/第一種中高層住居専用地域",
-        "name": "第一種中高層住居専用地域",
-        "class": "第一種中高層住居専用地域",
-        "metadata": {}
+        "type": "Category",
+        "id": "都市計画/その他地域地区",
+        "name": "その他地域地区",
+        "items": [
+          {
+            "type": "DataItem",
+            "id": "都市計画/その他地域地区/一般・環境保全型",
+            "name": "一般・環境保全型",
+            "class": "一般・環境保全型",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/その他地域地区/幹線沿道型I型",
+            "name": "幹線沿道型I型",
+            "class": "幹線沿道型I型",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/その他地域地区/幹線沿道型II型",
+            "name": "幹線沿道型II型",
+            "class": "幹線沿道型II型",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/その他地域地区/用途白地地域",
+            "name": "用途白地地域",
+            "class": "用途白地地域",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/その他地域地区/下水",
+            "name": "下水",
+            "class": "公共下水道",
+            "metadata": {}
+          }
+        ]
       },
       {
-        "type": "DataItem",
-        "id": "都市計画区分/第二種中高層住居専用地域",
-        "name": "第二種中高層住居専用地域",
-        "class": "第二種中高層住居専用地域",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "都市計画区分/第一種住居地域",
-        "name": "第一種住居地域",
-        "class": "第一種住居地域",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "都市計画区分/第二種住居地域",
-        "name": "第二種住居地域",
-        "class": "第二種住居地域",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "都市計画区分/準住居地域",
-        "name": "準住居地域",
-        "class": "準住居地域",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "都市計画区分/近隣商業地域",
-        "name": "近隣商業地域",
-        "class": "近隣商業地域",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "都市計画区分/商業地域",
-        "name": "商業地域",
-        "class": "商業地域",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "都市計画区分/準工業地域",
-        "name": "準工業地域",
-        "class": "準工業地域",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "都市計画区分/工業地域",
-        "name": "工業地域",
-        "class": "工業地域",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "都市計画区分/工業専用地域",
-        "name": "工業専用地域",
-        "class": "工業専用地域",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "都市計画区分/特別用途地区",
-        "name": "特別用途地区",
-        "class": "特別用途地区",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "都市計画区分/高度利用地域",
-        "name": "高度利用地域",
-        "class": "高度利用地域",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "都市計画区分/都市再生特別地区",
-        "name": "都市再生特別地区",
-        "class": "都市再生特別地区",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "都市計画区分/防火地域",
-        "name": "防火地域",
-        "class": "防火地域",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "都市計画区分/準防火地域",
-        "name": "準防火地域",
-        "class": "準防火地域",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "都市計画区分/風致地区",
-        "name": "風致地区",
-        "class": "風致地区",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "都市計画区分/駐車場整備地区",
-        "name": "駐車場整備地区",
-        "class": "駐車場整備地区",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "都市計画区分/臨港地区",
-        "name": "臨港地区",
-        "class": "臨港地区",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "都市計画区分/都市高速鉄道",
-        "name": "都市高速鉄道",
-        "class": "都市高速鉄道",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "都市計画区分/駐輪場整備地区",
-        "name": "駐輪場整備地区",
-        "class": "駐輪場整備地区",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "都市計画区分/土地区画整理事業",
-        "name": "土地区画整理事業",
-        "class": "土地区画整理事業",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "都市計画区分/市街地再開発事業",
-        "name": "市街地再開発事業",
-        "class": "市街地再開発事業",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "都市計画区分/地区計画",
+        "type": "Category",
+        "id": "都市計画/地区計画",
         "name": "地区計画",
-        "class": "地区計画",
-        "metadata": {}
+        "items": [
+          {
+            "type": "DataItem",
+            "id": "都市計画/地区計画/地区計画",
+            "name": "地区計画",
+            "class": "地区計画",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/地区計画/居住誘導区域",
+            "name": "居住誘導区域",
+            "class": "居住誘導区域",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/地区計画/一般居住区域",
+            "name": "一般居住区域",
+            "class": "一般居住区域",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/地区計画/広域都市機能誘導区域",
+            "name": "広域都市機能誘導区域",
+            "class": "広域都市機能誘導区域",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/地区計画/一般都市機能誘導区域",
+            "name": "一般都市機能誘導区域",
+            "class": "一般都市機能誘導区域",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/地区計画/学術都市機能誘導区域",
+            "name": "学術都市機能誘導区域",
+            "class": "学術都市機能誘導区域",
+            "metadata": {}
+          }
+        ]
       },
       {
-        "type": "DataItem",
-        "id": "都市計画区分/一般・環境保全型",
-        "name": "一般・環境保全型",
-        "class": "一般・環境保全型",
-        "metadata": {}
+        "type": "Category",
+        "id": "都市計画/都市施設",
+        "name": "都市施設",
+        "items": [
+          {
+            "type": "DataItem",
+            "id": "都市計画/都市施設/都市計画道路",
+            "name": "都市計画道路",
+            "class": "都市計画道路",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/都市施設/都市高速鉄道",
+            "name": "都市高速鉄道",
+            "class": "都市高速鉄道",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/都市施設/駐車場整備地区",
+            "name": "駐車場整備地区",
+            "class": "駐車場整備地区",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/都市施設/駐輪場整備地区",
+            "name": "駐輪場整備地区",
+            "class": "駐輪場整備地区",
+            "metadata": {}
+          }
+        ]
       },
       {
-        "type": "DataItem",
-        "id": "都市計画区分/幹線沿道型I型",
-        "name": "幹線沿道型I型",
-        "class": "幹線沿道型I型",
-        "metadata": {}
+        "type": "Category",
+        "id": "都市計画/市街地開発事業",
+        "name": "市街地開発事業",
+        "items": [
+          {
+            "type": "DataItem",
+            "id": "都市計画/市街地開発事業/市街地再開発事業",
+            "name": "市街地再開発事業",
+            "class": "市街地再開発事業",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "都市計画/市街地開発事業/土地区画整理事業",
+            "name": "土地区画整理事業",
+            "class": "土地区画整理事業",
+            "metadata": {}
+          }
+        ]
       },
       {
-        "type": "DataItem",
-        "id": "都市計画区分/幹線沿道型II型",
-        "name": "幹線沿道型II型",
-        "class": "幹線沿道型II型",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "都市計画区分/都市計画区域界",
-        "name": "都市計画区域界",
-        "class": "都市計画区域界",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "都市計画区分/用途白地地域",
-        "name": "用途白地地域",
-        "class": "用途白地地域",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "都市計画区分/都市計画道路",
-        "name": "都市計画道路",
-        "class": "都市計画道路",
-        "metadata": {}
+        "type": "Category",
+        "id": "都市計画/不要では？",
+        "name": "不要では？",
+        "items": [
+          {
+            "type": "DataItem",
+            "id": "都市計画/不要では？/都市計画区域界",
+            "name": "都市計画区域界",
+            "class": "都市計画区域界",
+            "metadata": {}
+          }
+        ]
       }
     ]
   },
@@ -268,6 +366,7 @@
             "id": "施設情報/くらし/環境施設",
             "name": "環境施設",
             "class": "環境施設",
+            "geojsonEndpoint": "https://opendata.takamatsu-fact.com/environmental_facilities/data.geojson",
             "metadata": {}
           },
           {
@@ -948,52 +1047,59 @@
     "name": "防災情報",
     "items": [
       {
-        "type": "DataItem",
-        "id": "防災情報/冠水状況",
-        "name": "冠水状況",
-        "class": "冠水状況",
-        "liveLocationId": "FloodSituation",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "防災情報/降雨量",
-        "name": "降雨量",
-        "class": "降雨量",
-        "liveLocationId": "Rainfall",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "防災情報/水位",
-        "name": "水位",
-        "class": "水位",
-        "liveLocationId": "WaterLevel",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "防災情報/水位（県防災）",
-        "name": "水位（県防災）",
-        "class": "水位（県防災）",
-        "liveLocationId": "PrefectureWaterLevel",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "防災情報/潮位",
-        "name": "潮位",
-        "class": "潮位",
-        "liveLocationId": "TideLevel",
-        "metadata": {}
-      },
-      {
-        "type": "DataItem",
-        "id": "防災情報/潮位（県防災）",
-        "name": "潮位（県防災）",
-        "class": "潮位（県防災）",
-        "liveLocationId": "PrefectureTideLevel",
-        "metadata": {}
+        "type": "Category",
+        "id": "防災情報/IoT センサー",
+        "name": "IoT センサー",
+        "items": [
+          {
+            "type": "DataItem",
+            "id": "防災情報/IoT センサー/冠水状況",
+            "name": "冠水状況",
+            "class": "",
+            "liveLocationId": "FloodSituation",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "防災情報/IoT センサー/降雨量",
+            "name": "降雨量",
+            "class": "",
+            "liveLocationId": "Rainfall",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "防災情報/IoT センサー/水位",
+            "name": "水位",
+            "class": "",
+            "liveLocationId": "WaterLevel",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "防災情報/IoT センサー/水位（県防災）",
+            "name": "水位（県防災）",
+            "class": "",
+            "liveLocationId": "PrefectureWaterLevel",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "防災情報/IoT センサー/潮位",
+            "name": "潮位",
+            "class": "",
+            "liveLocationId": "TideLevel",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "防災情報/IoT センサー/潮位（県防災）",
+            "name": "潮位（県防災）",
+            "class": "",
+            "liveLocationId": "PrefectureTideLevel",
+            "metadata": {}
+          }
+        ]
       }
     ]
   }

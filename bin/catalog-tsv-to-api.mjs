@@ -31,7 +31,7 @@ async function main() {
   for (const line of lines) {
     const lineParts = line.split('\t').map(x => x.trim());
     console.log(lineParts);
-    const [flag, cat1n, cat2n, dataName, _fileName, fiwareName] = lineParts;
+    const [flag, _id, cat1n, cat2n, dataName, fileName, fiwareName] = lineParts;
     if (flag === '') {
       // skip lines that aren't ready yes
       continue;
@@ -64,13 +64,15 @@ async function main() {
     idParts.push(dataName);
     const id = idParts.join('/');
     const openDataMeta = openDataCatalog.find(x => x.name === dataName && x.location === true);
+    // the file name is used as the class name, without parenthesis
+    const className = fileName.replace(/\(.*?\)/, '');
     if (!!fiwareName) {
       console.log(fiwareName);
       itemCat.items.push({
         type: "DataItem",
         id,
         name: dataName,
-        class: dataName,
+        class: className,
         liveLocationId: fiwareName,
         metadata: {},
       });
@@ -79,7 +81,7 @@ async function main() {
         type: "DataItem",
         id,
         name: dataName,
-        class: dataName,
+        class: className,
         geojsonEndpoint: openDataMeta.json,
         metadata: {},
       });
@@ -88,7 +90,7 @@ async function main() {
         type: "DataItem",
         id,
         name: dataName,
-        class: dataName,
+        class: className,
         metadata: {},
       });
     }

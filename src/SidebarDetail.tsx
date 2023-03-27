@@ -33,7 +33,7 @@ const Content = (props: Props) => {
         <div key={classId} className='sidebar-detail-subsection'>
           <h2 className='title'>{features[0].catalog.name}</h2>
           <div>
-            { features.map((feature, idx) => (
+            { features.map((feature, idx) => (<>
               <table className='sidebar-detail-single-feature' key={idx}>
                 <tbody>
                   { Object.entries(feature.properties).filter(([key, _value]) => key !== 'class' && !key.startsWith('_viewer_')).map(([key, value]) => (
@@ -44,7 +44,8 @@ const Content = (props: Props) => {
                   ))}
                 </tbody>
               </table>
-            )) }
+              { idx < features.length - 1 && <hr /> }
+            </>)) }
           </div>
         </div>
       )) }
