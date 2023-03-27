@@ -21,22 +21,35 @@
 
   .sidebar-detail-single-feature {
     width: 100%;
+    table-layout: fixed;
+
+    col.label {
+      width: 30%;
+    }
+    col.content {
+      width: 70%;
+    }
   }
 
   .sidebar-detail-item {
     border-bottom: 1.3px solid rgba(255, 255, 255, 0.1);
 
-    .label {
+    th, td {
+      padding: 3px;
+    }
+
+    th.label {
       font-weight: 700;
       font-size: 15px;
       line-height: 22px;
       text-align: left;
     }
-    .content {
+    td.content {
       font-weight: 400;
       font-size: 15px;
       line-height: 22px;
       color: #FFFFFF;
+      overflow-wrap: break-word;
     }
   }
 }
