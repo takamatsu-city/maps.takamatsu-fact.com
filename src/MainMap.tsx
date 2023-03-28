@@ -52,6 +52,11 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
       style: "geolonia/gsi",
       hash: true,
       center: [ 134.0403, 34.334 ],
+      fitBoundsOptions: { padding: 50 },
+      // 意図せず傾き・回転を変更してしまうことを防ぐ
+      maxPitch: 0,
+      maxRotate: 0,
+      minZoom: 9,
       zoom: 9.2,
     });
 
@@ -74,6 +79,21 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
         }
       }
       // end GSI base map modification
+
+      map.addSource('negative-city-mask', {
+        type: 'vector',
+        url: 'https://tileserver.geolonia.com/takamatsu_negative_mask/tiles.json?key=YOUR-API-KEY',
+      })
+      map.addLayer({
+        id: 'negative-city-mask-layer',
+        source: 'negative-city-mask',
+        'source-layer': 'negativecitymask',
+        type: 'fill',
+        paint: {
+          'fill-color': 'black',
+          'fill-opacity': .2,
+        }
+      });
 
       map.addSource('takamatsu', {
         type: 'vector',
