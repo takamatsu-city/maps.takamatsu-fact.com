@@ -61,6 +61,20 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
     setCityOS(cityOS);
 
     map.on("load", () => {
+      // start GSI base map modification
+      for (const layer of map.getStyle().layers!) {
+        const id = layer.id;
+        if (id.startsWith("oc-") || id === 'poi-z16' || id === 'poi-z16-primary') {
+          map.removeLayer(layer.id);
+        } else if ("source-layer" in layer) {
+          const sl = layer["source-layer"];
+          if (sl === "landcover" || sl === "landuse" || sl === "building") {
+            map.removeLayer(layer.id);
+          }
+        }
+      }
+      // end GSI base map modification
+
       map.addSource('takamatsu', {
         type: 'vector',
         url: "https://tileserver.geolonia.com/takamatsu_main_v0/tiles.json?key=YOUR-API-KEY"
