@@ -120,6 +120,7 @@ export type CustomStyle = {
   fillColor?: string
   lineColor?: string
   pointColor?: string
+  icon?: string
 }
 
 const AREA_COLORS: { [key: string]: CustomStyle[] } = {
@@ -280,7 +281,13 @@ const AREA_COLORS: { [key: string]: CustomStyle[] } = {
       "fillColor": "rgb(145,201,237)",
       "outlineColor": "rgb(179,114,173)"
     }
-  ]
+  ],
+  "AED設置場所": [
+    {
+      id: "",
+      "icon": "circle-stroked",
+    }
+  ],
 };
 
 export const getCustomStyle: (layerDefinition: CatalogDataItem) => CustomStyle[] | undefined = (def) => {
@@ -355,6 +362,20 @@ export const customStyleToPointTemplate: (customStyle: CustomStyle, defaultColor
       'circle-stroke-color': 'gray',
       'circle-stroke-opacity': 1,
     }
+  },
+];
+
+export const customStyleToPointIconTemplate: (customStyle: CustomStyle, defaultColor: string) => LayerTemplate[] = (style, color) => [
+  {
+    "id": `${style.id}`,
+    source: "takamatsu",
+    "source-layer": "main",
+    type: "symbol",
+    filter: style.filter,
+    layout: {
+      "icon-image": style.icon,
+      "icon-size": 1
+    },
   },
 ];
 

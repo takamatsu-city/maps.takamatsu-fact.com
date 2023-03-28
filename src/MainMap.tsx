@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type * as maplibregl from 'maplibre-gl';
 import { CatalogFeature, CatalogItem, walkCategories } from './api/catalog';
-import { CustomStyle, customStyleToLineStringTemplate, customStyleToPointTemplate, customStyleToPolygonTemplate, DEFAULT_LINESTRING_STYLE, DEFAULT_POINT_STYLE, DEFAULT_POLYGON_STYLE, getCustomStyle, LayerTemplate, WEB_COLORS } from './utils/mapStyling';
+import { CustomStyle, customStyleToLineStringTemplate, customStyleToPointTemplate, customStyleToPointIconTemplate, customStyleToPolygonTemplate, DEFAULT_LINESTRING_STYLE, DEFAULT_POINT_STYLE, DEFAULT_POLYGON_STYLE, getCustomStyle, LayerTemplate, WEB_COLORS } from './utils/mapStyling';
 import CityOS__Takamatsu from './cityos/cityos_takamatsu';
 
 declare global {
@@ -26,7 +26,7 @@ const LAYER_TEMPLATES: [string, (idx: number, customStyle?: CustomStyle[]) => La
   [ "Point", (i, customStyle) => {
     const color = WEB_COLORS[i * 1999 % WEB_COLORS.length];
     return customStyle ?
-      customStyle.flatMap((style) => customStyleToPointTemplate(style, color)) :
+      customStyle.flatMap((style) => style.icon ? customStyleToPointIconTemplate(style, color) : customStyleToPointTemplate(style, color)) :
       DEFAULT_POINT_STYLE(color);
   }],
 ];
