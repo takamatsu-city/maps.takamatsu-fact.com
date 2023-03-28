@@ -1,20 +1,21 @@
 import type { DataDrivenPropertyValueSpecification } from "maplibre-gl";
 import { CatalogDataItem } from "../api/catalog";
 
-export const lineWidth_thin: DataDrivenPropertyValueSpecification<number> = {
-  type: "interval",
-  stops: [
-    [ 10, .5 ],
-    [ 20, 4 ]
-  ]
-};
-export const lineWidth_bold: DataDrivenPropertyValueSpecification<number> = {
-  type: "interval",
-  stops: [
-    [ 10, 1 ],
-    [ 20, 5 ]
-  ]
-};
+export const lineWidth_thin: DataDrivenPropertyValueSpecification<number> = [
+  "interpolate",
+  ["linear"],
+  ["zoom"],
+  10, .5,
+  20, 3,
+];
+
+export const lineWidth_bold: DataDrivenPropertyValueSpecification<number> = [
+  "interpolate",
+  ["linear"],
+  ["zoom"],
+  12, 1,
+  20, 5,
+];
 
 export const WEB_COLORS = Object.entries({
   "MediumVioletRed": "199 21 133",
@@ -311,7 +312,7 @@ export const customStyleToPolygonTemplate: (customStyle: CustomStyle, defaultCol
       type: "fill",
       filter: style.filter,
       paint: {
-        "fill-opacity": 0.5,
+        "fill-opacity": 0.8,
         ...fillPaint,
       },
     },
@@ -323,7 +324,7 @@ export const customStyleToPolygonTemplate: (customStyle: CustomStyle, defaultCol
       filter: style.filter,
       paint: {
         "line-color": style.outlineColor || color,
-        "line-width": lineWidth_bold,
+        "line-width": lineWidth_thin,
       },
     }
   ];
@@ -369,7 +370,7 @@ export const DEFAULT_POLYGON_STYLE: (color: string) => LayerTemplate[] = (color)
     type: "fill",
     paint: {
       "fill-color": color,
-      "fill-opacity": 0.3,
+      "fill-opacity": 0.7,
     },
   },
   {
@@ -379,7 +380,7 @@ export const DEFAULT_POLYGON_STYLE: (color: string) => LayerTemplate[] = (color)
     type: "line",
     paint: {
       "line-color": color,
-      "line-width": lineWidth_bold,
+      "line-width": lineWidth_thin,
     },
   },
 ];
