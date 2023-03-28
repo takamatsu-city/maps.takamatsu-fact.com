@@ -69,7 +69,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
       // start GSI base map modification
       for (const layer of map.getStyle().layers!) {
         const id = layer.id;
-        if (id.startsWith("oc-") || id === 'poi-z16' || id === 'poi-z16-primary') {
+        if (id.startsWith("oc-") || id === 'poi-z16' || id === 'poi-z16-primary' || (layer.metadata as any || {})['visible-on-3d']) {
           map.removeLayer(layer.id);
         } else if ("source-layer" in layer) {
           const sl = layer["source-layer"];
@@ -230,7 +230,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
                 layerConfig.source = definition.customDataSource;
                 layerConfig['source-layer'] = definition.customDataSourceLayer || definition.customDataSource;
               }
-              map.addLayer(layerConfig);
+              map.addLayer(layerConfig, 'poi');
               if (!map.getLayer(layerConfig.id)) {
                 console.error(`Failed to add layer ${layerConfig.id}!!!`);
                 debugger;
