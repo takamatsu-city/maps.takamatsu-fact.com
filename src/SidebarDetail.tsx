@@ -20,7 +20,7 @@ const Content = (props: Props) => {
   const groupedFeatures: { [key: string]: CatalogFeature[] } = {};
   for (const feature of selected) {
     if (feature.catalog.type !== "DataItem") continue;
-    const ary = groupedFeatures[feature.catalog.class] ||= [];
+    const ary = groupedFeatures[feature.catalog.id] ||= [];
     ary.push(feature);
   }
 
@@ -29,8 +29,8 @@ const Content = (props: Props) => {
       <div className='close-btn-container'>
         <AiOutlineClose className='close' onClick={closeHandler} />
       </div>
-      { Object.entries(groupedFeatures).map(([classId, features]) => (
-        <div key={classId} className='sidebar-detail-subsection'>
+      { Object.entries(groupedFeatures).map(([id, features]) => (
+        <div key={id} className='sidebar-detail-subsection'>
           <h2 className='title'>{features[0].catalog.name}</h2>
           <div>
             { features.map((feature, idx) => (<>

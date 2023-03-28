@@ -15,24 +15,24 @@ const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory }
   const [ isOpen, setIsOpen ] = useState<boolean>(false);
   const {item, selectedLayers, setSelectedLayers} = props;
 
-  const classesOfThisCategory = useMemo(() => {
-    return [...walkCategories(item.items)].map(x => x.class);
+  const idsOfThisCategory = useMemo(() => {
+    return [...walkCategories(item.items)].map(x => x.id);
   }, [item]);
 
   const checked = useMemo(() => {
-    return classesOfThisCategory.every(className => selectedLayers.includes(className));
-  }, [selectedLayers, classesOfThisCategory]);
+    return idsOfThisCategory.every(id => selectedLayers.includes(id));
+  }, [selectedLayers, idsOfThisCategory]);
 
   const handleCheckboxChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>((event) => {
     const checked = event.target.checked;
 
     setSelectedLayers((prev) => {
       if (checked) {
-        const newLayers = new Set([...prev, ...classesOfThisCategory]);
+        const newLayers = new Set([...prev, ...idsOfThisCategory]);
         return [...newLayers];
       } else {
         let out = [...prev];
-        for (const itemClass of classesOfThisCategory) {
+        for (const itemClass of idsOfThisCategory) {
           const index = out.indexOf(itemClass);
           if (index >= 0) {
             out.splice(index, 1);
@@ -41,7 +41,7 @@ const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory }
         return out;
       }
     });
-  }, [classesOfThisCategory, setSelectedLayers]);
+  }, [idsOfThisCategory, setSelectedLayers]);
 
   const toggleIsOpen = useCallback<React.MouseEventHandler<HTMLButtonElement>>((event) => {
     event.preventDefault();
@@ -68,16 +68,16 @@ const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory }
 
 const DataSidebarItem: React.FC<SidebarItemProps & { item: CatalogDataItem }> = (props) => {
   const {selectedLayers, setSelectedLayers, item} = props;
-  const itemClass = item.class;
+  const itemId = item.id;
 
   const handleCheckboxChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>((event) => {
     const checked = event.target.checked;
 
     setSelectedLayers((prev) => {
       if (checked) {
-        return [...prev, itemClass];
+        return [...prev, itemId];
       } else {
-        const index = prev.indexOf(itemClass);
+        const index = prev.indexOf(itemId);
         if (index >= 0) {
           const out = [...prev];
           out.splice(index, 1);
@@ -86,11 +86,11 @@ const DataSidebarItem: React.FC<SidebarItemProps & { item: CatalogDataItem }> = 
       }
       return prev;
     });
-  }, [itemClass, setSelectedLayers]);
+  }, [itemId, setSelectedLayers]);
 
   return <div className="sidebar-item">
     <label className="label">
-      <input type="checkbox" checked={selectedLayers.includes(item.class)} onChange={handleCheckboxChange} />
+      <input type="checkbox" checked={selectedLayers.includes(item.id)} onChange={handleCheckboxChange} />
       {item.name}
     </label>
   </div>;
@@ -116,7 +116,7 @@ type SidebarProps = {
 const Sidebar: React.FC<SidebarProps> = ({selectedLayers, setSelectedLayers, catalogData}) => {
   const selectAllHandler = useCallback<React.MouseEventHandler<HTMLButtonElement>>((event) => {
     event.preventDefault();
-    setSelectedLayers([...walkCategories(catalogData)].map(v => v.class));
+    setSelectedLayers([...walkCategories(catalogData)].map(v => v.id));
   }, [catalogData, setSelectedLayers]);
 
   const selectNoneHandler = useCallback<React.MouseEventHandler<HTMLButtonElement>>((event) => {

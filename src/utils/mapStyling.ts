@@ -284,7 +284,10 @@ const AREA_COLORS: { [key: string]: CustomStyle[] } = {
 };
 
 export const getCustomStyle: (layerDefinition: CatalogDataItem) => CustomStyle[] | undefined = (def) => {
-  return AREA_COLORS[def.class];
+  return typeof def.class !== 'undefined' ?
+    AREA_COLORS[def.class]
+    :
+    undefined;
 };
 
 export type LayerSpecification = (
@@ -320,7 +323,7 @@ export const customStyleToPolygonTemplate: (customStyle: CustomStyle, defaultCol
       filter: style.filter,
       paint: {
         "line-color": style.outlineColor || color,
-        "line-width": lineWidth_thin,
+        "line-width": lineWidth_bold,
       },
     }
   ];
@@ -335,7 +338,7 @@ export const customStyleToLineStringTemplate: (customStyle: CustomStyle, default
     filter: style.filter,
     paint: {
       "line-color": style.lineColor || color,
-      "line-width": lineWidth_thin,
+      "line-width": lineWidth_bold,
     },
   },
 ];
@@ -376,7 +379,7 @@ export const DEFAULT_POLYGON_STYLE: (color: string) => LayerTemplate[] = (color)
     type: "line",
     paint: {
       "line-color": color,
-      "line-width": lineWidth_thin,
+      "line-width": lineWidth_bold,
     },
   },
 ];
@@ -388,7 +391,7 @@ export const DEFAULT_LINESTRING_STYLE: (color: string) => LayerTemplate[] = (col
   type: "line",
   paint: {
     "line-color": color,
-    "line-width": lineWidth_thin,
+    "line-width": lineWidth_bold,
   },
 }];
 

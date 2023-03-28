@@ -26,6 +26,13 @@
         "metadata": {}
       },
       {
+        "type": "DataItem",
+        "id": "都市計画情報/都市計画基本図",
+        "name": "都市計画基本図",
+        "customDataSource": "kihonzu",
+        "metadata": {}
+      },
+      {
         "type": "Category",
         "id": "都市計画情報/用途地域",
         "name": "用途地域",
