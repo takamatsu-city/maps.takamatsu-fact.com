@@ -195,7 +195,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
             const geojsonResp = await fetch(geojsonEndpoint);
             const geojson = await geojsonResp.json();
             for (const feature of geojson.features) {
-              feature.properties.class = definitionId;
+              feature.properties.class = definition.class;
               feature.properties._viewer_selectable = true;
             }
             map.addSource(definitionId, {
