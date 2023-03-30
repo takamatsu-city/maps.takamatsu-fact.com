@@ -141,7 +141,7 @@ const Sidebar: React.FC<SidebarProps> = ({selectedLayers, setSelectedLayers, cat
           />
         ) }
       </div>
-      <a href="/" className='user-guide-link'>
+      <a href="/" className='user-guide-link' target="_blank">
         <AiOutlineLink/><span>ご利用にあたって</span>
       </a>
     </div>
