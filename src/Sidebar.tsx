@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 
-import { AiFillCaretRight, AiFillCaretDown } from 'react-icons/ai';
+import { AiFillCaretRight, AiFillCaretDown, AiOutlineLink } from 'react-icons/ai';
 
 import './Sidebar.scss';
 import { CatalogCategory, CatalogDataItem, CatalogItem, walkCategories } from './api/catalog';
@@ -141,7 +141,9 @@ const Sidebar: React.FC<SidebarProps> = ({selectedLayers, setSelectedLayers, cat
           />
         ) }
       </div>
-      <a href="/" className='user-guide-link'>ご利用にあたって</a>
+      <a href="/" className='user-guide-link'>
+        <AiOutlineLink/><span>ご利用にあたって</span>
+      </a>
     </div>
   );
 }

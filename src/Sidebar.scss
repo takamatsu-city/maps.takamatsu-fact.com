@@ -46,6 +46,8 @@
   }
 
   .user-guide-link {
+    display: flex;
+    align-items: center;
     font-weight: 400;
     font-size: 14px;
     line-height: 23px;
@@ -54,6 +56,10 @@
     cursor: pointer;
     text-decoration: none;
     color: #000000;
+
+    svg {
+      margin-right: 5px;
+    }
   }
 }
 
