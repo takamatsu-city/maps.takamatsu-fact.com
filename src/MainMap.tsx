@@ -120,13 +120,17 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
         return;
       }
       setSelectedFeatures(features.map(feature => {
+        const catalogData = catalogDataItems.find(item => (
+          item.type === "DataItem" && (
+            ((feature.source === 'takamatsu' || feature.properties._viewer_selectable === true) && item.class === feature.properties.class) ||
+            ('customDataSource' in item && item.customDataSource === feature.source)
+          )
+        ));
+        if (!catalogData) {
+          throw new Error(`Catalog data not available for feature: ${feature}`);
+        }
         return {
-          catalog: catalogDataItems.find(item => (
-            item.type === "DataItem" && (
-              ((feature.source === 'takamatsu' || feature.properties._viewer_selectable === true) && item.class === feature.properties.class) ||
-              ('customDataSource' in item && item.customDataSource === feature.source)
-            )
-          ))!,
+          catalog: catalogData,
           properties: feature.properties,
         };
       }));
@@ -159,7 +163,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
             const sourceId = cityOS?.addLiveDataSet(definition.liveLocationId, {
               featureFilter: (feature) => {
                 feature.properties ||= {};
-                feature.properties.class = definitionId;
+                feature.properties.class = definition.class;
                 feature.properties!._viewer_selectable = true;
                 return feature;
               }
