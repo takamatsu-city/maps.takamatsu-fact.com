@@ -52,6 +52,11 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
       style: "geolonia/gsi",
       hash: true,
       center: [ 134.0403, 34.334 ],
+      fitBoundsOptions: { padding: 50 },
+      // 意図せず傾き・回転を変更してしまうことを防ぐ
+      maxPitch: 0,
+      maxRotate: 0,
+      minZoom: 9,
       zoom: 9.2,
     });
 
@@ -61,9 +66,53 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
     setCityOS(cityOS);
 
     map.on("load", () => {
+      // start GSI base map modification
+      for (const layer of map.getStyle().layers!) {
+        const id = layer.id;
+        if (id.startsWith("oc-") || id === 'poi-z16' || id === 'poi-z16-primary' || (layer.metadata as any || {})['visible-on-3d']) {
+          map.removeLayer(layer.id);
+        } else if ("source-layer" in layer) {
+          const sl = layer["source-layer"];
+          if (sl === "landcover" || sl === "landuse" || sl === "building") {
+            map.removeLayer(layer.id);
+          }
+        }
+      }
+      // end GSI base map modification
+
+      map.addSource('negative-city-mask', {
+        type: 'vector',
+        url: 'https://tileserver.geolonia.com/takamatsu_negative_mask/tiles.json?key=YOUR-API-KEY',
+      })
+      map.addLayer({
+        id: 'negative-city-mask-layer',
+        source: 'negative-city-mask',
+        'source-layer': 'negativecitymask',
+        type: 'fill',
+        paint: {
+          'fill-color': '#0079C4',
+          'fill-opacity': .3,
+        }
+      });
+      map.addLayer({
+        id: 'negative-city-mask-layer-border',
+        source: 'negative-city-mask',
+        'source-layer': 'negativecitymask',
+        type: 'line',
+        paint: {
+          'line-color': '#0079C4',
+          'line-opacity': 0.5,
+          'line-width': 2,
+        }
+      })
+
       map.addSource('takamatsu', {
         type: 'vector',
         url: "https://tileserver.geolonia.com/takamatsu_main_v0/tiles.json?key=YOUR-API-KEY"
+      });
+      map.addSource('kihonzu', {
+        type: 'vector',
+        url: "https://tileserver.geolonia.com/takamatsu_kihonzu_v0/tiles.json?key=YOUR-API-KEY"
       });
 
       setMap(map);
@@ -72,14 +121,27 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
     map.on('click', (e) => {
       const features = map
         .queryRenderedFeatures(e.point)
-        .filter(feature => feature.source === 'takamatsu' || feature.properties._viewer_selectable === true);
+        .filter(feature => (
+          feature.source === 'takamatsu' ||
+          feature.source === 'kihonzu' ||
+          feature.properties._viewer_selectable === true
+        ));
       if (features.length === 0) {
         setSelectedFeatures([]);
         return;
       }
       setSelectedFeatures(features.map(feature => {
+        const catalogData = catalogDataItems.find(item => (
+          item.type === "DataItem" && (
+            ((feature.source === 'takamatsu' || feature.properties._viewer_selectable === true) && item.class === feature.properties.class) ||
+            ('customDataSource' in item && item.customDataSource === feature.source)
+          )
+        ));
+        if (!catalogData) {
+          throw new Error(`Catalog data not available for feature: ${feature}`);
+        }
         return {
-          catalog: catalogDataItems.find(item => item.type === "DataItem" && item.class === feature.properties.class)!,
+          catalog: catalogData,
           properties: feature.properties,
         };
       }));
@@ -100,8 +162,8 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
         index += 1;
         if (shouldStop) return;
 
-        const layer = definition.class;
-        const isSelected = selectedLayers.includes(layer);
+        const definitionId = definition.id;
+        const isSelected = selectedLayers.includes(definitionId);
 
         if ("liveLocationId" in definition) {
           if (isSelected) {
@@ -112,7 +174,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
             const sourceId = cityOS?.addLiveDataSet(definition.liveLocationId, {
               featureFilter: (feature) => {
                 feature.properties ||= {};
-                feature.properties.class = layer;
+                feature.properties.class = definition.class;
                 feature.properties!._viewer_selectable = true;
                 return feature;
               }
@@ -143,15 +205,15 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
           // this is a GeoJSON layer
           geojsonEndpoint = definition.geojsonEndpoint;
 
-          const mapSource = map.getSource(layer);
+          const mapSource = map.getSource(definitionId);
           if (!mapSource && isSelected) {
             const geojsonResp = await fetch(geojsonEndpoint);
             const geojson = await geojsonResp.json();
             for (const feature of geojson.features) {
-              feature.properties.class = layer;
+              feature.properties.class = definition.class;
               feature.properties._viewer_selectable = true;
             }
-            map.addSource(layer, {
+            map.addSource(definitionId, {
               type: 'geojson',
               data: geojson,
             });
@@ -159,12 +221,15 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
         }
 
         for (const [sublayerName, template] of LAYER_TEMPLATES) {
-          const fullLayerName = `takamatsu/${layer}/${sublayerName}`;
+          const fullLayerName = `takamatsu/${definitionId}/${sublayerName}`;
           const mapLayers = map.getStyle().layers.filter((layer) => layer.id.startsWith(fullLayerName));
           const customStyle = getCustomStyle(definition);
           for (const subtemplate of template(index, customStyle)) {
             if (mapLayers.length === 0 && isSelected) {
-              const filterExp: maplibregl.FilterSpecification = ["all", ["==", "$type", sublayerName], ["==", "class", layer]];
+              const filterExp: maplibregl.FilterSpecification = ["all", ["==", "$type", sublayerName]];
+              if (definition.class) {
+                filterExp.push(["==", "class", definition.class]);
+              }
               if (subtemplate.filter) {
                 filterExp.push(subtemplate.filter as any);
               }
@@ -174,10 +239,13 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
                 id: fullLayerName + subtemplate.id,
               };
               if (geojsonEndpoint) {
-                layerConfig.source = layer;
+                layerConfig.source = definitionId;
                 delete layerConfig['source-layer'];
+              } else if ('customDataSource' in definition) {
+                layerConfig.source = definition.customDataSource;
+                layerConfig['source-layer'] = definition.customDataSourceLayer || definition.customDataSource;
               }
-              map.addLayer(layerConfig);
+              map.addLayer(layerConfig, 'poi');
               if (!map.getLayer(layerConfig.id)) {
                 console.error(`Failed to add layer ${layerConfig.id}!!!`);
                 debugger;

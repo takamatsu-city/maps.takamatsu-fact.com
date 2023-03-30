@@ -1,4 +1,3 @@
-import React from 'react';
 import './Header.scss'
 
 const Content = () => {
@@ -8,13 +7,13 @@ const Content = () => {
       <header className="header">
         <div className='brand'>
           <img className="logo" src='./logo.svg' alt="ロゴ" />
-          <h2 className='title'>高松スマートシティ地図 & API</h2>
+          <h2 className='title'>高松市スマートマップ</h2>
         </div>
-        <div className='docs-link'>
+        <a className='docs-link' href='https://docs.takamatsu-fact.com/' target='_blank' rel='noopener noreferrer'>
           <img src="./assets/file.svg" alt="ファイルアイコン" />
           <p>APIドキュメンテーション</p>
           <img src="./assets/arrow-right.svg" alt="矢印アイコン" />
-        </div>
+        </a>
       </header>
     </>
   );

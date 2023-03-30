@@ -72,6 +72,7 @@ async function main() {
 
     // the file name is used as the class name, without parenthesis
     const className = fileName.replace(/\(.*?\)/, '');
+    const customDataSource = fileName.match(/^!([^!]+)!(.*)$/);
     if (!!fiwareName) {
       console.log(fiwareName);
       itemAry.push({
@@ -89,6 +90,14 @@ async function main() {
         name: dataName,
         class: className,
         geojsonEndpoint: openDataMeta.json,
+        metadata: {},
+      });
+    } else if (customDataSource) {
+      itemAry.push({
+        type: "DataItem",
+        id,
+        name: dataName,
+        customDataSource: customDataSource[1],
         metadata: {},
       });
     } else {

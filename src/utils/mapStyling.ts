@@ -1,20 +1,21 @@
 import type { DataDrivenPropertyValueSpecification } from "maplibre-gl";
 import { CatalogDataItem } from "../api/catalog";
 
-export const lineWidth_thin: DataDrivenPropertyValueSpecification<number> = {
-  type: "interval",
-  stops: [
-    [ 10, .5 ],
-    [ 20, 4 ]
-  ]
-};
-export const lineWidth_bold: DataDrivenPropertyValueSpecification<number> = {
-  type: "interval",
-  stops: [
-    [ 10, 1 ],
-    [ 20, 5 ]
-  ]
-};
+export const lineWidth_thin: DataDrivenPropertyValueSpecification<number> = [
+  "interpolate",
+  ["linear"],
+  ["zoom"],
+  10, .5,
+  20, 3,
+];
+
+export const lineWidth_bold: DataDrivenPropertyValueSpecification<number> = [
+  "interpolate",
+  ["linear"],
+  ["zoom"],
+  12, 1,
+  20, 5,
+];
 
 export const WEB_COLORS = Object.entries({
   "MediumVioletRed": "199 21 133",
@@ -120,9 +121,11 @@ export type CustomStyle = {
   fillColor?: string
   lineColor?: string
   pointColor?: string
+  pointLabel?: string
+  lineWidth?: any
 }
 
-const AREA_COLORS: { [key: string]: CustomStyle[] } = {
+const AREA_STYLES: { [key: string]: CustomStyle[] } = {
   "第一種低層住居専用地域": [
     {
       id: "/60_40",
@@ -280,11 +283,19 @@ const AREA_COLORS: { [key: string]: CustomStyle[] } = {
       "fillColor": "rgb(145,201,237)",
       "outlineColor": "rgb(179,114,173)"
     }
+  ],
+  "都市計画情報/都市計画基本図": [
+    {
+      id: "",
+      lineColor: "rgb(100,100,100)",
+      lineWidth: 1,
+      pointLabel: "{TextString}"
+    }
   ]
 };
 
 export const getCustomStyle: (layerDefinition: CatalogDataItem) => CustomStyle[] | undefined = (def) => {
-  return AREA_COLORS[def.class];
+  return AREA_STYLES[def.class || def.id];
 };
 
 export type LayerSpecification = (
@@ -308,7 +319,7 @@ export const customStyleToPolygonTemplate: (customStyle: CustomStyle, defaultCol
       type: "fill",
       filter: style.filter,
       paint: {
-        "fill-opacity": 0.5,
+        "fill-opacity": 0.8,
         ...fillPaint,
       },
     },
@@ -335,28 +346,52 @@ export const customStyleToLineStringTemplate: (customStyle: CustomStyle, default
     filter: style.filter,
     paint: {
       "line-color": style.lineColor || color,
-      "line-width": lineWidth_thin,
+      "line-width": style.lineWidth || lineWidth_bold,
     },
   },
 ];
 
-export const customStyleToPointTemplate: (customStyle: CustomStyle, defaultColor: string) => LayerTemplate[] = (style, color) => [
-  {
-    "id": `${style.id}`,
-    source: "takamatsu",
-    "source-layer": "main",
-    type: "circle",
-    filter: style.filter,
-    paint: {
-      'circle-radius': 7,
-      'circle-color': style.pointColor || color,
-      'circle-opacity': .8,
-      'circle-stroke-width': 1,
-      'circle-stroke-color': 'gray',
-      'circle-stroke-opacity': 1,
-    }
-  },
-];
+export const customStyleToPointTemplate: (customStyle: CustomStyle, defaultColor: string) => LayerTemplate[] = (style, color) => {
+  let out: LayerTemplate[] = [];
+  if (style.pointLabel) {
+    out.push({
+      "id": `${style.id}/label`,
+      source: "takamatsu",
+      "source-layer": "main",
+      type: "symbol",
+      filter: style.filter,
+      layout: {
+        'text-field': style.pointLabel,
+        'text-size': 12,
+        'text-offset': [0, -0.7],
+        'text-anchor': 'top',
+        'text-font': ["Noto Sans Regular"],
+      },
+      paint: {
+        'text-color': 'black',
+        'text-halo-color': 'white',
+        'text-halo-width': 1,
+      },
+    });
+  } else {
+    out.push({
+      "id": `${style.id}`,
+      source: "takamatsu",
+      "source-layer": "main",
+      type: "circle",
+      filter: style.filter,
+      paint: {
+        'circle-radius': 7,
+        'circle-color': style.pointColor || color,
+        'circle-opacity': .8,
+        'circle-stroke-width': 1,
+        'circle-stroke-color': 'gray',
+        'circle-stroke-opacity': 1,
+      }
+    });
+  }
+  return out;
+};
 
 export const DEFAULT_POLYGON_STYLE: (color: string) => LayerTemplate[] = (color) => [
   {
@@ -366,7 +401,7 @@ export const DEFAULT_POLYGON_STYLE: (color: string) => LayerTemplate[] = (color)
     type: "fill",
     paint: {
       "fill-color": color,
-      "fill-opacity": 0.3,
+      "fill-opacity": 0.7,
     },
   },
   {
@@ -388,7 +423,7 @@ export const DEFAULT_LINESTRING_STYLE: (color: string) => LayerTemplate[] = (col
   type: "line",
   paint: {
     "line-color": color,
-    "line-width": lineWidth_thin,
+    "line-width": lineWidth_bold,
   },
 }];
 
