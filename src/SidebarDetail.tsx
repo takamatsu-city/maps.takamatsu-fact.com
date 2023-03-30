@@ -40,7 +40,7 @@ const Content = (props: Props) => {
                   <col className='content' />
                 </colgroup>
                 <tbody>
-                  { Object.entries(feature.properties).filter(([key, _value]) => key !== 'class' && !key.startsWith('_viewer_')).map(([key, value]) => (
+                  { Object.entries(feature.properties).filter(([key, _value]) => !key.startsWith('_viewer_')).map(([key, value]) => (
                     <tr className="sidebar-detail-item" key={key}>
                       <th className='label'>{key}</th>
                       <td className='content'>{value}</td>
