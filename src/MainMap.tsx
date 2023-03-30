@@ -90,10 +90,21 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
         'source-layer': 'negativecitymask',
         type: 'fill',
         paint: {
-          'fill-color': 'black',
-          'fill-opacity': .2,
+          'fill-color': '#0079C4',
+          'fill-opacity': .3,
         }
       });
+      map.addLayer({
+        id: 'negative-city-mask-layer-border',
+        source: 'negative-city-mask',
+        'source-layer': 'negativecitymask',
+        type: 'line',
+        paint: {
+          'line-color': '#0079C4',
+          'line-opacity': 0.5,
+          'line-width': 2,
+        }
+      })
 
       map.addSource('takamatsu', {
         type: 'vector',
