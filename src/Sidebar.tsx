@@ -141,6 +141,7 @@ const Sidebar: React.FC<SidebarProps> = ({selectedLayers, setSelectedLayers, cat
           />
         ) }
       </div>
+      <a href="/" className='user-guide-link'>ご利用にあたって</a>
     </div>
   );
 }
