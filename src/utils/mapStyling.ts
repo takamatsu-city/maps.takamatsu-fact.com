@@ -285,12 +285,6 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
       "outlineColor": "rgb(179,114,173)"
     }
   ],
-  "AED設置場所": [
-    {
-      id: "",
-      "icon": "circle-stroked",
-    }
-  ],
   "都市計画情報/都市計画基本図": [
     {
       id: "",
@@ -298,7 +292,128 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
       lineWidth: 1,
       pointLabel: "{TextString}"
     }
-  ]
+  ],
+  "AED設置場所": [
+    {
+      id: "",
+      "icon": "aed_location",
+    }
+  ],
+  "公衆トイレ": [
+    {
+      id: "",
+      "icon": "public_toilet",
+    }
+  ],
+  "墓地": [
+    {
+      id: "",
+      "icon": "cemetery",
+    }
+  ],
+  "市役所・市民サービスセンター": [
+    {
+      id: "",
+      "icon": "citizen_service_center",
+    }
+  ],
+  "消防署・消防出張所": [
+    {
+      id: "",
+      "icon": "fire_station",
+    }
+  ],
+  "図書館": [
+    {
+      id: "",
+      "icon": "library",
+    }
+  ],
+  "小学校": [
+    {
+      id: "",
+      "icon": "primary_school",
+    }
+  ],
+  "中学校": [
+    {
+      id: "",
+      "icon": "middle_school",
+    }
+  ],
+  "大学": [
+    {
+      id: "",
+      "icon": "university",
+    }
+  ],
+  "観光施設": [
+    {
+      id: "",
+      "icon": "tourist_facilities",
+    }
+  ],
+  "グラウンド": [
+    {
+      id: "",
+      "icon": "tourist_facilities",
+    }
+  ],
+  "市立駐車場": [
+    {
+      id: "",
+      "icon": "municipal_parking",
+    }
+  ],
+  "テニスコート": [
+    {
+      id: "",
+      "icon": "tennis_court",
+    }
+  ],
+  "市立病院": [
+    {
+      id: "",
+      "icon": "municipal_hospital",
+    }
+  ],
+  "水道施設": [
+    {
+      id: "",
+      "icon": "water_supply_facility",
+    }
+  ],
+  "食肉センターなど": [
+    {
+      id: "",
+      "icon": "meat_center",
+    }
+  ],
+  "使用済小型家電リサイクルBOX設置場所一覧": [
+    {
+      id: "",
+      "icon": "recycling_box_installation_location",
+    }
+  ],
+  "下水道施設": [
+    {
+      id: "",
+      "icon": "sewer_facility",
+    }
+  ],
+  "医療機関": [
+    {
+      id: "",
+      "icon": "hospital",
+    }
+  ],
+  "公園": [
+    {
+      id: "",
+      "icon": "park",
+    }
+  ],
+
 };
 
 export const getCustomStyle: (layerDefinition: CatalogDataItem) => CustomStyle[] | undefined = (def) => {
