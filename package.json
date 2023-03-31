@@ -1,5 +1,5 @@
 {
-  "name": "takamatsu-city-data-viewer",
+  "name": "@takamatsu-city/maps.takamatsu-fact.com",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
