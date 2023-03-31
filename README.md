@@ -1,2 +1,1 @@
 # maps.takamatsu-fact.com
-
