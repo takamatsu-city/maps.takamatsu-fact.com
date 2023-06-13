@@ -12,6 +12,7 @@ const downloadStyle = async () => {
 
   const styleJson = JSON.parse(rawStyleJson);
 
+  styleJson.sprite = "https://api.geolonia.com/v1/sprites/gsi";
   delete styleJson.sources.dem;
 
   styleJson.layers = styleJson.layers.filter(layer => layer.id !== 'hillshading');
