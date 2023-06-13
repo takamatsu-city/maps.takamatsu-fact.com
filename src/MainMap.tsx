@@ -4,6 +4,8 @@ import { CatalogFeature, CatalogItem, walkCategories } from './api/catalog';
 import { CustomStyle, customStyleToLineStringTemplate, customStyleToPointTemplate, customStyleToPolygonTemplate, DEFAULT_LINESTRING_STYLE, DEFAULT_POINT_STYLE, DEFAULT_POLYGON_STYLE, getCustomStyle, LayerTemplate, WEB_COLORS } from './utils/mapStyling';
 import CityOS__Takamatsu from './cityos/cityos_takamatsu';
 
+import mapStyle from './style.json';
+
 declare global {
   interface Window {
     geolonia: any;
@@ -49,7 +51,8 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
   useLayoutEffect(() => {
     const map: maplibregl.Map = new window.geolonia.Map({
       container: mapContainer.current,
-      style: "geolonia/gsi",
+      // style: `${process.env.PUBLIC_URL}/style.json`,
+      style: mapStyle,
       hash: true,
       center: [ 134.0403, 34.334 ],
       fitBoundsOptions: { padding: 50 },
