@@ -1,9 +1,11 @@
 import { useCallback, useMemo, useState } from 'react';
 
-import { AiFillCaretRight, AiFillCaretDown, AiOutlineLink } from 'react-icons/ai';
+import { AiFillCaretRight, AiFillCaretDown, AiOutlineLink, AiOutlineBars } from 'react-icons/ai';
 
 import './Sidebar.scss';
 import { CatalogCategory, CatalogDataItem, CatalogItem, walkCategories } from './api/catalog';
+
+import classNames from 'classnames';
 
 type SidebarItemProps = {
   selectedLayers: string[]
@@ -12,8 +14,8 @@ type SidebarItemProps = {
 }
 
 const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory }> = (props) => {
-  const [ isOpen, setIsOpen ] = useState<boolean>(false);
-  const {item, selectedLayers, setSelectedLayers} = props;
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { item, selectedLayers, setSelectedLayers } = props;
 
   const idsOfThisCategory = useMemo(() => {
     return [...walkCategories(item.items)].map(x => x.id);
@@ -51,23 +53,23 @@ const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory }
   return <div className='sidebar-item-category'>
     <div className='sidebar-item'>
       <button className='category-toggle' type="button" onClick={toggleIsOpen}>
-        { isOpen ? <AiFillCaretDown /> : <AiFillCaretRight /> }
+        {isOpen ? <AiFillCaretDown /> : <AiFillCaretRight />}
       </button>
       <label className='label category-label'>
         <input type="checkbox" checked={checked} onChange={handleCheckboxChange} />
         {item.name}
       </label>
     </div>
-    { isOpen && <div className="sidebar-item-category-items">
+    {isOpen && <div className="sidebar-item-category-items">
       {item.items.map(item => (
         <SingleSidebarItem key={item.id} {...props} item={item} />
       ))}
-    </div> }
+    </div>}
   </div>
 }
 
 const DataSidebarItem: React.FC<SidebarItemProps & { item: CatalogDataItem }> = (props) => {
-  const {selectedLayers, setSelectedLayers, item} = props;
+  const { selectedLayers, setSelectedLayers, item } = props;
   const itemId = item.id;
 
   const handleCheckboxChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>((event) => {
@@ -97,7 +99,7 @@ const DataSidebarItem: React.FC<SidebarItemProps & { item: CatalogDataItem }> = 
 };
 
 const SingleSidebarItem: React.FC<SidebarItemProps> = (props) => {
-  const {item} = props;
+  const { item } = props;
   if (item.type === "Category") {
     return <CategorySidebarItem {...props} item={item} />;
   } else if (item.type === "DataItem") {
@@ -110,10 +112,13 @@ const SingleSidebarItem: React.FC<SidebarItemProps> = (props) => {
 type SidebarProps = {
   selectedLayers: string[]
   catalogData: CatalogItem[]
+  isOpenedSidebar: boolean
   setSelectedLayers: React.Dispatch<React.SetStateAction<string[]>>
+  setIsOpenedSidebar: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Sidebar: React.FC<SidebarProps> = ({selectedLayers, setSelectedLayers, catalogData}) => {
+const Sidebar: React.FC<SidebarProps> = ({ selectedLayers, setSelectedLayers, catalogData, isOpenedSidebar, setIsOpenedSidebar }) => {
+
   const selectAllHandler = useCallback<React.MouseEventHandler<HTMLButtonElement>>((event) => {
     event.preventDefault();
     setSelectedLayers([...walkCategories(catalogData)].map(v => v.id));
@@ -124,25 +129,36 @@ const Sidebar: React.FC<SidebarProps> = ({selectedLayers, setSelectedLayers, cat
     setSelectedLayers([]);
   }, [setSelectedLayers]);
 
+  const closeListHandler = useCallback<React.MouseEventHandler<HTMLLabelElement>>((event) => {
+    setIsOpenedSidebar(false);
+    event.stopPropagation();
+  }, [setIsOpenedSidebar]);
+
+  const openListHandler = useCallback<React.MouseEventHandler<HTMLDivElement>>((event) => {
+    setIsOpenedSidebar(true);
+    event.stopPropagation();
+  }, [setIsOpenedSidebar]);
+
   return (
-    <div className='sidebar'>
-      <h2 className='title'>都市情報</h2>
+    <div className={classNames('sidebar', { 'sidebar-open': isOpenedSidebar })} onClick={openListHandler}>
+      <label id="list-close" onClick={closeListHandler}><span></span></label>
+      <h2 className='title'><AiOutlineBars className='list-icon'/>都市情報</h2>
       <div className='button-container'>
         <button type="button" onClick={selectAllHandler}>全選択</button>
         <button type="button" onClick={selectNoneHandler}>全選択解除</button>
       </div>
       <div className='sidebar-item-container'>
-        { catalogData.map((item) =>
+        {catalogData.map((item) =>
           <SingleSidebarItem
             key={item.id}
             selectedLayers={selectedLayers}
             setSelectedLayers={setSelectedLayers}
             item={item}
           />
-        ) }
+        )}
       </div>
       <a href="https://docs.takamatsu-fact.com/#%E3%81%94%E5%88%A9%E7%94%A8%E3%81%AB%E3%81%82%E3%81%9F%E3%81%A3%E3%81%A6" className='user-guide-link' target="_blank" rel="noreferrer">
-        <AiOutlineLink/><span>ご利用にあたって</span>
+        <AiOutlineLink /><span>ご利用にあたって</span>
       </a>
     </div>
   );

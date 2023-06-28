@@ -9,11 +9,16 @@ import './App.scss';
 import { useQuery } from 'react-query';
 import { CatalogFeature, getCatalog } from './api/catalog';
 import SidebarDetail from './SidebarDetail';
+import { useMediaQuery } from 'react-responsive'
 
 function App() {
   const catalog = useQuery('catalog', getCatalog);
   const [selectedLayers, setSelectedLayers] = useState<string[]>([]);
   const [selectedFeatures, setSelectedFeatures] = useState<CatalogFeature[]>([]);
+
+  // TODO: https://github.com/takamatsu-city/maps.takamatsu-fact.com/issues/89 修正時に 初期値を true に変更する
+  const isDesktop = useMediaQuery({ query: '(min-width: 769px)' })
+  const [isOpenedSidebar, setIsOpenedSidebar] = useState<boolean>(isDesktop);
 
   const catalogSuccess = catalog.isSuccess;
   const catalogData = catalog.data;
@@ -36,6 +41,8 @@ function App() {
         <Sidebar
           catalogData={catalog.data || []}
           selectedLayers={selectedLayers}
+          isOpenedSidebar={isOpenedSidebar}
+          setIsOpenedSidebar={setIsOpenedSidebar}
           setSelectedLayers={setSelectedLayers}
         />
         <div className="map-container">
