@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { AiOutlineClose } from "react-icons/ai";
 import './SidebarDetail.scss'
 import { CatalogFeature } from './api/catalog';
+import ReplaceTextToLink from './utils/ReplaceTextToLink';
 
 const SingleFeatureTable: React.FC<{feature: CatalogFeature}> = ({feature}) => {
   const detailItems = Object.entries(feature.properties).filter(([key, _value]) => !key.startsWith('_viewer_'));
@@ -26,7 +27,7 @@ const SingleFeatureTable: React.FC<{feature: CatalogFeature}> = ({feature}) => {
         { detailItems.map(([key, value]) => (
           <tr className="sidebar-detail-item" key={key}>
             <th className='label'>{key}</th>
-            <td className='content'>{value}</td>
+            <td className='content'><ReplaceTextToLink text={value} /></td>
           </tr>
         ))}
       </tbody>
