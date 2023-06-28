@@ -39,12 +39,11 @@ body,
   .sidebar-detail {
     position: absolute;
     z-index: 10;
-
     background: #313731;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.22);
     top: 0;
     bottom: 0;
-    left: 0;
+    left: 350px;
     max-width: 372px;
     width: 100%;
     box-sizing: border-box;
