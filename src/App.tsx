@@ -14,6 +14,7 @@ function App() {
   const catalog = useQuery('catalog', getCatalog);
   const [selectedLayers, setSelectedLayers] = useState<string[]>([]);
   const [selectedFeatures, setSelectedFeatures] = useState<CatalogFeature[]>([]);
+  const [isOpenedSidebar, setIsOpenedSidebar] = useState<boolean>(true);
 
   const catalogSuccess = catalog.isSuccess;
   const catalogData = catalog.data;
@@ -31,11 +32,15 @@ function App() {
 
   return (
     <div className="App">
-      <Header />
+      <Header
+        isOpenedSidebar={isOpenedSidebar}
+        setIsOpenedSidebar={setIsOpenedSidebar}
+      />
       <div className="container">
         <Sidebar
           catalogData={catalog.data || []}
           selectedLayers={selectedLayers}
+          isOpenedSidebar={isOpenedSidebar}
           setSelectedLayers={setSelectedLayers}
         />
         <div className="map-container">

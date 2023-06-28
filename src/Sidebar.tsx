@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState, useRef, useEffect } from 'react';
 
 import { AiFillCaretRight, AiFillCaretDown, AiOutlineLink } from 'react-icons/ai';
 
@@ -110,10 +110,26 @@ const SingleSidebarItem: React.FC<SidebarItemProps> = (props) => {
 type SidebarProps = {
   selectedLayers: string[]
   catalogData: CatalogItem[]
+  isOpenedSidebar: boolean
   setSelectedLayers: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-const Sidebar: React.FC<SidebarProps> = ({selectedLayers, setSelectedLayers, catalogData}) => {
+const Sidebar: React.FC<SidebarProps> = ({selectedLayers, setSelectedLayers, catalogData, isOpenedSidebar}) => {
+
+  const sidebarRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!sidebarRef.current) {
+      return;
+    }
+
+    if (isOpenedSidebar) {
+      sidebarRef.current.style.left = '0';
+    } else {
+      sidebarRef.current.style.left = '-100%';
+    }
+  }, [isOpenedSidebar]);
+
   const selectAllHandler = useCallback<React.MouseEventHandler<HTMLButtonElement>>((event) => {
     event.preventDefault();
     setSelectedLayers([...walkCategories(catalogData)].map(v => v.id));
@@ -125,7 +141,7 @@ const Sidebar: React.FC<SidebarProps> = ({selectedLayers, setSelectedLayers, cat
   }, [setSelectedLayers]);
 
   return (
-    <div className='sidebar'>
+    <div ref={sidebarRef} className='sidebar'>
       <h2 className='title'>都市情報</h2>
       <div className='button-container'>
         <button type="button" onClick={selectAllHandler}>全選択</button>

@@ -27,9 +27,12 @@ body,
     background: #F6F6F6;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.22);
     width: 350px;
-    height: 100%;
+    height: calc(100% - 60px);
     box-sizing: border-box;
     overflow: scroll;
+    position: absolute;
+    z-index: 1;
+    transition: all 0.5s;
   }
 
   .sidebar-detail {
