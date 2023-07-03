@@ -370,16 +370,10 @@
           },
           {
             "type": "DataItem",
-            "id": "施設情報/くらし/ごみ分別一覧",
-            "name": "ごみ分別一覧",
-            "class": "ごみ分別一覧",
-            "metadata": {}
-          },
-          {
-            "type": "DataItem",
             "id": "施設情報/くらし/ため池一覧",
             "name": "ため池一覧",
             "class": "ため池一覧",
+            "geojsonEndpoint": "https://opendata.takamatsu-fact.com/reservoir_list/data.geojson",
             "metadata": {}
           },
           {
@@ -440,13 +434,6 @@
           },
           {
             "type": "DataItem",
-            "id": "施設情報/くらし/市民満足度アンケート",
-            "name": "市民満足度アンケート",
-            "class": "市民満足度アンケート",
-            "metadata": {}
-          },
-          {
-            "type": "DataItem",
             "id": "施設情報/くらし/指定収集袋取扱店一覧",
             "name": "指定収集袋取扱店一覧",
             "class": "指定収集袋取扱店一覧",
@@ -484,13 +471,6 @@
         "id": "施設情報/観光・産業",
         "name": "観光・産業",
         "items": [
-          {
-            "type": "DataItem",
-            "id": "施設情報/観光・産業/イベント一覧",
-            "name": "イベント一覧",
-            "class": "イベント一覧",
-            "metadata": {}
-          },
           {
             "type": "DataItem",
             "id": "施設情報/観光・産業/観光施設",
@@ -794,13 +774,6 @@
           },
           {
             "type": "DataItem",
-            "id": "施設情報/教育・子育て/公立放課後児童クラブ一覧",
-            "name": "公立放課後児童クラブ一覧",
-            "class": "公立放課後児童クラブ一覧",
-            "metadata": {}
-          },
-          {
-            "type": "DataItem",
             "id": "施設情報/教育・子育て/高等学校など",
             "name": "高等学校など",
             "class": "高等学校など",
@@ -821,13 +794,6 @@
             "name": "小学校",
             "class": "小学校",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/primary_school/data.geojson",
-            "metadata": {}
-          },
-          {
-            "type": "DataItem",
-            "id": "施設情報/教育・子育て/小中学校通学区域情報",
-            "name": "小中学校通学区域情報",
-            "class": "小中学校通学区域情報",
             "metadata": {}
           },
           {
@@ -891,6 +857,7 @@
             "id": "施設情報/教育・子育て/民間放課後児童クラブ一覧",
             "name": "民間放課後児童クラブ一覧",
             "class": "民間放課後児童クラブ一覧",
+            "geojsonEndpoint": "https://opendata.takamatsu-fact.com/children_club/data.geojson",
             "metadata": {}
           },
           {
