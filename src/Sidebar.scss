@@ -69,6 +69,10 @@
 
     div.sidebar.sidebar-open {
       top: 50%;
+
+      #list-close {
+        display: flex;
+      }
     }
 
     div.sidebar {
@@ -80,26 +84,15 @@
       #list-close {
         height: 15px;
         width: 15px;
-        display: flex;
+        display: none;
         justify-content: center;
         align-items: center;
         z-index: 100;
         position: absolute;
         top: 27px;
-        right: 10px;
+        right: 30px;
         padding: 5px;
         cursor: pointer;
-      }
-
-      #list-close {
-        top: 27px;
-        right: 30px;
-        // display: none;
-        z-index: 5;
-      }
-
-      .open #list-close {
-        display: flex;
       }
 
       #list-close span,
