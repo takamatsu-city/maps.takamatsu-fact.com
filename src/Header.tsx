@@ -1,23 +1,10 @@
 import './Header.scss'
 
-type Props = {
-  isOpenedSidebar: boolean;
-  setIsOpenedSidebar: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const Content = (props: Props) => {
-
-  const { isOpenedSidebar, setIsOpenedSidebar } = props;
-
-  const handleMenuBtnClick = () => {
-    setIsOpenedSidebar(!isOpenedSidebar);
-  }
+const Content = ( ) => {
 
   return (
     <>
       <header className="header">
-        <input onChange={handleMenuBtnClick} type="checkbox" id="menu-btn-check" defaultChecked/>
-        <label htmlFor="menu-btn-check" className="menu-btn"><span></span></label>
         <div className='brand'>
           <img className="logo" src='./logo.svg' alt="ロゴ" />
           <h2 className='title'>高松市スマートマップ</h2>

@@ -64,3 +64,53 @@
   }
 }
 
+@media screen and (max-width: 768px) {
+  .container {
+    div.sidebar {
+      height: 50%;
+      position: absolute;
+      bottom: 0;
+      z-index: 3;
+
+      #list-close {
+        height: 15px;
+        width: 15px;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+        position: absolute;
+        top: 27px;
+        right: 30px;
+        padding: 5px;
+        cursor: pointer;
+
+        span, span:before, span:after {
+          content: '';
+          display: block;
+          height: 2px;
+          width: 18px;
+          border-radius: 3px;
+          background-color: #000000;
+          position: absolute;
+        }
+
+        span:before {
+          bottom: 0;
+          transform: rotate(45deg);
+        }
+
+        span:after {
+          top: 0;
+          transform: rotate(-45deg);
+        }
+      }
+
+      .open {
+        #list-close {
+          display: flex;
+        }
+      }
+    }
+  }
+}

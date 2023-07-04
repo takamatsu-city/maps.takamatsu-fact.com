@@ -112,9 +112,10 @@ type SidebarProps = {
   catalogData: CatalogItem[]
   isOpenedSidebar: boolean
   setSelectedLayers: React.Dispatch<React.SetStateAction<string[]>>
+  setIsOpenedSidebar: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Sidebar: React.FC<SidebarProps> = ({selectedLayers, setSelectedLayers, catalogData, isOpenedSidebar}) => {
+const Sidebar: React.FC<SidebarProps> = ({selectedLayers, setSelectedLayers, catalogData, isOpenedSidebar, setIsOpenedSidebar}) => {
 
   const sidebarRef = useRef<HTMLDivElement>(null);
 
@@ -124,9 +125,9 @@ const Sidebar: React.FC<SidebarProps> = ({selectedLayers, setSelectedLayers, cat
     }
 
     if (isOpenedSidebar) {
-      sidebarRef.current.style.left = '0';
+      sidebarRef.current.style.top = '50%';
     } else {
-      sidebarRef.current.style.left = '-100%';
+      sidebarRef.current.style.top = '90%';
     }
   }, [isOpenedSidebar]);
 
@@ -140,8 +141,21 @@ const Sidebar: React.FC<SidebarProps> = ({selectedLayers, setSelectedLayers, cat
     setSelectedLayers([]);
   }, [setSelectedLayers]);
 
+  const closeListHandler = useCallback<React.MouseEventHandler<HTMLLabelElement>>((event) => {
+    event.preventDefault();
+    setIsOpenedSidebar(false);
+    event.stopPropagation();
+  }, [setIsOpenedSidebar]);
+
+  const openListHandler = useCallback<React.MouseEventHandler<HTMLDivElement>>((event) => {
+    event.preventDefault();
+    setIsOpenedSidebar(true);
+    event.stopPropagation();
+  }, [setIsOpenedSidebar]);
+
   return (
-    <div ref={sidebarRef} className='sidebar'>
+    <div ref={sidebarRef} className={`sidebar ${isOpenedSidebar ? 'open' : ''}`} onClick={openListHandler}>
+      <label id="list-close" onClick={closeListHandler}><span></span></label>
       <h2 className='title'>都市情報</h2>
       <div className='button-container'>
         <button type="button" onClick={selectAllHandler}>全選択</button>

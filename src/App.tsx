@@ -32,15 +32,13 @@ function App() {
 
   return (
     <div className="App">
-      <Header
-        isOpenedSidebar={isOpenedSidebar}
-        setIsOpenedSidebar={setIsOpenedSidebar}
-      />
+      <Header />
       <div className="container">
         <Sidebar
           catalogData={catalog.data || []}
           selectedLayers={selectedLayers}
           isOpenedSidebar={isOpenedSidebar}
+          setIsOpenedSidebar={setIsOpenedSidebar}
           setSelectedLayers={setSelectedLayers}
         />
         <div className="map-container">
