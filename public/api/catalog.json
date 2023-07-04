@@ -854,9 +854,9 @@
           },
           {
             "type": "DataItem",
-            "id": "施設情報/教育・子育て/民間放課後児童クラブ一覧",
-            "name": "民間放課後児童クラブ一覧",
-            "class": "民間放課後児童クラブ一覧",
+            "id": "施設情報/教育・子育て/民間放課後児童クラブ",
+            "name": "民間放課後児童クラブ",
+            "class": "民間放課後児童クラブ",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/children_club/data.geojson",
             "metadata": {}
           },
