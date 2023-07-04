@@ -130,13 +130,11 @@ const Sidebar: React.FC<SidebarProps> = ({selectedLayers, setSelectedLayers, cat
   }, [setSelectedLayers]);
 
   const closeListHandler = useCallback<React.MouseEventHandler<HTMLLabelElement>>((event) => {
-    event.preventDefault();
     setIsOpenedSidebar(false);
     event.stopPropagation();
   }, [setIsOpenedSidebar]);
 
   const openListHandler = useCallback<React.MouseEventHandler<HTMLDivElement>>((event) => {
-    event.preventDefault();
     setIsOpenedSidebar(true);
     event.stopPropagation();
   }, [setIsOpenedSidebar]);
