@@ -10,7 +10,7 @@
     font-weight: 700;
     font-size: 18px;
     line-height: 26px;
-    margin: 20px 0 40px 0;
+    margin-bottom: 8px;
   }
 
   .sidebar-item-container {
@@ -80,6 +80,13 @@
       position: absolute;
       bottom: 0;
       z-index: 3;
+      border-top-left-radius: 24px;
+      border-top-right-radius: 24px;
+      padding-top: 0;
+
+      .title {
+        margin: 30px 0 30px 0;
+      }
 
       #list-close {
         height: 15px;
@@ -89,8 +96,8 @@
         align-items: center;
         z-index: 100;
         position: absolute;
-        top: 38px;
-        right: 30px;
+        top: 28px;
+        right: 20px;
         padding: 5px;
         cursor: pointer;
       }
