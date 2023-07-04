@@ -1,9 +1,11 @@
-import { useCallback, useMemo, useState, useRef, useEffect } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { AiFillCaretRight, AiFillCaretDown, AiOutlineLink } from 'react-icons/ai';
 
 import './Sidebar.scss';
 import { CatalogCategory, CatalogDataItem, CatalogItem, walkCategories } from './api/catalog';
+
+import classNames from 'classnames';
 
 type SidebarItemProps = {
   selectedLayers: string[]
@@ -117,20 +119,6 @@ type SidebarProps = {
 
 const Sidebar: React.FC<SidebarProps> = ({selectedLayers, setSelectedLayers, catalogData, isOpenedSidebar, setIsOpenedSidebar}) => {
 
-  const sidebarRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!sidebarRef.current) {
-      return;
-    }
-
-    if (isOpenedSidebar) {
-      sidebarRef.current.style.top = '50%';
-    } else {
-      sidebarRef.current.style.top = '90%';
-    }
-  }, [isOpenedSidebar]);
-
   const selectAllHandler = useCallback<React.MouseEventHandler<HTMLButtonElement>>((event) => {
     event.preventDefault();
     setSelectedLayers([...walkCategories(catalogData)].map(v => v.id));
@@ -154,7 +142,7 @@ const Sidebar: React.FC<SidebarProps> = ({selectedLayers, setSelectedLayers, cat
   }, [setIsOpenedSidebar]);
 
   return (
-    <div ref={sidebarRef} className={`sidebar ${isOpenedSidebar ? 'open' : ''}`} onClick={openListHandler}>
+    <div className={classNames('sidebar', {'sidebar-open': isOpenedSidebar})} onClick={openListHandler}>
       <label id="list-close" onClick={closeListHandler}><span></span></label>
       <h2 className='title'>都市情報</h2>
       <div className='button-container'>

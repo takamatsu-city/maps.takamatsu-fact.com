@@ -66,8 +66,13 @@
 
 @media screen and (max-width: 768px) {
   .container {
+
+    div.sidebar.sidebar-open {
+      top: 50%;
+    }
+
     div.sidebar {
-      height: 50%;
+      top: 90%;
       position: absolute;
       bottom: 0;
       z-index: 3;
@@ -75,41 +80,52 @@
       #list-close {
         height: 15px;
         width: 15px;
-        display: none;
+        display: flex;
         justify-content: center;
         align-items: center;
         z-index: 100;
         position: absolute;
         top: 27px;
-        right: 30px;
+        right: 10px;
         padding: 5px;
         cursor: pointer;
-
-        span, span:before, span:after {
-          content: '';
-          display: block;
-          height: 2px;
-          width: 18px;
-          border-radius: 3px;
-          background-color: #000000;
-          position: absolute;
-        }
-
-        span:before {
-          bottom: 0;
-          transform: rotate(45deg);
-        }
-
-        span:after {
-          top: 0;
-          transform: rotate(-45deg);
-        }
       }
 
-      .open {
-        #list-close {
-          display: flex;
-        }
+      #list-close {
+        top: 27px;
+        right: 30px;
+        // display: none;
+        z-index: 5;
+      }
+
+      .open #list-close {
+        display: flex;
+      }
+
+      #list-close span,
+      #list-close span:before,
+      #list-close span:after {
+        content: '';
+        display: block;
+        height: 2px;
+        width: 18px;
+        border-radius: 3px;
+        background-color: #000000;
+        position: absolute;
+      }
+
+      #list-close span:before {
+        bottom: 0;
+        transform: rotate(45deg);
+      }
+
+      #list-close span:after {
+        top: 0;
+        transform: rotate(-45deg);
+      }
+
+      #list-close span {
+        background-color: rgba(255, 255, 255, 0);
       }
     }
   }
