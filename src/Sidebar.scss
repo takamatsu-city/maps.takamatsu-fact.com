@@ -10,7 +10,7 @@
     font-weight: 700;
     font-size: 18px;
     line-height: 26px;
-    margin-bottom: 8px;
+    margin: 20px 0 40px 0;
   }
 
   .sidebar-item-container {
@@ -68,7 +68,7 @@
   .container {
 
     div.sidebar.sidebar-open {
-      top: 50%;
+      height: 60%;
 
       #list-close {
         display: flex;
@@ -76,7 +76,7 @@
     }
 
     div.sidebar {
-      top: 90%;
+      height: 84px;
       position: absolute;
       bottom: 0;
       z-index: 3;
@@ -89,7 +89,7 @@
         align-items: center;
         z-index: 100;
         position: absolute;
-        top: 27px;
+        top: 38px;
         right: 30px;
         padding: 5px;
         cursor: pointer;
