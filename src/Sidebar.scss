@@ -1,5 +1,6 @@
 .sidebar {
   padding: 20px;
+  left: 0;
 
   .button-container {
     margin-bottom: 12px;
@@ -8,8 +9,11 @@
   .title {
     font-weight: 700;
     font-size: 18px;
-    line-height: 26px;
     margin-bottom: 8px;
+
+    .list-icon {
+      display: none;
+    }
   }
 
   .sidebar-item-container {
@@ -63,3 +67,93 @@
   }
 }
 
+@media screen and (max-width: 768px) {
+  .container {
+
+    div.sidebar.sidebar-open {
+      height: 60%;
+
+      #list-close {
+        display: flex;
+      }
+    }
+
+    div.sidebar {
+      height: 84px;
+      position: absolute;
+      bottom: 0;
+      z-index: 3;
+      border-top-left-radius: 24px;
+      border-top-right-radius: 24px;
+      padding-top: 0;
+      width: 100%;
+
+      &::before {
+        background-color: rgba(32, 32, 32, .2);
+        border-radius: 4px;
+        content: "";
+        display: block;
+        height: 5px;
+        left: 0;
+        margin: auto;
+        position: absolute;
+        right: 0;
+        top: 8px;
+        width: 40px;
+      }
+
+      .title {
+        margin: 30px 0 30px 0;
+        display: flex;
+        align-items: center;
+
+        .list-icon {
+          display: block;
+          margin-right: 5px;
+          height: 20px;
+          width: 20px;
+        }
+      }
+
+      #list-close {
+        height: 15px;
+        width: 15px;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+        position: absolute;
+        top: 28px;
+        right: 20px;
+        padding: 5px;
+        cursor: pointer;
+      }
+
+      #list-close span,
+      #list-close span:before,
+      #list-close span:after {
+        content: '';
+        display: block;
+        height: 2px;
+        width: 18px;
+        border-radius: 3px;
+        background-color: #000000;
+        position: absolute;
+      }
+
+      #list-close span:before {
+        bottom: 0;
+        transform: rotate(45deg);
+      }
+
+      #list-close span:after {
+        top: 0;
+        transform: rotate(-45deg);
+      }
+
+      #list-close span {
+        background-color: rgba(255, 255, 255, 0);
+      }
+    }
+  }
+}

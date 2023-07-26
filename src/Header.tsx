@@ -1,6 +1,6 @@
 import './Header.scss'
 
-const Content = () => {
+const Content = ( ) => {
 
   return (
     <>
