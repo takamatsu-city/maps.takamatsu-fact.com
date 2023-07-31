@@ -14,6 +14,13 @@
     "metadata": {}
   },
   {
+    "type": "DataItem",
+    "id": "建物（z15以上）",
+    "name": "建物（z15以上）",
+    "class": "building",
+    "metadata": {}
+  },
+  {
     "type": "Category",
     "id": "都市計画情報",
     "name": "都市計画情報",
