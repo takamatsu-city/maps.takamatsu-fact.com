@@ -76,7 +76,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
           map.removeLayer(layer.id);
         } else if ("source-layer" in layer) {
           const sl = layer["source-layer"];
-          if (sl === "landcover" || sl === "landuse" || sl === "building") {
+          if (sl === "landcover" || sl === "landuse") {
             map.removeLayer(layer.id);
           }
         }
