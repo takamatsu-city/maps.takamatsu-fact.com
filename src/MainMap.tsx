@@ -136,7 +136,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
       setSelectedFeatures(features.map(feature => {
         const catalogData = catalogDataItems.find(item => (
           item.type === "DataItem" && (
-            ((feature.source === 'takamatsu' || feature.properties._viewer_selectable === true) && item.class === feature.properties.class) ||
+            ((feature.source === 'takamatsu' || feature.properties._viewer_selectable === true) && ('class' in item && item.class === feature.properties.class)) ||
             ('customDataSource' in item && item.customDataSource === feature.source)
           )
         ));
@@ -230,7 +230,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
           for (const subtemplate of template(index, customStyle)) {
             if (mapLayers.length === 0 && isSelected) {
               const filterExp: maplibregl.FilterSpecification = ["all", ["==", "$type", sublayerName]];
-              if (definition.class) {
+              if ('class' in definition && definition.class) {
                 filterExp.push(["==", "class", definition.class]);
               }
               if (subtemplate.filter) {
@@ -248,6 +248,14 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
                 layerConfig.source = definition.customDataSource;
                 layerConfig['source-layer'] = definition.customDataSourceLayer || definition.customDataSource;
               }
+
+              if ('baseMapStyleLayer' in definition) {
+
+                console.log(definition.baseMapStyleLayer)
+                // layerConfig.source = 'takamatsu';
+                // layerConfig['source-layer'] = definition.baseMapStyleLayer;
+              }
+
               map.addLayer(layerConfig, 'poi');
               if (!map.getLayer(layerConfig.id)) {
                 console.error(`Failed to add layer ${layerConfig.id}!!!`);

@@ -295,7 +295,10 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
 };
 
 export const getCustomStyle: (layerDefinition: CatalogDataItem) => CustomStyle[] | undefined = (def) => {
-  return AREA_STYLES[def.class || def.id];
+
+  if ('class' in def) {
+    return AREA_STYLES[def.class || def.id];
+  }
 };
 
 export type LayerSpecification = (

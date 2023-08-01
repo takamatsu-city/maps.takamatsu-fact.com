@@ -17,7 +17,7 @@
     "type": "DataItem",
     "id": "建物（z15以上）",
     "name": "建物（z15以上）",
-    "class": "building",
+    "baseMapLayer": "",
     "metadata": {}
   },
   {
