@@ -15,8 +15,6 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "prestart": "node ./bin/download-style.js",
-    "prebuild": "node ./bin/download-style.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

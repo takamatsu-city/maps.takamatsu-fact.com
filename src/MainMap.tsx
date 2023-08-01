@@ -231,7 +231,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
 
             if (mapLayers.length === 0 && isSelected) {
               const filterExp: maplibregl.FilterSpecification = ["all", ["==", "$type", sublayerName]];
-              if ('class' in definition && definition.class) {
+              if (definition.class) {
                 filterExp.push(["==", "class", definition.class]);
               }
               if (subtemplate.filter) {
