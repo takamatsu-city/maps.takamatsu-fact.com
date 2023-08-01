@@ -15,9 +15,10 @@
   },
   {
     "type": "DataItem",
-    "id": "建物（z15以上）",
+    "id": "建物",
     "name": "建物（z15以上）",
-    "baseMapLayer": "",
+    "customDataSource": "gsi-japan",
+    "customDataSourceLayer": "building",
     "metadata": {}
   },
   {

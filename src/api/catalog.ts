@@ -39,15 +39,7 @@ export type CatalogLiveLocationDataItem = {
   metadata: Record<string, string>
 }
 
-export type CatalogBaseMapDataItem = {
-  type: "DataItem"
-  id: string
-  name: string
-  baseMapStyleLayer: string
-  metadata: Record<string, string>
-}
-
-export type CatalogDataItem = CatalogVectorDataItem | CatalogCustomSourceVectorDataItem | CatalogGeoJSONDataItem | CatalogLiveLocationDataItem | CatalogBaseMapDataItem;
+export type CatalogDataItem = CatalogVectorDataItem | CatalogCustomSourceVectorDataItem | CatalogGeoJSONDataItem | CatalogLiveLocationDataItem;
 
 export type CatalogCategory = {
   type: "Category"

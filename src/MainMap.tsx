@@ -228,6 +228,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
           const mapLayers = map.getStyle().layers.filter((layer) => layer.id.startsWith(fullLayerName));
           const customStyle = getCustomStyle(definition);
           for (const subtemplate of template(index, customStyle)) {
+
             if (mapLayers.length === 0 && isSelected) {
               const filterExp: maplibregl.FilterSpecification = ["all", ["==", "$type", sublayerName]];
               if ('class' in definition && definition.class) {
@@ -249,13 +250,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
                 layerConfig['source-layer'] = definition.customDataSourceLayer || definition.customDataSource;
               }
 
-              if ('baseMapStyleLayer' in definition) {
-                console.log(definition.baseMapStyleLayer)
-                console.log(layerConfig)
-                console.log("ああああああああああああああああ")
-              } else {
-                map.addLayer(layerConfig, 'poi');
-              }
+              map.addLayer(layerConfig, 'poi');
 
               if (!map.getLayer(layerConfig.id)) {
                 console.error(`Failed to add layer ${layerConfig.id}!!!`);
