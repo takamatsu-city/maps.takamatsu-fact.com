@@ -250,13 +250,13 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
               }
 
               if ('baseMapStyleLayer' in definition) {
-
                 console.log(definition.baseMapStyleLayer)
-                // layerConfig.source = 'takamatsu';
-                // layerConfig['source-layer'] = definition.baseMapStyleLayer;
+                console.log(layerConfig)
+                console.log("ああああああああああああああああ")
+              } else {
+                map.addLayer(layerConfig, 'poi');
               }
 
-              map.addLayer(layerConfig, 'poi');
               if (!map.getLayer(layerConfig.id)) {
                 console.error(`Failed to add layer ${layerConfig.id}!!!`);
                 debugger;
