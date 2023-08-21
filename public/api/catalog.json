@@ -629,6 +629,14 @@
             "class": "歴史・民俗施設",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/folklore_facility/data.geojson",
             "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "施設情報/文化・スポーツ・公園/農村公園",
+            "name": "農村公園",
+            "class": "農村公園",
+            "geojsonEndpoint": "https://opendata.takamatsu-fact.com/rural_park/data.geojson",
+            "metadata": {}
           }
         ]
       },
