@@ -161,7 +161,7 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedLayers, setSelectedLayers, ca
         <AiOutlineLink /><span>ご利用にあたって</span>
       </a>
       <div className='link-text'>
-      高松市の災害情報については、<a href="https://safetymap.takamatsu-fact.com/" target="_blank" rel="noreferrer"><AiOutlineLink />マイセーフティーマップ</a>をご覧ください。
+        高松市の災害情報については、<a href="https://safetymap.takamatsu-fact.com/" target="_blank" rel="noreferrer"><AiOutlineLink />マイセーフティーマップ</a>をご覧ください。
       </div>
     </div>
   );
