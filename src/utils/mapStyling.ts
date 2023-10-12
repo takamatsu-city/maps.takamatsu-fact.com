@@ -116,6 +116,7 @@ export const WEB_COLORS = Object.entries({
 export type CustomStyle = {
   id: string
   filter?: any
+  metadata?: { [key: string]: any}
   pattern?: string
   outlineColor?: string
   fillColor?: string
@@ -291,11 +292,25 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
       lineWidth: 1,
       pointLabel: "{TextString}"
     }
+  ],
+  "建物": [
+    {
+      id: "",
+      filter: ["all",
+        ["==", "$type", "Polygon"],
+        ["!in", "ftCode", 3112, 3111]
+      ],
+      "fillColor": "rgba(236, 236, 236, 0.9)",
+      "outlineColor": "#ccc"
+    }
   ]
 };
 
 export const getCustomStyle: (layerDefinition: CatalogDataItem) => CustomStyle[] | undefined = (def) => {
-  return AREA_STYLES[def.class || def.id];
+
+  if ('class' in def || 'id' in def) {
+    return AREA_STYLES[def.class || def.id];
+  }
 };
 
 export type LayerSpecification = (

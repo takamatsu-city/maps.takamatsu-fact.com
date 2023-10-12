@@ -14,6 +14,14 @@
     "metadata": {}
   },
   {
+    "type": "DataItem",
+    "id": "建物",
+    "name": "建物（z15以上）",
+    "customDataSource": "gsi-japan",
+    "customDataSourceLayer": "building",
+    "metadata": {}
+  },
+  {
     "type": "Category",
     "id": "都市計画情報",
     "name": "都市計画情報",
