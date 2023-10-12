@@ -147,6 +147,7 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedLayers, setSelectedLayers, ca
         <button type="button" onClick={selectAllHandler}>全選択</button>
         <button type="button" onClick={selectNoneHandler}>全選択解除</button>
       </div>
+      <div className='help-text'>「{<AiFillCaretRight />}」をタップでさらに項目を表示</div>
       <div className='sidebar-item-container'>
         {catalogData.map((item) =>
           <SingleSidebarItem
