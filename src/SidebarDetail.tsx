@@ -56,6 +56,7 @@ const Content: React.FC<Props> = (props) => {
     if (feature.properties.class === "冠水状況") {
       feature.properties['冠水状況'] = feature.properties.status === 0 ? '冠水なし' : '冠水あり';
     }
+    delete feature.properties['status'];
     const ary = groupedFeatures[feature.catalog.id] ||= [];
     ary.push(feature);
   }
