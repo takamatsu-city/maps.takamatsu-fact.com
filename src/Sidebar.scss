@@ -16,6 +16,19 @@
     }
   }
 
+  .notice {
+    font-size: 14px;
+    color: #ff6347;
+    padding: 4px 8px;
+    text-align: left;
+    background-color: #ffd4cc;
+    border-radius: 2px;
+    margin-bottom: 8px;
+    line-height: 1.2;
+    box-sizing: border-box;
+    font-weight: bold;
+  }
+
   .sidebar-item-container {
     background-color: #ffffff;
     padding-left: 2em;
