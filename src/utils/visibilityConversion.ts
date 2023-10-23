@@ -84,33 +84,6 @@ const displayConversion: DisplayConversionType = (features: CatalogFeature): Cat
       'chikumei': '地区名',
       'yubinbango': '郵便番号'
     },
-    '高松市_路線': {
-      '主要な経過':'主要な経過',
-      '供用開始年':'供用開始年',
-      '区域決定年':'区域決定年',
-      '実延長':'実延長',
-      '旧市町名':'旧市町名',
-      '未供用延長':'未供用延長',
-      '終点':'終点',
-      '総延長':'総延長',
-      '認定年月日':'認定年月日',
-      '調製年月日':'調製年月日',
-      '起点':'起点',
-      '路線名称':'路線名称',
-      '路線番号':'路線番号',
-      '道路種類':'道路種類',
-      '重複延長':'重複延長',
-    },
-    '都市計画区域界': {
-      '区域名':'区域名',
-      '区域面積':'区域面積',
-      '根拠法令':'根拠法令',
-      '指定年月日':'指定年月日',
-      '備考':'備考',
-    },
-    '都市計画基本図': {
-      'キー項目': 'キー項目'
-    },
     'AED設置場所': {
       'name': '名称',
       'address': '住所',
@@ -518,6 +491,7 @@ const displayConversion: DisplayConversionType = (features: CatalogFeature): Cat
     }
     items.properties = properties;
   } else {
+    delete items.properties['NO'];
     delete items.properties['class'];
     delete items.properties['subclass'];
     delete items.properties['番号'];
