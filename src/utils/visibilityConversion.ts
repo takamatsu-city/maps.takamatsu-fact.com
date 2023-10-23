@@ -9,477 +9,523 @@ type DisplayConversionType = (features: CatalogFeature) => CatalogFeature;
 const displayConversion: DisplayConversionType = (features: CatalogFeature): CatalogFeature => {
 
   let items: CatalogFeature = JSON.parse(JSON.stringify(features));
+  let properties:{ [key: string]: string } = {};
 
-  // 日本語変換
-  switch (items.properties['class']) {
-    case '大字界':
-      delete Object.assign(items.properties,{'名称': items.properties['meisho']})['meisho'];
-      delete Object.assign(items.properties,{'名称（カナ）': items.properties['meishokana']})['meishokana'];
-      delete Object.assign(items.properties,{'地区名': items.properties['chikumei']})['chikumei'];
-      delete Object.assign(items.properties,{'郵便番号': items.properties['yubinbango']})['yubinbango'];
-      break;
-
-    case 'AED設置場所':
-      delete Object.assign(items.properties,{'住所': items.properties['address']})['address'];
-      delete Object.assign(items.properties,{'設置場所': items.properties['installationPosition']})['installationPosition'];
-      delete Object.assign(items.properties,{'電話番号': items.properties['telephoneNumber']})['telephoneNumber'];
-      delete Object.assign(items.properties,{'利用可能日': items.properties['availableDate']})['availableDate'];
-      delete Object.assign(items.properties,{'開始時刻': items.properties['startTime']})['startTime'];
-      delete Object.assign(items.properties,{'終了時間': items.properties['endTime']})['endTime'];
-      delete Object.assign(items.properties,{'利用可能日備考': items.properties['availableDateNote']})['availableDateNote'];
-      delete Object.assign(items.properties,{'子供用設備': items.properties['equipmentForChildren']})['equipmentForChildren'];
-      break;
-
-    case 'コミュニティセンター':
-      delete Object.assign(items.properties,{'名称': items.properties['name']})['name'];
-      delete Object.assign(items.properties,{'住所': items.properties['address']})['address'];
-      delete Object.assign(items.properties,{'電話番号': items.properties['telephoneNumber']})['telephoneNumber'];
-      delete Object.assign(items.properties,{'参照先': items.properties['referenceObject']})['referenceObject'];
-      delete Object.assign(items.properties,{'備考': items.properties['note']})['note'];
-      break;
-
-    case 'ため池一覧':
-      delete Object.assign(items.properties,{'貯水池名': items.properties['reservoirName']})['reservoirName'];
-      delete Object.assign(items.properties,{'住所': items.properties['address']})['address'];
-      break;
-
-    case '環境施設':
-      delete Object.assign(items.properties,{'名称': items.properties['name']})['name'];
-      delete Object.assign(items.properties,{'住所': items.properties['address']})['address'];
-      delete Object.assign(items.properties,{'電話番号': items.properties['telephoneNumber']})['telephoneNumber'];
-      delete Object.assign(items.properties,{'参照先': items.properties['referenceObject']})['referenceObject'];
-      delete Object.assign(items.properties,{'備考': items.properties['note']})['note'];
-      delete Object.assign(items.properties,{'利用可能日': items.properties['availableDate']})['availableDate'];
-      delete Object.assign(items.properties,{'開始時刻': items.properties['startTime']})['startTime'];
-      delete Object.assign(items.properties,{'終了時間': items.properties['endTime']})['endTime'];
-      delete Object.assign(items.properties,{'利用可能日備考': items.properties['availableDateNote']})['availableDateNote'];
-      break;
-
-    case '公衆トイレ':
-      delete Object.assign(items.properties,{'県': items.properties['pref']})['pref'];
-      delete Object.assign(items.properties,{'市町村': items.properties['city']})['city'];
-      delete Object.assign(items.properties,{'名称': items.properties['name']})['name'];
-      delete Object.assign(items.properties,{'名称（カナ）': items.properties['fullNameInKana']})['fullNameInKana'];
-      delete Object.assign(items.properties,{'名称（ローマ字）': items.properties['fullNameInRomaji']})['fullNameInRomaji'];
-      delete Object.assign(items.properties,{'住所': items.properties['address']})['address'];
-      delete Object.assign(items.properties,{'肩書き': items.properties['katagaki']})['katagaki'];
-      delete Object.assign(items.properties,{'設置位置': items.properties['installationPosition']})['installationPosition'];
-      delete Object.assign(items.properties,{'男性用トイレ総数': items.properties['totalMensRestroom']})['totalMensRestroom'];
-      delete Object.assign(items.properties,{'男性用小便器': items.properties['smallMensRestroom']})['smallMensRestroom'];
-      delete Object.assign(items.properties,{'男性用和式トイレ': items.properties['japaneseMensRestroom']})['japaneseMensRestroom'];
-      delete Object.assign(items.properties,{'男性用洋式トイレ': items.properties['westernMensRestroom']})['westernMensRestroom'];
-      delete Object.assign(items.properties,{'女性用トイレ総数': items.properties['totalWomanRestroom']})['totalWomanRestroom'];
-      delete Object.assign(items.properties,{'女性用和式トイレ': items.properties['japaneseWomanRestroom']})['japaneseWomanRestroom'];
-      delete Object.assign(items.properties,{'女性用洋式トイレ': items.properties['westernWomanRestroom']})['westernWomanRestroom'];
-      delete Object.assign(items.properties,{'共用トイレ': items.properties['sharedRestroom']})['sharedRestroom'];
-      delete Object.assign(items.properties,{'共用和式トイレ': items.properties['japaneseSharedRestroom']})['japaneseSharedRestroom'];
-      delete Object.assign(items.properties,{'共用洋式トイレ': items.properties['westernSharedRestroom']})['westernSharedRestroom'];
-      delete Object.assign(items.properties,{'多目的トイレ': items.properties['multifunctionalRestroom']})['multifunctionalRestroom'];
-      delete Object.assign(items.properties,{'車椅子トイレ': items.properties['wheelchairRestroom']})['wheelchairRestroom'];
-      delete Object.assign(items.properties,{'幼児用トイレ': items.properties['anInfantRestroom']})['anInfantRestroom'];
-      delete Object.assign(items.properties,{'オストメイト用トイレ': items.properties['ostomateRestroom']})['ostomateRestroom'];
-      delete Object.assign(items.properties,{'開始時刻': items.properties['startTime']})['startTime'];
-      delete Object.assign(items.properties,{'終了時間': items.properties['endTime']})['endTime'];
-      delete Object.assign(items.properties,{'利用可能日備考': items.properties['availableDateNote']})['availableDateNote'];
-      delete Object.assign(items.properties,{'画像': items.properties['image']})['image'];
-      delete Object.assign(items.properties,{'ライセンス': items.properties['iamgeLicense']})['iamgeLicense'];
-      delete Object.assign(items.properties,{'備考': items.properties['note']})['note'];
-      break;
-
-    case '公衆無線LANアクセスポイント':
-      delete Object.assign(items.properties,{'県': items.properties['pref']})['pref'];
-      delete Object.assign(items.properties,{'市町村': items.properties['city']})['city'];
-      delete Object.assign(items.properties,{'名称': items.properties['name']})['name'];
-      delete Object.assign(items.properties,{'名称（カナ）': items.properties['fullNameInKana']})['fullNameInKana'];
-      delete Object.assign(items.properties,{'名称（ローマ字）': items.properties['fullNameInRomaji']})['fullNameInRomaji'];
-      delete Object.assign(items.properties,{'住所': items.properties['address']})['address'];
-      delete Object.assign(items.properties,{'肩書き': items.properties['katagaki']})['katagaki'];
-      delete Object.assign(items.properties,{'設置者': items.properties['installer']})['installer'];
-      delete Object.assign(items.properties,{'電話番号': items.properties['telephoneNumber']})['telephoneNumber'];
-      delete Object.assign(items.properties,{'内線番号': items.properties['extensionNumber']})['extensionNumber'];
-      delete Object.assign(items.properties,{'SSID': items.properties['ssid']})['ssid'];
-      delete Object.assign(items.properties,{'エリア': items.properties['area']})['area'];
-      delete Object.assign(items.properties,{'参照先': items.properties['referenceObject']})['referenceObject'];
-      delete Object.assign(items.properties,{'備考': items.properties['note']})['note'];
-      break;
-
-    case '斎場':
-    case '市民活動・男女共同参画施設':
-    case '地域交流館':
-    case '市場':
-    case '農業体験施設':
-    case 'グラウンド':
-    case 'その他スポーツ施設':
-    case 'テニスコート':
-    case 'プール':
-    case 'ホール':
-    case '図書館':
-    case '体育館・武道館':
-    case '美術館':
-    case '野球場ほか':
-    case '陸上競技場':
-    case '歴史・民俗施設':
-    case 'その他福祉施設':
-    case '市立病院':
-    case '障がい福祉施設':
-    case '地域包括支援センター':
-    case '福祉会館・社会福祉協議会':
-    case '保健所・保健センター':
-    case 'その他子育て支援施設':
-    case '地域子育て支援拠点':
-    case '児童館など':
-    case '生涯学習施設':
-    case 'ふれあいセンター':
-    case '市役所・市民サービスセンター':
-    case '支所・連絡事務所':
-    case '出張所':
-    case '水道施設':
-    case '総合センター':
-    case 'レンタサイクルポート':
-    case '市立駐車場':
-    case '市立駐輪場':
-    case '市民防災センター':
-      delete Object.assign(items.properties,{'名称': items.properties['name']})['name'];
-      delete Object.assign(items.properties,{'住所': items.properties['address']})['address'];
-      delete Object.assign(items.properties,{'電話番号': items.properties['telephoneNumber']})['telephoneNumber'];
-      delete Object.assign(items.properties,{'参照先': items.properties['referenceObject']})['referenceObject'];
-      delete Object.assign(items.properties,{'備考': items.properties['note']})['note'];
-      delete Object.assign(items.properties,{'利用可能日': items.properties['availableDate']})['availableDate'];
-      delete Object.assign(items.properties,{'開始時刻': items.properties['startTime']})['startTime'];
-      delete Object.assign(items.properties,{'終了時刻': items.properties['endTime']})['endTime'];
-      delete Object.assign(items.properties,{'利用可能日備考': items.properties['availableDateNote']})['availableDateNote'];
-      break;
-
-    case '使用済小型家電リサイクルBOX設置場所一覧':
-      delete Object.assign(items.properties,{'設置場所': items.properties['installationLocation']})['installationLocation'];
-      delete Object.assign(items.properties,{'住所': items.properties['address']})['address'];
-      delete Object.assign(items.properties,{'電話番号': items.properties['telephoneNumber']})['telephoneNumber'];
-      break;
-
-    case '市営住宅':
-    case '墓地':
-    case '食肉センターなど':
-    case '公園':
-    case '幼稚園':
-    case '学校給食調理場':
-    case '高等学校など':
-    case '小学校':
-    case '中学校':
-    case '大学':
-    case '下水道施設':
-    case '自転車保管所':
-    case '消防署・消防出張所':
-    case '消防屯所':
-      delete Object.assign(items.properties,{'名称': items.properties['name']})['name'];
-      delete Object.assign(items.properties,{'住所': items.properties['address']})['address'];
-      delete Object.assign(items.properties,{'電話番号': items.properties['telephoneNumber']})['telephoneNumber'];
-      delete Object.assign(items.properties,{'参照先': items.properties['referenceObject']})['referenceObject'];
-      delete Object.assign(items.properties,{'備考': items.properties['note']})['note'];
-      break;
-
-    case '指定収集袋取扱店一覧':
-      delete Object.assign(items.properties,{'名称': items.properties['name']})['name'];
-      delete Object.assign(items.properties,{'住所': items.properties['address']})['address'];
-      delete Object.assign(items.properties,{'電話番号': items.properties['telephoneNumber']})['telephoneNumber'];
-      break;
-
-    case '投票所一覧':
-      delete Object.assign(items.properties,{'投票地区': items.properties['votingDistrict']})['votingDistrict'];
-      delete Object.assign(items.properties,{'名称': items.properties['name']})['name'];
-      delete Object.assign(items.properties,{'名称（カナ）': items.properties['fullNameInKana']})['fullNameInKana'];
-      delete Object.assign(items.properties,{'住所': items.properties['address']})['address'];
-      delete Object.assign(items.properties,{'小選挙区': items.properties['smallConstituencies']})['smallConstituencies'];
-      delete Object.assign(items.properties,{'参照先': items.properties['referenceObject']})['referenceObject'];
-      break;
-
-    case '観光施設':
-    case '道の駅一覧':
-      delete Object.assign(items.properties,{'名称': items.properties['name']})['name'];
-      delete Object.assign(items.properties,{'住所': items.properties['address']})['address'];
-      delete Object.assign(items.properties,{'電話番号': items.properties['telephoneNumber']})['telephoneNumber'];
-      delete Object.assign(items.properties,{'参照先': items.properties['referenceObject']})['referenceObject'];
-      delete Object.assign(items.properties,{'備考': items.properties['note']})['note'];
-      delete Object.assign(items.properties,{'利用可能日': items.properties['availableDate']})['availableDate'];
-      delete Object.assign(items.properties,{'開始時刻': items.properties['startTime']})['startTime'];
-      delete Object.assign(items.properties,{'終了時刻': items.properties['endTime']})['endTime'];
-      delete Object.assign(items.properties,{'利用可能日備考': items.properties['availableDateNote']})['availableDateNote'];
-      delete Object.assign(items.properties,{'基本価格': items.properties['basicPrice']})['basicPrice'];
-      delete Object.assign(items.properties,{'詳細価格': items.properties['detailPrice']})['detailPrice'];
-      delete Object.assign(items.properties,{'説明': items.properties['description']})['description'];
-      delete Object.assign(items.properties,{'アクセス': items.properties['access']})['access'];
-      delete Object.assign(items.properties,{'駐車場情報': items.properties['parkingInformation']})['parkingInformation'];
-      break;
-
-    case '農業施設一覧':
-      delete Object.assign(items.properties,{'名称': items.properties['name']})['name'];
-      delete Object.assign(items.properties,{'住所': items.properties['address']})['address'];
-      delete Object.assign(items.properties,{'電話番号': items.properties['telephoneNumber']})['telephoneNumber'];
-      delete Object.assign(items.properties,{'開始時刻': items.properties['startTime']})['startTime'];
-      delete Object.assign(items.properties,{'終了時刻': items.properties['endTime']})['endTime'];
-      delete Object.assign(items.properties,{'閉館日': items.properties['closingDay']})['closingDay'];
-      delete Object.assign(items.properties,{'部屋タイプ1': items.properties['roomType1']})['roomType1'];
-      delete Object.assign(items.properties,{'部屋サイズ1': items.properties['roomSize1']})['roomSize1'];
-      delete Object.assign(items.properties,{'部屋タイプ2': items.properties['roomType2']})['roomType2'];
-      delete Object.assign(items.properties,{'部屋サイズ2': items.properties['roomSize2']})['roomSize2'];
-      delete Object.assign(items.properties,{'部屋タイプ3': items.properties['roomType3']})['roomType3'];
-      delete Object.assign(items.properties,{'部屋サイズ3': items.properties['roomSize3']})['roomSize3'];
-      delete Object.assign(items.properties,{'部屋タイプ4': items.properties['roomType4']})['roomType4'];
-      delete Object.assign(items.properties,{'部屋サイズ4': items.properties['roomSize4']})['roomSize4'];
-      break;
-
-    case '文化財':
-      delete Object.assign(items.properties,{'県': items.properties['pref']})['pref'];
-      delete Object.assign(items.properties,{'市町村': items.properties['city']})['city'];
-      delete Object.assign(items.properties,{'名称': items.properties['name']})['name'];
-      delete Object.assign(items.properties,{'名称（カナ）': items.properties['fullNameInKana']})['fullNameInKana'];
-      delete Object.assign(items.properties,{'代替名': items.properties['alternativeName']})['alternativeName'];
-      delete Object.assign(items.properties,{'名称（ローマ字）': items.properties['fullNameInRomaji']})['fullNameInRomaji'];
-      delete Object.assign(items.properties,{'分類': items.properties['classification']})['classification'];
-      delete Object.assign(items.properties,{'カテゴリ': items.properties['category']})['category'];
-      delete Object.assign(items.properties,{'地名': items.properties['placeName']})['placeName'];
-      delete Object.assign(items.properties,{'住所': items.properties['address']})['address'];
-      delete Object.assign(items.properties,{'肩書き': items.properties['katagaki']})['katagaki'];
-      delete Object.assign(items.properties,{'電話番号': items.properties['telephoneNumber']})['telephoneNumber'];
-      delete Object.assign(items.properties,{'内線番号': items.properties['extensionNumber']})['extensionNumber'];
-      delete Object.assign(items.properties,{'会員': items.properties['member']})['member'];
-      delete Object.assign(items.properties,{'会員単位': items.properties['memberUnit']})['memberUnit'];
-      delete Object.assign(items.properties,{'法人番号': items.properties['corporateNumber']})['corporateNumber'];
-      delete Object.assign(items.properties,{'オーナー': items.properties['owner']})['owner'];
-      delete Object.assign(items.properties,{'文化財の日付': items.properties['culturalPropertyDate']})['culturalPropertyDate'];
-      delete Object.assign(items.properties,{'利用可能日': items.properties['availableDate']})['availableDate'];
-      delete Object.assign(items.properties,{'開始時刻': items.properties['startTime']})['startTime'];
-      delete Object.assign(items.properties,{'終了時刻': items.properties['endTime']})['endTime'];
-      delete Object.assign(items.properties,{'利用可能日備考': items.properties['availableDateNote']})['availableDateNote'];
-      delete Object.assign(items.properties,{'画像': items.properties['image']})['image'];
-      delete Object.assign(items.properties,{'ライセンス': items.properties['iamgeLicense']})['iamgeLicense'];
-      delete Object.assign(items.properties,{'サマリー': items.properties['summary']})['summary'];
-      delete Object.assign(items.properties,{'サマリー（ローマ字）': items.properties['summaryInRomaji']})['summaryInRomaji'];
-      delete Object.assign(items.properties,{'説明': items.properties['description']})['description'];
-      delete Object.assign(items.properties,{'説明（英語）': items.properties['descriptionEng']})['descriptionEng'];
-      delete Object.assign(items.properties,{'参照先': items.properties['referenceObject']})['referenceObject'];
-      break;
-
-
-    case '農村公園':
-      delete Object.assign(items.properties,{'名称': items.properties['name']})['name'];
-      delete Object.assign(items.properties,{'住所': items.properties['address']})['address'];
-      delete Object.assign(items.properties,{'建物': items.properties['building']})['building'];
-      delete Object.assign(items.properties,{'備考': items.properties['note']})['note'];
-      break;
-
-    case 'グループホーム':
-      delete Object.assign(items.properties,{'名称': items.properties['name']})['name'];
-      delete Object.assign(items.properties,{'住所': items.properties['address']})['address'];
-      delete Object.assign(items.properties,{'電話番号': items.properties['telephoneNumber']})['telephoneNumber'];
-      delete Object.assign(items.properties,{'参照先': items.properties['referenceObject']})['referenceObject'];
-      delete Object.assign(items.properties,{'備考': items.properties['note']})['note'];
-      delete Object.assign(items.properties,{'サービス': items.properties['service']})['service'];
-      delete Object.assign(items.properties,{'利用可能日': items.properties['availableDate']})['availableDate'];
-      delete Object.assign(items.properties,{'開始時刻': items.properties['startTime']})['startTime'];
-      delete Object.assign(items.properties,{'終了時刻': items.properties['endTime']})['endTime'];
-      delete Object.assign(items.properties,{'利用可能日備考': items.properties['availableDateNote']})['availableDateNote'];
-      delete Object.assign(items.properties,{'容量': items.properties['capacity']})['capacity'];
-      break;
-
-    case '医療機関':
-      delete Object.assign(items.properties,{'住所': items.properties['address']})['address'];
-      delete Object.assign(items.properties,{'代替名': items.properties['alternativeName']})['alternativeName'];
-      delete Object.assign(items.properties,{'利用可能日': items.properties['availableDate']})['availableDate'];
-      delete Object.assign(items.properties,{'利用可能日備考': items.properties['availableDateNote']})['availableDateNote'];
-      delete Object.assign(items.properties,{'市': items.properties['city']})['city'];
-      delete Object.assign(items.properties,{'会社名': items.properties['corporateName']})['corporateName'];
-      delete Object.assign(items.properties,{'ファクス番号': items.properties['faxNumber']})['faxNumber'];
-      delete Object.assign(items.properties,{'名称（カナ）': items.properties['fullNameInKana']})['fullNameInKana'];
-      delete Object.assign(items.properties,{'肩書き': items.properties['katagaki']})['katagaki'];
-      delete Object.assign(items.properties,{'医療開始時間': items.properties['medicalStartTime']})['medicalStartTime'];
-      delete Object.assign(items.properties,{'医療終了時間': items.properties['medicalEndTime']})['medicalEndTime'];
-      delete Object.assign(items.properties,{'診療科目': items.properties['medicalSubjects']})['medicalSubjects'];
-      delete Object.assign(items.properties,{'名称': items.properties['name']})['name'];
-      delete Object.assign(items.properties,{'備考': items.properties['note']})['note'];
-      delete Object.assign(items.properties,{'ベッド数': items.properties['numberOfBeds']})['numberOfBeds'];
-      delete Object.assign(items.properties,{'時間外応答': items.properties['overtimeResponse']})['overtimeResponse'];
-      delete Object.assign(items.properties,{'県': items.properties['pref']})['pref'];
-      delete Object.assign(items.properties,{'電話番号': items.properties['telephoneNumber']})['telephoneNumber'];
-      delete Object.assign(items.properties,{'参照先': items.properties['referenceObject']})['referenceObject'];
-      break;
-
-    case '診療所':
-      delete Object.assign(items.properties,{'名称': items.properties['name']})['name'];
-      delete Object.assign(items.properties,{'ニックネーム': items.properties['nickname']})['nickname'];
-      delete Object.assign(items.properties,{'住所': items.properties['address']})['address'];
-      delete Object.assign(items.properties,{'電話番号': items.properties['telephoneNumber']})['telephoneNumber'];
-      delete Object.assign(items.properties,{'参照先': items.properties['referenceObject']})['referenceObject'];
-      delete Object.assign(items.properties,{'備考': items.properties['note']})['note'];
-      delete Object.assign(items.properties,{'利用可能日': items.properties['availableDate']})['availableDate'];
-      delete Object.assign(items.properties,{'開始時刻': items.properties['startTime']})['startTime'];
-      delete Object.assign(items.properties,{'終了時刻': items.properties['endTime']})['endTime'];
-      delete Object.assign(items.properties,{'利用可能日備考': items.properties['availableDateNote']})['availableDateNote'];
-      break;
-
-    case '老人いこいの家など':
-    case '老人福祉センターなど':
-    case '老人福祉施設':
-    case '小規模多機能型居宅介護施設':
-      delete Object.assign(items.properties,{'名称': items.properties['name']})['name'];
-      delete Object.assign(items.properties,{'住所': items.properties['address']})['address'];
-      delete Object.assign(items.properties,{'電話番号': items.properties['telephoneNumber']})['telephoneNumber'];
-      delete Object.assign(items.properties,{'参照先': items.properties['referenceObject']})['referenceObject'];
-      delete Object.assign(items.properties,{'備考': items.properties['note']})['note'];
-      delete Object.assign(items.properties,{'サービス': items.properties['service']})['service'];
-      delete Object.assign(items.properties,{'利用可能日': items.properties['availableDate']})['availableDate'];
-      delete Object.assign(items.properties,{'開始時刻': items.properties['startTime']})['startTime'];
-      delete Object.assign(items.properties,{'終了時刻': items.properties['endTime']})['endTime'];
-      delete Object.assign(items.properties,{'利用可能日備考': items.properties['availableDateNote']})['availableDateNote'];
-      delete Object.assign(items.properties,{'定員': items.properties['capacity']})['capacity'];
-      break;
-
-    case '企業主導型保育施設一覧':
-    case '認可外保育施設一覧':
-      delete Object.assign(items.properties,{'名称': items.properties['name']})['name'];
-      delete Object.assign(items.properties,{'住所': items.properties['address']})['address'];
-      delete Object.assign(items.properties,{'電話番号': items.properties['telephoneNumber']})['telephoneNumber'];
-      delete Object.assign(items.properties,{'設立者': items.properties['Establisher']})['Establisher'];
-      delete Object.assign(items.properties,{'年度開始日': items.properties['fiscalYearStartDay']})['fiscalYearStartDay'];
-      delete Object.assign(items.properties,{'開始時刻（平日）': items.properties['startTimeWeekDays']})['startTimeWeekDays'];
-      delete Object.assign(items.properties,{'開始時間（土）': items.properties['startTimeSaturday']})['startTimeSaturday'];
-      delete Object.assign(items.properties,{'開始時間（日）': items.properties['startTimeSundays']})['startTimeSundays'];
-      delete Object.assign(items.properties,{'定員': items.properties['capacity']})['capacity'];
-      delete Object.assign(items.properties,{'対象年齢': items.properties['targetAge']})['targetAge'];
-      delete Object.assign(items.properties,{'サービス内容': items.properties['serviceContents']})['serviceContents'];
-      delete Object.assign(items.properties,{'設備': items.properties['Equipment']})['Equipment'];
-      break;
-
-    case '病児・病後児保育施設':
-      delete Object.assign(items.properties,{'名称': items.properties['name']})['name'];
-      delete Object.assign(items.properties,{'住所': items.properties['address']})['address'];
-      delete Object.assign(items.properties,{'電話番号': items.properties['telephoneNumber']})['telephoneNumber'];
-      delete Object.assign(items.properties,{'参照先': items.properties['referenceObject']})['referenceObject'];
-      delete Object.assign(items.properties,{'備考': items.properties['note']})['note'];
-      delete Object.assign(items.properties,{'利用可能日': items.properties['availableDate']})['availableDate'];
-      delete Object.assign(items.properties,{'開始時刻': items.properties['startTime']})['startTime'];
-      delete Object.assign(items.properties,{'終了時刻': items.properties['endTime']})['endTime'];
-      delete Object.assign(items.properties,{'利用可能日備考': items.properties['availableDateNote']})['availableDateNote'];
-      delete Object.assign(items.properties,{'価格詳細': items.properties['detailPrice']})['detailPrice'];
-      break;
-
-    case '保育施設等':
-      delete Object.assign(items.properties,{'名称': items.properties['name']})['name'];
-      delete Object.assign(items.properties,{'住所': items.properties['address']})['address'];
-      delete Object.assign(items.properties,{'電話番号': items.properties['telephoneNumber']})['telephoneNumber'];
-      delete Object.assign(items.properties,{'参照先': items.properties['referenceObject']})['referenceObject'];
-      delete Object.assign(items.properties,{'備考': items.properties['note']})['note'];
-      delete Object.assign(items.properties,{'認証タイプ': items.properties['certifiedType']})['certifiedType'];
-      delete Object.assign(items.properties,{'アクセス': items.properties['access']})['access'];
-      delete Object.assign(items.properties,{'駐車場情報': items.properties['parkingInformation']})['parkingInformation'];
-      delete Object.assign(items.properties,{'定員': items.properties['capacity']})['capacity'];
-      delete Object.assign(items.properties,{'受け入れ年齢': items.properties['acceptedAge']})['acceptedAge'];
-      delete Object.assign(items.properties,{'利用可能日': items.properties['availableDate']})['availableDate'];
-      delete Object.assign(items.properties,{'開始時間': items.properties['startTime']})['startTime'];
-      delete Object.assign(items.properties,{'終了時間': items.properties['endTime']})['endTime'];
-      delete Object.assign(items.properties,{'利用可能日備考': items.properties['availableDateNote']})['availableDateNote'];
-      delete Object.assign(items.properties,{'一時保育': items.properties['temporaryKeeping']})['temporaryKeeping'];
-      break;
-
-
-    case '民間放課後児童クラブ':
-      delete Object.assign(items.properties,{'名称': items.properties['name']})['name'];
-      delete Object.assign(items.properties,{'住所': items.properties['address']})['address'];
-      delete Object.assign(items.properties,{'電話番号': items.properties['telephoneNumber']})['telephoneNumber'];
-      delete Object.assign(items.properties,{'対象児童': items.properties['targetChildren']})['targetChildren'];
-      delete Object.assign(items.properties,{'定員': items.properties['capacity']})['capacity'];
-      delete Object.assign(items.properties,{'利用可能日': items.properties['availableDate']})['availableDate'];
-      delete Object.assign(items.properties,{'通常時間': items.properties['normalTime']})['normalTime'];
-      delete Object.assign(items.properties,{'通常価格': items.properties['normalPrice']})['normalPrice'];
-      delete Object.assign(items.properties,{'延長保育': items.properties['extendedChildcare']})['extendedChildcare'];
-      delete Object.assign(items.properties,{'詳細価格': items.properties['detailPrice']})['detailPrice'];
-      delete Object.assign(items.properties,{'長期休暇': items.properties['longVacation']})['longVacation'];
-      delete Object.assign(items.properties,{'長期休暇料金': items.properties['longVacationPrice']})['longVacationPrice'];
-      delete Object.assign(items.properties,{'登録料': items.properties['registrationFee']})['registrationFee'];
-      delete Object.assign(items.properties,{'保険料': items.properties['insuranceFee']})['insuranceFee'];
-      delete Object.assign(items.properties,{'おやつ': items.properties['snack']})['snack'];
-      delete Object.assign(items.properties,{'昼食': items.properties['lunch']})['lunch'];
-      delete Object.assign(items.properties,{'備考': items.properties['note']})['note'];
-      break;
-
-    case '商店街通行量情報':
-      delete Object.assign(items.properties,{'名称': items.properties['name']})['name'];
-      delete Object.assign(items.properties,{'調査日': items.properties['surveyDate']})['surveyDate'];
-      delete Object.assign(items.properties,{'男性平日平均': items.properties['manWeekdaysAverage']})['manWeekdaysAverage'];
-      delete Object.assign(items.properties,{'女性平日平均': items.properties['womanWeekdaysAverage']})['womanWeekdaysAverage'];
-      delete Object.assign(items.properties,{'自転車平日平均': items.properties['bicycleWeekdaysAverage']})['bicycleWeekdaysAverage'];
-      delete Object.assign(items.properties,{'合計平日平均': items.properties['totalWeekdaysAverage']})['totalWeekdaysAverage'];
-      delete Object.assign(items.properties,{'男性休日平均': items.properties['manHolidayAverage']})['manHolidayAverage'];
-      delete Object.assign(items.properties,{'女性休日平均': items.properties['womanHolidayAverage']})['womanHolidayAverage'];
-      delete Object.assign(items.properties,{'自転車休日平均': items.properties['bicycleHolidayAverage']})['bicycleHolidayAverage'];
-      delete Object.assign(items.properties,{'休日平均合計': items.properties['totalHolidayAverage']})['totalHolidayAverage'];
-      break;
-
-    case '指定緊急避難場所・指定避難所':
-      delete Object.assign(items.properties,{'名称': items.properties['name']})['name'];
-      delete Object.assign(items.properties,{'住所': items.properties['address']})['address'];
-      delete Object.assign(items.properties,{'電話番号': items.properties['telephoneNumber']})['telephoneNumber'];
-      delete Object.assign(items.properties,{'洪水_L1': items.properties['flood_L1']})['flood_L1'];
-      delete Object.assign(items.properties,{'洪水_L2': items.properties['flood_L2']})['flood_L2'];
-      delete Object.assign(items.properties,{'土砂災害': items.properties['sedimentDisaster']})['sedimentDisaster'];
-      delete Object.assign(items.properties,{'暴風雨': items.properties['stormSurge']})['stormSurge'];
-      delete Object.assign(items.properties,{'津波': items.properties['tunami']})['tunami'];
-      delete Object.assign(items.properties,{'火災': items.properties['fire']})['fire'];
-      delete Object.assign(items.properties,{'地震': items.properties['earthquake']})['earthquake'];
-      delete Object.assign(items.properties,{'避難スペース': items.properties['evacuationSpace']})['evacuationSpace'];
-      delete Object.assign(items.properties,{'管轄': items.properties['jurisdiction']})['jurisdiction'];
-      delete Object.assign(items.properties,{'標高': items.properties['elevation']})['elevation'];
-      delete Object.assign(items.properties,{'定員': items.properties['capacity']})['capacity'];
-      delete Object.assign(items.properties,{'住民団体': items.properties['residentsAssociation']})['residentsAssociation'];
-      break;
-
-
-    case '津波避難ビル':
-      delete Object.assign(items.properties,{'名称': items.properties['name']})['name'];
-      delete Object.assign(items.properties,{'住所': items.properties['address']})['address'];
-      delete Object.assign(items.properties,{'シェルター': items.properties['shelter']})['shelter'];
-      delete Object.assign(items.properties,{'収容人数': items.properties['capacity']})['capacity'];
-      delete Object.assign(items.properties,{'地区': items.properties['district']})['district'];
-      break;
-
-        // TODO：エクセルのトイレのところ修正
-
-    // === センサー系 =====================
-    case '冠水状況':
-      delete Object.assign(items.properties,{'名称': items.properties['name']})['name'];
-      delete Object.assign(items.properties,{'所在地': items.properties['address']})['address'];
-      delete Object.assign(items.properties,{'交差施設': items.properties['geoCrosses']})['geoCrosses'];
-      delete Object.assign(items.properties,{'冠水状況': items.properties['status'] === 0 ? '冠水なし': '冠水あり'})['status'];
-      delete Object.assign(items.properties,{'測定日時': items.properties['dateIssued']})['dateIssued'];
-      delete Object.assign(items.properties,{'更新日時': items.properties['uploadDate']})['uploadDate'];
-      break;
-
-
+  const pattern1: { [key: string]: string } = {
+    'name':'名称',
+    'address':'住所',
+    'telephoneNumber':'電話番号',
+    'referenceObject':'参照先',
+    'note':'備考',
+    'availableDate':'利用可能日',
+    'startTime':'開始時刻',
+    'endTime':'終了時刻',
+    'availableDateNote':'利用可能日備考',
   }
 
+  const pattern2: { [key: string]: string } = {
+    'name':'名称',
+    'address':'住所',
+    'telephoneNumber':'電話番号',
+    'referenceObject':'参照先',
+    'note':'備考',
+  }
 
-  // 非表示項目を削除（class、subclass、NO、itemid、id1）
-  delete items.properties['class'];
-  delete items.properties['subclass'];
-  delete items.properties['NO'];
-  delete items.properties['itemid'];
-  delete items.properties['id1'];
-  delete items.properties['shape_leng'];
-  delete items.properties['shape_area'];
-  delete items.properties['番号'];
-  delete items.properties['LAYER'];
-  delete items.properties['LINETYPE'];
-  delete items.properties['#property'];
-  delete items.properties['prefCode'];
-  delete items.properties['identification'];
-  delete items.properties['type'];
-  delete items.properties['登録アプリケーション名'];
-  delete items.properties['関連コード'];
-  delete items.properties['カメラエンティティ'];
-  delete items.properties['application'];
-  delete items.properties['relatedEntity'];
-  delete items.properties['firmwareVersion'];
+  const pattern3: { [key: string]: string } = {
+    'name':'名称',
+    'address':'住所',
+    'telephoneNumber':'電話番号',
+    'referenceObject':'参照先',
+    'note':'備考',
+    'availableDate':'利用可能日',
+    'startTime':'開始時刻',
+    'endTime':'終了時刻',
+    'availableDateNote':'利用可能日備考',
+    'basicPrice':'基本価格',
+    'detailPrice':'詳細価格',
+    'description':'説明',
+    'access':'アクセス',
+    'parkingInformation':'駐車場情報',
+  }
 
-  return items;
+  const pattern4: { [key: string]: string } = {
+    'name':'名称',
+    'address':'住所',
+    'telephoneNumber':'電話番号',
+    'referenceObject':'参照先',
+    'note':'備考',
+    'service':'サービス',
+    'availableDate':'利用可能日',
+    'startTime':'開始時刻',
+    'endTime':'終了時刻',
+    'availableDateNote':'利用可能日備考',
+    'capacity':'定員',
+  }
+
+  const pattern5: { [key: string]: string }= {
+    'name':'名称',
+    'address':'住所',
+    'telephoneNumber':'電話番号',
+    'Establisher':'設立者',
+    'fiscalYearStartDay':'年度開始日',
+    'startTimeWeekDays':'開始時刻（平日）',
+    'startTimeSaturday':'開始時間（土）',
+    'startTimeSundays':'開始時間（日）',
+    'capacity':'定員',
+    'targetAge':'対象年齢',
+    'serviceContents':'サービス内容',
+    'Equipment':'設備',
+  }
+
+  const pattern6: { [key: string]: string }= {
+    '名称':'名称',
+  }
+
+  const translationMap: { [key: string]: { [key: string]: string } } = {
+    '大字界': {
+      'meisho': '名称',
+      'meishokana': '名称（カナ）',
+      'chikumei': '地区名',
+      'yubinbango': '郵便番号'
+    },
+    '高松市_路線': {
+      '主要な経過':'主要な経過',
+      '供用開始年':'供用開始年',
+      '区域決定年':'区域決定年',
+      '実延長':'実延長',
+      '旧市町名':'旧市町名',
+      '未供用延長':'未供用延長',
+      '終点':'終点',
+      '総延長':'総延長',
+      '認定年月日':'認定年月日',
+      '調製年月日':'調製年月日',
+      '起点':'起点',
+      '路線名称':'路線名称',
+      '路線番号':'路線番号',
+      '道路種類':'道路種類',
+      '重複延長':'重複延長',
+    },
+    '都市計画区域界': {
+      '区域名':'区域名',
+      '区域面積':'区域面積',
+      '根拠法令':'根拠法令',
+      '指定年月日':'指定年月日',
+      '備考':'備考',
+    },
+    '都市計画基本図': {
+      'キー項目': 'キー項目'
+    },
+    '広域都市機能誘導区域': pattern6,
+    '一般都市機能誘導区域': pattern6,
+    '学術都市機能誘導区域': pattern6,
+    '居住誘導区域': pattern6,
+    '一般居住区域': pattern6,
+    'AED設置場所': {
+      'address': '住所',
+      'installationPosition': '設置場所',
+      'telephoneNumber': '電話番号',
+      'availableDate': '利用可能日',
+      'startTime': '開始時刻',
+      'endTime': '終了時間',
+      'availableDateNote': '利用可能日備考',
+      'equipmentForChildren': '子供用設備',
+    },
+    'コミュニティセンター': {
+      'address': '住所',
+      'installationPosition': '設置場所',
+      'telephoneNumber': '電話番号',
+      'referenceObject': '参照先',
+      'note': '備考'
+    },
+    'ため池一覧': {
+      'reservoirName': '貯水池名',
+      'address': '住所'
+    },
+    '環境施設': {
+      'name': '住所',
+      'address': '住所',
+      'installationPosition': '設置場所',
+      'telephoneNumber': '電話番号',
+      'referenceObject': '参照先',
+      'note': '備考',
+      'availableDate': '利用可能日',
+      'startTime': '開始時刻',
+      'endTime': '終了時間',
+      'availableDateNote': '利用可能日備考',
+    },
+    '公衆トイレ': {
+      'pref':'県',
+      'city':'市町村',
+      'name':'名称',
+      'fullNameInKana':'名称（カナ）',
+      'fullNameInRomaji':'名称（ローマ字）',
+      'address':'住所',
+      'katagaki':'肩書き',
+      'installationPosition':'設置位置',
+      'totalMensRestroom':'男性用トイレ総数',
+      'smallMensRestroom':'男性用小便器',
+      'japaneseMensRestroom':'男性用和式トイレ',
+      'westernMensRestroom':'男性用洋式トイレ',
+      'totalWomanRestroom':'女性用トイレ総数',
+      'japaneseWomanRestroom':'女性用和式トイレ',
+      'westernWomanRestroom':'女性用洋式トイレ',
+      'sharedRestroom':'共用トイレ',
+      'japaneseSharedRestroom':'共用和式トイレ',
+      'westernSharedRestroom':'共用洋式トイレ',
+      'multifunctionalRestroom':'多目的トイレ',
+      'wheelchairRestroom':'車椅子トイレ',
+      'anInfantRestroom':'幼児用トイレ',
+      'ostomateRestroom':'オストメイト用トイレ',
+      'startTime':'開始時刻',
+      'endTime':'終了時間',
+      'availableDateNote':'利用可能日備考',
+      'image':'画像',
+      'iamgeLicense':'ライセンス',
+      'note':'備考',
+    },
+    '公衆無線LANアクセスポイント': {
+      'pref':'県',
+      'city':'市町村',
+      'name':'名称',
+      'fullNameInKana':'名称（カナ）',
+      'fullNameInRomaji':'名称（ローマ字）',
+      'address':'住所',
+      'katagaki':'肩書き',
+      'installer':'設置者',
+      'telephoneNumber':'電話番号',
+      'extensionNumber':'内線番号',
+      'ssid':'SSID',
+      'area':'エリア',
+      'referenceObject':'参照先',
+      'note':'備考',
+    },
+    '斎場': pattern1,
+    '市民活動・男女共同参画施設': pattern1,
+    '地域交流館': pattern1,
+    '市場': pattern1,
+    '農業体験施設': pattern1,
+    'グラウンド': pattern1,
+    'その他スポーツ施設': pattern1,
+    'テニスコート': pattern1,
+    'プール': pattern1,
+    'ホール': pattern1,
+    '図書館': pattern1,
+    '体育館・武道館': pattern1,
+    '美術館': pattern1,
+    '野球場ほか': pattern1,
+    '陸上競技場': pattern1,
+    '歴史・民俗施設': pattern1,
+    'その他福祉施設': pattern1,
+    '市立病院': pattern1,
+    '障がい福祉施設': pattern1,
+    '地域包括支援センター': pattern1,
+    '福祉会館・社会福祉協議会': pattern1,
+    '保健所・保健センター': pattern1,
+    'その他子育て支援施設': pattern1,
+    '地域子育て支援拠点': pattern1,
+    '児童館など': pattern1,
+    '生涯学習施設': pattern1,
+    'ふれあいセンター': pattern1,
+    '市役所・市民サービスセンター': pattern1,
+    '支所・連絡事務所': pattern1,
+    '出張所': pattern1,
+    '水道施設': pattern1,
+    '総合センター': pattern1,
+    'レンタサイクルポート': pattern1,
+    '市立駐車場': pattern1,
+    '市立駐輪場': pattern1,
+    '市民防災センター': pattern1,
+    '使用済小型家電リサイクルBOX設置場所一覧': {
+      'installationLocation':'設置場所',
+      'address':'住所',
+      'telephoneNumber':'電話番号',
+    },
+    '市営住宅': pattern2,
+    '墓地': pattern2,
+    '食肉センターなど': pattern2,
+    '公園': pattern2,
+    '幼稚園': pattern2,
+    '学校給食調理場': pattern2,
+    '高等学校など': pattern2,
+    '小学校': pattern2,
+    '中学校': pattern2,
+    '大学': pattern2,
+    '下水道施設': pattern2,
+    '自転車保管所': pattern2,
+    '消防署・消防出張所': pattern2,
+    '消防屯所': pattern2,
+    '指定収集袋取扱店一覧': {
+      '名称': 'name',
+      '住所': 'address',
+      '電話番号': 'telephoneNumber',
+    },
+    '投票所一覧': {
+      '投票地区': 'votingDistrict',
+      '名称':'name',
+      '名称（カナ）': 'fullNameInKana',
+      '住所': 'address',
+      '小選挙区': 'smallConstituencies',
+      '参照先': 'referenceObject',
+    },
+    '観光施設': pattern3,
+    '道の駅一覧': pattern3,
+    '農業施設一覧': {
+      '名称': 'name',
+      '住所': 'address',
+      '電話番号': 'telephoneNumber',
+      '開始時刻': 'startTime',
+      '終了時刻': 'endTime',
+      '閉館日': 'closingDay',
+      '部屋タイプ1': 'roomType1',
+      '部屋サイズ1': 'roomSize1',
+      '部屋タイプ2': 'roomType2',
+      '部屋サイズ2': 'roomSize2',
+      '部屋タイプ3': 'roomType3',
+      '部屋サイズ3': 'roomSize3',
+      '部屋タイプ4': 'roomType4',
+      '部屋サイズ4': 'roomSize4',
+    },
+    '文化財':{
+      '県': 'pref',
+      '市町村': 'city',
+      '名称': 'name',
+      '名称（カナ）': 'fullNameInKana',
+      '代替名': 'alternativeName',
+      '名称（ローマ字）': 'fullNameInRomaji',
+      '分類': 'classification',
+      'カテゴリ': 'category',
+      '地名': 'placeName',
+      '住所': 'address',
+      '肩書き': 'katagaki',
+      '電話番号': 'telephoneNumber',
+      '内線番号': 'extensionNumber',
+      '会員': 'member',
+      '会員単位': 'memberUnit',
+      '法人番号': 'corporateNumber',
+      'オーナー': 'owner',
+      '文化財の日付': 'culturalPropertyDate',
+      '利用可能日': 'availableDate',
+      '開始時刻': 'startTime',
+      '終了時刻': 'endTime',
+      '利用可能日備考': 'availableDateNote',
+      '画像': 'image',
+      'ライセンス': 'iamgeLicense',
+      'サマリー': 'summary',
+      'サマリー（ローマ字）': 'summaryInRomaji',
+      '説明': 'description',
+      '説明（英語）': 'descriptionEng',
+      '参照先': 'referenceObject',
+    },
+    '農村公園': {
+      '名称': 'name',
+      '住所': 'address',
+      '建物': 'building',
+      '備考': 'note',
+    },
+    'グループホーム':{
+      '名称':'name',
+      '住所': 'address',
+      '電話番号': 'telephoneNumber',
+      '参照先': 'referenceObject',
+      '備考': 'note',
+      'サービス': 'service',
+      '利用可能日': 'availableDate',
+      '開始時刻': 'startTime',
+      '終了時刻': 'endTime',
+      '利用可能日備考': 'availableDateNote',
+      '容量': 'capacity',
+    },
+    '医療機関': {
+      '住所': 'address',
+      '代替名': 'alternativeName',
+      '利用可能日': 'availableDate',
+      '利用可能日備考': 'availableDateNote',
+      '市': 'city',
+      '会社名': 'corporateName',
+      'ファクス番号': 'faxNumber',
+      '名称（カナ）': 'fullNameInKana',
+      '肩書き': 'katagaki',
+      '医療開始時間': 'medicalStartTime',
+      '医療終了時間': 'medicalEndTime',
+      '診療科目': 'medicalSubjects',
+      '名称': 'name',
+      '備考': 'note',
+      'ベッド数':'numberOfBeds',
+      '時間外応答': 'overtimeResponse',
+      '県': 'pref',
+      '電話番号': 'telephoneNumber',
+      '参照先': 'referenceObject',
+    },
+    '老人いこいの家など': pattern4,
+    '老人福祉センターなど': pattern4,
+    '老人福祉施設': pattern4,
+    '小規模多機能型居宅介護施設': pattern4,
+    '診療所': {
+      '名称': 'name',
+      'ニックネーム': 'nickname',
+      '住所': 'address',
+      '電話番号':'telephoneNumber',
+      '参照先': 'referenceObject',
+      '備考': 'note',
+      '利用可能日': 'availableDate',
+      '開始時刻': 'startTime',
+      '終了時刻': 'endTime',
+      '利用可能日備考': 'availableDateNote',
+    },
+    '企業主導型保育施設一覧': pattern5,
+    '認可外保育施設一覧': pattern5,
+    '病児・病後児保育施設': {
+      '名称': 'name',
+      '住所': 'address',
+      '電話番号': 'telephoneNumber',
+      '参照先': 'referenceObject',
+      '備考': 'note',
+      '利用可能日': 'availableDate',
+      '開始時刻': 'startTime',
+      '終了時刻': 'endTime',
+      '利用可能日備考': 'availableDateNote',
+      '価格詳細': 'detailPrice',
+    },
+    '保育施設等': {
+      '名称': 'name',
+      '住所': 'address',
+      '電話番号': 'telephoneNumber',
+      '参照先': 'referenceObject',
+      '備考': 'note',
+      '認証タイプ': 'certifiedType',
+      'アクセス': 'access',
+      '駐車場情報': 'parkingInformation',
+      '定員': 'capacity',
+      '受け入れ年齢': 'acceptedAge',
+      '利用可能日': 'availableDate',
+      '開始時間': 'startTime',
+      '終了時間': 'endTime',
+      '利用可能日備考': 'availableDateNote',
+      '一時保育': 'temporaryKeeping',
+    },
+    '民間放課後児童クラブ': {
+      '名称': 'name',
+      '住所': 'address',
+      '電話番号': 'telephoneNumber',
+      '対象児童': 'targetChildren',
+      '定員': 'capacity',
+      '利用可能日': 'availableDate',
+      '通常時間': 'normalTime',
+      '通常価格': 'normalPrice',
+      '延長保育': 'extendedChildcare',
+      '詳細価格': 'detailPrice',
+      '長期休暇': 'longVacation',
+      '長期休暇料金': 'longVacationPrice',
+      '登録料': 'registrationFee',
+      '保険料': 'insuranceFee',
+      'おやつ': 'snack',
+      '昼食': 'lunch',
+      '備考': 'note',
+    },
+    '商店街通行量情報': {
+      '名称': 'name',
+      '調査日': 'surveyDate',
+      '男性平日平均': 'manWeekdaysAverage',
+      '女性平日平均': 'womanWeekdaysAverage',
+      '自転車平日平均': 'bicycleWeekdaysAverage',
+      '合計平日平均': 'totalWeekdaysAverage',
+      '男性休日平均': 'manHolidayAverage',
+      '女性休日平均': 'womanHolidayAverage',
+      '自転車休日平均': 'bicycleHolidayAverage',
+      '休日平均合計': 'totalHolidayAverage',
+    },
+    '指定緊急避難場所・指定避難所': {
+      '名称': 'name',
+      '住所': 'address',
+      '電話番号': 'telephoneNumber',
+      '洪水_L1': 'flood_L1',
+      '洪水_L2': 'flood_L2',
+      '土砂災害': 'sedimentDisaster',
+      '暴風雨': 'stormSurge',
+      '津波': 'tunami',
+      '火災': 'fire',
+      '地震': 'earthquake',
+      '避難スペース': 'evacuationSpace',
+      '管轄': 'jurisdiction',
+      '標高': 'elevation',
+      '定員': 'capacity',
+      '住民団体': 'residentsAssociation',
+    },
+    '津波避難ビル': {
+      '名称': 'name',
+      '住所': 'address',
+      'シェルター': 'shelter',
+      '収容人数': 'capacity',
+      '地区': 'district',
+    },
+    '冠水状況': {
+      'name':'名称',
+      'address':'所在地',
+      'geoCrosses':'交差施設',
+      'status':'冠水状況',
+      'dateIssued':'測定日時',
+      'uploadDate':'更新日時',
+    },
+    '水位': {
+      '名称':'名称',
+      '水位':'水位_測定値',
+      '測定日時':'測定日時',
+      '警戒水位':'警戒水位',
+      '危険水位':'危険水位',
+      '冠水発生水位':'冠水発生水位',
+      '更新日時':'更新日時'
+    },
+    '潮位': {
+      '名称':'名称',
+      '潮位':'潮位_測定値',
+      '測定日時':'測定日時',
+      '注意潮位':'注意潮位',
+      '警戒潮位':'警戒潮位',
+      '冠水発生潮位':'冠水発生潮位',
+      '更新日時':'更新日時',
+      '関連リンク':'参照先',
+    },
+    '水位（県防災）': {
+      '名称':'名称',
+      '水位':'水位_測定値',
+      '測定日時':'測定日時',
+      '水防団待機水位':'水防団待機水位',
+      'はん濫注意水位':'はん濫注意水位',
+      '避難判断水位':'避難判断水位',
+      'はん濫危険水位':'はん濫危険水位',
+      '更新日時':'更新日時',
+    },
+    '潮位（県防災）': {
+      '名称':'名称',
+      '潮位':'潮位_測定値',
+      '測定日時':'測定日時',
+      '注意潮位':'注意潮位',
+      '警戒潮位':'警戒潮位',
+      '冠水発生潮位':'冠水発生潮位',
+      '更新日時':'更新日時',
+      '関連リンク':'参照先',
+    },
+    '降雨量': {
+      '名称':'名称',
+      '降雨量':'降雨量_測定値',
+      '測定日時':'測定日時',
+      '更新日時':'更新日時',
+    },
+
+  }
+  console.log(features.properties)
+  // 日本語変換
+  const propertyMap = translationMap[features.properties['class']];
+  for (const [prop, propJa] of Object.entries(propertyMap)) {
+    properties[propJa] = items.properties[prop];
+    if(features.properties['class'] === '冠水状況' && prop === 'status') {
+      properties[propJa] = items.properties[prop] === 0 ? '冠水なし': '冠水あり'
+    }
+  }
+
+  items.properties = properties;
+
+  return items as CatalogFeature;
 }
 
 export default displayConversion;
