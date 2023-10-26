@@ -143,7 +143,6 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedLayers, setSelectedLayers, ca
     <div className={classNames('sidebar', { 'sidebar-open': isOpenedSidebar })} onClick={openListHandler}>
       <label id="list-close" onClick={closeListHandler}><span></span></label>
       <h2 className='title'><AiOutlineBars className='list-icon'/>都市情報</h2>
-      <p className='notice'>メンテナンス作業のため、10月26日13時～17時の間、センサーデータは一部アクセスできなくなります。ご理解の程お願い申しあげます。</p>
       <div className='button-container'>
         <button type="button" onClick={selectAllHandler}>全選択</button>
         <button type="button" onClick={selectNoneHandler}>全選択解除</button>
