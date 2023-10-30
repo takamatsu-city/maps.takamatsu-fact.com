@@ -52,6 +52,11 @@ const Content: React.FC<Props> = (props) => {
   const groupedFeatures: { [key: string]: CatalogFeature[] } = {};
   for (const feature of selected) {
     if (feature.catalog.type !== "DataItem") continue;
+    // 冠水状況のアイテムが選択されたら、「冠水状況」項目を追加
+    if (feature.properties.class === "冠水状況") {
+      feature.properties['冠水状況'] = feature.properties.status === 0 ? '冠水なし' : '冠水あり';
+    }
+    delete feature.properties['status'];
     const ary = groupedFeatures[feature.catalog.id] ||= [];
     ary.push(feature);
   }
