@@ -1,7 +1,7 @@
 const sleep = (ms: number) => new Promise((resolve) => window.setTimeout(resolve, ms));
 
 const WS_PING_INTERVAL = 30_000; // 30 seconds
-const WS_URL = `wss://api-ws.geolonia.com/${process.env.API_STAGE || 'dev'}`;
+const WS_URL = `wss://api-ws.geolonia.com/${process.env.REACT_APP_API_STAGE || 'dev'}`;
 
 type WebSocketMessageEventDetail = {
   message: any

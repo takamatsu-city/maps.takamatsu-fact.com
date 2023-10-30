@@ -52,7 +52,7 @@ jobs:
       - name: Build the app
         run: npm run build
         env:
-          API_STAGE: 'v1'
+          REACT_APP_API_STAGE: 'v1'
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
