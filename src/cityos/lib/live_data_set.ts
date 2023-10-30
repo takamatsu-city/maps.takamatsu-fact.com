@@ -2,7 +2,7 @@ import { Space } from "@spatial-id/javascript-sdk";
 import websocket, { MessageCallbackFunc } from "./websocket";
 import type GeoJSON from "geojson";
 
-const WS_HTTP_URL = `https://api-ws-admin.geolonia.com/v1`;
+const WS_HTTP_URL = `https://api-ws-admin.geolonia.com/${process.env.API_STAGE || 'dev'}`;
 
 const dataToGeoJSONFeature: (data: any) => GeoJSON.Feature = (data) => {
   let geometry: GeoJSON.Geometry;
