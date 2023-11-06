@@ -3,6 +3,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import './SidebarDetail.scss'
 import { CatalogFeature } from './api/catalog';
 import ReplaceTextToLink from './utils/ReplaceTextToLink';
+import displayConversion from './utils/visibilityConversion';
 
 const SingleFeatureTable: React.FC<{feature: CatalogFeature}> = ({feature}) => {
   const detailItems = Object.entries(feature.properties).filter(([key, _value]) => !key.startsWith('_viewer_'));
@@ -52,8 +53,9 @@ const Content: React.FC<Props> = (props) => {
   const groupedFeatures: { [key: string]: CatalogFeature[] } = {};
   for (const feature of selected) {
     if (feature.catalog.type !== "DataItem") continue;
-    const ary = groupedFeatures[feature.catalog.id] ||= [];
-    ary.push(feature);
+    const editedFeature = displayConversion(feature);
+    const ary = groupedFeatures[editedFeature.catalog.id] ||= [];
+    ary.push(editedFeature);
   }
 
   return (
