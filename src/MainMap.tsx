@@ -74,7 +74,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
       for (const layer of map.getStyle().layers!) {
         const id = layer.id;
         // レイヤーを削除
-        if (id.startsWith("oc-") || id === 'poi-z16' || (layer.metadata as any || {})['visible-on-3d']) {
+        if (id.startsWith("oc-") || id === 'poi-z16' || id === 'poi-z16-primary' || (layer.metadata as any || {})['visible-on-3d']) {
           map.removeLayer(layer.id);
         } else if ("source-layer" in layer) {
           const sl = layer["source-layer"];

@@ -9,7 +9,6 @@ const downloadStyle = async () => {
   const response = await fetch(url);
   let rawStyleJson = (await response.text())
     .replace(/"{name}"/g, '["string", ["get", "name:ja"], ["get", "name"]]');
-
   const styleJson = JSON.parse(rawStyleJson);
 
   styleJson.sprite = "https://api.geolonia.com/v1/sprites/gsi";
@@ -17,7 +16,8 @@ const downloadStyle = async () => {
 
   styleJson.layers = styleJson.layers.filter(layer => layer.id !== 'hillshading');
 
-  const styleJsonString = JSON.stringify(styleJson);
+  const styleJsonString = JSON.stringify(styleJson).replace('["!in","subclass","community_centre"],', "");
+  console.log(styleJsonString)
 
   await fs.promises.writeFile(
     path.resolve(__dirname, "../src/style.json"),
