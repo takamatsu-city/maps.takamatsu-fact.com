@@ -17,7 +17,6 @@ const downloadStyle = async () => {
   styleJson.layers = styleJson.layers.filter(layer => layer.id !== 'hillshading');
 
   const styleJsonString = JSON.stringify(styleJson).replace('["!in","subclass","community_centre"],', "");
-  console.log(styleJsonString)
 
   await fs.promises.writeFile(
     path.resolve(__dirname, "../src/style.json"),

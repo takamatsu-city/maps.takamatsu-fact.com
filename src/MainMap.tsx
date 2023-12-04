@@ -250,7 +250,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
                 layerConfig.source = definition.customDataSource;
                 layerConfig['source-layer'] = definition.customDataSourceLayer || definition.customDataSource;
               }
-              map.addLayer(layerConfig);
+              map.addLayer(layerConfig, 'poi');
               if (!map.getLayer(layerConfig.id)) {
                 console.error(`Failed to add layer ${layerConfig.id}!!!`);
                 debugger;
