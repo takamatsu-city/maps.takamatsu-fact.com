@@ -51,6 +51,12 @@
 
   .user-guide-link {
     display: flex;
+    svg {
+      margin-right: 5px;
+    }
+  }
+
+  .link-text {
     align-items: center;
     font-weight: 400;
     font-size: 14px;
@@ -60,10 +66,6 @@
     cursor: pointer;
     text-decoration: none;
     color: #000000;
-
-    svg {
-      margin-right: 5px;
-    }
   }
 }
 
