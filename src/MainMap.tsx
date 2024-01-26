@@ -113,7 +113,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
 
       map.addSource('takamatsu', {
         type: 'vector',
-        url: "https://tileserver.geolonia.com/takamatsu_main_v0/tiles.json?key=YOUR-API-KEY"
+        url: "https://tileserver.geolonia.com/takamatsu_main_v0_1/tiles.json?key=YOUR-API-KEY"
       });
       map.addSource('kihonzu', {
         type: 'vector',

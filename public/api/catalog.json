@@ -14,6 +14,20 @@
     "metadata": {}
   },
   {
+    "type": "DataItem",
+    "id": "区域界_DM",
+    "name": "区域界_DM",
+    "class": "区域界_DM",
+    "metadata": {}
+  },
+  {
+    "type": "DataItem",
+    "id": "区域名_DM",
+    "name": "区域名_DM",
+    "class": "区域名_DM",
+    "metadata": {}
+  },
+  {
     "type": "Category",
     "id": "都市計画情報",
     "name": "都市計画情報",
