@@ -87,7 +87,6 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
       map.addSource('gsidem', {
         type: 'raster-dem',
         url: 'https://tileserver.geolonia.com/gsi-dem/tiles.json?key=YOUR-API-KEY',
-        attribution: '<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank">© GSI Japan</a>',
       });
 
       map.addLayer({
