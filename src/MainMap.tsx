@@ -56,8 +56,6 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
       hash: true,
       center: [ 134.0403, 34.334 ],
       fitBoundsOptions: { padding: 50 },
-      // 意図せず傾き・回転を変更してしまうことを防ぐ
-      maxPitch: 0,
       maxRotate: 0,
       minZoom: 9,
       zoom: 9.2,
@@ -84,6 +82,31 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
         }
       }
       // end GSI base map modification
+
+      // Start add GSI DEM
+      map.addSource('gsidem', {
+        type: 'raster-dem',
+        url: 'https://tileserver.geolonia.com/gsi-dem/tiles.json?key=YOUR-API-KEY',
+        attribution: '<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank">© GSI Japan</a>',
+      });
+
+      map.addLayer({
+        id: 'takamatsu-dem',
+        type: 'hillshade',
+        source: 'gsidem',
+        paint: {
+          'hillshade-exaggeration': 0.5,
+          'hillshade-shadow-color': 'rgba(71, 59, 36, 0.1)',
+        }
+      },'park');
+
+      map.setTerrain({ 'source': 'gsidem', 'exaggeration': 1 });
+
+      map.addControl(new window.geolonia.TerrainControl({
+        source: 'gsidem',
+        exaggeration: 1,
+      }));
+      // End add GSI DEM
 
       map.addSource('negative-city-mask', {
         type: 'vector',
