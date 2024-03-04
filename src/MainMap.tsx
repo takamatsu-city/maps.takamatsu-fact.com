@@ -100,11 +100,6 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
       },'park');
 
       map.setTerrain({ 'source': 'gsidem', 'exaggeration': 1 });
-
-      map.addControl(new window.geolonia.TerrainControl({
-        source: 'gsidem',
-        exaggeration: 1,
-      }));
       // End add GSI DEM
 
       map.addSource('negative-city-mask', {
