@@ -76,7 +76,15 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
           map.removeLayer(layer.id);
         } else if ("source-layer" in layer) {
           const sl = layer["source-layer"];
+          const id = layer.id;
+
           if (sl === "landcover" || sl === "landuse" || sl === "building") {
+
+            // landcover-wood は表示する
+            if (id === "landcover-wood") {
+              continue;
+            }
+
             map.removeLayer(layer.id);
           }
         }
