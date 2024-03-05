@@ -68,29 +68,6 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
 
     map.on("load", () => {
 
-      // start GSI base map modification
-      for (const layer of map.getStyle().layers!) {
-        const id = layer.id;
-        // レイヤーを削除
-        if (id.startsWith("oc-") || id === 'poi-z16' || id === 'poi-z16-primary' || (layer.metadata as any || {})['visible-on-3d']) {
-          map.removeLayer(layer.id);
-        } else if ("source-layer" in layer) {
-          const sl = layer["source-layer"];
-          const id = layer.id;
-
-          if (sl === "landcover" || sl === "landuse" || sl === "building") {
-
-            // landcover-wood は表示する
-            if (id === "landcover-wood") {
-              continue;
-            }
-
-            map.removeLayer(layer.id);
-          }
-        }
-      }
-      // end GSI base map modification
-
       // Start add GSI DEM
       map.addSource('gsidem', {
         type: 'raster-dem',
