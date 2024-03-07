@@ -56,8 +56,6 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
       hash: true,
       center: [ 134.0403, 34.334 ],
       fitBoundsOptions: { padding: 50 },
-      // 意図せず傾き・回転を変更してしまうことを防ぐ
-      maxPitch: 0,
       maxRotate: 0,
       minZoom: 9,
       zoom: 9.2,
@@ -70,20 +68,24 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
 
     map.on("load", () => {
 
-      // start GSI base map modification
-      for (const layer of map.getStyle().layers!) {
-        const id = layer.id;
-        // レイヤーを削除
-        if (id.startsWith("oc-") || id === 'poi-z16' || id === 'poi-z16-primary' || (layer.metadata as any || {})['visible-on-3d']) {
-          map.removeLayer(layer.id);
-        } else if ("source-layer" in layer) {
-          const sl = layer["source-layer"];
-          if (sl === "landcover" || sl === "landuse" || sl === "building") {
-            map.removeLayer(layer.id);
-          }
+      // Start add GSI DEM
+      map.addSource('gsidem', {
+        type: 'raster-dem',
+        url: 'https://tileserver.geolonia.com/gsi-dem/tiles.json?key=YOUR-API-KEY',
+      });
+
+      map.addLayer({
+        id: 'takamatsu-dem',
+        type: 'hillshade',
+        source: 'gsidem',
+        paint: {
+          'hillshade-exaggeration': 0.5,
+          'hillshade-shadow-color': 'rgba(71, 59, 36, 0.1)',
         }
-      }
-      // end GSI base map modification
+      },'park');
+
+      map.setTerrain({ 'source': 'gsidem', 'exaggeration': 1 });
+      // End add GSI DEM
 
       map.addSource('negative-city-mask', {
         type: 'vector',

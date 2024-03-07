@@ -14,8 +14,28 @@ const downloadStyle = async () => {
   styleJson.sprite = "https://api.geolonia.com/v1/sprites/gsi";
   delete styleJson.sources.dem;
 
-  styleJson.layers = styleJson.layers.filter(layer => layer.id !== 'hillshading');
+  /**
+   * 不要なレイヤーを削除
+   */
+  const removeLayerIds = ['poi-z16', 'poi-z16-primary', 'hillshading'];
+  styleJson.layers = styleJson.layers.filter(layer => !removeLayerIds.includes(layer.id));
+  // layer.metadata['visible-on-3d] が存在するレイヤーを削除
+  styleJson.layers = styleJson.layers.filter(layer => !layer.metadata || !layer.metadata['visible-on-3d']);
+  // oc- から始まるレイヤーを削除
+  styleJson.layers = styleJson.layers.filter(layer => !layer.id.startsWith('oc-'));
 
+
+  const removeSourceIds = ['landcover', 'landuse', 'building'];
+  const targetLayers = [];
+
+  for (const layer of styleJson.layers) {
+    // レイヤーのソースが削除対象のソースでなければ追加する
+    if (!removeSourceIds.includes(layer["source-layer"]) || layer.id === 'landcover-wood') {
+      targetLayers.push(layer);
+    }
+  }
+
+  styleJson.layers = targetLayers;
   const styleJsonString = JSON.stringify(styleJson).replace('["!in","subclass","community_centre"],', "");
 
   await fs.promises.writeFile(
