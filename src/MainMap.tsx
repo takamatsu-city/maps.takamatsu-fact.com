@@ -122,6 +122,12 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
         url: "https://tileserver.geolonia.com/takamatsu_kihonzu_v1/tiles.json?key=YOUR-API-KEY"
       });
 
+      map.addControl(
+        new window.geolonia.TerrainControl({
+            source: 'gsidem',
+            exaggeration: 1
+        })
+      );
       setMap(map);
     });
 
