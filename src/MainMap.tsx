@@ -48,7 +48,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
   const [map, setMap] = useState<maplibregl.Map | undefined>(undefined);
   const [cityOS, setCityOS] = useState<CityOS__Takamatsu | undefined>(undefined);
   const mapContainer = useRef<HTMLDivElement>(null);
-  const [show3dDem, setShow3dDem] = useState<boolean>(true);
+  const [show3dDem, setShow3dDem] = useState<boolean>(false);
 
   const catalogDataItems = useMemo(() => {
     return [...walkCategories(catalogData)];
@@ -62,6 +62,10 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
       map.removeLayer(DEM_LAYER_ID);
       setShow3dDem(false);
       map.setTerrain({ 'source': 'gsidem', 'exaggeration': 0 });
+      map.flyTo({
+        pitch: 0,
+        speed: 0.5
+      })
     } else {
       map.addLayer({
         id: DEM_LAYER_ID,
@@ -74,6 +78,10 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
       },'park');
       setShow3dDem(true);
       map.setTerrain({ 'source': 'gsidem', 'exaggeration': 1 });
+      map.flyTo({
+        pitch: 60,
+        speed: 0.5
+      })
     }
   }
 
@@ -103,17 +111,17 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
         url: 'https://tileserver.geolonia.com/gsi-dem/tiles.json?key=YOUR-API-KEY',
       });
 
-      map.addLayer({
-        id: 'takamatsu-dem',
-        type: 'hillshade',
-        source: 'gsidem',
-        paint: {
-          'hillshade-exaggeration': 0.5,
-          'hillshade-shadow-color': 'rgba(71, 59, 36, 0.1)',
-        }
-      },'park');
+      // map.addLayer({
+      //   id: 'takamatsu-dem',
+      //   type: 'hillshade',
+      //   source: 'gsidem',
+      //   paint: {
+      //     'hillshade-exaggeration': 0.5,
+      //     'hillshade-shadow-color': 'rgba(71, 59, 36, 0.1)',
+      //   }
+      // },'park');
 
-      map.setTerrain({ 'source': 'gsidem', 'exaggeration': 1 });
+      // map.setTerrain({ 'source': 'gsidem', 'exaggeration': 1 });
       // End add GSI DEM
 
       map.addSource('negative-city-mask', {
@@ -151,12 +159,6 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
         url: "https://tileserver.geolonia.com/takamatsu_kihonzu_v1/tiles.json?key=YOUR-API-KEY"
       });
 
-      // map.addControl(
-      //   new window.geolonia.TerrainControl({
-      //       source: 'gsidem',
-      //       exaggeration: 1
-      //   })
-      // );
       setMap(map);
     });
 
