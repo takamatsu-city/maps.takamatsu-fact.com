@@ -61,6 +61,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
     if(map.getLayer(DEM_LAYER_ID)) {
       map.removeLayer(DEM_LAYER_ID);
       setShow3dDem(false);
+      map.setTerrain({ 'source': 'gsidem', 'exaggeration': 0 });
     } else {
       map.addLayer({
         id: DEM_LAYER_ID,
@@ -72,6 +73,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
         }
       },'park');
       setShow3dDem(true);
+      map.setTerrain({ 'source': 'gsidem', 'exaggeration': 1 });
     }
   }
 
