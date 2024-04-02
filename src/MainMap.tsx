@@ -48,7 +48,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
   const [map, setMap] = useState<maplibregl.Map | undefined>(undefined);
   const [cityOS, setCityOS] = useState<CityOS__Takamatsu | undefined>(undefined);
   const mapContainer = useRef<HTMLDivElement>(null);
-  const [show3dDem, setShow3dDem] = useState<boolean>(false);
+  const [show3dDem, setShow3dDem] = useState<boolean>(true);
 
   const catalogDataItems = useMemo(() => {
     return [...walkCategories(catalogData)];
