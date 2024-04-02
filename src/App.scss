@@ -60,5 +60,31 @@ body,
       width: 100%;
       height: 100%;
     }
+
+    .controlBtn {
+      position: absolute;
+      right: 10px;
+      top: 102px;
+      background-color: #ffffff;
+      border: 0;
+      box-sizing: border-box;
+      cursor: pointer;
+      display: block;
+      height: 29px;
+      padding: 0;
+      width: 29px;
+      z-index: 10;
+      border-radius: 4px;
+      box-shadow: 0 0 0 2px rgba(0,0,0,.1);
+
+      svg {
+        color: #606668;
+      }
+    }
+    .controlBtn.select {
+      svg {
+        color: #058cd5;
+      }
+    }
   }
 }
