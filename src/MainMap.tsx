@@ -4,7 +4,10 @@ import { CatalogFeature, CatalogItem, walkCategories } from './api/catalog';
 import { CustomStyle, customStyleToLineStringTemplate, customStyleToPointTemplate, customStyleToPolygonTemplate, DEFAULT_LINESTRING_STYLE, DEFAULT_POINT_STYLE, DEFAULT_POLYGON_STYLE, getCustomStyle, LayerTemplate, WEB_COLORS } from './utils/mapStyling';
 import CityOS__Takamatsu from './cityos/cityos_takamatsu';
 
+import { FaMountain } from "react-icons/fa";
+
 import mapStyle from './style.json';
+import classNames from 'classnames';
 
 declare global {
   interface Window {
@@ -33,6 +36,8 @@ const LAYER_TEMPLATES: [string, (idx: number, customStyle?: CustomStyle[]) => La
   }],
 ];
 
+const DEM_LAYER_ID = 'takamatsu-dem';
+
 interface Props {
   catalogData: CatalogItem[];
   selectedLayers: string[];
@@ -43,10 +48,34 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
   const [map, setMap] = useState<maplibregl.Map | undefined>(undefined);
   const [cityOS, setCityOS] = useState<CityOS__Takamatsu | undefined>(undefined);
   const mapContainer = useRef<HTMLDivElement>(null);
+  const [show3dDem, setShow3dDem] = useState<boolean>(true);
 
   const catalogDataItems = useMemo(() => {
     return [...walkCategories(catalogData)];
   }, [catalogData]);
+
+
+  // 標高DEMの切り替え
+  const toggleTerrainControl = () => {
+    if(!map) { return; }
+    if(map.getLayer(DEM_LAYER_ID)) {
+      map.removeLayer(DEM_LAYER_ID);
+      setShow3dDem(false);
+      map.setTerrain({ 'source': 'gsidem', 'exaggeration': 0 });
+    } else {
+      map.addLayer({
+        id: DEM_LAYER_ID,
+        type: 'hillshade',
+        source: 'gsidem',
+        paint: {
+          'hillshade-exaggeration': 0.5,
+          'hillshade-shadow-color': 'rgba(71, 59, 36, 0.1)',
+        }
+      },'park');
+      setShow3dDem(true);
+      map.setTerrain({ 'source': 'gsidem', 'exaggeration': 1 });
+    }
+  }
 
   useLayoutEffect(() => {
     const map: maplibregl.Map = new window.geolonia.Map({
@@ -56,8 +85,6 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
       hash: true,
       center: [ 134.0403, 34.334 ],
       fitBoundsOptions: { padding: 50 },
-      // 意図せず傾き・回転を変更してしまうことを防ぐ
-      maxPitch: 0,
       maxRotate: 0,
       minZoom: 9,
       zoom: 9.2,
@@ -70,20 +97,24 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
 
     map.on("load", () => {
 
-      // start GSI base map modification
-      for (const layer of map.getStyle().layers!) {
-        const id = layer.id;
-        // レイヤーを削除
-        if (id.startsWith("oc-") || id === 'poi-z16' || id === 'poi-z16-primary' || (layer.metadata as any || {})['visible-on-3d']) {
-          map.removeLayer(layer.id);
-        } else if ("source-layer" in layer) {
-          const sl = layer["source-layer"];
-          if (sl === "landcover" || sl === "landuse" || sl === "building") {
-            map.removeLayer(layer.id);
-          }
+      // Start add GSI DEM
+      map.addSource('gsidem', {
+        type: 'raster-dem',
+        url: 'https://tileserver.geolonia.com/gsi-dem/tiles.json?key=YOUR-API-KEY',
+      });
+
+      map.addLayer({
+        id: 'takamatsu-dem',
+        type: 'hillshade',
+        source: 'gsidem',
+        paint: {
+          'hillshade-exaggeration': 0.5,
+          'hillshade-shadow-color': 'rgba(71, 59, 36, 0.1)',
         }
-      }
-      // end GSI base map modification
+      },'park');
+
+      map.setTerrain({ 'source': 'gsidem', 'exaggeration': 1 });
+      // End add GSI DEM
 
       map.addSource('negative-city-mask', {
         type: 'vector',
@@ -120,6 +151,12 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
         url: "https://tileserver.geolonia.com/takamatsu_kihonzu_v1/tiles.json?key=YOUR-API-KEY"
       });
 
+      // map.addControl(
+      //   new window.geolonia.TerrainControl({
+      //       source: 'gsidem',
+      //       exaggeration: 1
+      //   })
+      // );
       setMap(map);
     });
 
@@ -271,6 +308,10 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
   }, [map, catalogData, selectedLayers, cityOS]);
 
   return (
+    <>
+    <button onClick={toggleTerrainControl} className={classNames({'controlBtn': true, 'select': show3dDem})}>
+      <FaMountain />
+    </button>
     <div
       className='map'
       ref={mapContainer}
@@ -278,6 +319,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
       data-navigation-control="on"
       data-gesture-handling="off"
     ></div>
+    </>
   );
 }
 
