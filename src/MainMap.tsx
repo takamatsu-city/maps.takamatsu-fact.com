@@ -63,8 +63,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
       setShow3dDem(false);
       map.setTerrain({ 'source': 'gsidem', 'exaggeration': 0 });
       map.flyTo({
-        pitch: 0,
-        speed: 0.5
+        pitch: 0
       })
     } else {
       map.addLayer({
@@ -79,8 +78,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
       setShow3dDem(true);
       map.setTerrain({ 'source': 'gsidem', 'exaggeration': 1 });
       map.flyTo({
-        pitch: 60,
-        speed: 0.5
+        pitch: 60
       })
     }
   }
@@ -110,18 +108,6 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
         type: 'raster-dem',
         url: 'https://tileserver.geolonia.com/gsi-dem/tiles.json?key=YOUR-API-KEY',
       });
-
-      // map.addLayer({
-      //   id: 'takamatsu-dem',
-      //   type: 'hillshade',
-      //   source: 'gsidem',
-      //   paint: {
-      //     'hillshade-exaggeration': 0.5,
-      //     'hillshade-shadow-color': 'rgba(71, 59, 36, 0.1)',
-      //   }
-      // },'park');
-
-      // map.setTerrain({ 'source': 'gsidem', 'exaggeration': 1 });
       // End add GSI DEM
 
       map.addSource('negative-city-mask', {
