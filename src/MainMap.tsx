@@ -36,29 +36,12 @@ const LAYER_TEMPLATES: [string, (idx: number, customStyle?: CustomStyle[]) => La
   }],
 ];
 
-const DEM_LAYER_ID = 'takamatsu-dem';
 
-interface Props {
-  catalogData: CatalogItem[];
-  selectedLayers: string[];
-  setSelectedFeatures: React.Dispatch<React.SetStateAction<CatalogFeature[]>>
-}
-
-const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatures}) => {
-  const [map, setMap] = useState<maplibregl.Map | undefined>(undefined);
-  const [cityOS, setCityOS] = useState<CityOS__Takamatsu | undefined>(undefined);
-  const mapContainer = useRef<HTMLDivElement>(null);
-  const [show3dDem, setShow3dDem] = useState<boolean>(false);
-
-  const catalogDataItems = useMemo(() => {
-    return [...walkCategories(catalogData)];
-  }, [catalogData]);
-
-
-  // 標高DEMの切り替え
-  const toggleTerrainControl = () => {
+ // 標高DEMの切り替え
+  const toggleTerrainControl = (addFlag: boolean, map: any, setShow3dDem: React.Dispatch<React.SetStateAction<boolean>>, originalPitch?: number) => {
     if(!map) { return; }
-    if(map.getLayer(DEM_LAYER_ID)) {
+    console.log(addFlag)
+    if(addFlag) {
       map.removeLayer(DEM_LAYER_ID);
       setShow3dDem(false);
       map.setTerrain({ 'source': 'gsidem', 'exaggeration': 0 });
@@ -78,9 +61,50 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
       setShow3dDem(true);
       map.setTerrain({ 'source': 'gsidem', 'exaggeration': 1 });
       map.flyTo({
-        pitch: 60
+        pitch: originalPitch ?? 60
       })
     }
+  }
+
+const DEM_LAYER_ID = 'takamatsu-dem';
+const BASE_PITCH = 45;
+
+interface Props {
+  catalogData: CatalogItem[];
+  selectedLayers: string[];
+  setSelectedFeatures: React.Dispatch<React.SetStateAction<CatalogFeature[]>>
+}
+
+const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatures}) => {
+  const [map, setMap] = useState<maplibregl.Map | undefined>(undefined);
+  const [cityOS, setCityOS] = useState<CityOS__Takamatsu | undefined>(undefined);
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const [show3dDem, setShow3dDem] = useState<boolean>(false);
+  const pitch = useRef<number>(0);
+
+  const catalogDataItems = useMemo(() => {
+    return [...walkCategories(catalogData)];
+  }, [catalogData]);
+
+
+  const onClick3dBtn = () => {
+    if(!map) { return; }
+    const isDisplayed = map.getLayer(DEM_LAYER_ID) ? true : false;
+    toggleTerrainControl(isDisplayed, map, setShow3dDem);
+  }
+
+  const setPitch = (e: number) => {
+    if(!map) { return; }
+    const newPitch = e;
+    if(newPitch > BASE_PITCH && pitch.current < BASE_PITCH && !map.getLayer(DEM_LAYER_ID)) {
+      console.log("shoe 3d")
+      toggleTerrainControl(false, map, setShow3dDem);
+    }else if(newPitch < BASE_PITCH && pitch.current > BASE_PITCH && map.getLayer(DEM_LAYER_ID)) {
+      console.log("hide 3d")
+      toggleTerrainControl(true, map, setShow3dDem);
+    }
+
+    pitch.current = e;
   }
 
   useLayoutEffect(() => {
@@ -145,6 +169,9 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
         url: "https://tileserver.geolonia.com/takamatsu_kihonzu_v1/tiles.json?key=YOUR-API-KEY"
       });
 
+      console.log(map.getPitch())
+      toggleTerrainControl(map.getPitch() < BASE_PITCH, map, setShow3dDem, map.getPitch());
+
       setMap(map);
     });
 
@@ -177,10 +204,16 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
       }));
     });
 
+    map.on('pitch', (e) => {
+      console.log(e.target.getPitch())
+      setPitch(e.target.getPitch());
+    })
+
     return () => {
       map.remove();
     };
   }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures]);
+
 
   useEffect(() => {
     if (!map) return;
@@ -297,7 +330,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
 
   return (
     <>
-    <button onClick={toggleTerrainControl} className={classNames({'controlBtn': true, 'select': show3dDem})}>
+    <button onClick={onClick3dBtn} className={classNames({'controlBtn': true, 'select': show3dDem})}>
       <FaMountain />
     </button>
     <div
