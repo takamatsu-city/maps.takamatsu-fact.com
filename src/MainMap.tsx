@@ -93,7 +93,6 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
     toggleTerrainControl(isDisplayed, map, setShow3dDem);
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const setPitch = (e: number) => {
     if(!map) { return; }
     const newPitch = e;
@@ -206,14 +205,15 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
     });
 
     map.on('pitch', (e) => {
-      console.log(e.target.getPitch())
+      // console.log()
       setPitch(e.target.getPitch());
     })
 
     return () => {
       map.remove();
     };
-  }, [catalogDataItems, mapContainer, setMap, setPitch, setSelectedFeatures]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures]);
 
 
   useEffect(() => {
