@@ -93,6 +93,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
     toggleTerrainControl(isDisplayed, map, setShow3dDem);
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const setPitch = (e: number) => {
     if(!map) { return; }
     const newPitch = e;
@@ -212,7 +213,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
     return () => {
       map.remove();
     };
-  }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures]);
+  }, [catalogDataItems, mapContainer, setMap, setPitch, setSelectedFeatures]);
 
 
   useEffect(() => {
