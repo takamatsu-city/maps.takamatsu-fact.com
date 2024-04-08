@@ -36,7 +36,10 @@ const LAYER_TEMPLATES: [string, (idx: number, customStyle?: CustomStyle[]) => La
   }],
 ];
 
+
+
 const DEM_LAYER_ID = 'takamatsu-dem';
+const BASE_PITCH = 0;
 
 interface Props {
   catalogData: CatalogItem[];
@@ -48,33 +51,24 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
   const [map, setMap] = useState<maplibregl.Map | undefined>(undefined);
   const [cityOS, setCityOS] = useState<CityOS__Takamatsu | undefined>(undefined);
   const mapContainer = useRef<HTMLDivElement>(null);
-  const [show3dDem, setShow3dDem] = useState<boolean>(true);
+  const [show3dDem, setShow3dDem] = useState<boolean>(false);
+  const [pitch, setPitch] = useState<number>(0);
 
   const catalogDataItems = useMemo(() => {
     return [...walkCategories(catalogData)];
   }, [catalogData]);
 
 
-  // 標高DEMの切り替え
-  const toggleTerrainControl = () => {
+  const onClick3dBtn = () => {
     if(!map) { return; }
-    if(map.getLayer(DEM_LAYER_ID)) {
-      map.removeLayer(DEM_LAYER_ID);
-      setShow3dDem(false);
-      map.setTerrain({ 'source': 'gsidem', 'exaggeration': 0 });
+    if(show3dDem) {
+      setPitch(0);
+      map.flyTo({pitch: 0})
     } else {
-      map.addLayer({
-        id: DEM_LAYER_ID,
-        type: 'hillshade',
-        source: 'gsidem',
-        paint: {
-          'hillshade-exaggeration': 0.5,
-          'hillshade-shadow-color': 'rgba(71, 59, 36, 0.1)',
-        }
-      },'park');
-      setShow3dDem(true);
-      map.setTerrain({ 'source': 'gsidem', 'exaggeration': 1 });
+      setPitch(60);
+      map.flyTo({pitch: 60})
     }
+    setShow3dDem(show3dDem);
   }
 
   useLayoutEffect(() => {
@@ -102,18 +96,6 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
         type: 'raster-dem',
         url: 'https://tileserver.geolonia.com/gsi-dem/tiles.json?key=YOUR-API-KEY',
       });
-
-      map.addLayer({
-        id: 'takamatsu-dem',
-        type: 'hillshade',
-        source: 'gsidem',
-        paint: {
-          'hillshade-exaggeration': 0.5,
-          'hillshade-shadow-color': 'rgba(71, 59, 36, 0.1)',
-        }
-      },'park');
-
-      map.setTerrain({ 'source': 'gsidem', 'exaggeration': 1 });
       // End add GSI DEM
 
       map.addSource('negative-city-mask', {
@@ -151,12 +133,9 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
         url: "https://tileserver.geolonia.com/takamatsu_kihonzu_v1/tiles.json?key=YOUR-API-KEY"
       });
 
-      // map.addControl(
-      //   new window.geolonia.TerrainControl({
-      //       source: 'gsidem',
-      //       exaggeration: 1
-      //   })
-      // );
+      // pitchを取得
+      setPitch(map.getPitch());
+
       setMap(map);
     });
 
@@ -189,10 +168,41 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
       }));
     });
 
+    map.on('pitch', (e) => {
+      setPitch(e.target.getPitch());
+    })
+
     return () => {
       map.remove();
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures]);
+
+
+  useEffect(() => {
+    if(!map) { return; }
+
+    if(pitch === BASE_PITCH && map.getLayer(DEM_LAYER_ID)) {
+      map.removeLayer(DEM_LAYER_ID);
+      setShow3dDem(false);
+      map.setTerrain({ 'source': 'gsidem', 'exaggeration': 0 });
+
+    } else if(pitch > BASE_PITCH && !map.getLayer(DEM_LAYER_ID)) {
+      map.addLayer({
+        id: DEM_LAYER_ID,
+        type: 'hillshade',
+        source: 'gsidem',
+        paint: {
+          'hillshade-exaggeration': 0.5,
+          'hillshade-shadow-color': 'rgba(71, 59, 36, 0.1)',
+        }
+      },'park');
+      setShow3dDem(true);
+      map.setTerrain({ 'source': 'gsidem', 'exaggeration': 1 });
+    }
+
+  }, [map, pitch])
+
 
   useEffect(() => {
     if (!map) return;
@@ -309,7 +319,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
 
   return (
     <>
-    <button onClick={toggleTerrainControl} className={classNames({'controlBtn': true, 'select': show3dDem})}>
+    <button onClick={onClick3dBtn} className={classNames({'controlBtn': true, 'select': show3dDem})}>
       <FaMountain />
     </button>
     <div
