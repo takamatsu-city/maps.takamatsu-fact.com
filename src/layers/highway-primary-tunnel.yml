@@ -1,0 +1,58 @@
+id: highway-primary-tunnel
+type: line
+source: gsi-japan
+source-layer: road
+minzoom: 7
+filter:
+  - any
+  - - all
+    - - '=='
+      - rnkWidth
+      - 4
+    - - in
+      - ftCode
+      - 2704
+    - - '!='
+      - motorway
+      - 1
+    - - in
+      - rdCtg
+      - 0
+      - 1
+      - 2
+  - - all
+    - - '>='
+      - ftCode
+      - 52700
+    - - <
+      - ftCode
+      - 52800
+    - - '!='
+      - ftCode
+      - 52703
+layout:
+  line-join: round
+  visibility: visible
+paint:
+  line-color: '#D8D8D8'
+  line-width:
+    - interpolate
+    - - exponential
+      - 0.9
+    - - zoom
+    - 8
+    - 0
+    - 9
+    - 0.5
+    - 12
+    - 0.8
+    - 14
+    - 3
+    - 16
+    - 10
+    - 18
+    - 20
+    - 19
+    - 68
+    - 20
+    - 160

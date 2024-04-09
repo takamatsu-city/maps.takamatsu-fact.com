@@ -1,0 +1,39 @@
+id: road_shield_national
+type: symbol
+source: gsi-japan
+source-layer: transp
+minzoom: 9
+maxzoom: 20
+filter:
+  - all
+  - - in
+    - ftCode
+    - 2901
+layout:
+  icon-image:
+    - match
+    - - length
+      - - to-string
+        - - get
+          - nRNo
+    - 1
+    - national-JP_1
+    - 2
+    - national-JP_2
+    - 3
+    - national-JP_3
+    - national-JP_3
+  icon-padding: 13
+  text-field:
+    - get
+    - nRNo
+  text-font:
+    - Noto Sans CJK JP Bold
+  text-offset:
+    - 0
+    - -0.1
+  text-rotation-alignment: viewport
+  text-size: 10
+  icon-size: 1
+paint:
+  text-color: '#ffffff'
