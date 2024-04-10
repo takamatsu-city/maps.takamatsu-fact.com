@@ -26,7 +26,7 @@ const downloadStyle = async () => {
   styleJson.layers = styleJson.layers.filter(layer => !layer.id.startsWith('oc-'));
 
 
-  const removeSourceIds = ['landcover', 'landuse', 'building'];
+  const removeSourceIds = ['landcover', 'landuse'];
   const targetLayers = [];
 
   for (const layer of styleJson.layers) {
