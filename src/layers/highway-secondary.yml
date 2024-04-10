@@ -49,7 +49,7 @@ paint:
   line-width:
     - interpolate
     - - exponential
-      - 0.9
+      - 0.5
     - - zoom
     - 8
     - 0

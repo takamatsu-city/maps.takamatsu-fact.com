@@ -1,0 +1,25 @@
+id: gsibv-vectortile-layer-1632
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: searoute
+metadata:
+  layer-id: layer-1379
+  title: 航路
+  path: 航路-航路
+  added: 1
+minzoom: 6
+maxzoom: 8
+filter:
+  - all
+  - - in
+    - ftCode
+    - 55902
+layout:
+  line-cap: square
+  visibility: visible
+paint:
+  line-color: rgb(231,39,65)
+  line-width: 1.5
+  line-dasharray:
+    - 10
+    - 10

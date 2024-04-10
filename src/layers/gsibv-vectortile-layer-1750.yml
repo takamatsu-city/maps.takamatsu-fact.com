@@ -1,0 +1,36 @@
+id: gsibv-vectortile-layer-1750
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: road
+metadata:
+  layer-id: layer-1306
+  title: 13m以上19.5m未満
+  path: 道路-トンネル内の道路-13m以上19.5m未満
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 2704
+    - 2724
+  - - '=='
+    - rnkWidth
+    - 3
+layout:
+  line-cap: square
+  line-join: round
+  visibility: visible
+paint:
+  line-color: rgba(100,100,100,1)
+  line-dasharray:
+    - 10
+    - 8
+  line-width: 0.5
+  line-offset:
+    stops:
+      - - 15
+        - -2.5
+      - - 17
+        - -12.5

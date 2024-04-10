@@ -1,0 +1,35 @@
+id: gsibv-vectortile-layer-2070
+type: symbol
+source: gsibv-vectortile-source-1-4-16
+source-layer: symbol
+metadata:
+  layer-id: layer-1442
+  title: 町村役場・政令指定都市の区役所
+  path: 記号-町村役場・政令指定都市の区役所
+  added: 1
+minzoom: 13
+maxzoom: 14
+filter:
+  - all
+  - - in
+    - ftCode
+    - 3206
+layout:
+  icon-image: std///町村役場・政令指定都市の区役所-20
+  icon-pitch-alignment: viewport
+  icon-rotation-alignment: viewport
+  icon-size:
+    stops:
+      - - 13
+        - 0.5
+      - - 14
+        - 0.6
+  text-font:
+    - NotoSansCJKjp-Regular
+  symbol-placement: point
+  icon-allow-overlap: true
+  text-keep-upright: true
+  text-allow-overlap: false
+  symbol-z-order: auto
+  text-max-width: 100
+  visibility: visible

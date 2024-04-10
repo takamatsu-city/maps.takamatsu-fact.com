@@ -1,0 +1,105 @@
+id: gsibv-vectortile-layer-2307
+type: symbol
+source: gsibv-vectortile-source-1-4-16
+source-layer: symbol
+metadata:
+  layer-id: layer-1502
+  title: 水準点
+  path: 記号-水準点
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 7103
+layout:
+  icon-size:
+    stops:
+      - - 14
+        - 0.4
+      - - 15
+        - 0.8
+      - - 16
+        - 1
+      - - 17
+        - 1
+  icon-image: std///水準点
+  icon-anchor: center
+  text-anchor: left
+  text-offset:
+    - 0.8
+    - -0.1
+  icon-pitch-alignment: viewport
+  icon-rotation-alignment: viewport
+  text-pitch-alignment: viewport
+  text-rotation-alignment: viewport
+  icon-allow-overlap: true
+  text-size:
+    stops:
+      - - 14
+        - 10
+      - - 15
+        - 18
+      - - 16
+        - 30
+      - - 17
+        - 30
+  text-field:
+    - to-string
+    - - case
+      - - '!'
+        - - has
+          - alti
+      - - to-string
+        - ''
+      - - '=='
+        - - get
+          - alti
+        - ''
+      - - to-string
+        - ''
+      - - in
+        - .
+        - - to-string
+          - - /
+            - - round
+              - - '*'
+                - - to-number
+                  - - get
+                    - alti
+                - 10
+            - 10
+      - - to-string
+        - - /
+          - - round
+            - - '*'
+              - - to-number
+                - - get
+                  - alti
+              - 10
+          - 10
+      - - concat
+        - - to-string
+          - - /
+            - - round
+              - - '*'
+                - - to-number
+                  - - get
+                    - alti
+                - 10
+            - 10
+        - '.0'
+  text-font:
+    - NotoSansCJKjp-Regular
+  symbol-placement: point
+  text-keep-upright: true
+  text-allow-overlap: false
+  symbol-z-order: auto
+  text-max-width: 100
+  visibility: visible
+paint:
+  text-color: rgba(0,0,0,1)
+  text-halo-color: rgba(255,255,255,1)
+  text-halo-width: 1

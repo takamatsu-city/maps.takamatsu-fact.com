@@ -1,0 +1,50 @@
+id: gsibv-vectortile-layer-2132
+type: symbol
+source: gsibv-vectortile-source-1-4-16
+source-layer: elevation
+metadata:
+  layer-id: layer-1646
+  title: 水深
+  path: 標高-水深
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 7711
+layout:
+  icon-image: std///水深-20
+  text-anchor: left
+  text-offset:
+    - 0.6
+    - -0.2
+  icon-pitch-alignment: viewport
+  icon-rotation-alignment: viewport
+  text-pitch-alignment: viewport
+  text-rotation-alignment: viewport
+  text-size: 13
+  icon-size:
+    stops:
+      - - 14
+        - 0.4
+      - - 15
+        - 0.8
+      - - 16
+        - 1
+      - - 17
+        - 1
+  text-field: '{altiDpth}'
+  text-font:
+    - NotoSansCJKjp-Regular
+  symbol-placement: point
+  icon-allow-overlap: true
+  text-keep-upright: true
+  text-allow-overlap: false
+  symbol-z-order: auto
+  text-max-width: 100
+  visibility: visible
+paint:
+  text-color: rgba(20,90,255,1)
+  text-halo-width: 0.5

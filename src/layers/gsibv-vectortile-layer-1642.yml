@@ -1,0 +1,25 @@
+id: gsibv-vectortile-layer-1642
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: structurel
+metadata:
+  layer-id: layer-1143
+  title: せき
+  path: 構造物-せき
+  added: 1
+minzoom: 17
+maxzoom: 18
+filter:
+  - all
+  - - in
+    - ftCode
+    - 5514
+  - - '=='
+    - orgGILvl
+    - '2500'
+layout:
+  line-cap: square
+  visibility: visible
+paint:
+  line-color: rgba(100,100,100,1)
+  line-width: 1

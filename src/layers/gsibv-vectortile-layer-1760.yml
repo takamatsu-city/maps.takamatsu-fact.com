@@ -1,0 +1,37 @@
+id: gsibv-vectortile-layer-1760
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: road
+metadata:
+  layer-id: layer-1219
+  title: 通常部
+  path: 道路-国道-5.5m以上13m未満-通常部
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 2701
+  - - '=='
+    - rdCtg
+    - 0
+  - - '!='
+    - motorway
+    - 1
+  - - '=='
+    - rnkWidth
+    - 2
+layout:
+  line-cap: square
+  line-join: round
+  visibility: visible
+paint:
+  line-color: '#ffaf1a'
+  line-width:
+    stops:
+      - - 15
+        - 3
+      - - 17
+        - 20

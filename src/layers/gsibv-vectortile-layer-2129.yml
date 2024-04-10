@@ -1,0 +1,30 @@
+id: gsibv-vectortile-layer-2129
+type: symbol
+source: gsibv-vectortile-source-1-4-16
+source-layer: elevation
+metadata:
+  layer-id: layer-1643
+  title: 火山（アイコン）
+  path: 標高-火山-火山（アイコン）
+  added: 1
+minzoom: 8
+maxzoom: 11
+filter:
+  - all
+  - - in
+    - ftCode
+    - 7221
+layout:
+  icon-size: 0.4
+  icon-image: std///火山-20
+  icon-pitch-alignment: viewport
+  icon-rotation-alignment: viewport
+  text-font:
+    - NotoSansCJKjp-Regular
+  symbol-placement: point
+  icon-allow-overlap: true
+  text-keep-upright: true
+  text-allow-overlap: false
+  symbol-z-order: auto
+  text-max-width: 100
+  visibility: visible

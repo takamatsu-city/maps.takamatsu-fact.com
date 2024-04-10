@@ -1,0 +1,32 @@
+id: gsibv-vectortile-layer-1584
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: landforml
+metadata:
+  layer-id: layer-1122
+  title: 岩・崖等
+  path: 地形-岩・崖等
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 7501
+    - 7502
+    - 7509
+    - 7511
+    - 7512
+    - 7541
+layout:
+  line-cap: square
+  visibility: visible
+paint:
+  line-color: '#D9B96C'
+  line-width:
+    stops:
+      - - 14
+        - 1
+      - - 17
+        - 1.7

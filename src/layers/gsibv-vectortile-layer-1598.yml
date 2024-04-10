@@ -1,0 +1,39 @@
+id: gsibv-vectortile-layer-1598
+type: symbol
+source: gsibv-vectortile-source-1-4-16
+source-layer: contour
+metadata:
+  layer-id: layer-1415
+  title: 数値部
+  path: 等高線等深線-等高線-数値部
+  added: 1
+minzoom: 11
+maxzoom: 18
+filter:
+  - all
+  - - in
+    - ftCode
+    - 7352
+layout:
+  text-allow-overlap: true
+  text-ignore-placement: true
+  symbol-placement: line
+  text-max-width: 999
+  text-size: 13
+  text-max-angle: 360
+  text-anchor: center
+  text-pitch-alignment: viewport
+  text-rotation-alignment: map
+  icon-pitch-alignment: auto
+  icon-rotation-alignment: auto
+  text-field: '{alti}'
+  text-font:
+    - NotoSansCJKjp-Regular
+  icon-allow-overlap: true
+  text-keep-upright: true
+  symbol-z-order: auto
+  visibility: visible
+paint:
+  text-color: rgba(200, 160, 60,1)
+  text-halo-color: rgba(255,255,255,1)
+  text-halo-width: 10

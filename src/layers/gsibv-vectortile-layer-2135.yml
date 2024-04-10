@@ -1,0 +1,39 @@
+id: gsibv-vectortile-layer-2135
+type: symbol
+source: gsibv-vectortile-source-1-4-16
+source-layer: transp
+metadata:
+  layer-id: layer-1649
+  title: 高速道路番号
+  path: 交通構造物-高速道路番号
+  added: 1
+minzoom: 8
+maxzoom: 11
+filter:
+  - all
+  - - in
+    - ftCode
+    - 2904
+layout:
+  icon-size: 0.5
+  icon-image: std///高速道路番号-20
+  text-size: 8
+  text-offset:
+    - 0
+    - -0.1
+  text-pitch-alignment: viewport
+  text-rotation-alignment: viewport
+  icon-pitch-alignment: viewport
+  icon-rotation-alignment: viewport
+  text-field: '{nRNo}'
+  text-font:
+    - NotoSansCJKjp-Regular
+  symbol-placement: point
+  icon-allow-overlap: true
+  text-keep-upright: true
+  text-allow-overlap: false
+  symbol-z-order: auto
+  text-max-width: 100
+  visibility: visible
+paint:
+  text-color: rgba(255,255,255,1)

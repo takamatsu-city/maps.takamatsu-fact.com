@@ -1,0 +1,39 @@
+id: gsibv-vectortile-layer-2084
+type: symbol
+source: gsibv-vectortile-source-1-4-16
+source-layer: symbol
+metadata:
+  layer-id: layer-1456
+  title: 図書館
+  path: 記号-図書館
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 3217
+layout:
+  icon-size:
+    stops:
+      - - 14
+        - 0.4
+      - - 15
+        - 0.8
+      - - 16
+        - 1
+      - - 17
+        - 1
+  icon-image: std///図書館
+  icon-pitch-alignment: viewport
+  icon-rotation-alignment: viewport
+  text-font:
+    - NotoSansCJKjp-Regular
+  symbol-placement: point
+  icon-allow-overlap: true
+  text-keep-upright: true
+  text-allow-overlap: false
+  symbol-z-order: auto
+  text-max-width: 100
+  visibility: visible

@@ -1,0 +1,23 @@
+id: gsibv-vectortile-layer-1589
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: landforml
+metadata:
+  layer-id: layer-1120
+  title: 凹地方向線
+  path: 地形-凹地方向線
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 7531
+    - 7532
+layout:
+  line-cap: square
+  visibility: visible
+paint:
+  line-color: rgba(200,160,60,1)
+  line-width: 1

@@ -1,0 +1,40 @@
+id: gsibv-vectortile-layer-1668
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: building
+metadata:
+  layer-id: layer-1170
+  title: 堅ろう無壁舎（外周線）
+  path: 建物-堅ろう無壁舎-堅ろう無壁舎（外周線）
+  added: 1
+minzoom: 15
+maxzoom: 17
+filter:
+  - all
+  - - any
+    - - '=='
+      - lvOrder
+      - 0
+    - - '!has'
+      - lvOrder
+  - - all
+    - - in
+      - ftCode
+      - 3112
+    - - '=='
+      - $type
+      - LineString
+layout:
+  line-cap: butt
+  visibility: visible
+paint:
+  line-color: rgb(255,135,75)
+  line-dasharray:
+    - 2
+    - 2
+  line-width:
+    stops:
+      - - 15
+        - 1
+      - - 17
+        - 1.5

@@ -1,0 +1,27 @@
+id: gsibv-vectortile-layer-1637
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: wstructurea
+metadata:
+  layer-id: layer-1139
+  title: ダム（線）
+  path: 構造物-ダム（線）
+  added: 1
+minzoom: 11
+maxzoom: 14
+filter:
+  - all
+  - - in
+    - ftCode
+    - 5401
+layout:
+  line-cap: square
+  visibility: visible
+paint:
+  line-color: rgba(100,100,100,1)
+  line-width:
+    stops:
+      - - 11
+        - 1
+      - - 14
+        - 1.5

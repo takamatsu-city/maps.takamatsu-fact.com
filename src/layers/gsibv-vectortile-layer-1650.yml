@@ -1,0 +1,23 @@
+id: gsibv-vectortile-layer-1650
+type: fill
+source: gsibv-vectortile-source-1-4-16
+source-layer: building
+metadata:
+  layer-id: layer-1156
+  title: 堅ろう建物
+  path: 建物-堅ろう建物-堅ろう建物
+  added: 1
+minzoom: 17
+maxzoom: 18
+filter:
+  - all
+  - - in
+    - ftCode
+    - 3102
+  - - '=='
+    - $type
+    - Polygon
+layout:
+  visibility: visible
+paint:
+  fill-color: rgba(255,230,190,1)

@@ -1,0 +1,32 @@
+id: gsibv-vectortile-layer-1661
+type: fill
+source: gsibv-vectortile-source-1-4-16
+source-layer: building
+metadata:
+  layer-id: layer-1155
+  title: 堅ろう建物
+  path: 建物-堅ろう建物-堅ろう建物
+  gsi-fill-hatch-style: ltrb
+  fill-color: rgb(255,135,75)
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - any
+    - - '=='
+      - lvOrder
+      - 0
+    - - '!has'
+      - lvOrder
+  - - all
+    - - in
+      - ftCode
+      - 3102
+    - - '=='
+      - $type
+      - Polygon
+layout:
+  visibility: visible
+paint:
+  fill-pattern: '-gsibv-hatch-ltrb-4-255,135,75,1-255,255,255,1'

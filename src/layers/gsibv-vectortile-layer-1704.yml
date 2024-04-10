@@ -1,0 +1,41 @@
+id: gsibv-vectortile-layer-1704
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: road
+metadata:
+  layer-id: layer-1293
+  title: 3m未満・その他・不明
+  path: 道路-庭園路-3m未満・その他・不明
+  line-role: outline
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 2711
+    - 2713
+    - 2714
+  - - any
+    - - '=='
+      - rnkWidth
+      - 0
+    - - '>='
+      - rnkWidth
+      - 5
+layout:
+  line-cap: square
+  line-join: round
+  visibility: visible
+paint:
+  line-color: rgba(100,100,100,1)
+  line-width:
+    stops:
+      - - 15
+        - 2
+      - - 17
+        - 6
+  line-dasharray:
+    - 1.5
+    - 0.3

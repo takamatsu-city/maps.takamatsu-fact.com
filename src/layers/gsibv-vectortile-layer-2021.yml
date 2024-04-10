@@ -1,0 +1,26 @@
+id: gsibv-vectortile-layer-2021
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: railway
+metadata:
+  layer-id: layer-1354
+  title: 索道
+  path: 鉄道-索道
+  added: 1
+minzoom: 17
+maxzoom: 18
+filter:
+  - all
+  - - in
+    - ftCode
+    - 2821
+layout:
+  line-cap: square
+  visibility: visible
+paint:
+  line-color: rgba(100,100,100,1)
+  line-width: 1
+  line-offset: 1
+  line-dasharray:
+    - 1
+    - 10

@@ -1,0 +1,38 @@
+id: gsibv-vectortile-layer-1792
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: road
+metadata:
+  layer-id: layer-1179
+  title: 通常部
+  path: 道路-高速道路-3m未満・その他・不明-通常部
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 2701
+  - - '=='
+    - motorway
+    - 1
+  - - any
+    - - '=='
+      - rnkWidth
+      - 0
+    - - '>='
+      - rnkWidth
+      - 5
+layout:
+  line-cap: square
+  line-join: round
+  visibility: visible
+paint:
+  line-color: rgba(100,100,100,1)
+  line-width:
+    stops:
+      - - 15
+        - 1.5
+      - - 17
+        - 4

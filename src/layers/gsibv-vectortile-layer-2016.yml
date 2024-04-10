@@ -1,0 +1,29 @@
+id: gsibv-vectortile-layer-2016
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: railway
+metadata:
+  layer-id: layer-1313
+  title: 新幹線トンネル
+  path: 鉄道-新幹線トンネル
+  added: 1
+minzoom: 4
+maxzoom: 8
+filter:
+  - all
+  - - in
+    - ftCode
+    - 58204
+layout:
+  line-cap: square
+  visibility: visible
+paint:
+  line-color: rgb(124,145,196)
+  line-width:
+    stops:
+      - - 4
+        - 0.5
+      - - 6
+        - 1.5
+      - - 7
+        - 2.5

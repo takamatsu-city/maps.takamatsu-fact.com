@@ -1,0 +1,46 @@
+id: gsibv-vectortile-layer-1782
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: railway
+metadata:
+  layer-id: layer-1330
+  title: 運休中
+  path: 鉄道-JR-運休中
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 8201
+  - - any
+    - - '=='
+      - staCode
+      - '0'
+    - - '!has'
+      - staCode
+  - - '=='
+    - railState
+    - 5
+  - - any
+    - - all
+      - - '>='
+        - rtCode
+        - '40201000000'
+      - - <
+        - rtCode
+        - '40202000000'
+    - - all
+      - - '>='
+        - rtCode
+        - '40216000000'
+      - - <
+        - rtCode
+        - '40217000000'
+layout:
+  line-cap: square
+  visibility: visible
+paint:
+  line-color: rgba(100,100,100,1)
+  line-width: 4

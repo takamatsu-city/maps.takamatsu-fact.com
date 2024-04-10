@@ -1,0 +1,23 @@
+id: gsibv-vectortile-layer-1605
+type: fill
+source: gsibv-vectortile-source-1-4-16
+source-layer: wstructurea
+metadata:
+  layer-id: layer-1135
+  title: ダム（面）
+  path: 構造物-ダム（面）
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 5401
+  - - '=='
+    - $type
+    - Polygon
+layout:
+  visibility: visible
+paint:
+  fill-color: rgba(200,200,200,1)

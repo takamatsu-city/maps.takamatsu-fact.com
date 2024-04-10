@@ -1,0 +1,25 @@
+id: gsibv-vectortile-layer-2036
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: road
+metadata:
+  layer-id: layer-1291
+  title: 通常部
+  path: 道路-通常部-通常部
+  added: 1
+minzoom: 17
+maxzoom: 18
+filter:
+  - all
+  - - in
+    - ftCode
+    - 2201
+    - 2241
+    - 2204
+    - 2244
+layout:
+  line-cap: square
+  visibility: visible
+paint:
+  line-color: '#d9d5d3'
+  line-width: 2

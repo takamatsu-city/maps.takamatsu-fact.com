@@ -1,0 +1,43 @@
+id: gsibv-vectortile-layer-1726
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: road
+metadata:
+  layer-id: layer-1263
+  title: 徒歩道
+  path: 道路-市区町村道・その他-徒歩道
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 2721
+    - 2722
+    - 2723
+  - - in
+    - rdCtg
+    - 2
+    - 5
+    - 6
+  - - '!='
+    - motorway
+    - 1
+layout:
+  line-cap: square
+  line-join: round
+  visibility: visible
+paint:
+  line-color: rgba(173,173,173,1)
+  line-width:
+    stops:
+      - - 14
+        - 1
+      - - 15
+        - 1
+      - - 17
+        - 3
+  line-dasharray:
+    - 6
+    - 1

@@ -1,0 +1,30 @@
+id: gsibv-vectortile-layer-1538
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: river
+metadata:
+  layer-id: layer-1402
+  title: 人工水路（地下）
+  path: 河川-人工水路（地下）
+  added: 1
+minzoom: 11
+maxzoom: 14
+filter:
+  - all
+  - - in
+    - ftCode
+    - 5322
+layout:
+  line-cap: square
+  visibility: visible
+paint:
+  line-color: rgb(190,210,255)
+  line-width:
+    stops:
+      - - 11
+        - 1
+      - - 14
+        - 1.5
+  line-dasharray:
+    - 2
+    - 2

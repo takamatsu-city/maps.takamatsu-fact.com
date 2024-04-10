@@ -1,0 +1,37 @@
+id: gsibv-vectortile-layer-2049
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: building
+metadata:
+  layer-id: layer-1166
+  title: 普通無壁舎（外周線）
+  path: 建物-普通無壁舎-普通無壁舎（外周線）
+  added: 1
+minzoom: 15
+maxzoom: 17
+filter:
+  - all
+  - - '=='
+    - lvOrder
+    - 4
+  - - all
+    - - in
+      - ftCode
+      - 3111
+    - - '=='
+      - $type
+      - LineString
+layout:
+  line-cap: butt
+  visibility: visible
+paint:
+  line-color: rgb(255,135,75)
+  line-dasharray:
+    - 2
+    - 2
+  line-width:
+    stops:
+      - - 15
+        - 1
+      - - 17
+        - 1.5

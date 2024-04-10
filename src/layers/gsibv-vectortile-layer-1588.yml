@@ -1,0 +1,35 @@
+id: gsibv-vectortile-layer-1588
+type: symbol
+source: gsibv-vectortile-source-1-4-16
+source-layer: landformp
+metadata:
+  layer-id: layer-1131
+  title: 砂礫地（領域が不明瞭な場合）
+  path: 地形-砂礫地（領域が不明瞭な場合）
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 7601
+layout:
+  icon-image: std///砂礫地（領域が不明瞭な場合）-20
+  icon-pitch-alignment: viewport
+  icon-rotation-alignment: viewport
+  icon-size:
+    stops:
+      - - 14
+        - 0.5
+      - - 16
+        - 1
+  text-font:
+    - NotoSansCJKjp-Regular
+  symbol-placement: point
+  icon-allow-overlap: true
+  text-keep-upright: true
+  text-allow-overlap: false
+  symbol-z-order: auto
+  text-max-width: 100
+  visibility: visible

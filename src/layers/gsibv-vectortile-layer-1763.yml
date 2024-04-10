@@ -1,0 +1,41 @@
+id: gsibv-vectortile-layer-1763
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: railway
+metadata:
+  layer-id: layer-1364
+  title: トンネル
+  path: 鉄道-トンネル
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 8201
+  - - any
+    - - '=='
+      - staCode
+      - '0'
+    - - '!has'
+      - staCode
+  - - in
+    - railState
+    - 2
+    - 3
+    - 100
+    - 300
+    - 500
+  - - '!='
+    - rtCode10
+    - '1'
+layout:
+  line-cap: square
+  visibility: visible
+paint:
+  line-color: rgba(200,160,60,1)
+  line-width: 3
+  line-dasharray:
+    - 3
+    - 2

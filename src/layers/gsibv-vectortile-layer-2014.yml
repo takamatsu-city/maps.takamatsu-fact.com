@@ -1,0 +1,27 @@
+id: gsibv-vectortile-layer-2014
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: railway
+metadata:
+  layer-id: layer-1311
+  title: 主要な鉄道トンネル
+  path: 鉄道-主要な鉄道トンネル
+  added: 1
+minzoom: 6
+maxzoom: 8
+filter:
+  - all
+  - - in
+    - ftCode
+    - 58202
+layout:
+  line-cap: square
+  visibility: visible
+paint:
+  line-color: rgb(124,145,196)
+  line-width:
+    stops:
+      - - 6
+        - 1
+      - - 7
+        - 1.5

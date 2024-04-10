@@ -1,0 +1,30 @@
+id: gsibv-vectortile-layer-1984
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: railway
+metadata:
+  layer-id: layer-1366
+  title: 駅
+  path: 鉄道-駅
+  added: 1
+minzoom: 11
+maxzoom: 14
+filter:
+  - all
+  - - in
+    - ftCode
+    - 8201
+  - - has
+    - staCode
+  - - '!='
+    - staCode
+    - '0'
+  - - '=='
+    - railState
+    - 0
+layout:
+  line-cap: butt
+  visibility: visible
+paint:
+  line-color: rgba(50,50,50,0.7)
+  line-width: 4

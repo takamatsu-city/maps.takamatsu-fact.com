@@ -1,0 +1,35 @@
+id: gsibv-vectortile-layer-1615
+type: symbol
+source: gsibv-vectortile-source-1-4-16
+source-layer: symbol
+metadata:
+  layer-id: layer-1480
+  title: 畑
+  path: 記号-畑
+  added: 1
+minzoom: 13
+maxzoom: 14
+filter:
+  - all
+  - - in
+    - ftCode
+    - 6312
+layout:
+  icon-image: std///畑-20
+  icon-pitch-alignment: viewport
+  icon-rotation-alignment: viewport
+  icon-size:
+    stops:
+      - - 13
+        - 0.5
+      - - 14
+        - 0.6
+  text-font:
+    - NotoSansCJKjp-Regular
+  symbol-placement: point
+  icon-allow-overlap: true
+  text-keep-upright: true
+  text-allow-overlap: false
+  symbol-z-order: auto
+  text-max-width: 100
+  visibility: visible

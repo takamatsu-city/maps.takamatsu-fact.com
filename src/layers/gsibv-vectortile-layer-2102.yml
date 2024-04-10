@@ -1,0 +1,39 @@
+id: gsibv-vectortile-layer-2102
+type: symbol
+source: gsibv-vectortile-source-1-4-16
+source-layer: symbol
+metadata:
+  layer-id: layer-1483
+  title: 温泉
+  path: 記号-温泉
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 6331
+layout:
+  icon-size:
+    stops:
+      - - 14
+        - 0.4
+      - - 15
+        - 0.8
+      - - 16
+        - 1
+      - - 17
+        - 1
+  icon-image: std///温泉
+  icon-pitch-alignment: viewport
+  icon-rotation-alignment: viewport
+  text-font:
+    - NotoSansCJKjp-Regular
+  symbol-placement: point
+  icon-allow-overlap: true
+  text-keep-upright: true
+  text-allow-overlap: false
+  symbol-z-order: auto
+  text-max-width: 100
+  visibility: visible

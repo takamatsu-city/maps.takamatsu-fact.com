@@ -1,0 +1,40 @@
+id: gsibv-vectortile-layer-2141
+type: symbol
+source: gsibv-vectortile-source-1-4-16
+source-layer: transp
+metadata:
+  layer-id: layer-1655
+  title: サービスエリア
+  path: 交通構造物-サービスエリア
+  added: 1
+minzoom: 11
+maxzoom: 14
+filter:
+  - all
+  - - in
+    - ftCode
+    - 2943
+layout:
+  text-size: 12
+  text-anchor: left
+  text-offset:
+    - 0
+    - 0
+  icon-pitch-alignment: viewport
+  icon-rotation-alignment: viewport
+  text-pitch-alignment: viewport
+  text-rotation-alignment: viewport
+  text-field: '{name}'
+  text-font:
+    - NotoSansCJKjp-Regular
+  symbol-placement: point
+  icon-allow-overlap: true
+  text-keep-upright: true
+  text-allow-overlap: false
+  symbol-z-order: auto
+  text-max-width: 100
+  visibility: visible
+paint:
+  text-color: rgba(19,97,69,1)
+  text-halo-color: rgba(255,255,255,1)
+  text-halo-width: 1

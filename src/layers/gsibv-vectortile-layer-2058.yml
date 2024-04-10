@@ -1,0 +1,30 @@
+id: gsibv-vectortile-layer-2058
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: structurel
+metadata:
+  layer-id: layer-1147
+  title: 河川トンネル口
+  path: 構造物-河川トンネル口
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 5551
+  - - '=='
+    - orgGILvl
+    - '25000'
+layout:
+  line-cap: square
+  visibility: visible
+paint:
+  line-color: rgba(100,100,100,1)
+  line-width:
+    stops:
+      - - 14
+        - 1
+      - - 17
+        - 5

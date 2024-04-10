@@ -1,0 +1,25 @@
+id: gsibv-vectortile-layer-1654
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: building
+metadata:
+  layer-id: layer-1163
+  title: 高層建物（外周線）
+  path: 建物-高層建物-高層建物（外周線）
+  added: 1
+minzoom: 17
+maxzoom: 18
+filter:
+  - all
+  - - in
+    - ftCode
+    - 3103
+  - - '=='
+    - $type
+    - LineString
+layout:
+  line-cap: butt
+  visibility: visible
+paint:
+  line-color: rgb(255,135,75)
+  line-width: 2.5

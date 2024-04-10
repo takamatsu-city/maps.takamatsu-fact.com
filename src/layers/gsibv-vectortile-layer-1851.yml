@@ -1,0 +1,38 @@
+id: gsibv-vectortile-layer-1851
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: railway
+metadata:
+  layer-id: layer-1357
+  title: 特殊鉄道
+  path: 鉄道-特殊鉄道
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 8201
+  - - '>='
+    - rtCode
+    - '4021700000'
+  - - <
+    - rtCode
+    - '4021800000'
+  - - all
+    - - '!='
+      - railState
+      - 2
+    - - '!='
+      - railState
+      - 3
+layout:
+  line-cap: butt
+  visibility: visible
+paint:
+  line-color: rgba(100,100,100,1)
+  line-width: 6
+  line-dasharray:
+    - 0.2
+    - 3

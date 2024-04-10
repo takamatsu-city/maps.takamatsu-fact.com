@@ -1,0 +1,25 @@
+id: gsibv-vectortile-layer-1643
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: structurel
+metadata:
+  layer-id: layer-1144
+  title: 水門
+  path: 構造物-水門
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 5515
+  - - '=='
+    - orgGILvl
+    - '25000'
+layout:
+  line-cap: square
+  visibility: visible
+paint:
+  line-color: rgba(100,100,100,1)
+  line-width: 3.5

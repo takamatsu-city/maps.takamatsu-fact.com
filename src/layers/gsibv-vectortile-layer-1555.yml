@@ -1,0 +1,20 @@
+id: gsibv-vectortile-layer-1555
+type: fill
+source: gsibv-vectortile-source-1-4-16
+source-layer: landforma
+metadata:
+  layer-id: layer-1112
+  title: 湿地
+  path: 地形-湿地
+  added: 1
+minzoom: 8
+maxzoom: 14
+filter:
+  - all
+  - - in
+    - ftCode
+    - 7401
+layout:
+  visibility: visible
+paint:
+  fill-color: rgba(153,238,192,1)

@@ -1,0 +1,43 @@
+id: gsibv-vectortile-layer-2309
+type: symbol
+source: gsibv-vectortile-source-1-4-16
+source-layer: symbol
+metadata:
+  layer-id: layer-1504
+  title: 電子基準点
+  path: 記号-電子基準点
+  added: 1
+minzoom: 14
+maxzoom: 18
+filter:
+  - all
+  - - in
+    - ftCode
+    - 7101
+  - - '=='
+    - gcpCodeFlag
+    - 0
+layout:
+  icon-size:
+    stops:
+      - - 14
+        - 0.4
+      - - 15
+        - 0.8
+      - - 16
+        - 1
+      - - 17
+        - 1
+  icon-anchor: center
+  icon-image: std///電子基準点
+  icon-pitch-alignment: viewport
+  icon-rotation-alignment: viewport
+  icon-allow-overlap: true
+  text-font:
+    - NotoSansCJKjp-Regular
+  symbol-placement: point
+  text-keep-upright: true
+  text-allow-overlap: false
+  symbol-z-order: auto
+  text-max-width: 100
+  visibility: visible

@@ -1,0 +1,38 @@
+id: gsibv-vectortile-layer-1863
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: road
+metadata:
+  layer-id: layer-1274
+  title: 橋・高架
+  path: 道路-市区町村道・その他-3m以上5.5m未満-橋・高架
+  added: 1
+minzoom: 13
+maxzoom: 14
+filter:
+  - all
+  - - in
+    - ftCode
+    - 2703
+  - - '!='
+    - rdCtg
+    - 0
+  - - '!='
+    - rdCtg
+    - 1
+  - - '!='
+    - rdCtg
+    - 3
+  - - '!='
+    - motorway
+    - 1
+  - - '=='
+    - rnkWidth
+    - 1
+layout:
+  line-cap: square
+  line-join: round
+  visibility: visible
+paint:
+  line-color: rgba(173,173,173,1)
+  line-width: 1.5

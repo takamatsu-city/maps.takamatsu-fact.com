@@ -1,0 +1,35 @@
+id: gsibv-vectortile-layer-2059
+type: symbol
+source: gsibv-vectortile-source-1-4-16
+source-layer: symbol
+metadata:
+  layer-id: layer-1429
+  title: 主要な港
+  path: 記号-主要な港
+  added: 1
+minzoom: 6
+maxzoom: 8
+filter:
+  - all
+  - - in
+    - ftCode
+    - 56368
+layout:
+  icon-size:
+    stops:
+      - - 6
+        - 0.3
+      - - 7
+        - 0.5
+  icon-image: std///主要な港-500
+  icon-pitch-alignment: viewport
+  icon-rotation-alignment: viewport
+  text-font:
+    - NotoSansCJKjp-Regular
+  symbol-placement: point
+  icon-allow-overlap: true
+  text-keep-upright: true
+  text-allow-overlap: false
+  symbol-z-order: auto
+  text-max-width: 100
+  visibility: visible

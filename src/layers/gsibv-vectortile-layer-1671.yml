@@ -1,0 +1,27 @@
+id: gsibv-vectortile-layer-1671
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: boundary
+metadata:
+  layer-id: layer-1375
+  title: 所属界（所属を明示する境界線）
+  path: 境界-行政界-所属界（所属を明示する境界線）
+  added: 1
+minzoom: 11
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 1221
+layout:
+  line-cap: square
+  visibility: visible
+paint:
+  line-color: rgba(68, 0, 128,1)
+  line-width: 1.5
+  line-dasharray:
+    - 4
+    - 1
+    - 1
+    - 5

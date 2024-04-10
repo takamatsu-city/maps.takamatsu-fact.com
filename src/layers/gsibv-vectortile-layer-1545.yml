@@ -1,0 +1,22 @@
+id: gsibv-vectortile-layer-1545
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: landforml
+metadata:
+  layer-id: layer-1128
+  title: 湖底急斜面
+  path: 地形-湖底急斜面
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 7571
+layout:
+  line-cap: square
+  visibility: visible
+paint:
+  line-color: rgba(43,107,255,1)
+  line-width: 1

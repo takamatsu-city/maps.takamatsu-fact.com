@@ -1,0 +1,29 @@
+id: gsibv-vectortile-layer-2040
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: road
+metadata:
+  layer-id: layer-1173
+  title: 高速自動車道
+  path: 道路-高速自動車道
+  added: 1
+minzoom: 4
+maxzoom: 8
+filter:
+  - all
+  - - in
+    - ftCode
+    - 52703
+layout:
+  line-cap: square
+  visibility: visible
+paint:
+  line-color: rgb(61,151,56)
+  line-width:
+    stops:
+      - - 4
+        - 0.5
+      - - 6
+        - 1.5
+      - - 7
+        - 2.5

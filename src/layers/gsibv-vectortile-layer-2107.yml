@@ -1,0 +1,35 @@
+id: gsibv-vectortile-layer-2107
+type: symbol
+source: gsibv-vectortile-source-1-4-16
+source-layer: symbol
+metadata:
+  layer-id: layer-1487
+  title: 城跡
+  path: 記号-城跡
+  added: 1
+minzoom: 11
+maxzoom: 14
+filter:
+  - all
+  - - in
+    - ftCode
+    - 6342
+layout:
+  icon-image: std///城跡-20
+  icon-pitch-alignment: viewport
+  icon-rotation-alignment: viewport
+  icon-size:
+    stops:
+      - - 11
+        - 0.4
+      - - 14
+        - 0.6
+  text-font:
+    - NotoSansCJKjp-Regular
+  symbol-placement: point
+  icon-allow-overlap: true
+  text-keep-upright: true
+  text-allow-overlap: false
+  symbol-z-order: auto
+  text-max-width: 100
+  visibility: visible

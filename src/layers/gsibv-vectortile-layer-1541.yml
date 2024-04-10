@@ -1,0 +1,25 @@
+id: gsibv-vectortile-layer-1541
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: river
+metadata:
+  layer-id: layer-1398
+  title: 枯れ川部
+  path: 河川-枯れ川部
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 5302
+layout:
+  line-cap: square
+  visibility: visible
+paint:
+  line-color: rgb(20,90,255)
+  line-width: 1.5
+  line-dasharray:
+    - 5
+    - 1.5

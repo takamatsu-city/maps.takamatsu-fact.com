@@ -1,0 +1,25 @@
+id: gsibv-vectortile-layer-1573
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: landforml
+metadata:
+  layer-id: layer-1127
+  title: 枯れ川水涯線
+  path: 地形-枯れ川水涯線
+  added: 1
+minzoom: 17
+maxzoom: 18
+filter:
+  - all
+  - - in
+    - ftCode
+    - 7561
+layout:
+  line-cap: square
+  visibility: visible
+paint:
+  line-color: rgba(43,107,255,1)
+  line-width: 2
+  line-dasharray:
+    - 4
+    - 4

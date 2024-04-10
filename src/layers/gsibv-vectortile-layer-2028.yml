@@ -1,0 +1,41 @@
+id: gsibv-vectortile-layer-2028
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: railway
+metadata:
+  layer-id: layer-1370
+  title: 地下駅
+  path: 鉄道-地下駅
+  added: 1
+minzoom: 17
+maxzoom: 18
+filter:
+  - all
+  - - has
+    - staCode
+  - - '!='
+    - staCode
+    - '0'
+  - - in
+    - railState
+    - 100
+    - 300
+    - 500
+    - 2
+    - 3
+layout:
+  line-cap: square
+  visibility: visible
+paint:
+  line-color: rgba(200,160,60,1)
+  line-dasharray:
+    - 6
+    - 6
+  line-offset:
+    stops:
+      - - 17
+        - 12
+  line-width:
+    stops:
+      - - 17
+        - 3

@@ -1,0 +1,35 @@
+id: gsibv-vectortile-layer-2056
+type: symbol
+source: gsibv-vectortile-source-1-4-16
+source-layer: landformp
+metadata:
+  layer-id: layer-1132
+  title: 雨裂（下部）
+  path: 地形-雨裂（下部）
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 7621
+layout:
+  icon-image: std///雨裂（下部）-20
+  icon-pitch-alignment: viewport
+  icon-rotation-alignment: viewport
+  icon-size:
+    stops:
+      - - 14
+        - 0.4
+      - - 17
+        - 1.5
+  text-font:
+    - NotoSansCJKjp-Regular
+  symbol-placement: point
+  icon-allow-overlap: true
+  text-keep-upright: true
+  text-allow-overlap: false
+  symbol-z-order: auto
+  text-max-width: 100
+  visibility: visible

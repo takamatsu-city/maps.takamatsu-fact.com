@@ -1,0 +1,25 @@
+id: gsibv-vectortile-layer-1636
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: landforml
+metadata:
+  layer-id: layer-1117
+  title: 滝（線）
+  path: 地形-滝（線）
+  added: 1
+minzoom: 14
+maxzoom: 18
+filter:
+  - all
+  - - in
+    - ftCode
+    - 5521
+  - - '=='
+    - orgGILvl
+    - '25000'
+layout:
+  line-cap: square
+  visibility: visible
+paint:
+  line-color: rgba(100,100,100,1)
+  line-width: 2

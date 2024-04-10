@@ -1,0 +1,44 @@
+id: gsibv-vectortile-layer-1847
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: railway
+metadata:
+  layer-id: layer-1345
+  title: 橋梁
+  path: 鉄道-地下鉄-橋梁
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 8201
+  - - '=='
+    - railState
+    - 1
+  - - any
+    - - '=='
+      - staCode
+      - '0'
+    - - '!has'
+      - staCode
+  - - any
+    - - all
+      - - '>='
+        - rtCode
+        - '40203000000'
+      - - <
+        - rtCode
+        - '40204000000'
+layout:
+  line-cap: butt
+  visibility: visible
+paint:
+  line-color: rgba(255,255,255,1)
+  line-width:
+    stops:
+      - - 14
+        - 14
+      - - 16
+        - 18

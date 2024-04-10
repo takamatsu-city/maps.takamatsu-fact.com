@@ -1,0 +1,30 @@
+id: gsibv-vectortile-layer-1659
+type: fill
+source: gsibv-vectortile-source-1-4-16
+source-layer: building
+metadata:
+  layer-id: layer-1150
+  title: 普通建物
+  path: 建物-普通建物-普通建物
+  added: 1
+minzoom: 15
+maxzoom: 17
+filter:
+  - all
+  - - any
+    - - '=='
+      - lvOrder
+      - 0
+    - - '!has'
+      - lvOrder
+  - - all
+    - - in
+      - ftCode
+      - 3101
+    - - '=='
+      - $type
+      - Polygon
+layout:
+  visibility: visible
+paint:
+  fill-color: '#efebe3'

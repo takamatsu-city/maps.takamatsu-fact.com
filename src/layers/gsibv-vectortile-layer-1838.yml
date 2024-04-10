@@ -1,0 +1,50 @@
+id: gsibv-vectortile-layer-1838
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: railway
+metadata:
+  layer-id: layer-1327
+  title: 複線
+  path: 鉄道-JR-橋梁-複線
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 8201
+  - - '=='
+    - railState
+    - 1
+  - - '=='
+    - snglDbl
+    - 2
+  - - any
+    - - '=='
+      - staCode
+      - '0'
+    - - '!has'
+      - staCode
+  - - any
+    - - all
+      - - '>='
+        - rtCode
+        - '40201000000'
+      - - <
+        - rtCode
+        - '40202000000'
+    - - all
+      - - '>='
+        - rtCode
+        - '40216000000'
+      - - <
+        - rtCode
+        - '40217000000'
+layout:
+  line-cap: butt
+  visibility: visible
+paint:
+  line-color: rgba(100,100,100,1)
+  line-width: 2
+  line-offset: -4

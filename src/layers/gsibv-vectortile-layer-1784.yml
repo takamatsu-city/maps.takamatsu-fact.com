@@ -1,0 +1,31 @@
+id: gsibv-vectortile-layer-1784
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: railway
+metadata:
+  layer-id: layer-1365
+  title: 雪覆い
+  path: 鉄道-雪覆い
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 8201
+  - - '=='
+    - railState
+    - 4
+  - - any
+    - - '=='
+      - staCode
+      - '0'
+    - - '!has'
+      - staCode
+layout:
+  line-cap: square
+  visibility: visible
+paint:
+  line-color: rgba(200,200,200,1)
+  line-width: 5

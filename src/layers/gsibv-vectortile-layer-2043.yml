@@ -1,0 +1,34 @@
+id: gsibv-vectortile-layer-2043
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: building
+metadata:
+  layer-id: layer-1152
+  title: 普通建物（外周線）
+  path: 建物-普通建物-普通建物（外周線）
+  added: 1
+minzoom: 15
+maxzoom: 17
+filter:
+  - all
+  - - '=='
+    - lvOrder
+    - 4
+  - - all
+    - - in
+      - ftCode
+      - 3101
+    - - '=='
+      - $type
+      - LineString
+layout:
+  line-cap: butt
+  visibility: visible
+paint:
+  line-color: rgba(255,135,75, 0)
+  line-width:
+    stops:
+      - - 15
+        - 1
+      - - 17
+        - 1.5

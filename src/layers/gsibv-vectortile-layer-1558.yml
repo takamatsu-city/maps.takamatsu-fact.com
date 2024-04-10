@@ -1,0 +1,23 @@
+id: gsibv-vectortile-layer-1558
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: river
+metadata:
+  layer-id: layer-1393
+  title: 通常部
+  path: 河川-通常部
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 5201
+    - 5301
+layout:
+  line-cap: square
+  visibility: visible
+paint:
+  line-color: '#7283AB'
+  line-width: 1

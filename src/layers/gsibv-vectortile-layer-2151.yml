@@ -1,0 +1,47 @@
+id: gsibv-vectortile-layer-2151
+type: symbol
+source: gsibv-vectortile-source-1-4-16
+source-layer: label
+metadata:
+  layer-id: layer-1432
+  title: 都道府県庁
+  path: 記号-都道府県庁
+  added: 1
+minzoom: 11
+maxzoom: 14
+filter:
+  - all
+  - - in
+    - ftCode
+    - 100
+  - - '=='
+    - annoCtg
+    - 621
+  - - '=='
+    - orgGILvl
+    - '25000'
+  - - in
+    - knj
+    - 都庁
+    - 道庁
+    - 府庁
+    - 県庁
+layout:
+  icon-size:
+    stops:
+      - - 11
+        - 0.4
+      - - 14
+        - 0.6
+  icon-image: std///都道府県所在地-20
+  icon-pitch-alignment: viewport
+  icon-rotation-alignment: viewport
+  text-font:
+    - NotoSansCJKjp-Regular
+  symbol-placement: point
+  icon-allow-overlap: true
+  text-keep-upright: true
+  text-allow-overlap: false
+  symbol-z-order: auto
+  text-max-width: 100
+  visibility: visible

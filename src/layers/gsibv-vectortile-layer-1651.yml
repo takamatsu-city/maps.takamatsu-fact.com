@@ -1,0 +1,25 @@
+id: gsibv-vectortile-layer-1651
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: building
+metadata:
+  layer-id: layer-1158
+  title: 堅ろう建物（外周線）
+  path: 建物-堅ろう建物-堅ろう建物（外周線）
+  added: 1
+minzoom: 17
+maxzoom: 18
+filter:
+  - all
+  - - in
+    - ftCode
+    - 3102
+  - - '=='
+    - $type
+    - LineString
+layout:
+  line-cap: butt
+  visibility: visible
+paint:
+  line-color: rgb(255,135,75)
+  line-width: 2.5

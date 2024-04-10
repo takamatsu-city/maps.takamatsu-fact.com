@@ -1,0 +1,25 @@
+id: gsibv-vectortile-layer-1653
+type: fill
+source: gsibv-vectortile-source-1-4-16
+source-layer: building
+metadata:
+  layer-id: layer-1161
+  title: 高層建物
+  path: 建物-高層建物-高層建物
+  gsi-fill-hatch-style: cross
+  fill-color: rgb(255,135,75)
+  added: 1
+minzoom: 17
+maxzoom: 18
+filter:
+  - all
+  - - in
+    - ftCode
+    - 3103
+  - - '=='
+    - $type
+    - Polygon
+layout:
+  visibility: visible
+paint:
+  fill-pattern: '-gsibv-hatch-cross-4-255,135,75,1-255,255,255,1'

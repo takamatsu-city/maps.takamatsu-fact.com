@@ -1,0 +1,32 @@
+id: gsibv-vectortile-layer-1732
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: road
+metadata:
+  layer-id: layer-1203
+  title: 石段
+  path: 道路-国道-石段
+  added: 1
+minzoom: 14
+maxzoom: 17
+filter:
+  - all
+  - - in
+    - ftCode
+    - 2731
+    - 2732
+    - 2733
+    - 2734
+  - - '=='
+    - rdCtg
+    - 0
+  - - '!='
+    - motorway
+    - 1
+layout:
+  line-cap: square
+  line-join: round
+  visibility: visible
+paint:
+  line-color: rgba(100,100,100,1)
+  line-width: 6

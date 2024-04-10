@@ -1,0 +1,29 @@
+id: gsibv-vectortile-layer-1873
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: road
+metadata:
+  layer-id: layer-1236
+  title: トンネル
+  path: 道路-都道府県道-トンネル
+  added: 1
+minzoom: 10
+maxzoom: 11
+filter:
+  - all
+  - - in
+    - ftCode
+    - 2704
+  - - '=='
+    - rdCtg
+    - 1
+  - - '!='
+    - motorway
+    - 1
+layout:
+  line-cap: square
+  line-join: round
+  visibility: visible
+paint:
+  line-color: '#ebd4c8'
+  line-width: 2

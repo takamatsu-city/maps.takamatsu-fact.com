@@ -1,0 +1,25 @@
+id: gsibv-vectortile-layer-1595
+type: line
+source: gsibv-vectortile-source-1-4-16
+source-layer: contour
+metadata:
+  layer-id: layer-1410
+  title: 計曲線通常部
+  path: 等高線等深線-等高線-計曲線通常部
+  added: 1
+minzoom: 14
+maxzoom: 18
+filter:
+  - all
+  - - in
+    - ftCode
+    - 7351
+  - - '=='
+    - altiFlag
+    - 0
+layout:
+  line-cap: square
+  visibility: visible
+paint:
+  line-color: '#f5deb3'
+  line-width: 1.6
