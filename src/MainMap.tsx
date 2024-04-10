@@ -36,8 +36,6 @@ const LAYER_TEMPLATES: [string, (idx: number, customStyle?: CustomStyle[]) => La
   }],
 ];
 
-
-
 const DEM_LAYER_ID = 'takamatsu-dem';
 const BASE_PITCH = 0;
 
@@ -59,16 +57,10 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
   }, [catalogData]);
 
 
-  const onClick3dBtn = () => {
+  const onClick3dBtn = async () => {
     if(!map) { return; }
-    if(show3dDem) {
-      setPitch(0);
-      map.flyTo({pitch: 0})
-    } else {
-      setPitch(60);
-      map.flyTo({pitch: 60})
-    }
-    setShow3dDem(show3dDem);
+    const newPitch = show3dDem ? 0 : 60;
+    map.flyTo({ pitch: newPitch });
   }
 
   useLayoutEffect(() => {
@@ -96,6 +88,18 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
         type: 'raster-dem',
         url: 'https://tileserver.geolonia.com/gsi-dem/tiles.json?key=YOUR-API-KEY',
       });
+
+      map.addLayer({
+        id: 'takamatsu-dem',
+        type: 'hillshade',
+        source: 'gsidem',
+        paint: {
+          'hillshade-exaggeration': 0.5,
+          'hillshade-shadow-color': 'rgba(71, 59, 36, 0.1)',
+        }
+      },'park');
+
+      map.setTerrain({ 'source': 'gsidem', 'exaggeration': 1 });
       // End add GSI DEM
 
       map.addSource('negative-city-mask', {
@@ -133,9 +137,9 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
         url: "https://tileserver.geolonia.com/takamatsu_kihonzu_v1/tiles.json?key=YOUR-API-KEY"
       });
 
-      // pitchを取得
-      setPitch(map.getPitch());
-
+      const initialPitch = map.getPitch();
+      setPitch(initialPitch);
+      setShow3dDem(initialPitch > 0)
       setMap(map);
     });
 
@@ -168,14 +172,13 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
       }));
     });
 
-    map.on('pitch', (e) => {
+    map.on('pitchend', (e) => {
       setPitch(e.target.getPitch());
     })
 
     return () => {
       map.remove();
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures]);
 
 
