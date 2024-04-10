@@ -53,22 +53,33 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
   const mapContainer = useRef<HTMLDivElement>(null);
   const [show3dDem, setShow3dDem] = useState<boolean>(false);
   const [pitch, setPitch] = useState<number>(0);
+  const isFlyTo = useRef<boolean>(false);       // flytoの終了判定フラグ
 
   const catalogDataItems = useMemo(() => {
     return [...walkCategories(catalogData)];
   }, [catalogData]);
 
 
-  const onClick3dBtn = () => {
+  const onClick3dBtn = async () => {
     if(!map) { return; }
-    if(show3dDem) {
-      setPitch(0);
-      map.flyTo({pitch: 0})
-    } else {
-      setPitch(60);
-      map.flyTo({pitch: 60})
+    // flyto時に途中でpitchが検出され、挙動がおかしくなったのでflytoが終わるまで待つように設定
+    const newPitch = show3dDem ? 0 : 60;
+    isFlyTo.current = true;
+    map.flyTo({ pitch: newPitch });
+    const res = await waitFlyto(newPitch)
+    isFlyTo.current = !res;
+    // flyto後、pitchの変更が検出されなかったので手動でセット
+    setPitch(newPitch);
+  }
+
+  const waitFlyto = async (newPitch: number) => {
+    if(!map) { return }
+    let done = false;
+    while(!done){
+      console.log(newPitch, map?.getPitch())
+      done = await new Promise( resolve => setTimeout(() => resolve(newPitch <= map.getPitch()), 100) );
     }
-    setShow3dDem(show3dDem);
+    return done;
   }
 
   useLayoutEffect(() => {
@@ -169,7 +180,10 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
     });
 
     map.on('pitch', (e) => {
-      setPitch(e.target.getPitch());
+      if(!isFlyTo.current) {
+        setPitch(e.target.getPitch());
+        console.log(e.target.getPitch())
+      }
     })
 
     return () => {
@@ -202,6 +216,8 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
     }
 
   }, [map, pitch])
+
+
 
 
   useEffect(() => {
