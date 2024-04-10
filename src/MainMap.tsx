@@ -173,7 +173,6 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
     });
 
     map.on('pitchend', (e) => {
-      console.log()
       setPitch(e.target.getPitch());
     })
 
