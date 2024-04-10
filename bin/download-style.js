@@ -2,13 +2,14 @@
 
 const fs = require("fs");
 const path = require("path");
-const url = 'https://raw.githubusercontent.com/geoloniamaps/gsi/use-v3-tiles/docs/style.json';
+// const url = 'https://raw.githubusercontent.com/geoloniamaps/gsi/use-v3-tiles/docs/style.json';
 
 const downloadStyle = async () => {
 
-  const response = await fetch(url);
-  let rawStyleJson = (await response.text())
-    .replace(/"{name}"/g, '["string", ["get", "name:ja"], ["get", "name"]]');
+  // const response = await fetch(url);
+  // let rawStyleJson = (await response.text())
+  let rawStyleJson = (fs.readFileSync('src/style.json'))
+    // .replace(/"{name}"/g, '["string", ["get", "name:ja"], ["get", "name"]]');
   const styleJson = JSON.parse(rawStyleJson);
 
   styleJson.sprite = "https://api.geolonia.com/v1/sprites/gsi";
@@ -17,7 +18,7 @@ const downloadStyle = async () => {
   /**
    * 不要なレイヤーを削除
    */
-  const removeLayerIds = ['poi-z16', 'poi-z16-primary', 'hillshading'];
+  const removeLayerIds = ['hillshading'];
   styleJson.layers = styleJson.layers.filter(layer => !removeLayerIds.includes(layer.id));
   // layer.metadata['visible-on-3d] が存在するレイヤーを削除
   styleJson.layers = styleJson.layers.filter(layer => !layer.metadata || !layer.metadata['visible-on-3d']);
