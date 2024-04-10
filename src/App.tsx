@@ -30,9 +30,6 @@ function App() {
     // setSelectedLayers(catalogData.map(item => item.class));
   }, [ catalogSuccess, catalogData, setSelectedLayers ]);
 
-  // useEffect(() => {
-  //   console.log(selectedLayers);
-  // }, [selectedLayers]);
 
   return (
     <div className="App">
