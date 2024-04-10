@@ -37,6 +37,7 @@ const LAYER_TEMPLATES: [string, (idx: number, customStyle?: CustomStyle[]) => La
 ];
 
 const DEM_LAYER_ID = 'takamatsu-dem';
+const BASE_PITCH = 0;
 
 interface Props {
   catalogData: CatalogItem[];
@@ -78,7 +79,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
     }
     return done;
   }
-    
+
   // 標高DEMの切り替え
   //const toggleTerrainControl = () => {
     //if(!map) { return; }
@@ -366,7 +367,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
 
   return (
     <>
-    <button onClick={toggleTerrainControl} className={classNames({'controlBtn': true, 'select': show3dDem})}>
+    <button onClick={onClick3dBtn} className={classNames({'controlBtn': true, 'select': show3dDem})}>
       <FaMountain />
     </button>
     <div
