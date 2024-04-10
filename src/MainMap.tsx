@@ -36,10 +36,7 @@ const LAYER_TEMPLATES: [string, (idx: number, customStyle?: CustomStyle[]) => La
   }],
 ];
 
-
-
 const DEM_LAYER_ID = 'takamatsu-dem';
-const BASE_PITCH = 0;
 
 interface Props {
   catalogData: CatalogItem[];
@@ -81,6 +78,28 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
     }
     return done;
   }
+    
+  // 標高DEMの切り替え
+  //const toggleTerrainControl = () => {
+    //if(!map) { return; }
+    //if(map.getLayer(DEM_LAYER_ID)) {
+     // map.removeLayer(DEM_LAYER_ID);
+      //setShow3dDem(false);
+      //map.setTerrain({ 'source': 'gsidem', 'exaggeration': 0 });
+    //} else {
+     // map.addLayer({
+       // id: DEM_LAYER_ID,
+        //type: 'hillshade',
+        //source: 'gsidem',
+        //paint: {
+          //'hillshade-exaggeration': 0.5,
+          //'hillshade-shadow-color': 'rgba(71, 59, 36, 0.1)',
+        //}
+      //},'park');
+      //setShow3dDem(true);
+      //map.setTerrain({ 'source': 'gsidem', 'exaggeration': 1 });
+    //}
+  //}
 
   useLayoutEffect(() => {
     const map: maplibregl.Map = new window.geolonia.Map({
@@ -107,6 +126,18 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
         type: 'raster-dem',
         url: 'https://tileserver.geolonia.com/gsi-dem/tiles.json?key=YOUR-API-KEY',
       });
+
+      map.addLayer({
+        id: 'takamatsu-dem',
+        type: 'hillshade',
+        source: 'gsidem',
+        paint: {
+          'hillshade-exaggeration': 0.5,
+          'hillshade-shadow-color': 'rgba(71, 59, 36, 0.1)',
+        }
+      },'park');
+
+      map.setTerrain({ 'source': 'gsidem', 'exaggeration': 1 });
       // End add GSI DEM
 
       map.addSource('negative-city-mask', {
@@ -144,9 +175,12 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
         url: "https://tileserver.geolonia.com/takamatsu_kihonzu_v1/tiles.json?key=YOUR-API-KEY"
       });
 
-      // pitchを取得
-      setPitch(map.getPitch());
-
+      // map.addControl(
+      //   new window.geolonia.TerrainControl({
+      //       source: 'gsidem',
+      //       exaggeration: 1
+      //   })
+      // );
       setMap(map);
     });
 
@@ -189,7 +223,6 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
     return () => {
       map.remove();
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures]);
 
 
@@ -216,8 +249,6 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
     }
 
   }, [map, pitch])
-
-
 
 
   useEffect(() => {
@@ -335,7 +366,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
 
   return (
     <>
-    <button onClick={onClick3dBtn} className={classNames({'controlBtn': true, 'select': show3dDem})}>
+    <button onClick={toggleTerrainControl} className={classNames({'controlBtn': true, 'select': show3dDem})}>
       <FaMountain />
     </button>
     <div
