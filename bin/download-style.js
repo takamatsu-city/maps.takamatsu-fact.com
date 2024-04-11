@@ -8,7 +8,7 @@ const downloadStyle = async () => {
 
   // const response = await fetch(url);
   // let rawStyleJson = (await response.text())
-  let rawStyleJson = (fs.readFileSync('src/style.json'))
+  let rawStyleJson = (fs.readFileSync('gis-style/style.json'))
     // .replace(/"{name}"/g, '["string", ["get", "name:ja"], ["get", "name"]]');
   const styleJson = JSON.parse(rawStyleJson);
 
