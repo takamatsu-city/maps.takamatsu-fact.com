@@ -127,7 +127,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
           'line-width': 2,
         }
       })
-
+      console.log('aaa')
       map.addSource('takamatsu', {
         type: 'vector',
         url: "https://tileserver.geolonia.com/takamatsu_main_v0/tiles.json?key=YOUR-API-KEY"
@@ -275,23 +275,23 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
           }
         }
 
-        for (const [sublayerName, template] of LAYER_TEMPLATES) {
-          const fullLayerName = `takamatsu/${definitionId}/${sublayerName}`;
+        for (const [subLayerName, template] of LAYER_TEMPLATES) {
+          const fullLayerName = `takamatsu/${definitionId}/${subLayerName}`;
           const mapLayers = map.getStyle().layers.filter((layer) => layer.id.startsWith(fullLayerName));
           const customStyle = getCustomStyle(definition);
-          for (const subtemplate of template(index, customStyle)) {
+          for (const subTemplate of template(index, customStyle)) {
             if (mapLayers.length === 0 && isSelected) {
-              const filterExp: maplibregl.FilterSpecification = ["all", ["==", "$type", sublayerName]];
+              const filterExp: maplibregl.FilterSpecification = ["all", ["==", "$type", subLayerName]];
               if (definition.class) {
                 filterExp.push(["==", "class", definition.class]);
               }
-              if (subtemplate.filter) {
-                filterExp.push(subtemplate.filter as any);
+              if (subTemplate.filter) {
+                filterExp.push(subTemplate.filter as any);
               }
               const layerConfig: maplibregl.LayerSpecification = {
-                ...subtemplate,
+                ...subTemplate,
                 filter: filterExp,
-                id: fullLayerName + subtemplate.id,
+                id: fullLayerName + subTemplate.id,
               };
               if (geojsonEndpoint) {
                 layerConfig.source = definitionId;
