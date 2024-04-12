@@ -86,8 +86,8 @@ paint:
           - - 2711
             - 2712
             - 2713
-      - rgba(173,173,173,1)
-      - rgba(100,100,100,1)
+      - rgba(184,192,204,0.5)
+      - rgba(184,192,204,0.9)
   line-opacity:
     - interpolate
     - - linear

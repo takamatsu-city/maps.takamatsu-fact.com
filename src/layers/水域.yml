@@ -4,7 +4,7 @@ type: fill
 source: v
 source-layer: WA
 paint:
-  fill-color: rgba(190,210,255,1)
+  fill-color: rgba(109,193,238,1)
   fill-opacity:
     - interpolate
     - - linear

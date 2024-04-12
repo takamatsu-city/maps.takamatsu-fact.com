@@ -3,7 +3,7 @@ type: line
 source: v
 source-layer: Cntr
 paint:
-  line-color: rgb(200,160,60)
+  line-color: rgba(176,196,222,0.5)
   line-width:
     - interpolate
     - - linear
