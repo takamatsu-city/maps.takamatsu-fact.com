@@ -7,5 +7,5 @@ filter:
   - - geometry-type
   - LineString
 paint:
-  line-color: rgba(231,39,65,1)
+  line-color: rgba(186,108,44,1)
   line-width: 1
