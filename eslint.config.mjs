@@ -1,25 +1,32 @@
 import globals from "globals";
-import pluginJs from "@eslint/js";
-import tseslint from "typescript-eslint";
-import pluginReactConfig from "eslint-plugin-react/configs/recommended.js";
-
-// geolonia独自（importの書き方調査中）
-import '@geolonia'
-import 'react-app'
-import 'plugin:react/recommended'
-import 'plugin:storybook/recommended'
+import react from 'eslint-plugin-react';
+import reactApp from 'eslint-config-react-app';
+import pluginImport from 'eslint-plugin-import';
 
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default [
   {
-    languageOptions: { globals: globals.browser },
+		files: ['**/*.ts', '**/*.tsx'],
+    ignores: [
+      '**/dist/*',
+      '**/node_modules/*',
+      '*/babel.config.js'
+    ],
+    plugins: {
+      react,
+      reactApp,
+      pluginImport,
+    },
     rules: {
-      'import/no-extraneous-dependencies': ['error', {
+      'pluginImport/no-extraneous-dependencies': ['error', {
         'devDependencies': ['**/*.stories.tsx', '**/*.test.tsx', '*.config.js']
       }]
-    }
-  },
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
-  pluginReactConfig,
+    },
+		languageOptions: {
+			globals: {
+				...globals.browser
+			}
+		}
+	}
 ];
