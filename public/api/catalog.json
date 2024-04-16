@@ -2,8 +2,8 @@
   {
     "type": "DataItem",
     "id": "satellite",
-    "name": "衛生画像",
-    "class": "衛生画像",
+    "name": "衛星画像",
+    "class": "衛星画像",
     "metadata": {}
   },
   {

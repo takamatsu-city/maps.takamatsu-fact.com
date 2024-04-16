@@ -286,7 +286,6 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
           const mapLayers = map.getStyle().layers.filter((layer) => layer.id.startsWith(fullLayerName));
           const customStyle = getCustomStyle(definition);
           if(definitionId === 'satellite') {
-            console.log(definitionId, isSelected)
             if(isSelected) {
               map.addLayer({
                 id: definitionId,
