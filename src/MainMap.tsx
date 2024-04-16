@@ -102,7 +102,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
       map.setTerrain({ 'source': 'gsidem', 'exaggeration': 1 });
       // End add GSI DEM
 
-      // 衛生画像レイヤーを追加
+      // 衛星画像レイヤーを追加
       map.addSource('satellite', {
         type: 'raster',
         url: 'https://api.maptiler.com/tiles/satellite-v2/tiles.json?key=liMTCwl3aGL5iEy1UR1Y',
