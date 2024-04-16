@@ -6,6 +6,7 @@ import './Sidebar.scss';
 import { CatalogCategory, CatalogDataItem, CatalogItem, walkCategories } from './api/catalog';
 
 import classNames from 'classnames';
+import { useSwipeable } from 'react-swipeable';
 
 type SidebarItemProps = {
   selectedLayers: string[]
@@ -139,8 +140,20 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedLayers, setSelectedLayers, ca
     event.stopPropagation();
   }, [setIsOpenedSidebar]);
 
+  // モバイルでスワイプ時にリストを閉じる
+  const swipeHandlers = useSwipeable({
+    onSwiped: (event) => {
+      console.log("ああああああ")
+      console.log(event);
+      // if (event.dir == "Down" && listRef.current && listRef.current.scrollTop <= 200) {
+      //   closeListHandler(event);
+      // }
+    },
+    trackMouse: true,
+  });
+
   return (
-    <div className={classNames('sidebar', { 'sidebar-open': isOpenedSidebar })} onClick={openListHandler}>
+    <div className={classNames('sidebar', { 'sidebar-open': isOpenedSidebar })} onClick={openListHandler} {...swipeHandlers}>
       <label id="list-close" onClick={closeListHandler}><span></span></label>
       <h2 className='title'><AiOutlineBars className='list-icon'/>都市情報</h2>
       <div className='button-container'>
