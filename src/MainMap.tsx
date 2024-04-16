@@ -102,6 +102,12 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
       map.setTerrain({ 'source': 'gsidem', 'exaggeration': 1 });
       // End add GSI DEM
 
+      // 衛生画像レイヤーを追加
+      map.addSource('satellite', {
+        type: 'raster',
+        url: 'https://api.maptiler.com/tiles/satellite-v2/tiles.json?key=liMTCwl3aGL5iEy1UR1Y',
+      })
+
       map.addSource('negative-city-mask', {
         type: 'vector',
         url: 'https://tileserver.geolonia.com/takamatsu_negative_mask/tiles.json?key=YOUR-API-KEY',
@@ -279,35 +285,50 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
           const fullLayerName = `takamatsu/${definitionId}/${sublayerName}`;
           const mapLayers = map.getStyle().layers.filter((layer) => layer.id.startsWith(fullLayerName));
           const customStyle = getCustomStyle(definition);
-          for (const subtemplate of template(index, customStyle)) {
-            if (mapLayers.length === 0 && isSelected) {
-              const filterExp: maplibregl.FilterSpecification = ["all", ["==", "$type", sublayerName]];
-              if (definition.class) {
-                filterExp.push(["==", "class", definition.class]);
-              }
-              if (subtemplate.filter) {
-                filterExp.push(subtemplate.filter as any);
-              }
-              const layerConfig: maplibregl.LayerSpecification = {
-                ...subtemplate,
-                filter: filterExp,
-                id: fullLayerName + subtemplate.id,
-              };
-              if (geojsonEndpoint) {
-                layerConfig.source = definitionId;
-                delete layerConfig['source-layer'];
-              } else if ('customDataSource' in definition) {
-                layerConfig.source = definition.customDataSource;
-                layerConfig['source-layer'] = definition.customDataSourceLayer || definition.customDataSource;
-              }
-              map.addLayer(layerConfig, 'poi');
-              if (!map.getLayer(layerConfig.id)) {
-                console.error(`Failed to add layer ${layerConfig.id}!!!`);
-                debugger;
-              }
-            } else if (mapLayers.length > 0 && !isSelected) {
-              for (const mapLayer of mapLayers) {
-                map.removeLayer(mapLayer.id);
+          if(definitionId === 'satellite') {
+            console.log(definitionId, isSelected)
+            if(isSelected) {
+              map.addLayer({
+                id: definitionId,
+                type: 'raster',
+                source: 'satellite',
+                minzoom: 0,
+                maxzoom: 22
+              }, 'poi');
+            } else {
+              map.removeLayer(definitionId)
+            }
+          } else {
+            for (const subtemplate of template(index, customStyle)) {
+              if (mapLayers.length === 0 && isSelected) {
+                const filterExp: maplibregl.FilterSpecification = ["all", ["==", "$type", sublayerName]];
+                if (definition.class) {
+                  filterExp.push(["==", "class", definition.class]);
+                }
+                if (subtemplate.filter) {
+                  filterExp.push(subtemplate.filter as any);
+                }
+                const layerConfig: maplibregl.LayerSpecification = {
+                  ...subtemplate,
+                  filter: filterExp,
+                  id: fullLayerName + subtemplate.id,
+                };
+                if (geojsonEndpoint) {
+                  layerConfig.source = definitionId;
+                  delete layerConfig['source-layer'];
+                } else if ('customDataSource' in definition) {
+                  layerConfig.source = definition.customDataSource;
+                  layerConfig['source-layer'] = definition.customDataSourceLayer || definition.customDataSource;
+                }
+                map.addLayer(layerConfig, 'poi');
+                if (!map.getLayer(layerConfig.id)) {
+                  console.error(`Failed to add layer ${layerConfig.id}!!!`);
+                  debugger;
+                }
+              } else if (mapLayers.length > 0 && !isSelected) {
+                for (const mapLayer of mapLayers) {
+                  map.removeLayer(mapLayer.id);
+                }
               }
             }
           }

@@ -1,6 +1,13 @@
 [
   {
     "type": "DataItem",
+    "id": "satellite",
+    "name": "衛生画像",
+    "class": "衛生画像",
+    "metadata": {}
+  },
+  {
+    "type": "DataItem",
     "id": "行政界（町字）",
     "name": "行政界（町字）",
     "class": "大字界",
