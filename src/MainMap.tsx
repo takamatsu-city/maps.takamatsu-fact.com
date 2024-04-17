@@ -127,7 +127,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
           'line-width': 2,
         }
       })
-      console.log('aaa')
+
       map.addSource('takamatsu', {
         type: 'vector',
         url: "https://tileserver.geolonia.com/takamatsu_main_v0/tiles.json?key=YOUR-API-KEY"
