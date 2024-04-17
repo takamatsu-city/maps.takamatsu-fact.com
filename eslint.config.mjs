@@ -13,7 +13,8 @@ export default [
     ignores: [
       '**/dist/*',
       '**/node_modules/*',
-      '*/babel.config.js'
+      '*/babel.config.js',
+      '**/setupTests.ts'
     ],
     plugins: {
       react,
