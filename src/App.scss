@@ -82,5 +82,18 @@ body,
         color: #058cd5;
       }
     }
+
+    .maplibregl-ctrl-bottom-right,
+    .maplibregl-ctrl-bottom-left {
+      bottom: 24px !important; //アトリビューションが重ならないように調整
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .map-container {
+    // データリストパネル分、地図の中心がずれないようにマージンを追加。
+    // 高さ（84px）を指定すると追加すると角丸（24px）の背景が見えるようになるので、60pxにしている。
+    margin-bottom: 60px;
   }
 }
