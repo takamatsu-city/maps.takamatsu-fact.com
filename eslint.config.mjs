@@ -2,6 +2,7 @@ import globals from "globals";
 import react from 'eslint-plugin-react';
 import reactApp from 'eslint-config-react-app';
 import pluginImport from 'eslint-plugin-import';
+import geolonia from '@geolonia/eslint-config';
 
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -17,6 +18,7 @@ export default [
       react,
       reactApp,
       pluginImport,
+      geolonia
     },
     rules: {
       'pluginImport/no-extraneous-dependencies': ['error', {
