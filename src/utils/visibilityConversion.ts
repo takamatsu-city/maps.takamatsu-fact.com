@@ -4,12 +4,12 @@
 import { CatalogFeature } from "../api/catalog"
 
 
-type DisplayConversionType = (features: CatalogFeature) => CatalogFeature;
+type displayConversionType = (features: CatalogFeature) => CatalogFeature;
 
-const displayConversion: DisplayConversionType = (features: CatalogFeature): CatalogFeature => {
+const displayConversion: displayConversionType = (features: CatalogFeature): CatalogFeature => {
 
-  let items: CatalogFeature = JSON.parse(JSON.stringify(features));
-  let properties:{ [key: string]: string } = {};
+  const items: CatalogFeature = JSON.parse(JSON.stringify(features));
+  const properties:{ [key: string]: string } = {};
 
   const pattern1: { [key: string]: string } = {
     'name':'名称',

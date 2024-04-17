@@ -108,7 +108,7 @@ export const WEB_COLORS = Object.entries({
   "SlateGray": "112 128 144",
   "Gray": "128 128 128",
   "DarkGray": "169 169 169",
-}).map(([key, value]) => {
+}).map(([_key, value]) => {
   const [r, g, b] = value.split(' ').map(val => parseInt(val, 10));
   return `rgb(${r}, ${g}, ${b})`;
 });
@@ -352,7 +352,7 @@ export const customStyleToLineStringTemplate: (customStyle: CustomStyle, default
 ];
 
 export const customStyleToPointTemplate: (customStyle: CustomStyle, defaultColor: string) => LayerTemplate[] = (style, color) => {
-  let out: LayerTemplate[] = [];
+  const out: LayerTemplate[] = [];
   if (style.pointLabel) {
     out.push({
       "id": `${style.id}/label`,

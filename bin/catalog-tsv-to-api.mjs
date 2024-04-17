@@ -73,7 +73,7 @@ async function main() {
     // the file name is used as the class name, without parenthesis
     const className = fileName.replace(/\(.*?\)/, '');
     const customDataSource = fileName.match(/^!([^!]+)!(.*)$/);
-    if (!!fiwareName) {
+    if (fiwareName) {
       console.log(fiwareName);
       itemAry.push({
         type: "DataItem",

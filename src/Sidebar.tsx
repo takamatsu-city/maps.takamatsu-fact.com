@@ -33,7 +33,7 @@ const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory }
         const newLayers = new Set([...prev, ...idsOfThisCategory]);
         return [...newLayers];
       } else {
-        let out = [...prev];
+        const out = [...prev];
         for (const itemClass of idsOfThisCategory) {
           const index = out.indexOf(itemClass);
           if (index >= 0) {
