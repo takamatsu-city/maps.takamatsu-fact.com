@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 import { AiFillCaretRight, AiFillCaretDown, AiOutlineLink, AiOutlineBars } from 'react-icons/ai';
 
@@ -6,24 +6,37 @@ import './Sidebar.scss';
 import { CatalogCategory, CatalogDataItem, CatalogItem, walkCategories } from './api/catalog';
 
 import classNames from 'classnames';
+import { useAtom, useSetAtom } from 'jotai';
+import { selectedLayersAtom } from './atoms';
 
 type SidebarItemProps = {
-  selectedLayers: string[]
-  setSelectedLayers: React.Dispatch<React.SetStateAction<string[]>>
   item: CatalogItem
 }
 
 const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory }> = (props) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { item, selectedLayers, setSelectedLayers } = props;
+  const [ selectedLayers, setSelectedLayers ] = useAtom(selectedLayersAtom);
+  const { item } = props;
+  const checkboxRef = useRef<HTMLInputElement>(null);
 
   const idsOfThisCategory = useMemo(() => {
     return [...walkCategories(item.items)].map(x => x.id);
   }, [item]);
 
-  const checked = useMemo(() => {
-    return idsOfThisCategory.every(id => selectedLayers.includes(id));
+  const {
+    checked,
+    indeterminate,
+  } = useMemo(() => {
+    const every = idsOfThisCategory.every(id => selectedLayers.includes(id));
+    return {
+      checked: every,
+      indeterminate: !every && idsOfThisCategory.some(id => selectedLayers.includes(id)),
+    };
   }, [selectedLayers, idsOfThisCategory]);
+
+  useLayoutEffect(() => {
+    if (!checkboxRef.current) { return; }
+    checkboxRef.current.indeterminate = indeterminate;
+  }, [indeterminate]);
 
   const handleCheckboxChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>((event) => {
     const checked = event.target.checked;
@@ -45,6 +58,8 @@ const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory }
     });
   }, [idsOfThisCategory, setSelectedLayers]);
 
+  const [isOpen, setIsOpen] = useState<boolean>(checked || indeterminate);
+
   const toggleIsOpen = useCallback<React.MouseEventHandler<HTMLButtonElement>>((event) => {
     event.preventDefault();
     setIsOpen(isOpen => !isOpen);
@@ -56,7 +71,12 @@ const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory }
         {isOpen ? <AiFillCaretDown /> : <AiFillCaretRight />}
       </button>
       <label className='label category-label'>
-        <input type="checkbox" checked={checked} onChange={handleCheckboxChange} />
+        <input
+          ref={checkboxRef}
+          type="checkbox"
+          checked={checked}
+          onChange={handleCheckboxChange}
+        />
         {item.name}
       </label>
     </div>
@@ -69,7 +89,8 @@ const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory }
 }
 
 const DataSidebarItem: React.FC<SidebarItemProps & { item: CatalogDataItem }> = (props) => {
-  const { selectedLayers, setSelectedLayers, item } = props;
+  const [ selectedLayers, setSelectedLayers ] = useAtom(selectedLayersAtom);
+  const { item } = props;
   const itemId = item.id;
 
   const handleCheckboxChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>((event) => {
@@ -110,14 +131,13 @@ const SingleSidebarItem: React.FC<SidebarItemProps> = (props) => {
 }
 
 type SidebarProps = {
-  selectedLayers: string[]
   catalogData: CatalogItem[]
   isOpenedSidebar: boolean
-  setSelectedLayers: React.Dispatch<React.SetStateAction<string[]>>
   setIsOpenedSidebar: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ selectedLayers, setSelectedLayers, catalogData, isOpenedSidebar, setIsOpenedSidebar }) => {
+const Sidebar: React.FC<SidebarProps> = ({ catalogData, isOpenedSidebar, setIsOpenedSidebar }) => {
+  const setSelectedLayers = useSetAtom(selectedLayersAtom);
 
   const selectAllHandler = useCallback<React.MouseEventHandler<HTMLButtonElement>>((event) => {
     event.preventDefault();
@@ -151,8 +171,6 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedLayers, setSelectedLayers, ca
         {catalogData.map((item) =>
           <SingleSidebarItem
             key={item.id}
-            selectedLayers={selectedLayers}
-            setSelectedLayers={setSelectedLayers}
             item={item}
           />
         )}

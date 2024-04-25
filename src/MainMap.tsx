@@ -8,6 +8,8 @@ import { FaMountain } from "react-icons/fa";
 
 import mapStyle from './style.json';
 import classNames from 'classnames';
+import { useAtomValue } from 'jotai';
+import { selectedLayersAtom } from './atoms';
 
 declare global {
   interface Window {
@@ -41,12 +43,12 @@ const BASE_PITCH = 0;
 
 interface Props {
   catalogData: CatalogItem[];
-  selectedLayers: string[];
   setSelectedFeatures: React.Dispatch<React.SetStateAction<CatalogFeature[]>>
 }
 
-const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatures}) => {
+const MainMap: React.FC<Props> = ({catalogData, setSelectedFeatures}) => {
   const [map, setMap] = useState<maplibregl.Map | undefined>(undefined);
+  const selectedLayers = useAtomValue(selectedLayersAtom);
   const [cityOS, setCityOS] = useState<CityOS__Takamatsu | undefined>(undefined);
   const mapContainer = useRef<HTMLDivElement>(null);
   const [show3dDem, setShow3dDem] = useState<boolean>(false);
@@ -68,7 +70,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
       container: mapContainer.current,
       // style: `${process.env.PUBLIC_URL}/style.json`,
       style: mapStyle,
-      hash: true,
+      hash: 'map',
       center: [ 134.0403, 34.334 ],
       fitBoundsOptions: { padding: 50 },
       maxRotate: 0,
@@ -82,7 +84,6 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
     setCityOS(cityOS);
 
     map.on("load", () => {
-
       // Start add GSI DEM
       map.addSource('gsidem', {
         type: 'raster-dem',
