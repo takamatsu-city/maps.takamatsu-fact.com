@@ -6,8 +6,8 @@ import './Sidebar.scss';
 import { CatalogCategory, CatalogDataItem, CatalogItem, walkCategories } from './api/catalog';
 
 import classNames from 'classnames';
-import { useAtom, useSetAtom } from 'jotai';
-import { selectedLayersAtom } from './atoms';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { catalogDataAtom, selectedLayersAtom } from './atoms';
 
 type SidebarItemProps = {
   item: CatalogItem
@@ -131,12 +131,12 @@ const SingleSidebarItem: React.FC<SidebarItemProps> = (props) => {
 }
 
 type SidebarProps = {
-  catalogData: CatalogItem[]
   isOpenedSidebar: boolean
   setIsOpenedSidebar: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ catalogData, isOpenedSidebar, setIsOpenedSidebar }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isOpenedSidebar, setIsOpenedSidebar }) => {
+  const catalogData = useAtomValue(catalogDataAtom);
   const setSelectedLayers = useSetAtom(selectedLayersAtom);
 
   const selectAllHandler = useCallback<React.MouseEventHandler<HTMLButtonElement>>((event) => {

@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type * as maplibregl from 'maplibre-gl';
-import { CatalogFeature, CatalogItem, walkCategories } from './api/catalog';
+import { walkCategories } from './api/catalog';
 import { CustomStyle, customStyleToLineStringTemplate, customStyleToPointTemplate, customStyleToPolygonTemplate, DEFAULT_LINESTRING_STYLE, DEFAULT_POINT_STYLE, DEFAULT_POLYGON_STYLE, getCustomStyle, LayerTemplate, WEB_COLORS } from './utils/mapStyling';
 import CityOS__Takamatsu from './cityos/cityos_takamatsu';
 
@@ -8,8 +8,8 @@ import { FaMountain } from "react-icons/fa";
 
 import mapStyle from './style.json';
 import classNames from 'classnames';
-import { useAtomValue } from 'jotai';
-import { selectedLayersAtom } from './atoms';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { catalogDataAtom, selectedFeaturesAtom, selectedLayersAtom } from './atoms';
 
 declare global {
   interface Window {
@@ -42,13 +42,13 @@ const DEM_LAYER_ID = 'takamatsu-dem';
 const BASE_PITCH = 0;
 
 interface Props {
-  catalogData: CatalogItem[];
-  setSelectedFeatures: React.Dispatch<React.SetStateAction<CatalogFeature[]>>
 }
 
-const MainMap: React.FC<Props> = ({catalogData, setSelectedFeatures}) => {
+const MainMap: React.FC<Props> = () => {
   const [map, setMap] = useState<maplibregl.Map | undefined>(undefined);
   const selectedLayers = useAtomValue(selectedLayersAtom);
+  const setSelectedFeatures = useSetAtom(selectedFeaturesAtom);
+  const catalogData = useAtomValue(catalogDataAtom);
   const [cityOS, setCityOS] = useState<CityOS__Takamatsu | undefined>(undefined);
   const mapContainer = useRef<HTMLDivElement>(null);
   const [show3dDem, setShow3dDem] = useState<boolean>(false);
