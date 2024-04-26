@@ -225,7 +225,7 @@ const MainMap: React.FC<Props> = ({catalogData, setSelectedFeatures}) => {
         if (shouldStop) return;
 
         const definitionId = definition.id;
-        const isSelected = selectedLayers.includes(definitionId);
+        const isSelected = selectedLayers.includes(definition.shortId);
 
         if ("liveLocationId" in definition) {
           if (isSelected) {
