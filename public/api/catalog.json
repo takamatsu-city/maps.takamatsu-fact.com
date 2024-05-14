@@ -2,6 +2,7 @@
   {
     "type": "DataItem",
     "id": "satellite",
+    "shortId": "Dsn",
     "name": "衛星画像",
     "class": "衛星画像",
     "metadata": {}
@@ -9,6 +10,7 @@
   {
     "type": "DataItem",
     "id": "行政界（町字）",
+    "shortId": "V2W",
     "name": "行政界（町字）",
     "class": "大字界",
     "metadata": {}
@@ -16,6 +18,7 @@
   {
     "type": "DataItem",
     "id": "市道道路網図",
+    "shortId": "by-",
     "name": "市道道路網図",
     "class": "高松市_路線",
     "metadata": {}
@@ -23,11 +26,13 @@
   {
     "type": "Category",
     "id": "都市計画情報",
+    "shortId": "40Q",
     "name": "都市計画情報",
     "items": [
       {
         "type": "DataItem",
         "id": "都市計画情報/都市計画区域界",
+        "shortId": "m0g",
         "name": "都市計画区域界",
         "class": "都市計画区域界",
         "metadata": {}
@@ -35,6 +40,7 @@
       {
         "type": "DataItem",
         "id": "都市計画情報/都市計画基本図",
+        "shortId": "ObF",
         "name": "都市計画基本図",
         "customDataSource": "kihonzu",
         "metadata": {}
@@ -42,11 +48,13 @@
       {
         "type": "Category",
         "id": "都市計画情報/用途地域",
+        "shortId": "UDT",
         "name": "用途地域",
         "items": [
           {
             "type": "DataItem",
             "id": "都市計画情報/用途地域/第一種低層住居専用地域",
+            "shortId": "7ri",
             "name": "第一種低層住居専用地域",
             "class": "第一種低層住居専用地域",
             "metadata": {}
@@ -54,6 +62,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/用途地域/第二種低層住居専用地域",
+            "shortId": "nFF",
             "name": "第二種低層住居専用地域",
             "class": "第二種低層住居専用地域",
             "metadata": {}
@@ -61,6 +70,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/用途地域/第一種中高層住居専用地域",
+            "shortId": "mcV",
             "name": "第一種中高層住居専用地域",
             "class": "第一種中高層住居専用地域",
             "metadata": {}
@@ -68,6 +78,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/用途地域/第二種中高層住居専用地域",
+            "shortId": "p9i",
             "name": "第二種中高層住居専用地域",
             "class": "第二種中高層住居専用地域",
             "metadata": {}
@@ -75,6 +86,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/用途地域/第一種住居地域",
+            "shortId": "EJe",
             "name": "第一種住居地域",
             "class": "第一種住居地域",
             "metadata": {}
@@ -82,6 +94,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/用途地域/第二種住居地域",
+            "shortId": "mAr",
             "name": "第二種住居地域",
             "class": "第二種住居地域",
             "metadata": {}
@@ -89,6 +102,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/用途地域/準住居地域",
+            "shortId": "GKG",
             "name": "準住居地域",
             "class": "準住居地域",
             "metadata": {}
@@ -96,6 +110,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/用途地域/近隣商業地域",
+            "shortId": "v2N",
             "name": "近隣商業地域",
             "class": "近隣商業地域",
             "metadata": {}
@@ -103,6 +118,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/用途地域/商業地域",
+            "shortId": "yvq",
             "name": "商業地域",
             "class": "商業地域",
             "metadata": {}
@@ -110,6 +126,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/用途地域/準工業地域",
+            "shortId": "Lye",
             "name": "準工業地域",
             "class": "準工業地域",
             "metadata": {}
@@ -117,6 +134,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/用途地域/工業地域",
+            "shortId": "8Bq",
             "name": "工業地域",
             "class": "工業地域",
             "metadata": {}
@@ -124,6 +142,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/用途地域/工業専用地域",
+            "shortId": "nSo",
             "name": "工業専用地域",
             "class": "工業専用地域",
             "metadata": {}
@@ -133,11 +152,13 @@
       {
         "type": "Category",
         "id": "都市計画情報/特定用途制限地域",
+        "shortId": "fd4",
         "name": "特定用途制限地域",
         "items": [
           {
             "type": "DataItem",
             "id": "都市計画情報/特定用途制限地域/一般・環境保全型",
+            "shortId": "cx0",
             "name": "一般・環境保全型",
             "class": "一般・環境保全型",
             "metadata": {}
@@ -145,6 +166,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/特定用途制限地域/幹線沿道型I型",
+            "shortId": "bHT",
             "name": "幹線沿道型I型",
             "class": "幹線沿道型I型",
             "metadata": {}
@@ -152,6 +174,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/特定用途制限地域/幹線沿道型II型",
+            "shortId": "cNT",
             "name": "幹線沿道型II型",
             "class": "幹線沿道型II型",
             "metadata": {}
@@ -161,11 +184,13 @@
       {
         "type": "Category",
         "id": "都市計画情報/防火地域等",
+        "shortId": "Jmg",
         "name": "防火地域等",
         "items": [
           {
             "type": "DataItem",
             "id": "都市計画情報/防火地域等/防火地域",
+            "shortId": "UKQ",
             "name": "防火地域",
             "class": "防火地域",
             "metadata": {}
@@ -173,6 +198,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/防火地域等/準防火地域",
+            "shortId": "jMs",
             "name": "準防火地域",
             "class": "準防火地域",
             "metadata": {}
@@ -180,6 +206,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/防火地域等/法22条地域",
+            "shortId": "2bE",
             "name": "法22条地域",
             "class": "法22条地域",
             "metadata": {}
@@ -189,11 +216,13 @@
       {
         "type": "Category",
         "id": "都市計画情報/その他地域地区",
+        "shortId": "AWw",
         "name": "その他地域地区",
         "items": [
           {
             "type": "DataItem",
             "id": "都市計画情報/その他地域地区/特別用途地区",
+            "shortId": "QoO",
             "name": "特別用途地区",
             "class": "特別用途地区",
             "metadata": {}
@@ -201,6 +230,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/その他地域地区/高度利用地域",
+            "shortId": "fPB",
             "name": "高度利用地域",
             "class": "高度利用地域",
             "metadata": {}
@@ -208,6 +238,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/その他地域地区/都市再生特別地区",
+            "shortId": "HXl",
             "name": "都市再生特別地区",
             "class": "都市再生特別地区",
             "metadata": {}
@@ -215,6 +246,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/その他地域地区/風致地区",
+            "shortId": "r50",
             "name": "風致地区",
             "class": "風致地区",
             "metadata": {}
@@ -222,6 +254,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/その他地域地区/駐車場整備地区",
+            "shortId": "2of",
             "name": "駐車場整備地区",
             "class": "駐車場整備地区",
             "metadata": {}
@@ -229,6 +262,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/その他地域地区/駐輪場整備地区",
+            "shortId": "Dp-",
             "name": "駐輪場整備地区",
             "class": "駐輪場整備地区",
             "metadata": {}
@@ -236,6 +270,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/その他地域地区/臨港地区",
+            "shortId": "o0y",
             "name": "臨港地区",
             "class": "臨港地区",
             "metadata": {}
@@ -243,6 +278,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/その他地域地区/用途白地地域",
+            "shortId": "BtD",
             "name": "用途白地地域",
             "class": "用途白地地域",
             "metadata": {}
@@ -252,11 +288,13 @@
       {
         "type": "Category",
         "id": "都市計画情報/都市施設",
+        "shortId": "i7x",
         "name": "都市施設",
         "items": [
           {
             "type": "DataItem",
             "id": "都市計画情報/都市施設/都市計画道路",
+            "shortId": "66I",
             "name": "都市計画道路",
             "class": "都市計画道路",
             "metadata": {}
@@ -264,6 +302,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/都市施設/都市高速鉄道",
+            "shortId": "wGb",
             "name": "都市高速鉄道",
             "class": "都市高速鉄道",
             "metadata": {}
@@ -271,6 +310,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/都市施設/下水",
+            "shortId": "bwA",
             "name": "下水",
             "class": "公共下水道",
             "metadata": {}
@@ -280,11 +320,13 @@
       {
         "type": "Category",
         "id": "都市計画情報/市街地開発事業",
+        "shortId": "gJ8",
         "name": "市街地開発事業",
         "items": [
           {
             "type": "DataItem",
             "id": "都市計画情報/市街地開発事業/市街地再開発事業",
+            "shortId": "7G1",
             "name": "市街地再開発事業",
             "class": "市街地再開発事業",
             "metadata": {}
@@ -292,6 +334,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/市街地開発事業/土地区画整理事業",
+            "shortId": "QHC",
             "name": "土地区画整理事業",
             "class": "土地区画整理事業",
             "metadata": {}
@@ -301,6 +344,7 @@
       {
         "type": "DataItem",
         "id": "都市計画情報/地区計画",
+        "shortId": "ZoG",
         "name": "地区計画",
         "class": "地区計画",
         "metadata": {}
@@ -308,11 +352,13 @@
       {
         "type": "Category",
         "id": "都市計画情報/立地適正化計画",
+        "shortId": "mMK",
         "name": "立地適正化計画",
         "items": [
           {
             "type": "DataItem",
             "id": "都市計画情報/立地適正化計画/広域都市機能誘導区域",
+            "shortId": "Rcm",
             "name": "広域都市機能誘導区域",
             "class": "広域都市機能誘導区域",
             "metadata": {}
@@ -320,6 +366,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/立地適正化計画/一般都市機能誘導区域",
+            "shortId": "C1Q",
             "name": "一般都市機能誘導区域",
             "class": "一般都市機能誘導区域",
             "metadata": {}
@@ -327,6 +374,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/立地適正化計画/学術都市機能誘導区域",
+            "shortId": "x_l",
             "name": "学術都市機能誘導区域",
             "class": "学術都市機能誘導区域",
             "metadata": {}
@@ -334,6 +382,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/立地適正化計画/居住誘導区域",
+            "shortId": "gRt",
             "name": "居住誘導区域",
             "class": "居住誘導区域",
             "metadata": {}
@@ -341,6 +390,7 @@
           {
             "type": "DataItem",
             "id": "都市計画情報/立地適正化計画/一般居住区域",
+            "shortId": "c2L",
             "name": "一般居住区域",
             "class": "一般居住区域",
             "metadata": {}
@@ -352,16 +402,19 @@
   {
     "type": "Category",
     "id": "施設情報",
+    "shortId": "io0",
     "name": "施設情報",
     "items": [
       {
         "type": "Category",
         "id": "施設情報/くらし",
+        "shortId": "Yf9",
         "name": "くらし",
         "items": [
           {
             "type": "DataItem",
             "id": "施設情報/くらし/AED設置場所",
+            "shortId": "7wG",
             "name": "AED設置場所",
             "class": "AED設置場所",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/aed_location/data.geojson",
@@ -370,6 +423,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/くらし/コミュニティセンター",
+            "shortId": "LCZ",
             "name": "コミュニティセンター",
             "class": "コミュニティセンター",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/community_center/data.geojson",
@@ -378,6 +432,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/くらし/ため池一覧",
+            "shortId": "9af",
             "name": "ため池一覧",
             "class": "ため池一覧",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/reservoir_list/data.geojson",
@@ -386,6 +441,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/くらし/環境施設",
+            "shortId": "IzU",
             "name": "環境施設",
             "class": "環境施設",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/environmental_facilities/data.geojson",
@@ -394,6 +450,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/くらし/公衆トイレ",
+            "shortId": "P_e",
             "name": "公衆トイレ",
             "class": "公衆トイレ",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/public_toilet/data.geojson",
@@ -402,6 +459,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/くらし/公衆無線LANアクセスポイント",
+            "shortId": "K9N",
             "name": "公衆無線LANアクセスポイント",
             "class": "公衆無線LANアクセスポイント",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/public_wireless_lan/data.geojson",
@@ -410,6 +468,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/くらし/斎場",
+            "shortId": "I3A",
             "name": "斎場",
             "class": "斎場",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/funeral/data.geojson",
@@ -418,6 +477,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/くらし/使用済小型家電リサイクルBOX設置場所一覧",
+            "shortId": "IrZ",
             "name": "使用済小型家電リサイクルBOX設置場所一覧",
             "class": "使用済小型家電リサイクルBOX設置場所一覧",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/recycling_box_installation_location/data.geojson",
@@ -426,6 +486,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/くらし/市営住宅",
+            "shortId": "I6Y",
             "name": "市営住宅",
             "class": "市営住宅",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/municipal_housing/data.geojson",
@@ -434,6 +495,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/くらし/市民活動・男女共同参画施設",
+            "shortId": "ISZ",
             "name": "市民活動・男女共同参画施設",
             "class": "市民活動・男女共同参画施設",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/citizen_activity_facility/data.geojson",
@@ -442,6 +504,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/くらし/指定収集袋取扱店一覧",
+            "shortId": "tZM",
             "name": "指定収集袋取扱店一覧",
             "class": "指定収集袋取扱店一覧",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/list_of_designated_collection_bag_dealers/data.geojson",
@@ -450,6 +513,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/くらし/地域交流館",
+            "shortId": "Byg",
             "name": "地域交流館",
             "class": "地域交流館",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/regional_exchange_center/data.geojson",
@@ -458,6 +522,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/くらし/投票所一覧",
+            "shortId": "zIC",
             "name": "投票所一覧",
             "class": "投票所一覧",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/polling_place_list/data.geojson",
@@ -466,6 +531,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/くらし/墓地",
+            "shortId": "trb",
             "name": "墓地",
             "class": "墓地",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/cemetery/data.geojson",
@@ -476,11 +542,13 @@
       {
         "type": "Category",
         "id": "施設情報/観光・産業",
+        "shortId": "X2A",
         "name": "観光・産業",
         "items": [
           {
             "type": "DataItem",
             "id": "施設情報/観光・産業/観光施設",
+            "shortId": "V8M",
             "name": "観光施設",
             "class": "観光施設",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/tourist_facilities/data.geojson",
@@ -489,6 +557,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/観光・産業/市場",
+            "shortId": "kqz",
             "name": "市場",
             "class": "市場",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/market/data.geojson",
@@ -497,6 +566,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/観光・産業/食肉センターなど",
+            "shortId": "Lj9",
             "name": "食肉センターなど",
             "class": "食肉センターなど",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/meat_center/data.geojson",
@@ -505,6 +575,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/観光・産業/農業施設一覧",
+            "shortId": "mxK",
             "name": "農業施設一覧",
             "class": "農業施設一覧",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/agricultural_facilities_list/data.geojson",
@@ -513,6 +584,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/観光・産業/農業体験施設",
+            "shortId": "RmJ",
             "name": "農業体験施設",
             "class": "農業体験施設",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/agricultural_experience_facility/data.geojson",
@@ -523,11 +595,13 @@
       {
         "type": "Category",
         "id": "施設情報/文化・スポーツ・公園",
+        "shortId": "Wpr",
         "name": "文化・スポーツ・公園",
         "items": [
           {
             "type": "DataItem",
             "id": "施設情報/文化・スポーツ・公園/グラウンド",
+            "shortId": "0Us",
             "name": "グラウンド",
             "class": "グラウンド",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/ground/data.geojson",
@@ -536,6 +610,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/文化・スポーツ・公園/その他スポーツ施設",
+            "shortId": "1uR",
             "name": "その他スポーツ施設",
             "class": "その他スポーツ施設",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/other_sports_facilities/data.geojson",
@@ -544,6 +619,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/文化・スポーツ・公園/テニスコート",
+            "shortId": "6DI",
             "name": "テニスコート",
             "class": "テニスコート",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/tennis_court/data.geojson",
@@ -552,6 +628,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/文化・スポーツ・公園/プール",
+            "shortId": "b8V",
             "name": "プール",
             "class": "プール",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/pool/data.geojson",
@@ -560,6 +637,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/文化・スポーツ・公園/ホール",
+            "shortId": "YCN",
             "name": "ホール",
             "class": "ホール",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/hole/data.geojson",
@@ -568,6 +646,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/文化・スポーツ・公園/公園",
+            "shortId": "jBr",
             "name": "公園",
             "class": "公園",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/park/data.geojson",
@@ -576,6 +655,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/文化・スポーツ・公園/図書館",
+            "shortId": "ICa",
             "name": "図書館",
             "class": "図書館",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/library/data.geojson",
@@ -584,6 +664,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/文化・スポーツ・公園/体育館・武道館",
+            "shortId": "U12",
             "name": "体育館・武道館",
             "class": "体育館・武道館",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/gymnasium/data.geojson",
@@ -592,6 +673,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/文化・スポーツ・公園/道の駅一覧",
+            "shortId": "kEM",
             "name": "道の駅一覧",
             "class": "道の駅一覧",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/road_station_list/data.geojson",
@@ -600,6 +682,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/文化・スポーツ・公園/美術館",
+            "shortId": "tLu",
             "name": "美術館",
             "class": "美術館",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/amuseum/data.geojson",
@@ -608,6 +691,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/文化・スポーツ・公園/文化財",
+            "shortId": "QVP",
             "name": "文化財",
             "class": "文化財",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/cultural_property/data.geojson",
@@ -616,6 +700,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/文化・スポーツ・公園/野球場ほか",
+            "shortId": "O4J",
             "name": "野球場ほか",
             "class": "野球場ほか",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/baseball_ground_other/data.geojson",
@@ -624,6 +709,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/文化・スポーツ・公園/陸上競技場",
+            "shortId": "HTC",
             "name": "陸上競技場",
             "class": "陸上競技場",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/athletics_stadium/data.geojson",
@@ -632,6 +718,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/文化・スポーツ・公園/歴史・民俗施設",
+            "shortId": "7p8",
             "name": "歴史・民俗施設",
             "class": "歴史・民俗施設",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/folklore_facility/data.geojson",
@@ -640,6 +727,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/文化・スポーツ・公園/農村公園",
+            "shortId": "qG-",
             "name": "農村公園",
             "class": "農村公園",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/rural_park/data.geojson",
@@ -650,11 +738,13 @@
       {
         "type": "Category",
         "id": "施設情報/保健・医療・福祉",
+        "shortId": "bRH",
         "name": "保健・医療・福祉",
         "items": [
           {
             "type": "DataItem",
             "id": "施設情報/保健・医療・福祉/グループホーム",
+            "shortId": "a49",
             "name": "グループホーム",
             "class": "グループホーム",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/group_home/data.geojson",
@@ -663,6 +753,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/保健・医療・福祉/その他福祉施設",
+            "shortId": "nxN",
             "name": "その他福祉施設",
             "class": "その他福祉施設",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/other_welfare_facilities/data.geojson",
@@ -671,6 +762,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/保健・医療・福祉/医療機関",
+            "shortId": "pJf",
             "name": "医療機関",
             "class": "医療機関",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/hospital/data.geojson",
@@ -679,6 +771,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/保健・医療・福祉/市立病院",
+            "shortId": "0qf",
             "name": "市立病院",
             "class": "市立病院",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/municipal_hospital/data.geojson",
@@ -687,6 +780,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/保健・医療・福祉/小規模多機能型居宅介護施設",
+            "shortId": "Vuz",
             "name": "小規模多機能型居宅介護施設",
             "class": "小規模多機能型居宅介護施設",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/nursing_home/data.geojson",
@@ -695,6 +789,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/保健・医療・福祉/障がい福祉施設",
+            "shortId": "UKV",
             "name": "障がい福祉施設",
             "class": "障がい福祉施設",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/disabled_welfare_facility/data.geojson",
@@ -703,6 +798,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/保健・医療・福祉/診療所",
+            "shortId": "3UK",
             "name": "診療所",
             "class": "診療所",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/clinic/data.geojson",
@@ -711,6 +807,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/保健・医療・福祉/地域包括支援センター",
+            "shortId": "6IU",
             "name": "地域包括支援センター",
             "class": "地域包括支援センター",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/regional_comprehensive_support_center/data.geojson",
@@ -719,6 +816,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/保健・医療・福祉/福祉会館・社会福祉協議会",
+            "shortId": "ZsH",
             "name": "福祉会館・社会福祉協議会",
             "class": "福祉会館・社会福祉協議会",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/welfare_hall/data.geojson",
@@ -727,6 +825,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/保健・医療・福祉/保健所・保健センター",
+            "shortId": "VDh",
             "name": "保健所・保健センター",
             "class": "保健所・保健センター",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/health_center/data.geojson",
@@ -735,6 +834,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/保健・医療・福祉/老人いこいの家など",
+            "shortId": "Qgz",
             "name": "老人いこいの家など",
             "class": "老人いこいの家など",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/elderly_wedding_house/data.geojson",
@@ -743,6 +843,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/保健・医療・福祉/老人福祉センターなど",
+            "shortId": "tko",
             "name": "老人福祉センターなど",
             "class": "老人福祉センターなど",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/elderly_welfare_center/data.geojson",
@@ -751,6 +852,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/保健・医療・福祉/老人福祉施設",
+            "shortId": "sCp",
             "name": "老人福祉施設",
             "class": "老人福祉施設",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/elderly_welfare_facility/data.geojson",
@@ -761,11 +863,13 @@
       {
         "type": "Category",
         "id": "施設情報/教育・子育て",
+        "shortId": "Hc7",
         "name": "教育・子育て",
         "items": [
           {
             "type": "DataItem",
             "id": "施設情報/教育・子育て/その他子育て支援施設",
+            "shortId": "JBv",
             "name": "その他子育て支援施設",
             "class": "その他子育て支援施設",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/other_child_care_support_facility/data.geojson",
@@ -774,6 +878,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/教育・子育て/学校給食調理場",
+            "shortId": "7d3",
             "name": "学校給食調理場",
             "class": "学校給食調理場",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/school_lunch_kitchen/data.geojson",
@@ -782,6 +887,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/教育・子育て/企業主導型保育施設一覧",
+            "shortId": "jX3",
             "name": "企業主導型保育施設一覧",
             "class": "企業主導型保育施設一覧",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/company_led_childcare_facilities_list/data.geojson",
@@ -790,6 +896,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/教育・子育て/高等学校など",
+            "shortId": "oOA",
             "name": "高等学校など",
             "class": "高等学校など",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/high_school/data.geojson",
@@ -798,6 +905,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/教育・子育て/児童館など",
+            "shortId": "O6f",
             "name": "児童館など",
             "class": "児童館など",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/childrens_hall/data.geojson",
@@ -806,6 +914,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/教育・子育て/小学校",
+            "shortId": "LEE",
             "name": "小学校",
             "class": "小学校",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/primary_school/data.geojson",
@@ -814,6 +923,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/教育・子育て/生涯学習施設",
+            "shortId": "zGp",
             "name": "生涯学習施設",
             "class": "生涯学習施設",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/lifelong_learning_facility/data.geojson",
@@ -822,6 +932,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/教育・子育て/大学",
+            "shortId": "Xvw",
             "name": "大学",
             "class": "大学",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/university/data.geojson",
@@ -830,6 +941,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/教育・子育て/地域子育て支援拠点",
+            "shortId": "5Ty",
             "name": "地域子育て支援拠点",
             "class": "地域子育て支援拠点",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/regional_child_rearing_support_base/data.geojson",
@@ -838,6 +950,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/教育・子育て/中学校",
+            "shortId": "kAh",
             "name": "中学校",
             "class": "中学校",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/middle_school/data.geojson",
@@ -846,6 +959,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/教育・子育て/認可外保育施設一覧",
+            "shortId": "rvy",
             "name": "認可外保育施設一覧",
             "class": "認可外保育施設一覧",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/unapproved_childcare_facilities/data.geojson",
@@ -854,6 +968,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/教育・子育て/病児・病後児保育施設",
+            "shortId": "WMj",
             "name": "病児・病後児保育施設",
             "class": "病児・病後児保育施設",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/infant_childcare_facility/data.geojson",
@@ -862,6 +977,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/教育・子育て/保育施設等",
+            "shortId": "1wN",
             "name": "保育施設等",
             "class": "保育施設等",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/nursery_school/data.geojson",
@@ -870,6 +986,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/教育・子育て/民間放課後児童クラブ",
+            "shortId": "KgL",
             "name": "民間放課後児童クラブ",
             "class": "民間放課後児童クラブ",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/children_club/data.geojson",
@@ -878,6 +995,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/教育・子育て/幼稚園",
+            "shortId": "uUF",
             "name": "幼稚園",
             "class": "幼稚園",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/kindergarten/data.geojson",
@@ -888,11 +1006,13 @@
       {
         "type": "Category",
         "id": "施設情報/行政機関",
+        "shortId": "gQu",
         "name": "行政機関",
         "items": [
           {
             "type": "DataItem",
             "id": "施設情報/行政機関/ふれあいセンター",
+            "shortId": "tdD",
             "name": "ふれあいセンター",
             "class": "ふれあいセンター",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/contact_center/data.geojson",
@@ -901,6 +1021,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/行政機関/下水道施設",
+            "shortId": "FoU",
             "name": "下水道施設",
             "class": "下水道施設",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/sewer_facility/data.geojson",
@@ -909,6 +1030,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/行政機関/市役所・市民サービスセンター",
+            "shortId": "C5b",
             "name": "市役所・市民サービスセンター",
             "class": "市役所・市民サービスセンター",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/citizen_service_center/data.geojson",
@@ -917,6 +1039,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/行政機関/支所・連絡事務所",
+            "shortId": "Cuw",
             "name": "支所・連絡事務所",
             "class": "支所・連絡事務所",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/branch/data.geojson",
@@ -925,6 +1048,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/行政機関/出張所",
+            "shortId": "91B",
             "name": "出張所",
             "class": "出張所",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/branch_office/data.geojson",
@@ -933,6 +1057,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/行政機関/水道施設",
+            "shortId": "nto",
             "name": "水道施設",
             "class": "水道施設",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/water_supply_facility/data.geojson",
@@ -941,6 +1066,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/行政機関/総合センター",
+            "shortId": "x3a",
             "name": "総合センター",
             "class": "総合センター",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/general_center/data.geojson",
@@ -951,11 +1077,13 @@
       {
         "type": "Category",
         "id": "施設情報/交通",
+        "shortId": "_lk",
         "name": "交通",
         "items": [
           {
             "type": "DataItem",
             "id": "施設情報/交通/レンタサイクルポート",
+            "shortId": "Hw2",
             "name": "レンタサイクルポート",
             "class": "レンタサイクルポート",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/bictcle_rental_port/data.geojson",
@@ -964,6 +1092,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/交通/市立駐車場",
+            "shortId": "MXC",
             "name": "市立駐車場",
             "class": "市立駐車場",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/municipal_parking/data.geojson",
@@ -972,6 +1101,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/交通/市立駐輪場",
+            "shortId": "0eT",
             "name": "市立駐輪場",
             "class": "市立駐輪場",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/city_bicycle_parking/data.geojson",
@@ -980,6 +1110,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/交通/自転車保管所",
+            "shortId": "tBZ",
             "name": "自転車保管所",
             "class": "自転車保管所",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/bicycle_storage/data.geojson",
@@ -988,6 +1119,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/交通/商店街通行量情報",
+            "shortId": "9of",
             "name": "商店街通行量情報",
             "class": "商店街通行量情報",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/shopping_street_traffic_information/data.geojson",
@@ -998,11 +1130,13 @@
       {
         "type": "Category",
         "id": "施設情報/防災施設",
+        "shortId": "Eme",
         "name": "防災施設",
         "items": [
           {
             "type": "DataItem",
             "id": "施設情報/防災施設/市民防災センター",
+            "shortId": "Y7w",
             "name": "市民防災センター",
             "class": "市民防災センター",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/citizen_disaster_prevention_center/data.geojson",
@@ -1011,6 +1145,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/防災施設/指定緊急避難場所・指定避難所",
+            "shortId": "kR7",
             "name": "指定緊急避難場所・指定避難所",
             "class": "指定緊急避難場所・指定避難所",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/evacuation_space/data.geojson",
@@ -1019,6 +1154,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/防災施設/消防署・消防出張所",
+            "shortId": "fX8",
             "name": "消防署・消防出張所",
             "class": "消防署・消防出張所",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/fire_station/data.geojson",
@@ -1027,6 +1163,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/防災施設/消防屯所",
+            "shortId": "680",
             "name": "消防屯所",
             "class": "消防屯所",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/fire_brigade/data.geojson",
@@ -1035,6 +1172,7 @@
           {
             "type": "DataItem",
             "id": "施設情報/防災施設/津波避難ビル",
+            "shortId": "NY1",
             "name": "津波避難ビル",
             "class": "津波避難ビル",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/tsunami_evacuation_building/data.geojson",
@@ -1047,16 +1185,19 @@
   {
     "type": "Category",
     "id": "防災情報",
+    "shortId": "F-M",
     "name": "防災情報",
     "items": [
       {
         "type": "Category",
         "id": "防災情報/IoT センサー",
+        "shortId": "jXP",
         "name": "IoT センサー",
         "items": [
           {
             "type": "DataItem",
             "id": "防災情報/IoT センサー/冠水状況",
+            "shortId": "tCx",
             "name": "冠水状況",
             "class": "冠水状況",
             "liveLocationId": "FloodSituation",
@@ -1065,6 +1206,7 @@
           {
             "type": "DataItem",
             "id": "防災情報/IoT センサー/降雨量",
+            "shortId": "qSV",
             "name": "降雨量",
             "class": "降雨量",
             "liveLocationId": "Rainfall",
@@ -1073,6 +1215,7 @@
           {
             "type": "DataItem",
             "id": "防災情報/IoT センサー/水位",
+            "shortId": "_1a",
             "name": "水位",
             "class": "水位",
             "liveLocationId": "WaterLevel",
@@ -1081,6 +1224,7 @@
           {
             "type": "DataItem",
             "id": "防災情報/IoT センサー/水位（県防災）",
+            "shortId": "ZBe",
             "name": "水位（県防災）",
             "class": "水位（県防災）",
             "liveLocationId": "PrefectureWaterLevel",
@@ -1089,6 +1233,7 @@
           {
             "type": "DataItem",
             "id": "防災情報/IoT センサー/潮位",
+            "shortId": "mbp",
             "name": "潮位",
             "class": "潮位",
             "liveLocationId": "TideLevel",
@@ -1097,6 +1242,7 @@
           {
             "type": "DataItem",
             "id": "防災情報/IoT センサー/潮位（県防災）",
+            "shortId": "gSM",
             "name": "潮位（県防災）",
             "class": "潮位（県防災）",
             "liveLocationId": "PrefectureTideLevel",

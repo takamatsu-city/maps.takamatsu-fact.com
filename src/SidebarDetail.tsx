@@ -4,6 +4,8 @@ import './SidebarDetail.scss'
 import { CatalogFeature } from './api/catalog';
 import ReplaceTextToLink from './utils/ReplaceTextToLink';
 import displayConversion from './utils/visibilityConversion';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { selectedFeaturesAtom } from './atoms';
 
 const SingleFeatureTable: React.FC<{feature: CatalogFeature}> = ({feature}) => {
   const detailItems = Object.entries(feature.properties).filter(([key, _value]) => !key.startsWith('_viewer_'));
@@ -38,11 +40,11 @@ const SingleFeatureTable: React.FC<{feature: CatalogFeature}> = ({feature}) => {
 
 type Props = {
   selected: CatalogFeature[]
-  setSelected: React.Dispatch<React.SetStateAction<CatalogFeature[]>>
 }
 
 const Content: React.FC<Props> = (props) => {
-  const { selected, setSelected } = props;
+  const setSelected = useSetAtom(selectedFeaturesAtom);
+  const { selected } = props;
 
   const closeHandler = useCallback<React.MouseEventHandler>((event) => {
     event.preventDefault();
@@ -78,4 +80,10 @@ const Content: React.FC<Props> = (props) => {
   );
 }
 
-export default Content;
+const SidebarDetail: React.FC = () => {
+  const selected = useAtomValue(selectedFeaturesAtom);
+  if (selected.length === 0) return null;
+  return <Content selected={selected} />;
+}
+
+export default SidebarDetail;

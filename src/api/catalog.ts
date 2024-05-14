@@ -6,6 +6,7 @@ export type CatalogFeature = {
 export type CatalogVectorDataItem = {
   type: "DataItem"
   id: string
+  shortId: string
   name: string
   class: string
   metadata: Record<string, string>
@@ -14,6 +15,7 @@ export type CatalogVectorDataItem = {
 export type CatalogCustomSourceVectorDataItem = {
   type: "DataItem"
   id: string
+  shortId: string
   name: string
   customDataSource: string
   customDataSourceLayer?: string
@@ -24,6 +26,7 @@ export type CatalogCustomSourceVectorDataItem = {
 export type CatalogGeoJSONDataItem = {
   type: "DataItem"
   id: string
+  shortId: string
   name: string
   class: string
   geojsonEndpoint: string
@@ -33,6 +36,7 @@ export type CatalogGeoJSONDataItem = {
 export type CatalogLiveLocationDataItem = {
   type: "DataItem"
   id: string
+  shortId: string
   name: string
   class: string
   liveLocationId: string
@@ -44,6 +48,7 @@ export type CatalogDataItem = CatalogVectorDataItem | CatalogCustomSourceVectorD
 export type CatalogCategory = {
   type: "Category"
   id: string
+  shortId: string
   name: string
   items: CatalogItem[]
 }

@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type * as maplibregl from 'maplibre-gl';
-import { CatalogFeature, CatalogItem, walkCategories } from './api/catalog';
+import { walkCategories } from './api/catalog';
 import { CustomStyle, customStyleToLineStringTemplate, customStyleToPointTemplate, customStyleToPolygonTemplate, DEFAULT_LINESTRING_STYLE, DEFAULT_POINT_STYLE, DEFAULT_POLYGON_STYLE, getCustomStyle, LayerTemplate, WEB_COLORS } from './utils/mapStyling';
 import CityOS__Takamatsu from './cityos/cityos_takamatsu';
 
@@ -8,6 +8,8 @@ import { FaMountain } from "react-icons/fa";
 
 import mapStyle from './style.json';
 import classNames from 'classnames';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { catalogDataAtom, selectedFeaturesAtom, selectedLayersAtom } from './atoms';
 
 declare global {
   interface Window {
@@ -40,13 +42,13 @@ const DEM_LAYER_ID = 'takamatsu-dem';
 const BASE_PITCH = 0;
 
 interface Props {
-  catalogData: CatalogItem[];
-  selectedLayers: string[];
-  setSelectedFeatures: React.Dispatch<React.SetStateAction<CatalogFeature[]>>
 }
 
-const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatures}) => {
+const MainMap: React.FC<Props> = () => {
   const [map, setMap] = useState<maplibregl.Map | undefined>(undefined);
+  const selectedLayers = useAtomValue(selectedLayersAtom);
+  const setSelectedFeatures = useSetAtom(selectedFeaturesAtom);
+  const catalogData = useAtomValue(catalogDataAtom);
   const [cityOS, setCityOS] = useState<CityOS__Takamatsu | undefined>(undefined);
   const mapContainer = useRef<HTMLDivElement>(null);
   const [show3dDem, setShow3dDem] = useState<boolean>(false);
@@ -68,7 +70,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
       container: mapContainer.current,
       // style: `${process.env.PUBLIC_URL}/style.json`,
       style: mapStyle,
-      hash: true,
+      hash: 'map',
       center: [ 134.0403, 34.334 ],
       fitBoundsOptions: { padding: 50 },
       maxRotate: 0,
@@ -82,7 +84,6 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
     setCityOS(cityOS);
 
     map.on("load", () => {
-
       // Start add GSI DEM
       map.addSource('gsidem', {
         type: 'raster-dem',
@@ -224,7 +225,7 @@ const MainMap: React.FC<Props> = ({catalogData, selectedLayers, setSelectedFeatu
         if (shouldStop) return;
 
         const definitionId = definition.id;
-        const isSelected = selectedLayers.includes(definitionId);
+        const isSelected = selectedLayers.includes(definition.shortId);
 
         if ("liveLocationId" in definition) {
           if (isSelected) {

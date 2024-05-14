@@ -3,18 +3,27 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { QueryClient, QueryClientProvider } from 'react-query';
 
-const queryClient = new QueryClient()
+// Backward compatility for #/z/lat/lon URLs:
+// When map is initialized with hash: true, it will add the map state
+// to the hash directly. However, we need to add other parameters to the
+// hash, so if we have an old-style hash, we put that in the map= parameter
+// and then redirect to the new hash.
+if (window.location.hash.match(/^#([\d.]+\/?)+$/)) {
+  const oldHash = window.location.hash.slice(1);
+  window.history.replaceState(
+    window.history.state,
+    '',
+    `${window.location.pathname}${window.location.search}#map=${oldHash}`,
+  );
+}
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <App />
-    </QueryClientProvider>
+    <App />
   </React.StrictMode>
 );
 
