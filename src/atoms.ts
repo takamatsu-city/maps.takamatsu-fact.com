@@ -22,3 +22,8 @@ export const selectedLayersAtom = atomWithHash<string[]>(
 export const selectedFeaturesAtom = atom<CatalogFeature[]>([]);
 
 export const catalogDataAtom = atom(getCatalog);
+
+// 検索で使用するアトム
+export const searchValueAtom = atom<string>('');
+// 検索ボタンが押されたかどうかを判定するアトム
+export const searchingFlagAtom = atom<boolean>(false);
