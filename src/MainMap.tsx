@@ -8,8 +8,8 @@ import { FaMountain } from "react-icons/fa";
 
 import mapStyle from './style.json';
 import classNames from 'classnames';
-import { useAtomValue, useSetAtom } from 'jotai';
-import { catalogDataAtom, selectedFeaturesAtom, selectedLayersAtom } from './atoms';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { catalogDataAtom, searchingFlagAtom, searchValueAtom, selectedFeaturesAtom, selectedLayersAtom } from './atoms';
 
 declare global {
   interface Window {
@@ -53,6 +53,8 @@ const MainMap: React.FC<Props> = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const [show3dDem, setShow3dDem] = useState<boolean>(false);
   const [pitch, setPitch] = useState<number>(0);
+  const searchStrAtom = useAtomValue(searchValueAtom);
+  const [searchFlagAtom, setSearchFlagAtom] = useAtom(searchingFlagAtom);
 
   const catalogDataItems = useMemo(() => {
     return [...walkCategories(catalogData)];
@@ -340,6 +342,22 @@ const MainMap: React.FC<Props> = () => {
       shouldStop = true;
     }
   }, [map, catalogData, selectedLayers, cityOS]);
+
+  // 検索
+  useEffect(() => {
+    if(!searchFlagAtom || searchStrAtom === '' || !map) { return; }
+    const targetFeatures: any[] = [];
+    console.log(selectedLayers)
+    selectedLayers.map((layer) => {
+      if(!map.getSource(layer)) { return; }
+      console.log(map.getSource(layer), layer, (map.getSource(layer) as any)._data)
+      // TODO：selectedLayersの中身が不明な英語の羅列になっているので、確認してから実装
+      // TODO：入力された住所に一致するfeatureをプッシュ
+      // targetFeatures.push(...(map.getSource(layer) as any)._data.features);
+    });
+
+    setSearchFlagAtom(false);
+  }, [searchStrAtom, searchFlagAtom]);
 
   return (
     <>

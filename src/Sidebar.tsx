@@ -8,6 +8,7 @@ import { CatalogCategory, CatalogDataItem, CatalogItem, walkCategories } from '.
 import classNames from 'classnames';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { catalogDataAtom, selectedLayersAtom } from './atoms';
+import SearchBar from './components/search/searchBar';
 
 type SidebarItemProps = {
   item: CatalogItem
@@ -139,30 +140,38 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpenedSidebar, setIsOpenedSidebar }
   const catalogData = useAtomValue(catalogDataAtom);
   const setSelectedLayers = useSetAtom(selectedLayersAtom);
 
+  // 全選択
   const selectAllHandler = useCallback<React.MouseEventHandler<HTMLButtonElement>>((event) => {
     event.preventDefault();
     setSelectedLayers([...walkCategories(catalogData)].map(v => v.shortId));
   }, [catalogData, setSelectedLayers]);
 
+  // 全選択解除
   const selectNoneHandler = useCallback<React.MouseEventHandler<HTMLButtonElement>>((event) => {
     event.preventDefault();
     setSelectedLayers([]);
   }, [setSelectedLayers]);
 
+  // サイドバーを閉じる
   const closeListHandler = useCallback<React.MouseEventHandler<HTMLLabelElement>>((event) => {
     setIsOpenedSidebar(false);
     event.stopPropagation();
   }, [setIsOpenedSidebar]);
 
+  // サイドバーを開く
   const openListHandler = useCallback<React.MouseEventHandler<HTMLDivElement>>((event) => {
     setIsOpenedSidebar(true);
     event.stopPropagation();
   }, [setIsOpenedSidebar]);
 
+
   return (
     <div className={classNames('sidebar', { 'sidebar-open': isOpenedSidebar })} onClick={openListHandler}>
       <label id="list-close" onClick={closeListHandler}><span></span></label>
       <h2 className='title'><AiOutlineBars className='list-icon'/>都市情報</h2>
+      <div className='search-wrapepr'>
+        <SearchBar />
+      </div>
       <div className='button-container'>
         <button type="button" onClick={selectAllHandler}>全選択</button>
         <button type="button" onClick={selectNoneHandler}>全選択解除</button>
