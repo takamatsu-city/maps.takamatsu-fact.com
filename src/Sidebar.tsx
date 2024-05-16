@@ -168,10 +168,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpenedSidebar, setIsOpenedSidebar }
   return (
     <div className={classNames('sidebar', { 'sidebar-open': isOpenedSidebar })} onClick={openListHandler}>
       <label id="list-close" onClick={closeListHandler}><span></span></label>
-      <h2 className='title'><AiOutlineBars className='list-icon'/>都市情報</h2>
       <div className='search-wrapepr'>
         <SearchBar />
       </div>
+      <h2 className='title'><AiOutlineBars className='list-icon'/>都市情報</h2>
       <div className='button-container'>
         <button type="button" onClick={selectAllHandler}>全選択</button>
         <button type="button" onClick={selectNoneHandler}>全選択解除</button>
