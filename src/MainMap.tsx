@@ -395,6 +395,7 @@ const MainMap: React.FC<Props> = () => {
           'text-size': 12,
           'text-anchor': 'top',
           'text-offset': [0, 1],
+          'text-font': ['Noto Sans Regular'],
         },
       })
     } else {
@@ -408,8 +409,11 @@ const MainMap: React.FC<Props> = () => {
     const lnglat = new window.geolonia.LngLat(...result.geometry.coordinates) as maplibregl.LngLat;
 
     // 検索結果がある場合、その位置に移動
-    mapClickedHandler(map, lnglat);
     map.flyTo({ center: lnglat, zoom: 15 });
+    // wait for any tiles to load...
+    map.once('idle', () => {
+      mapClickedHandler(map, lnglat);
+    });
 
     return () => {
       source?.setData({

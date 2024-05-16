@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { geocode } from '../../utils/geocoder';
 
 // styles
 import './searchBar.scss';
@@ -10,22 +11,25 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { useSetAtom } from 'jotai';
 import { searchResultsAtom } from '../../atoms';
 
-
-// interface SearchBarProps {
-//     value?: string;
-//     setValue: (value: string) => void;
-// }
-
 const SearchBar: React.FC = () => {
 
   const [searchStr, setSearchStr] = useState("");
   const setSearchResultsAtom = useSetAtom(searchResultsAtom);
 
-  const onClickSearchBtn: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const onClickSearchBtn: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     console.log('searching for: ', searchStr);
 
     // ... 検索を行う ...
+    const result = await geocode(searchStr);
+    console.log(result);
+    if (!result.found) {
+      setSearchResultsAtom({
+        query: searchStr,
+        results: []
+      });
+      return;
+    }
 
     setSearchResultsAtom({
       query: searchStr,
@@ -33,11 +37,11 @@ const SearchBar: React.FC = () => {
         {
           type: "Feature",
           properties: {
-            address: "男木町100"
+            address: result.formattedAddress
           },
           geometry: {
             type: "Point",
-            coordinates: [134.05092452941517, 34.33506731781259]
+            coordinates: result.point! as [number, number]
           },
         }
       ]
