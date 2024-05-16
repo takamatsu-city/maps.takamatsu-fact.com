@@ -17,6 +17,14 @@ body,
   box-sizing: border-box;
 }
 
+.alert {
+  position: fixed;
+  top: 8px;
+  left: calc((100% - 500px) / 2);
+  width: 500px;
+  z-index: 100;
+}
+
 .container {
   width: 100%;
   height: calc(100% - 60px);

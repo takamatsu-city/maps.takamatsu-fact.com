@@ -2,6 +2,9 @@ import { atom } from 'jotai'
 import { atomWithHash } from 'jotai-location';
 import { decodeLayerList, encodeLayerList } from './utils/urlEncoding';
 import { getCatalog, CatalogFeature } from './api/catalog';
+import { AlertColor, AlertPropsColorOverrides } from '@mui/material';
+import { OverridableStringUnion } from '@mui/types';
+
 
 export const selectedLayersAtom = atomWithHash<string[]>(
   'layers', [], {
@@ -26,6 +29,8 @@ export const catalogDataAtom = atom(getCatalog);
 // 検索で使用するアトム
 export const searchResultsAtom = atom<{
   query: string;
-  center: [number, number];
-  results: string; // 該当した住所が入る
+  center: [number, number] | undefined;
+  results: maplibregl.MapGeoJSONFeature[] | undefined;      // 該当したfeature
 } | undefined>(undefined);
+
+export const alertInfoAtom = atom<{ msg: string, type: OverridableStringUnion<AlertColor, AlertPropsColorOverrides> }>({ msg: '', type: 'info' });

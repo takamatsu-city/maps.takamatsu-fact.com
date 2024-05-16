@@ -4,12 +4,14 @@ import { walkCategories } from './api/catalog';
 import { CustomStyle, customStyleToLineStringTemplate, customStyleToPointTemplate, customStyleToPolygonTemplate, DEFAULT_LINESTRING_STYLE, DEFAULT_POINT_STYLE, DEFAULT_POLYGON_STYLE, getCustomStyle, LayerTemplate, WEB_COLORS } from './utils/mapStyling';
 import CityOS__Takamatsu from './cityos/cityos_takamatsu';
 
+import GeoJSONFeature from 'geojson';
+
 import { FaMountain } from "react-icons/fa";
 
 import mapStyle from './style.json';
 import classNames from 'classnames';
-import {  useAtomValue, useSetAtom } from 'jotai';
-import { catalogDataAtom, searchResultsAtom, selectedFeaturesAtom, selectedLayersAtom } from './atoms';
+import {  useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { alertInfoAtom, catalogDataAtom, searchResultsAtom, selectedFeaturesAtom, selectedLayersAtom } from './atoms';
 
 declare global {
   interface Window {
@@ -53,17 +55,59 @@ const MainMap: React.FC<Props> = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const [show3dDem, setShow3dDem] = useState<boolean>(false);
   const [pitch, setPitch] = useState<number>(0);
-  const searchResults = useAtomValue(searchResultsAtom);
+  const [searchResults, setSearchResults] = useAtom(searchResultsAtom);
+  const setAlertInfoAtom = useSetAtom(alertInfoAtom);
 
   const catalogDataItems = useMemo(() => {
     return [...walkCategories(catalogData)];
   }, [catalogData]);
 
-
   const onClick3dBtn = async () => {
     if(!map) { return; }
     const newPitch = show3dDem ? 0 : 60;
     map.flyTo({ pitch: newPitch });
+  }
+
+  const setWarningAlert = () => {
+    setAlertInfoAtom({ msg: '検索結果がありません', type: 'warning' });
+  }
+
+  const mapClickedHandler = (map: maplibregl.Map, flyToLngLat: maplibregl.LngLatLike, point?: maplibregl.PointLike, searchFeature?: maplibregl.MapGeoJSONFeature[]) => {
+    if(!map || (!point && !searchFeature)) { return; }
+    
+    console.log(searchFeature);
+    const features = searchFeature ?? map
+      .queryRenderedFeatures(point)
+      .filter(feature => (
+        feature.source === 'takamatsu' ||
+        feature.source === 'kihonzu' ||
+        feature.properties._viewer_selectable === true
+      ));
+
+    if (features.length === 0) {
+      setSelectedFeatures([]);
+      return;
+    }
+    console.log(features)
+    setSelectedFeatures(features.map(feature => {
+      const catalogData = catalogDataItems.find(item => (
+        item.type === "DataItem" && (
+          ((feature.source === 'takamatsu' || feature.properties._viewer_selectable === true) && item.class === feature.properties.class) ||
+          ('customDataSource' in item && item.customDataSource === feature.source)
+        )
+      ));
+      if (!catalogData) {
+        throw new Error(`Catalog data not available for feature: ${feature}`);
+      }
+      return {
+        catalog: catalogData,
+        properties: feature.properties,
+      };
+    }));
+
+    // 移動
+    map.flyTo({ center: flyToLngLat, zoom: 17 });
+
   }
 
   useLayoutEffect(() => {
@@ -152,34 +196,8 @@ const MainMap: React.FC<Props> = () => {
     });
 
     map.on('click', (e) => {
-      // mapClickedHandler(map, e.point);
-
-      const features = map
-        .queryRenderedFeatures(e.point)
-        .filter(feature => (
-          feature.source === 'takamatsu' ||
-          feature.source === 'kihonzu' ||
-          feature.properties._viewer_selectable === true
-        ));
-      if (features.length === 0) {
-        setSelectedFeatures([]);
-        return;
-      }
-      setSelectedFeatures(features.map(feature => {
-        const catalogData = catalogDataItems.find(item => (
-          item.type === "DataItem" && (
-            ((feature.source === 'takamatsu' || feature.properties._viewer_selectable === true) && item.class === feature.properties.class) ||
-            ('customDataSource' in item && item.customDataSource === feature.source)
-          )
-        ));
-        if (!catalogData) {
-          throw new Error(`Catalog data not available for feature: ${feature}`);
-        }
-        return {
-          catalog: catalogData,
-          properties: feature.properties,
-        };
-      }));
+      mapClickedHandler(map, e.lngLat, e.point, undefined);
+      map.flyTo({ center: e.lngLat });
     });
 
     map.on('pitchend', (e) => {
@@ -227,7 +245,7 @@ const MainMap: React.FC<Props> = () => {
         index += 1;
         if (shouldStop) return;
 
-        const definitionId = definition.id;
+        const definitionId = definition.shortId;
         const isSelected = selectedLayers.includes(definition.shortId);
 
         if ("liveLocationId" in definition) {
@@ -346,9 +364,32 @@ const MainMap: React.FC<Props> = () => {
 
   // 検索
   useEffect(() => {
-    if(searchResults === undefined || !map) { return; }
-    // mapClickedHandler(map, e.point);
-  }, [map, searchResults]);
+    if(searchResults === undefined || searchResults.query === "" || !map) { return; }
+    const result: maplibregl.MapGeoJSONFeature[] = [];
+
+    // 入力住所が含まれるフィーチャを検索
+    selectedLayers.forEach(e => {
+      const source = map.getSource(e);
+      if(!source) { return; }
+      const data = (source as any)._data.features.filter(
+          (feature: { properties: { [x: string]: string | string[]; }; }
+        ) => feature.properties['address'].includes(searchResults.query)
+      );
+      if(data.length === 0) { return; }
+      result.push(...data);
+    });
+
+    const lnglat =  {
+      lng: (result[0].geometry as GeoJSONFeature.Point).coordinates[0] , 
+      lat: (result[0].geometry as GeoJSONFeature.Point).coordinates[1] 
+    }
+
+    // 検索結果がある場合、その位置に移動
+    mapClickedHandler(map, lnglat, undefined, result);
+
+    setSearchResults({ query: '', center: undefined, results: undefined });
+
+  }, [map, searchResults?.query]);
 
   return (
     <>

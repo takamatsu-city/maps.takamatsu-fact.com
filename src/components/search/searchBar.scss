@@ -20,7 +20,7 @@
         box-sizing: border-box;
     }
 
-    .icon {
+    .search-btn {
         background: #777;
         border-radius: 50%;
         width: var(--icon-wrapper-size);
@@ -29,8 +29,9 @@
         align-items: center;
         justify-content: center;
         transition: all 0.5s;
+        border: none;
 
-        * {
+        .icon {
             color: #fff;
             font-size: var(--icon-size);
         }

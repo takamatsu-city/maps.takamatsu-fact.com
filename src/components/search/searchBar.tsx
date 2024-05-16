@@ -30,14 +30,14 @@ const SearchBar: React.FC = () => {
         setSearchResultsAtom({
           query: searchStr,
           center: [0, 0],
-          results: 'search results'
+          results: undefined
         });
     }
 
     return (
         <form className='search-bar' onSubmit={onClickSearchBtn}>
-            <input type='text' placeholder='Search for a movie' value={searchStr} onChange={(e) => setSearchStr(e.target.value)}/>
-            <button className='icon' type="submit"><AiOutlineSearch /></button>
+            <input type='text' placeholder='住所検索' value={searchStr} onChange={(e) => setSearchStr(e.target.value)}/>
+            <button className='search-btn' type="submit"><AiOutlineSearch className='icon'/></button>
         </form>
     );
 };
