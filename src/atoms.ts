@@ -24,6 +24,8 @@ export const selectedFeaturesAtom = atom<CatalogFeature[]>([]);
 export const catalogDataAtom = atom(getCatalog);
 
 // 検索で使用するアトム
-export const searchValueAtom = atom<string>('');
-// 検索ボタンが押されたかどうかを判定するアトム
-export const searchingFlagAtom = atom<boolean>(false);
+export const searchResultsAtom = atom<{
+  query: string;
+  center: [number, number];
+  results: string; // 該当した住所が入る
+} | undefined>(undefined);

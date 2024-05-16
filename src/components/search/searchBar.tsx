@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // styles
 import './searchBar.scss';
@@ -8,7 +8,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 
 // atoms
 import { useAtom, useSetAtom } from 'jotai';
-import { searchingFlagAtom, searchValueAtom } from '../../atoms';
+import { searchResultsAtom } from '../../atoms';
 
 
 // interface SearchBarProps {
@@ -18,19 +18,27 @@ import { searchingFlagAtom, searchValueAtom } from '../../atoms';
 
 const SearchBar: React.FC = () => {
 
-    const [searchStr, setSearchStr] = useAtom(searchValueAtom);
-    const setSearchingFlagAtom = useSetAtom(searchingFlagAtom);
+    const [searchStr, setSearchStr] = useState("");
+    const setSearchResultsAtom = useSetAtom(searchResultsAtom);
 
-    const onClickSearchBtn = () => {
+    const onClickSearchBtn: React.FormEventHandler<HTMLFormElement> = (e) => {
+      e.preventDefault();
         console.log('searching for: ', searchStr);
-        setSearchingFlagAtom(true);
+
+        // ... 検索を行う ...
+
+        setSearchResultsAtom({
+          query: searchStr,
+          center: [0, 0],
+          results: 'search results'
+        });
     }
 
     return (
-        <div className='search-bar'>
+        <form className='search-bar' onSubmit={onClickSearchBtn}>
             <input type='text' placeholder='Search for a movie' value={searchStr} onChange={(e) => setSearchStr(e.target.value)}/>
-            <span className='icon' onClick={onClickSearchBtn}><AiOutlineSearch /></span>
-        </div>
+            <button className='icon' type="submit"><AiOutlineSearch /></button>
+        </form>
     );
 };
 
