@@ -7,7 +7,7 @@ import './searchBar.scss';
 import { AiOutlineSearch } from "react-icons/ai";
 
 // atoms
-import { useAtom, useSetAtom } from 'jotai';
+import { useSetAtom } from 'jotai';
 import { searchResultsAtom } from '../../atoms';
 
 

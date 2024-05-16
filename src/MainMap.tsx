@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type * as maplibregl from 'maplibre-gl';
 import { walkCategories } from './api/catalog';
 import { CustomStyle, customStyleToLineStringTemplate, customStyleToPointTemplate, customStyleToPolygonTemplate, DEFAULT_LINESTRING_STYLE, DEFAULT_POINT_STYLE, DEFAULT_POLYGON_STYLE, getCustomStyle, LayerTemplate, WEB_COLORS } from './utils/mapStyling';
@@ -68,11 +68,7 @@ const MainMap: React.FC<Props> = () => {
     map.flyTo({ pitch: newPitch });
   }
 
-  const setWarningAlert = () => {
-    setAlertInfoAtom({ msg: '検索結果がありません', type: 'warning' });
-  }
-
-  const mapClickedHandler = (map: maplibregl.Map, flyToLngLat: maplibregl.LngLatLike, point?: maplibregl.PointLike, searchFeature?: maplibregl.MapGeoJSONFeature[]) => {
+  const mapClickedHandler = useCallback((map: maplibregl.Map, flyToLngLat: maplibregl.LngLatLike, point?: maplibregl.PointLike, searchFeature?: maplibregl.MapGeoJSONFeature[]) => {
     if(!map || (!point && !searchFeature)) { return; }
     
     console.log(searchFeature);
@@ -108,7 +104,8 @@ const MainMap: React.FC<Props> = () => {
     // 移動
     map.flyTo({ center: flyToLngLat, zoom: 17 });
 
-  }
+  }, [setSelectedFeatures, catalogDataItems]);
+
 
   useLayoutEffect(() => {
     const map: maplibregl.Map = new window.geolonia.Map({
@@ -207,7 +204,7 @@ const MainMap: React.FC<Props> = () => {
     return () => {
       map.remove();
     };
-  }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures]);
+  }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures, mapClickedHandler]);
 
 
   useEffect(() => {
@@ -379,6 +376,11 @@ const MainMap: React.FC<Props> = () => {
       result.push(...data);
     });
 
+    if(result.length === 0) {
+      setAlertInfoAtom({ msg: '検索結果がありません', type: 'warning' });
+      return;
+    }
+
     const lnglat =  {
       lng: (result[0].geometry as GeoJSONFeature.Point).coordinates[0] , 
       lat: (result[0].geometry as GeoJSONFeature.Point).coordinates[1] 
@@ -389,7 +391,7 @@ const MainMap: React.FC<Props> = () => {
 
     setSearchResults({ query: '', center: undefined, results: undefined });
 
-  }, [map, searchResults?.query]);
+  }, [map, searchResults, selectedLayers, mapClickedHandler, setAlertInfoAtom, setSearchResults]);
 
   return (
     <>
