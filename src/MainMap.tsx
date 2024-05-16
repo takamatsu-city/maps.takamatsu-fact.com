@@ -68,12 +68,9 @@ const MainMap: React.FC<Props> = () => {
     map.flyTo({ pitch: newPitch });
   }
 
-  const mapClickedHandler = useCallback((map: maplibregl.Map, flyToLngLat: maplibregl.LngLatLike, point?: maplibregl.PointLike, searchFeature?: maplibregl.MapGeoJSONFeature[]) => {
-    if(!map || (!point && !searchFeature)) { return; }
-    
-    console.log(searchFeature);
-    const features = searchFeature ?? map
-      .queryRenderedFeatures(point)
+  const mapClickedHandler = useCallback((map: maplibregl.Map, point: maplibregl.LngLat) => {
+    const features = map
+      .queryRenderedFeatures(map.project(point))
       .filter(feature => (
         feature.source === 'takamatsu' ||
         feature.source === 'kihonzu' ||
@@ -100,12 +97,7 @@ const MainMap: React.FC<Props> = () => {
         properties: feature.properties,
       };
     }));
-
-    // 移動
-    map.flyTo({ center: flyToLngLat, zoom: 17 });
-
   }, [setSelectedFeatures, catalogDataItems]);
-
 
   useLayoutEffect(() => {
     const map: maplibregl.Map = new window.geolonia.Map({
@@ -193,8 +185,7 @@ const MainMap: React.FC<Props> = () => {
     });
 
     map.on('click', (e) => {
-      mapClickedHandler(map, e.lngLat, e.point, undefined);
-      map.flyTo({ center: e.lngLat });
+      mapClickedHandler(map, e.lngLat);
     });
 
     map.on('pitchend', (e) => {
@@ -361,37 +352,72 @@ const MainMap: React.FC<Props> = () => {
 
   // 検索
   useEffect(() => {
-    if(searchResults === undefined || searchResults.query === "" || !map) { return; }
-    const result: maplibregl.MapGeoJSONFeature[] = [];
+    if(searchResults === undefined || !map) { return; }
 
-    // 入力住所が含まれるフィーチャを検索
-    selectedLayers.forEach(e => {
-      const source = map.getSource(e);
-      if(!source) { return; }
-      const data = (source as any)._data.features.filter(
-          (feature: { properties: { [x: string]: string | string[]; }; }
-        ) => feature.properties['address'].includes(searchResults.query)
-      );
-      if(data.length === 0) { return; }
-      result.push(...data);
-    });
-
-    if(result.length === 0) {
+    if(searchResults.results.length === 0) {
       setAlertInfoAtom({ msg: '検索結果がありません', type: 'warning' });
       return;
+    } else {
+      setAlertInfoAtom(undefined);
     }
 
-    const lnglat =  {
-      lng: (result[0].geometry as GeoJSONFeature.Point).coordinates[0] , 
-      lat: (result[0].geometry as GeoJSONFeature.Point).coordinates[1] 
+    const sourceId = 'search-results';
+    let source = map.getSource(sourceId) as undefined | maplibregl.GeoJSONSource;
+    if (!source) {
+      map.addSource(sourceId, {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: searchResults.results,
+        }
+      });
+      source = map.getSource(sourceId) as maplibregl.GeoJSONSource;
+
+      map.addLayer({
+        id: 'search-results-points',
+        type: 'circle',
+        source: sourceId,
+        paint: {
+          'circle-radius': 7,
+          'circle-color': 'red',
+          'circle-opacity': .8,
+          'circle-stroke-width': 1,
+          'circle-stroke-color': 'gray',
+          'circle-stroke-opacity': 1,
+        }
+      });
+      map.addLayer({
+        id: 'search-results-labels',
+        type: 'symbol',
+        source: sourceId,
+        layout: {
+          'text-field': ['get', 'address'],
+          'text-size': 12,
+          'text-anchor': 'top',
+          'text-offset': [0, 1],
+        },
+      })
+    } else {
+      source.setData({
+        type: 'FeatureCollection',
+        features: searchResults.results,
+      });
     }
+
+    const result = searchResults.results[0];
+    const lnglat = new window.geolonia.LngLat(...result.geometry.coordinates) as maplibregl.LngLat;
 
     // 検索結果がある場合、その位置に移動
-    mapClickedHandler(map, lnglat, undefined, result);
+    mapClickedHandler(map, lnglat);
+    map.flyTo({ center: lnglat, zoom: 15 });
 
-    setSearchResults({ query: '', center: undefined, results: undefined });
-
-  }, [map, searchResults, selectedLayers, mapClickedHandler, setAlertInfoAtom, setSearchResults]);
+    return () => {
+      source?.setData({
+        type: 'FeatureCollection',
+        features: [],
+      });
+    }
+  }, [map, searchResults, mapClickedHandler, setAlertInfoAtom]);
 
   return (
     <>

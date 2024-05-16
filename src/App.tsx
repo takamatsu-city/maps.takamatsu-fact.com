@@ -19,11 +19,11 @@ function App() {
 
   return (
     <div className="App">
-      { alertInfo.msg !== '' &&
-        <Alert severity={alertInfo.type} className="alert" variant="filled" onClick={() => setAlertInfo({msg: '', type:'info'})}>
+      { alertInfo &&
+        <Alert severity={alertInfo.type} className="alert" variant="filled" onClick={() => setAlertInfo(undefined)}>
           { alertInfo.msg }
         </Alert>
-      } 
+      }
       <Header />
       <div className="container">
         <Sidebar

@@ -29,8 +29,7 @@ export const catalogDataAtom = atom(getCatalog);
 // 検索で使用するアトム
 export const searchResultsAtom = atom<{
   query: string;
-  center: [number, number] | undefined;
-  results: maplibregl.MapGeoJSONFeature[] | undefined;      // 該当したfeature
+  results: GeoJSON.Feature<GeoJSON.Point>[];      // 該当したfeature
 } | undefined>(undefined);
 
-export const alertInfoAtom = atom<{ msg: string, type: OverridableStringUnion<AlertColor, AlertPropsColorOverrides> }>({ msg: '', type: 'info' });
+export const alertInfoAtom = atom<{ msg: string, type: OverridableStringUnion<AlertColor, AlertPropsColorOverrides> } | undefined>(undefined);
