@@ -4,13 +4,11 @@ import { walkCategories } from './api/catalog';
 import { CustomStyle, customStyleToLineStringTemplate, customStyleToPointTemplate, customStyleToPolygonTemplate, DEFAULT_LINESTRING_STYLE, DEFAULT_POINT_STYLE, DEFAULT_POLYGON_STYLE, getCustomStyle, LayerTemplate, WEB_COLORS } from './utils/mapStyling';
 import CityOS__Takamatsu from './cityos/cityos_takamatsu';
 
-import GeoJSONFeature from 'geojson';
-
 import { FaMountain } from "react-icons/fa";
 
 import mapStyle from './style.json';
 import classNames from 'classnames';
-import {  useAtom, useAtomValue, useSetAtom } from 'jotai';
+import {  useAtomValue, useSetAtom } from 'jotai';
 import { alertInfoAtom, catalogDataAtom, searchResultsAtom, selectedFeaturesAtom, selectedLayersAtom } from './atoms';
 
 declare global {
@@ -55,7 +53,7 @@ const MainMap: React.FC<Props> = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const [show3dDem, setShow3dDem] = useState<boolean>(false);
   const [pitch, setPitch] = useState<number>(0);
-  const [searchResults, setSearchResults] = useAtom(searchResultsAtom);
+  const searchResults = useAtomValue(searchResultsAtom);
   const setAlertInfoAtom = useSetAtom(alertInfoAtom);
 
   const catalogDataItems = useMemo(() => {
