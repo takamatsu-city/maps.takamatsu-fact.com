@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { geocode } from '../../utils/geocoder';
+import { number2kanji } from '@geolonia/japanese-numeral'
 
 // styles
 import './searchBar.scss';
@@ -11,6 +12,13 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { useSetAtom } from 'jotai';
 import { searchResultsAtom } from '../../atoms';
 
+const zen2han = (str: string) => {
+  return str.replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s) => {
+    return String.fromCharCode(s.charCodeAt(0) - 0xfee0)
+  })
+}
+
+
 const SearchBar: React.FC = () => {
 
   const [searchStr, setSearchStr] = useState("");
@@ -18,21 +26,29 @@ const SearchBar: React.FC = () => {
 
   const onClickSearchBtn: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    console.log('searching for: ', searchStr);
+
+    let searchStrN = searchStr.trim();
+    searchStrN = zen2han(searchStrN);
+    searchStrN = searchStrN.replace(/([1-9]+)丁目/, (_, s) => {
+      return number2kanji(parseInt(s, 10)) + '丁目';
+    });
+    searchStrN = searchStrN.replace(/[-－﹣−‐⁃‑‒–—﹘―⎯⏤ーｰ─━]/g, '-');
+    searchStrN = searchStrN.replace(/^(香川県)?高松市/, '');
+    console.log('searching for: ', searchStrN);
 
     // ... 検索を行う ...
-    const result = await geocode(searchStr);
+    const result = await geocode(searchStrN);
     console.log(result);
     if (!result.found) {
       setSearchResultsAtom({
-        query: searchStr,
+        query: searchStrN,
         results: []
       });
       return;
     }
 
     setSearchResultsAtom({
-      query: searchStr,
+      query: searchStrN,
       results: [
         {
           type: "Feature",
