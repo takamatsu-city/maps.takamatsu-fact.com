@@ -407,7 +407,7 @@ const MainMap: React.FC<Props> = () => {
     const lnglat = new window.geolonia.LngLat(...result.geometry.coordinates) as maplibregl.LngLat;
 
     // 検索結果がある場合、その位置に移動
-    map.flyTo({ center: lnglat, zoom: 15 });
+    map.flyTo({ center: lnglat, zoom: 15, speed: 2.0 });
     // wait for any tiles to load...
     map.once('idle', () => {
       mapClickedHandler(map, lnglat);
