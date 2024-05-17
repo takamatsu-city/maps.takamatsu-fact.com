@@ -11,6 +11,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 // atoms
 import { useSetAtom } from 'jotai';
 import { searchResultsAtom } from '../../atoms';
+import { GeocoderResult } from '@geolonia/addresses-geocoder';
 
 const zen2han = (str: string) => {
   return str.replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s) => {
@@ -37,9 +38,14 @@ const SearchBar: React.FC = () => {
     console.log('searching for: ', searchStrN);
 
     // ... 検索を行う ...
-    const result = await geocode(searchStrN);
-    console.log(result);
-    if (!result.found) {
+    let result: GeocoderResult | undefined = undefined;
+    try {
+      result = await geocode(searchStrN);
+      console.log(result);
+    } catch (e) {
+      console.error(e);
+    }
+    if (!result || !result.found) {
       setSearchResultsAtom({
         query: searchStrN,
         results: []
