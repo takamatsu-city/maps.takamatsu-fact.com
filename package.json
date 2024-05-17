@@ -3,6 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@geolonia/addresses-decoder": "^0.0.5",
+    "@geolonia/addresses-geocoder": "^0.0.5",
+    "@geolonia/japanese-numeral": "^1.0.2",
+    "@mui/material": "^5.15.17",
+    "@mui/styled-engine": "^5.15.14",
     "@spatial-id/javascript-sdk": "github:spatial-id/javascript-sdk",
     "@turf/bbox": "^6.5.0",
     "classnames": "^2.3.2",

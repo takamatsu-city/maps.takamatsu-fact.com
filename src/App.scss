@@ -17,6 +17,14 @@ body,
   box-sizing: border-box;
 }
 
+.alert {
+  position: fixed;
+  top: 8px;
+  left: calc((100% - 500px) / 2);
+  width: 500px;
+  z-index: 100;
+}
+
 .container {
   width: 100%;
   height: calc(100% - 60px);
@@ -25,11 +33,13 @@ body,
 
   .sidebar {
     background: #F6F6F6;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.22);
+    box-shadow: 2px 0px 15px 0px rgba(0, 0, 0, 0.22);
     width: 350px;
     box-sizing: border-box;
     overflow: scroll;
     transition: all 0.5s;
+    position: relative;
+    border-right: solid #ddd 1px;
   }
 
   .sidebar-detail {

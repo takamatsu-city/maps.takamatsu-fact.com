@@ -2,6 +2,10 @@
   padding: 20px;
   left: 0;
 
+  .search-wrapepr {
+    margin-bottom: 12px;
+  }
+
   .button-container {
     margin-bottom: 12px;
   }
@@ -75,6 +79,7 @@
 }
 
 @media screen and (max-width: 768px) {
+
   .container {
 
     div.sidebar.sidebar-open {
@@ -109,8 +114,14 @@
         width: 40px;
       }
 
+
+      .search-wrapepr {
+        margin-top: 24px;
+        width: calc(100% - 40px);
+      }
+
       .title {
-        margin: 30px 0 30px 0;
+        margin: 16px 0 10px 0;
         display: flex;
         align-items: center;
 

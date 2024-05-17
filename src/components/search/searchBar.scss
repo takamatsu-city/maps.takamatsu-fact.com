@@ -1,0 +1,44 @@
+:root {
+    --icon-size: 20px;
+    --icon-wrapper-size: calc(var(--icon-size) + 6px);
+}
+
+.search-bar {
+    border: solid 1px #ccc;
+    border-radius: 100px;
+    padding: 4px 4px 4px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+
+    input {
+        border: none;
+        outline: none;
+        width: calc(100% - var(--icon-wrapper-size));
+        display: block;
+        box-sizing: border-box;
+    }
+
+    .search-btn {
+        background: #777;
+        border-radius: 50%;
+        width: var(--icon-wrapper-size);
+        height: var(--icon-wrapper-size);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.5s;
+        border: none;
+
+        .icon {
+            color: #fff;
+            font-size: var(--icon-size);
+        }
+    }
+    .icon:hover {
+        opacity: 0.5;
+        transition: all 0.5s;
+    }
+    
+}

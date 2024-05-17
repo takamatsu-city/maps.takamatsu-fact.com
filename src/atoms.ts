@@ -2,6 +2,9 @@ import { atom } from 'jotai'
 import { atomWithHash } from 'jotai-location';
 import { decodeLayerList, encodeLayerList } from './utils/urlEncoding';
 import { getCatalog, CatalogFeature } from './api/catalog';
+import { AlertColor, AlertPropsColorOverrides } from '@mui/material';
+import { OverridableStringUnion } from '@mui/types';
+
 
 export const selectedLayersAtom = atomWithHash<string[]>(
   'layers', [], {
@@ -22,3 +25,11 @@ export const selectedLayersAtom = atomWithHash<string[]>(
 export const selectedFeaturesAtom = atom<CatalogFeature[]>([]);
 
 export const catalogDataAtom = atom(getCatalog);
+
+// 検索で使用するアトム
+export const searchResultsAtom = atom<{
+  query: string;
+  results: GeoJSON.Feature<GeoJSON.Point>[];      // 該当したfeature
+} | undefined>(undefined);
+
+export const alertInfoAtom = atom<{ msg: string, type: OverridableStringUnion<AlertColor, AlertPropsColorOverrides> } | undefined>(undefined);

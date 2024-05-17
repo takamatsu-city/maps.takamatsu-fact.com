@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type * as maplibregl from 'maplibre-gl';
 import { walkCategories } from './api/catalog';
 import { CustomStyle, customStyleToLineStringTemplate, customStyleToPointTemplate, customStyleToPolygonTemplate, DEFAULT_LINESTRING_STYLE, DEFAULT_POINT_STYLE, DEFAULT_POLYGON_STYLE, getCustomStyle, LayerTemplate, WEB_COLORS } from './utils/mapStyling';
@@ -8,8 +8,8 @@ import { FaMountain } from "react-icons/fa";
 
 import mapStyle from './style.json';
 import classNames from 'classnames';
-import { useAtomValue, useSetAtom } from 'jotai';
-import { catalogDataAtom, selectedFeaturesAtom, selectedLayersAtom } from './atoms';
+import {  useAtomValue, useSetAtom } from 'jotai';
+import { alertInfoAtom, catalogDataAtom, searchResultsAtom, selectedFeaturesAtom, selectedLayersAtom } from './atoms';
 
 declare global {
   interface Window {
@@ -53,17 +53,49 @@ const MainMap: React.FC<Props> = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const [show3dDem, setShow3dDem] = useState<boolean>(false);
   const [pitch, setPitch] = useState<number>(0);
+  const searchResults = useAtomValue(searchResultsAtom);
+  const setAlertInfoAtom = useSetAtom(alertInfoAtom);
 
   const catalogDataItems = useMemo(() => {
     return [...walkCategories(catalogData)];
   }, [catalogData]);
-
 
   const onClick3dBtn = async () => {
     if(!map) { return; }
     const newPitch = show3dDem ? 0 : 60;
     map.flyTo({ pitch: newPitch });
   }
+
+  const mapClickedHandler = useCallback((map: maplibregl.Map, point: maplibregl.LngLat) => {
+    const features = map
+      .queryRenderedFeatures(map.project(point))
+      .filter(feature => (
+        feature.source === 'takamatsu' ||
+        feature.source === 'kihonzu' ||
+        feature.properties._viewer_selectable === true
+      ));
+
+    if (features.length === 0) {
+      setSelectedFeatures([]);
+      return;
+    }
+    console.log(features)
+    setSelectedFeatures(features.map(feature => {
+      const catalogData = catalogDataItems.find(item => (
+        item.type === "DataItem" && (
+          ((feature.source === 'takamatsu' || feature.properties._viewer_selectable === true) && item.class === feature.properties.class) ||
+          ('customDataSource' in item && item.customDataSource === feature.source)
+        )
+      ));
+      if (!catalogData) {
+        throw new Error(`Catalog data not available for feature: ${feature}`);
+      }
+      return {
+        catalog: catalogData,
+        properties: feature.properties,
+      };
+    }));
+  }, [setSelectedFeatures, catalogDataItems]);
 
   useLayoutEffect(() => {
     const map: maplibregl.Map = new window.geolonia.Map({
@@ -151,32 +183,7 @@ const MainMap: React.FC<Props> = () => {
     });
 
     map.on('click', (e) => {
-      const features = map
-        .queryRenderedFeatures(e.point)
-        .filter(feature => (
-          feature.source === 'takamatsu' ||
-          feature.source === 'kihonzu' ||
-          feature.properties._viewer_selectable === true
-        ));
-      if (features.length === 0) {
-        setSelectedFeatures([]);
-        return;
-      }
-      setSelectedFeatures(features.map(feature => {
-        const catalogData = catalogDataItems.find(item => (
-          item.type === "DataItem" && (
-            ((feature.source === 'takamatsu' || feature.properties._viewer_selectable === true) && item.class === feature.properties.class) ||
-            ('customDataSource' in item && item.customDataSource === feature.source)
-          )
-        ));
-        if (!catalogData) {
-          throw new Error(`Catalog data not available for feature: ${feature}`);
-        }
-        return {
-          catalog: catalogData,
-          properties: feature.properties,
-        };
-      }));
+      mapClickedHandler(map, e.lngLat);
     });
 
     map.on('pitchend', (e) => {
@@ -186,7 +193,7 @@ const MainMap: React.FC<Props> = () => {
     return () => {
       map.remove();
     };
-  }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures]);
+  }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures, mapClickedHandler]);
 
 
   useEffect(() => {
@@ -224,7 +231,7 @@ const MainMap: React.FC<Props> = () => {
         index += 1;
         if (shouldStop) return;
 
-        const definitionId = definition.id;
+        const definitionId = definition.shortId;
         const isSelected = selectedLayers.includes(definition.shortId);
 
         if ("liveLocationId" in definition) {
@@ -340,6 +347,79 @@ const MainMap: React.FC<Props> = () => {
       shouldStop = true;
     }
   }, [map, catalogData, selectedLayers, cityOS]);
+
+  // 検索
+  useEffect(() => {
+    if(searchResults === undefined || !map) { return; }
+
+    if(searchResults.results.length === 0) {
+      setAlertInfoAtom({ msg: '検索結果がありません', type: 'warning' });
+      return;
+    } else {
+      setAlertInfoAtom(undefined);
+    }
+
+    const sourceId = 'search-results';
+    let source = map.getSource(sourceId) as undefined | maplibregl.GeoJSONSource;
+    if (!source) {
+      map.addSource(sourceId, {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: searchResults.results,
+        }
+      });
+      source = map.getSource(sourceId) as maplibregl.GeoJSONSource;
+
+      map.addLayer({
+        id: 'search-results-points',
+        type: 'circle',
+        source: sourceId,
+        paint: {
+          'circle-radius': 7,
+          'circle-color': 'red',
+          'circle-opacity': .8,
+          'circle-stroke-width': 1,
+          'circle-stroke-color': 'gray',
+          'circle-stroke-opacity': 1,
+        }
+      });
+      map.addLayer({
+        id: 'search-results-labels',
+        type: 'symbol',
+        source: sourceId,
+        layout: {
+          'text-field': ['get', 'address'],
+          'text-size': 12,
+          'text-anchor': 'top',
+          'text-offset': [0, 1],
+          'text-font': ['Noto Sans Regular'],
+        },
+      })
+    } else {
+      source.setData({
+        type: 'FeatureCollection',
+        features: searchResults.results,
+      });
+    }
+
+    const result = searchResults.results[0];
+    const lnglat = new window.geolonia.LngLat(...result.geometry.coordinates) as maplibregl.LngLat;
+
+    // 検索結果がある場合、その位置に移動
+    map.flyTo({ center: lnglat, zoom: 15, speed: 2.0 });
+    // wait for any tiles to load...
+    map.once('idle', () => {
+      mapClickedHandler(map, lnglat);
+    });
+
+    return () => {
+      source?.setData({
+        type: 'FeatureCollection',
+        features: [],
+      });
+    }
+  }, [map, searchResults, mapClickedHandler, setAlertInfoAtom]);
 
   return (
     <>
