@@ -30,6 +30,7 @@ body,
     box-sizing: border-box;
     overflow: scroll;
     transition: all 0.5s;
+    z-index: 1;
   }
 
   .sidebar-detail {
