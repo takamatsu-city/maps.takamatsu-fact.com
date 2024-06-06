@@ -106,7 +106,7 @@ const MainMap: React.FC<Props> = () => {
       // 衛星画像レイヤーを追加
       map.addSource('satellite', {
         type: 'raster',
-        url: 'https://api.maptiler.com/tiles/satellite-v2/tiles.json?key=liMTCwl3aGL5iEy1UR1Y',
+        url: 'https://api.maptiler.com/tiles/satellite-v2/tiles.json?key=3RIGqI7btoYpMwxpZdPC',
       })
 
       map.addSource('negative-city-mask', {
