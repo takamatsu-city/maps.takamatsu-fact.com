@@ -175,6 +175,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpenedSidebar, setIsOpenedSidebar }
           />
         )}
       </div>
+      <p className='sidebar-news'>メンテナンス作業のため、６月２０日はセンサーデータの一部がアクセスできなくなります。ご理解の程お願い申しあげます。</p>
       <a href="https://docs.takamatsu-fact.com/#%E3%81%94%E5%88%A9%E7%94%A8%E3%81%AB%E3%81%82%E3%81%9F%E3%81%A3%E3%81%A6" className='user-guide-link' target="_blank" rel="noreferrer">
         <AiOutlineLink /><span>ご利用にあたって</span>
       </a>
