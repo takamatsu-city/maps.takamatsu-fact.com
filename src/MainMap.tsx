@@ -89,18 +89,6 @@ const MainMap: React.FC<Props> = () => {
         type: 'raster-dem',
         url: 'https://tileserver.geolonia.com/gsi-dem/tiles.json?key=YOUR-API-KEY',
       });
-
-      map.addLayer({
-        id: 'takamatsu-dem',
-        type: 'hillshade',
-        source: 'gsidem',
-        paint: {
-          'hillshade-exaggeration': 0.5,
-          'hillshade-shadow-color': 'rgba(71, 59, 36, 0.1)',
-        }
-      },'park');
-
-      map.setTerrain({ 'source': 'gsidem', 'exaggeration': 1 });
       // End add GSI DEM
 
       // 衛星画像レイヤーを追加
