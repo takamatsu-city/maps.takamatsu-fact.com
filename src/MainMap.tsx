@@ -146,7 +146,7 @@ const MainMap: React.FC<Props> = () => {
 
       const initialPitch = map.getPitch();
       setPitch(initialPitch);
-      setShow3dDem(initialPitch > 0)
+      // setShow3dDem(initialPitch > 0)
       setMap(map);
     });
 
@@ -180,6 +180,7 @@ const MainMap: React.FC<Props> = () => {
     });
 
     map.on('pitchend', (e) => {
+      console.log(e.target.getPitch())
       setPitch(e.target.getPitch());
     })
 
@@ -206,12 +207,15 @@ const MainMap: React.FC<Props> = () => {
           'hillshade-exaggeration': 0.5,
           'hillshade-shadow-color': 'rgba(71, 59, 36, 0.1)',
         }
-      },'park');
+      })
+      // },'park');  スタイル調整の為、一旦レイヤーの順番を無視
       setShow3dDem(true);
       map.setTerrain({ 'source': 'gsidem', 'exaggeration': 1 });
     }
 
   }, [map, pitch])
+
+  useEffect(() => {console.log(show3dDem)}, [show3dDem])
 
 
   useEffect(() => {
