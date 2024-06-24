@@ -123,6 +123,8 @@ export type CustomStyle = {
   pointColor?: string
   pointLabel?: string
   lineWidth?: any
+  opacity?: number
+  lineOpacity?: number
 }
 
 const AREA_STYLES: { [key: string]: CustomStyle[] } = {
@@ -291,6 +293,16 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
       lineWidth: 1,
       pointLabel: "{TextString}"
     }
+  ], 
+  "大字界": [
+    {
+      id: "",
+      outlineColor: "#D99502",
+      fillColor: "#F4CD78",
+      lineWidth: 10,
+      opacity: 0.3,
+      lineOpacity: 1
+    }
   ]
 };
 
@@ -319,7 +331,7 @@ export const customStyleToPolygonTemplate: (customStyle: CustomStyle, defaultCol
       type: "fill",
       filter: style.filter,
       paint: {
-        "fill-opacity": 0.8,
+        "fill-opacity": style.opacity ?? 0.8,
         ...fillPaint,
       },
     },
@@ -332,6 +344,7 @@ export const customStyleToPolygonTemplate: (customStyle: CustomStyle, defaultCol
       paint: {
         "line-color": style.outlineColor || color,
         "line-width": lineWidth_thin,
+        "line-opacity": style.lineOpacity ?? 1,
       },
     }
   ];
