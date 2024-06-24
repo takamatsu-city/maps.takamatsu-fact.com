@@ -103,13 +103,11 @@ async function main() {
 
   for (const line of lines) {
     const lineParts = line.split('\t').map(x => x.trim());
-    console.log(lineParts);
     const [flag, _id, cat1n, cat2n, dataName, fileName, fiwareName] = lineParts;
     if (flag === '') {
       // skip lines that aren't ready yes
       continue;
     }
-    console.log('cat1:', cat1n, 'cat2:', cat2n, 'name', dataName);
 
     let itemCat;
     const idParts = [];
@@ -160,7 +158,6 @@ async function main() {
     const className = fileName.replace(/\(.*?\)/, '');
     const customDataSource = fileName.match(/^!([^!]+)!(.*)$/);
     if (!!fiwareName) {
-      console.log(fiwareName);
       itemAry.push({
         type: "DataItem",
         id,
