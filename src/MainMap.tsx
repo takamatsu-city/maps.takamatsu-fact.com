@@ -90,6 +90,13 @@ const MainMap: React.FC<Props> = () => {
         url: 'https://tileserver.geolonia.com/gsi-dem/tiles.json?key=YOUR-API-KEY',
       });
 
+      document.getElementById('btn-copy-style')?.addEventListener('click', () => {
+        const style = map.getStyle();
+        const styleJson = JSON.stringify(style, null, 2);
+        navigator.clipboard.writeText(styleJson);
+        alert('スタイルをコピーしました。');
+      });
+
       map.addLayer({
         id: 'takamatsu-dem',
         type: 'hillshade',
