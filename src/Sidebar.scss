@@ -72,6 +72,20 @@
     margin-right: auto;
     margin-left: 20px;
   }
+
+  .copy-style
+  {
+    border: 2px solid #0079C4;
+    width: 100%;
+    background-color: #fff;
+    padding: 8px;
+    cursor: pointer;
+  }
+
+  .copy-style:hover
+  {
+    background-color: #eee;
+  }
 }
 
 @media screen and (max-width: 768px) {
