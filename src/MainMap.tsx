@@ -115,18 +115,6 @@ const MainMap: React.FC<Props> = (props) => {
         type: 'raster-dem',
         url: 'https://tileserver.geolonia.com/gsi-dem/tiles.json?key=YOUR-API-KEY',
       });
-
-      map.addLayer({
-        id: 'takamatsu-dem',
-        type: 'hillshade',
-        source: 'gsidem',
-        paint: {
-          'hillshade-exaggeration': 0.5,
-          'hillshade-shadow-color': 'rgba(71, 59, 36, 0.1)',
-        }
-      },'park');
-
-      map.setTerrain({ 'source': 'gsidem', 'exaggeration': 1 });
       // End add GSI DEM
 
       map.addSource('negative-city-mask', {
@@ -208,7 +196,7 @@ const MainMap: React.FC<Props> = (props) => {
     return () => {
       map.remove();
     };
-  }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures]);
+  }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures, setMapObj, setSelectedBaseMap]);
 
 
   // 3D表示の切り替え
@@ -240,18 +228,27 @@ const MainMap: React.FC<Props> = (props) => {
   // ===== ベースマップ選択時の処理 =====
   useLayoutEffect(() => {
     if (!map || !selectedBaseMap) { return; }
-
+    const newMapSource = Object.keys(map.getStyle().sources).filter((key) => 
+      catalogData.some(catalog => key.includes(catalog.id)) || 
+      key === municipalityId || key === TERRAIN_DEM_ID
+    );
+    // TODO：satelliteStyle.jsonのendpointのkeyを変更する
     map.setStyle(selectedBaseMap.endpoint, {
       diff: true,
       transformStyle: (previousStyle, nextStyle) => {
         if(!previousStyle) { return nextStyle; }
+        const newSource = { ...nextStyle.sources }
+        const newLayer = [ ...nextStyle.layers ];
+        Object.keys(previousStyle.sources).forEach(key => {
+          if(newMapSource.includes(key)) {
+            newSource[key] = previousStyle.sources[key];
+            // console.log(previousStyle.layers, nextStyle.layers)
+            // newLayer.push(...previousStyle.layers.filter(layer => (layer as any).source.includes(key)));
+          }
+        });
         return {
           ...nextStyle,
-          sources: {
-            ...nextStyle.sources,
-            [municipalityId]: previousStyle.sources[municipalityId],
-            [TERRAIN_DEM_ID]: previousStyle.sources[TERRAIN_DEM_ID]
-          },
+          sources: newSource,
           layers: [
             ...nextStyle.layers,
             ...(previousStyle.layers.filter(
@@ -342,49 +339,36 @@ const MainMap: React.FC<Props> = (props) => {
           const fullLayerName = `takamatsu/${definitionId}/${sublayerName}`;
           const mapLayers = map.getStyle().layers.filter((layer) => layer.id.startsWith(fullLayerName));
           const customStyle = getCustomStyle(definition);
-          if(definitionId === 'satellite') {
-            if(isSelected) {
-              map.addLayer({
-                id: definitionId,
-                type: 'raster',
-                source: 'satellite',
-                minzoom: 0,
-                maxzoom: 22
-              }, 'poi');
-            } else {
-              map.removeLayer(definitionId)
-            }
-          } else {
-            for (const subtemplate of template(index, customStyle)) {
-              if (mapLayers.length === 0 && isSelected) {
-                const filterExp: maplibregl.FilterSpecification = ["all", ["==", "$type", sublayerName]];
-                if (definition.class) {
-                  filterExp.push(["==", "class", definition.class]);
-                }
-                if (subtemplate.filter) {
-                  filterExp.push(subtemplate.filter as any);
-                }
-                const layerConfig: maplibregl.LayerSpecification = {
-                  ...subtemplate,
-                  filter: filterExp,
-                  id: fullLayerName + subtemplate.id,
-                };
-                if (geojsonEndpoint) {
-                  layerConfig.source = definitionId;
-                  delete layerConfig['source-layer'];
-                } else if ('customDataSource' in definition) {
-                  layerConfig.source = definition.customDataSource;
-                  layerConfig['source-layer'] = definition.customDataSourceLayer || definition.customDataSource;
-                }
-                map.addLayer(layerConfig);
-                if (!map.getLayer(layerConfig.id)) {
-                  console.error(`Failed to add layer ${layerConfig.id}!!!`);
-                  debugger;
-                }
-              } else if (mapLayers.length > 0 && !isSelected) {
-                for (const mapLayer of mapLayers) {
-                  map.removeLayer(mapLayer.id);
-                }
+          for (const subtemplate of template(index, customStyle)) {
+            if (mapLayers.length === 0 && isSelected) {
+              const filterExp: maplibregl.FilterSpecification = ["all", ["==", "$type", sublayerName]];
+              if (definition.class) {
+                filterExp.push(["==", "class", definition.class]);
+              }
+              if (subtemplate.filter) {
+                filterExp.push(subtemplate.filter as any);
+              }
+              const layerConfig: maplibregl.LayerSpecification = {
+                ...subtemplate,
+                filter: filterExp,
+                id: fullLayerName + subtemplate.id,
+              };
+              if (geojsonEndpoint) {
+                layerConfig.source = definitionId;
+                delete layerConfig['source-layer'];
+              } else if ('customDataSource' in definition) {
+                layerConfig.source = definition.customDataSource;
+                layerConfig['source-layer'] = definition.customDataSourceLayer || definition.customDataSource;
+              }
+              map.addLayer(layerConfig);
+
+              if (!map.getLayer(layerConfig.id)) {
+                console.error(`Failed to add layer ${layerConfig.id}!!!`);
+                debugger;
+              }
+            } else if (mapLayers.length > 0 && !isSelected) {
+              for (const mapLayer of mapLayers) {
+                map.removeLayer(mapLayer.id);
               }
             }
           }
