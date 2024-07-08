@@ -6,10 +6,17 @@ import CityOS__Takamatsu from './cityos/cityos_takamatsu';
 
 import { FaMountain } from "react-icons/fa";
 
-import mapStyle from './style.json';
+import { mapObjAtom } from './atoms';
+
+// import mapStyle from './style.json';
+// import satelliteMapStyle from './styles/satelliteStyle.json';
+// import baseMapStyle from './styles/baseStyle.json';
+import mapStyleConfig from './config/mapStyleConfig.json';
 import classNames from 'classnames';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { catalogDataAtom, selectedFeaturesAtom, selectedLayersAtom } from './atoms';
+import { MapStyleConfigType } from './config/mapStyleConfig';
+import { useSearchParams } from 'react-router-dom';
 
 declare global {
   interface Window {
@@ -38,13 +45,17 @@ const LAYER_TEMPLATES: [string, (idx: number, customStyle?: CustomStyle[]) => La
   }],
 ];
 
-const DEM_LAYER_ID = 'takamatsu-dem';
 const BASE_PITCH = 0;
+const municipalityId = 'takamatsu';
+const TERRAIN_DEM_ID = 'gsidem';
 
 interface Props {
+  selectedBaseMap: MapStyleConfigType | undefined;
+  setSelectedBaseMap: React.Dispatch<React.SetStateAction<MapStyleConfigType | undefined>>;
 }
 
-const MainMap: React.FC<Props> = () => {
+const MainMap: React.FC<Props> = (props) => {
+  const { selectedBaseMap, setSelectedBaseMap } = props;
   const [map, setMap] = useState<maplibregl.Map | undefined>(undefined);
   const selectedLayers = useAtomValue(selectedLayersAtom);
   const setSelectedFeatures = useSetAtom(selectedFeaturesAtom);
@@ -53,11 +64,13 @@ const MainMap: React.FC<Props> = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const [show3dDem, setShow3dDem] = useState<boolean>(false);
   const [pitch, setPitch] = useState<number>(0);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialBaseMap = useRef<string | null>(null);
+  const setMapObj = useSetAtom(mapObjAtom);
 
   const catalogDataItems = useMemo(() => {
     return [...walkCategories(catalogData)];
   }, [catalogData]);
-
 
   const onClick3dBtn = async () => {
     if(!map) { return; }
@@ -66,10 +79,23 @@ const MainMap: React.FC<Props> = () => {
   }
 
   useLayoutEffect(() => {
+    initialBaseMap.current = searchParams.get('baseMap');
+  }, [searchParams]);
+
+  useLayoutEffect(() => {
+    let baseMap;
+    if (!selectedBaseMap || selectedBaseMap.endpoint === '') {
+      const target = mapStyleConfig.find((style) => style.id === initialBaseMap.current);
+      baseMap = target ? target : mapStyleConfig[0];
+      setSelectedBaseMap(baseMap);
+    }
+    
+    if(!baseMap) { return; }
+
     const map: maplibregl.Map = new window.geolonia.Map({
       container: mapContainer.current,
       // style: `${process.env.PUBLIC_URL}/style.json`,
-      style: mapStyle,
+      style: baseMap.endpoint,
       hash: 'map',
       center: [ 134.0403, 34.334 ],
       fitBoundsOptions: { padding: 50 },
@@ -102,12 +128,6 @@ const MainMap: React.FC<Props> = () => {
 
       map.setTerrain({ 'source': 'gsidem', 'exaggeration': 1 });
       // End add GSI DEM
-
-      // 衛星画像レイヤーを追加
-      map.addSource('satellite', {
-        type: 'raster',
-        url: 'https://api.maptiler.com/tiles/satellite-v2/tiles.json?key=3RIGqI7btoYpMwxpZdPC',
-      })
 
       map.addSource('negative-city-mask', {
         type: 'vector',
@@ -146,7 +166,9 @@ const MainMap: React.FC<Props> = () => {
 
       const initialPitch = map.getPitch();
       setPitch(initialPitch);
-      setShow3dDem(initialPitch > 0)
+      setShow3dDem(initialPitch > 0);
+
+      setMapObj(map);
       setMap(map);
     });
 
@@ -189,17 +211,18 @@ const MainMap: React.FC<Props> = () => {
   }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures]);
 
 
+  // 3D表示の切り替え
   useEffect(() => {
     if(!map) { return; }
 
-    if(pitch === BASE_PITCH && map.getLayer(DEM_LAYER_ID)) {
-      map.removeLayer(DEM_LAYER_ID);
+    if(pitch === BASE_PITCH && map.getLayer(TERRAIN_DEM_ID)) {
+      map.removeLayer(TERRAIN_DEM_ID);
       setShow3dDem(false);
       map.setTerrain({ 'source': 'gsidem', 'exaggeration': 0 });
 
-    } else if(pitch > BASE_PITCH && !map.getLayer(DEM_LAYER_ID)) {
+    } else if(pitch > BASE_PITCH && !map.getLayer(TERRAIN_DEM_ID)) {
       map.addLayer({
-        id: DEM_LAYER_ID,
+        id: TERRAIN_DEM_ID,
         type: 'hillshade',
         source: 'gsidem',
         paint: {
@@ -212,6 +235,39 @@ const MainMap: React.FC<Props> = () => {
     }
 
   }, [map, pitch])
+
+
+  // ===== ベースマップ選択時の処理 =====
+  useLayoutEffect(() => {
+    if (!map || !selectedBaseMap) { return; }
+
+    map.setStyle(selectedBaseMap.endpoint, {
+      diff: true,
+      transformStyle: (previousStyle, nextStyle) => {
+        if(!previousStyle) { return nextStyle; }
+        return {
+          ...nextStyle,
+          sources: {
+            ...nextStyle.sources,
+            [municipalityId]: previousStyle.sources[municipalityId],
+            [TERRAIN_DEM_ID]: previousStyle.sources[TERRAIN_DEM_ID]
+          },
+          layers: [
+            ...nextStyle.layers,
+            ...(previousStyle.layers.filter(
+              layer => (layer as any).source === municipalityId || (layer as any).source === TERRAIN_DEM_ID
+            ))
+          ]
+        };
+      }
+    });
+
+    setSearchParams((prev) => {
+      prev.set('baseMap', selectedBaseMap.id);
+      return prev;
+    });
+
+  }, [selectedBaseMap, map, setSearchParams]);
 
 
   useEffect(() => {
@@ -320,7 +376,7 @@ const MainMap: React.FC<Props> = () => {
                   layerConfig.source = definition.customDataSource;
                   layerConfig['source-layer'] = definition.customDataSourceLayer || definition.customDataSource;
                 }
-                map.addLayer(layerConfig, 'poi');
+                map.addLayer(layerConfig);
                 if (!map.getLayer(layerConfig.id)) {
                   console.error(`Failed to add layer ${layerConfig.id}!!!`);
                   debugger;

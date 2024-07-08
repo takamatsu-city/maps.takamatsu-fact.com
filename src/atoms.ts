@@ -22,3 +22,5 @@ export const selectedLayersAtom = atomWithHash<string[]>(
 export const selectedFeaturesAtom = atom<CatalogFeature[]>([]);
 
 export const catalogDataAtom = atom(getCatalog);
+
+export const mapObjAtom = atom<maplibregl.Map | undefined>(undefined);

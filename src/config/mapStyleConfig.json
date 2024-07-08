@@ -1,0 +1,16 @@
+[
+    {
+        "id": "gsi-base",
+        "label": "BASIC地図",
+        "endpoint": "./customStyles/baseStyle.json",
+        "previewImgUrl": "https://geolonia.github.io/smartcity-smartmap/layerImgs/gsi-base.png",
+        "beforeLayer": "poi"
+    },
+    {
+        "id": "satellite",
+        "label": "satellite",
+        "endpoint": "./customStyles/satelliteStyle.json",
+        "previewImgUrl": "https://geolonia.github.io/smartcity-smartmap/layerImgs/smartcity-base.png",
+        "beforeLayer": ""
+    }
+]
