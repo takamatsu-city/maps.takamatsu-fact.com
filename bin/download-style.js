@@ -38,7 +38,7 @@ const downloadStyle = async () => {
   const styleJsonString = JSON.stringify(styleJson).replace('["!in","subclass","community_centre"],', "");
 
   await fs.promises.writeFile(
-    path.resolve(__dirname, "../src/styles/baseStyle.json"),
+    path.resolve(__dirname, "../public/customStyles/baseStyle.json"),
     styleJsonString,
   );
 };
