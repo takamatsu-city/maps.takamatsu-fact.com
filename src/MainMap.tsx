@@ -56,6 +56,7 @@ interface Props {
 
 const MainMap: React.FC<Props> = (props) => {
   const { selectedBaseMap, setSelectedBaseMap } = props;
+  const selectedBaseMapRef = useRef<MapStyleConfigType | undefined>(selectedBaseMap);
   const [map, setMap] = useState<maplibregl.Map | undefined>(undefined);
   const selectedLayers = useAtomValue(selectedLayersAtom);
   const setSelectedFeatures = useSetAtom(selectedFeaturesAtom);
@@ -84,7 +85,7 @@ const MainMap: React.FC<Props> = (props) => {
 
   useLayoutEffect(() => {
     let baseMap;
-    if (!selectedBaseMap || selectedBaseMap.endpoint === '') {
+    if (!selectedBaseMapRef.current || selectedBaseMapRef.current.endpoint === '') {
       const target = mapStyleConfig.find((style) => style.id === initialBaseMap.current);
       baseMap = target ? target : mapStyleConfig[0];
       setSelectedBaseMap(baseMap);
@@ -94,7 +95,6 @@ const MainMap: React.FC<Props> = (props) => {
 
     const map: maplibregl.Map = new window.geolonia.Map({
       container: mapContainer.current,
-      // style: `${process.env.PUBLIC_URL}/style.json`,
       style: baseMap.endpoint,
       hash: 'map',
       center: [ 134.0403, 34.334 ],
@@ -196,6 +196,7 @@ const MainMap: React.FC<Props> = (props) => {
     return () => {
       map.remove();
     };
+
   }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures, setMapObj, setSelectedBaseMap]);
 
 
@@ -228,10 +229,11 @@ const MainMap: React.FC<Props> = (props) => {
   // ===== ベースマップ選択時の処理 =====
   useLayoutEffect(() => {
     if (!map || !selectedBaseMap) { return; }
+    const baseMap = selectedBaseMap;
     const nowSources: {[key: string]: any} = {};
     const nowLayers: any[] = [];
 
-    Object.keys(map.getStyle().sources).map(key => { 
+    Object.keys(map.getStyle().sources).forEach(key => { 
       // 表示されているデータを取得
       //（selectedLayersは、shortIdが入っていて比較ができない為、catalogDataと比較）
       if(catalogData.some(data => key.includes(data.id)) ) {
@@ -240,7 +242,7 @@ const MainMap: React.FC<Props> = (props) => {
       }
     });
 
-    map.setStyle(selectedBaseMap.endpoint, {
+    map.setStyle(baseMap.endpoint, {
       diff: true,
       transformStyle: (previousStyle, nextStyle) => {
         if(!previousStyle) { return nextStyle; }
@@ -264,11 +266,11 @@ const MainMap: React.FC<Props> = (props) => {
     });
 
     setSearchParams((prev) => {
-      prev.set('baseMap', selectedBaseMap.id);
+      prev.set('baseMap', baseMap.id);
       return prev;
     });
 
-  }, [selectedBaseMap, map]);
+  }, [map, catalogData, setSearchParams, selectedBaseMap]);
 
 
   useEffect(() => {
@@ -364,7 +366,7 @@ const MainMap: React.FC<Props> = (props) => {
                 layerConfig.source = definition.customDataSource;
                 layerConfig['source-layer'] = definition.customDataSourceLayer || definition.customDataSource;
               }
-              map.addLayer(layerConfig, selectedBaseMap?.beforeLayer??layerConfig.id);
+              map.addLayer(layerConfig);
 
               if (!map.getLayer(layerConfig.id)) {
                 console.error(`Failed to add layer ${layerConfig.id}!!!`);
@@ -383,6 +385,8 @@ const MainMap: React.FC<Props> = (props) => {
     return () => {
       shouldStop = true;
     }
+    
+  
   }, [map, catalogData, selectedLayers, cityOS]);
 
   return (
