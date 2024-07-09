@@ -228,32 +228,36 @@ const MainMap: React.FC<Props> = (props) => {
   // ===== ベースマップ選択時の処理 =====
   useLayoutEffect(() => {
     if (!map || !selectedBaseMap) { return; }
-    const newMapSource = Object.keys(map.getStyle().sources).filter((key) => 
-      catalogData.some(catalog => key.includes(catalog.id)) || 
-      key === municipalityId || key === TERRAIN_DEM_ID
-    );
-    // TODO：satelliteStyle.jsonのendpointのkeyを変更する
+    const nowSources: {[key: string]: any} = {};
+    const nowLayers: any[] = [];
+
+    Object.keys(map.getStyle().sources).map(key => { 
+      // 表示されているデータを取得
+      //（selectedLayersは、shortIdが入っていて比較ができない為、catalogDataと比較）
+      if(catalogData.some(data => key.includes(data.id)) ) {
+        nowSources[key] = map.getStyle().sources[key];
+        nowLayers.push(...map.getStyle().layers.filter(layer => (layer as any).source === key));
+      }
+    });
+
     map.setStyle(selectedBaseMap.endpoint, {
       diff: true,
       transformStyle: (previousStyle, nextStyle) => {
         if(!previousStyle) { return nextStyle; }
-        const newSource = { ...nextStyle.sources }
-        const newLayer = [ ...nextStyle.layers ];
-        Object.keys(previousStyle.sources).forEach(key => {
-          if(newMapSource.includes(key)) {
-            newSource[key] = previousStyle.sources[key];
-            // console.log(previousStyle.layers, nextStyle.layers)
-            // newLayer.push(...previousStyle.layers.filter(layer => (layer as any).source.includes(key)));
-          }
-        });
         return {
           ...nextStyle,
-          sources: newSource,
+          sources: {
+            ...nextStyle.sources,
+            [municipalityId]: previousStyle.sources[municipalityId],
+            [TERRAIN_DEM_ID]: previousStyle.sources[TERRAIN_DEM_ID],
+            ...nowSources
+          },
           layers: [
             ...nextStyle.layers,
             ...(previousStyle.layers.filter(
               layer => (layer as any).source === municipalityId || (layer as any).source === TERRAIN_DEM_ID
-            ))
+            )),
+            ...nowLayers
           ]
         };
       }
@@ -264,7 +268,7 @@ const MainMap: React.FC<Props> = (props) => {
       return prev;
     });
 
-  }, [selectedBaseMap, map, setSearchParams]);
+  }, [selectedBaseMap, map]);
 
 
   useEffect(() => {
@@ -360,7 +364,7 @@ const MainMap: React.FC<Props> = (props) => {
                 layerConfig.source = definition.customDataSource;
                 layerConfig['source-layer'] = definition.customDataSourceLayer || definition.customDataSource;
               }
-              map.addLayer(layerConfig);
+              map.addLayer(layerConfig, selectedBaseMap?.beforeLayer??layerConfig.id);
 
               if (!map.getLayer(layerConfig.id)) {
                 console.error(`Failed to add layer ${layerConfig.id}!!!`);
