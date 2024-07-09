@@ -8,9 +8,9 @@
     },
     {
         "id": "satellite",
-        "label": "satellite",
+        "label": "衛星画像",
         "endpoint": "./customStyles/satelliteStyle.json",
-        "previewImgUrl": "https://geolonia.github.io/smartcity-smartmap/layerImgs/smartcity-base.png",
+        "previewImgUrl": "https://api.maptiler.com/maps/hybrid/static/134.0525,34.3487,16.188151442385436/300x300.jpg?key=3RIGqI7btoYpMwxpZdPC",
         "beforeLayer": ""
     }
 ]
