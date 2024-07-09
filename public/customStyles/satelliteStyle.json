@@ -6,7 +6,7 @@
     "sources": {
         "satellite": {
             "type": "raster",
-            "url": "https://api.maptiler.com/tiles/satellite-v2/tiles.json?key=snMDT6YX0RmFKkq0hkbE",
+            "url": "https://api.maptiler.com/tiles/satellite-v2/tiles.json?key=3RIGqI7btoYpMwxpZdPC",
             "attributions": [
                 {
                     "text": "<a href='https://www.maptiler.com/copyright/' target='_blank'>&copy; MapTiler</a> <a href='https://www.openstreetmap.org/copyright' target='_blank'>&copy; OpenStreetMap contributors</a>"
