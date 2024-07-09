@@ -30,7 +30,7 @@ const MapStyleController: React.FC<MapStyleControllerProps> = (props) => {
   const changeStyle = (style: MapStyleConfigType) => {
     if(!mapObj) { return; }
 
-    mapStyleConfig.map((style) => { mapObj.removeLayer(style.id); });
+    mapStyleConfig.forEach((style) => { mapObj.removeLayer(style.id); });
     setSelectedBaseMap(style);
     setOpen(false);
   }
