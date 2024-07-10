@@ -4,7 +4,11 @@
         "label": "BASIC地図",
         "endpoint": "./customStyles/baseStyle.json",
         "previewImgUrl": "https://geolonia.github.io/smartcity-smartmap/layerImgs/gsi-base.png",
-        "beforeLayer": "poi"
+        "beforeLayer": "poi",
+        "thirdPartySourceIds": [
+            "v3"
+        ]
+
     },
     {
         "id": "satellite",

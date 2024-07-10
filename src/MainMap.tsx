@@ -74,6 +74,9 @@ const MainMap: React.FC<Props> = (props) => {
     return [...walkCategories(catalogData)];
   }, [catalogData]);
 
+  /* ***************
+   * 3Dボタンクリック時処理
+   * ***************/ 
   const onClick3dBtn = async () => {
     if(!map) { return; }
     const newPitch = show3dDem ? 0 : 60;
@@ -201,7 +204,9 @@ const MainMap: React.FC<Props> = (props) => {
   }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures, setMapObj, setSelectedBaseMap]);
 
 
-  // 3D表示の切り替え
+  /* ***************
+   * 3D表示の切り替え
+   * ***************/
   useEffect(() => {
     if(!map) { return; }
     if(pitch === BASE_PITCH && map.getLayer(SOURCES.TERRAIN_DEM_ID)) {
@@ -227,7 +232,9 @@ const MainMap: React.FC<Props> = (props) => {
   }, [map, pitch])
 
 
-  // ===== ベースマップ選択時の処理 =====
+  /* ***************
+   * ベースマップ選択時の処理
+   * ***************/
   useLayoutEffect(() => {
     if (!map || !selectedBaseMap) { return; }
     const baseMap = selectedBaseMap;
@@ -255,9 +262,6 @@ const MainMap: React.FC<Props> = (props) => {
           },
           layers: [
             ...nextStyle.layers,
-            ...(previousStyle.layers.filter(
-              layer => Object.keys(SOURCES).includes((layer as any).source)
-            )),
             ...nowLayers
           ]
         };
