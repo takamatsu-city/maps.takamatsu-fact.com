@@ -7,7 +7,7 @@ import { CatalogCategory, CatalogDataItem, CatalogItem, walkCategories } from '.
 
 import classNames from 'classnames';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { catalogDataAtom, selectedLayersAtom } from './atoms';
+import { catalogDataAtom, selectedLayersAtom, thirdPartyCatalogDataAtom } from './atoms';
 
 type SidebarItemProps = {
   item: CatalogItem
@@ -137,6 +137,7 @@ type SidebarProps = {
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpenedSidebar, setIsOpenedSidebar }) => {
   const catalogData = useAtomValue(catalogDataAtom);
+  const thirdPartyData = useAtomValue(thirdPartyCatalogDataAtom);
   const setSelectedLayers = useSetAtom(selectedLayersAtom);
 
   const selectAllHandler = useCallback<React.MouseEventHandler<HTMLButtonElement>>((event) => {
@@ -169,6 +170,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpenedSidebar, setIsOpenedSidebar }
       </div>
       <div className='sidebar-item-container'>
         {catalogData.map((item) =>
+          <SingleSidebarItem
+            key={item.id}
+            item={item}
+          />
+        )}
+      </div>
+      <div className='sidebar-item-container'>
+        {thirdPartyData.map((item) =>
           <SingleSidebarItem
             key={item.id}
             item={item}

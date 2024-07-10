@@ -61,6 +61,12 @@ export const getCatalog: () => Promise<CatalogItem[]> = async () => {
   return data;
 }
 
+export const getThirdPartyCatalog: () => Promise<CatalogItem[]> = async () => {
+  const res = await fetch('./api/thirdPartyCatalog.json');
+  const data: CatalogItem[] = await res.json();
+  return data;
+}
+
 export function *walkCategories(data: CatalogItem[]): Generator<CatalogDataItem, void, unknown> {
   for (const x of data) {
     if (x.type === "Category") {

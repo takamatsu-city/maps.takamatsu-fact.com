@@ -1,0 +1,10 @@
+[
+    {
+      "type": "DataItem",
+      "id": "OpenStreetMap",
+      "shortId": "Osm",
+      "name": "OpenStreetMap",
+      "class": "OpenStreetMap",
+      "metadata": {}
+    }
+]
