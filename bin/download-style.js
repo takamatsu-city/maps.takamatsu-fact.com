@@ -5,7 +5,6 @@ const path = require("path");
 const url = 'https://raw.githubusercontent.com/geoloniamaps/gsi/use-v3-tiles/docs/style.json';
 
 const downloadStyle = async () => {
-
   const response = await fetch(url);
   let rawStyleJson = (await response.text())
     .replace(/"{name}"/g, '["string", ["get", "name:ja"], ["get", "name"]]');
@@ -39,7 +38,7 @@ const downloadStyle = async () => {
   const styleJsonString = JSON.stringify(styleJson).replace('["!in","subclass","community_centre"],', "");
 
   await fs.promises.writeFile(
-    path.resolve(__dirname, "../src/style.json"),
+    path.resolve(__dirname, "../public/customStyles/baseStyle.json"),
     styleJsonString,
   );
 };

@@ -1,0 +1,16 @@
+[
+    {
+        "id": "gsi-base",
+        "label": "BASIC地図",
+        "endpoint": "./customStyles/baseStyle.json",
+        "previewImgUrl": "https://geolonia.github.io/smartcity-smartmap/layerImgs/gsi-base.png",
+        "beforeLayer": "poi"
+    },
+    {
+        "id": "satellite",
+        "label": "衛星画像",
+        "endpoint": "./customStyles/satelliteStyle.json",
+        "previewImgUrl": "https://api.maptiler.com/maps/hybrid/static/134.0525,34.3487,16.188151442385436/300x300.jpg?key=3RIGqI7btoYpMwxpZdPC",
+        "beforeLayer": ""
+    }
+]

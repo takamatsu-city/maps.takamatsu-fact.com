@@ -1,14 +1,6 @@
 [
   {
     "type": "DataItem",
-    "id": "satellite",
-    "shortId": "Dsn",
-    "name": "衛星画像",
-    "class": "衛星画像",
-    "metadata": {}
-  },
-  {
-    "type": "DataItem",
     "id": "行政界（町字）",
     "shortId": "V2W",
     "name": "行政界（町字）",

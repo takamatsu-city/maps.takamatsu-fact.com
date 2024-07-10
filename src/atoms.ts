@@ -24,3 +24,5 @@ export const selectedFeaturesAtom = atom<CatalogFeature[]>([]);
 export const catalogDataAtom = atom(getCatalog);
 
 export const thirdPartyCatalogDataAtom = atom(getThirdPartyCatalog);
+
+export const mapObjAtom = atom<maplibregl.Map | undefined>(undefined);
