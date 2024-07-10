@@ -169,20 +169,26 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpenedSidebar, setIsOpenedSidebar }
         <button type="button" onClick={selectNoneHandler}>全選択解除</button>
       </div>
       <div className='sidebar-item-container'>
-        {catalogData.map((item) =>
-          <SingleSidebarItem
-            key={item.id}
-            item={item}
-          />
-        )}
+        <p className='sidebar-item-title'>高松市データ</p>
+        <div className='inner-content'>
+          {catalogData.map((item) =>
+            <SingleSidebarItem
+              key={item.id}
+              item={item}
+            />
+          )}
+        </div>
       </div>
       <div className='sidebar-item-container'>
-        {thirdPartyData.map((item) =>
-          <SingleSidebarItem
-            key={item.id}
-            item={item}
-          />
-        )}
+        <p className='sidebar-item-title'>サードパーティー</p>
+        <div className='inner-content'>
+          {thirdPartyData.map((item) =>
+            <SingleSidebarItem
+              key={item.id}
+              item={item}
+            />
+          )}
+        </div>
       </div>
       <a href="https://docs.takamatsu-fact.com/#%E3%81%94%E5%88%A9%E7%94%A8%E3%81%AB%E3%81%82%E3%81%9F%E3%81%A3%E3%81%A6" className='user-guide-link' target="_blank" rel="noreferrer">
         <AiOutlineLink /><span>ご利用にあたって</span>
