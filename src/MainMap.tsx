@@ -203,9 +203,6 @@ const MainMap: React.FC<Props> = (props) => {
   // 3D表示の切り替え
   useEffect(() => {
     if(!map) { return; }
-
-    console.log(pitch, BASE_PITCH, map.getLayer(TERRAIN_DEM_ID))
-
     if(pitch === BASE_PITCH && map.getLayer(TERRAIN_DEM_ID)) {
       map.removeLayer(TERRAIN_DEM_ID);
       setShow3dDem(false);
