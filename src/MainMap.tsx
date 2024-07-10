@@ -8,9 +8,6 @@ import { FaMountain } from "react-icons/fa";
 
 import { mapObjAtom } from './atoms';
 
-// import mapStyle from './style.json';
-// import satelliteMapStyle from './styles/satelliteStyle.json';
-// import baseMapStyle from './styles/baseStyle.json';
 import mapStyleConfig from './config/mapStyleConfig.json';
 import classNames from 'classnames';
 import { useAtomValue, useSetAtom } from 'jotai';
@@ -46,8 +43,12 @@ const LAYER_TEMPLATES: [string, (idx: number, customStyle?: CustomStyle[]) => La
 ];
 
 const BASE_PITCH = 0;
-const municipalityId = 'takamatsu';
-const TERRAIN_DEM_ID = 'gsidem';
+
+const SOURCES: {[key: string]: string} = {
+  MUNICIPALITY_ID: 'takamatsu',
+  TERRAIN_DEM_ID: 'gsidem',
+  NEGATIVE_MASK_ID: 'negative-city-mask'
+}
 
 interface Props {
   selectedBaseMap: MapStyleConfigType | undefined;
@@ -117,13 +118,13 @@ const MainMap: React.FC<Props> = (props) => {
       });
       // End add GSI DEM
 
-      map.addSource('negative-city-mask', {
+      map.addSource(SOURCES.NEGATIVE_MASK_ID, {
         type: 'vector',
         url: 'https://tileserver.geolonia.com/takamatsu_negative_mask/tiles.json?key=YOUR-API-KEY',
       })
       map.addLayer({
-        id: 'negative-city-mask-layer',
-        source: 'negative-city-mask',
+        id: `${SOURCES.NEGATIVE_MASK_ID}-layer`,
+        source: SOURCES.NEGATIVE_MASK_ID,
         'source-layer': 'negativecitymask',
         type: 'fill',
         paint: {
@@ -132,8 +133,8 @@ const MainMap: React.FC<Props> = (props) => {
         }
       });
       map.addLayer({
-        id: 'negative-city-mask-layer-border',
-        source: 'negative-city-mask',
+        id: `${SOURCES.NEGATIVE_MASK_ID}-layer-border`,
+        source: SOURCES.NEGATIVE_MASK_ID,
         'source-layer': 'negativecitymask',
         type: 'line',
         paint: {
@@ -203,24 +204,24 @@ const MainMap: React.FC<Props> = (props) => {
   // 3D表示の切り替え
   useEffect(() => {
     if(!map) { return; }
-    if(pitch === BASE_PITCH && map.getLayer(TERRAIN_DEM_ID)) {
-      map.removeLayer(TERRAIN_DEM_ID);
+    if(pitch === BASE_PITCH && map.getLayer(SOURCES.TERRAIN_DEM_ID)) {
+      map.removeLayer(SOURCES.TERRAIN_DEM_ID);
       setShow3dDem(false);
-      map.setTerrain({ 'source': TERRAIN_DEM_ID, 'exaggeration': 0 });
+      map.setTerrain({ 'source': SOURCES.TERRAIN_DEM_ID, 'exaggeration': 0 });
 
-    } else if(pitch > BASE_PITCH && !map.getLayer(TERRAIN_DEM_ID)) {
+    } else if(pitch > BASE_PITCH && !map.getLayer(SOURCES.TERRAIN_DEM_ID)) {
       const beforeLayer = map.getStyle().layers.find(layer => layer.id === 'park') ? 'park' : map.getStyle().layers[0].id;
       map.addLayer({
-        id: TERRAIN_DEM_ID,
+        id: SOURCES.TERRAIN_DEM_ID,
         type: 'hillshade',
-        source: TERRAIN_DEM_ID,
+        source: SOURCES.TERRAIN_DEM_ID,
         paint: {
           'hillshade-exaggeration': 0.5,
           'hillshade-shadow-color': 'rgba(71, 59, 36, 0.1)',
         }
       }, beforeLayer);
       setShow3dDem(true);
-      map.setTerrain({ 'source': TERRAIN_DEM_ID, 'exaggeration': 1 });
+      map.setTerrain({ 'source': SOURCES.TERRAIN_DEM_ID, 'exaggeration': 1 });
     }
 
   }, [map, pitch])
@@ -236,12 +237,12 @@ const MainMap: React.FC<Props> = (props) => {
     Object.keys(map.getStyle().sources).forEach(key => { 
       // 表示されているデータを取得
       //（selectedLayersは、shortIdが入っていて比較ができない為、catalogDataと比較）
-      if(catalogData.some(data => key.includes(data.id)) ) {
+      if(catalogData.some(data => key.includes(data.id)) || Object.keys(SOURCES).some(id => key.includes(SOURCES[id])) ) {
         nowSources[key] = map.getStyle().sources[key];
         nowLayers.push(...map.getStyle().layers.filter(layer => (layer as any).source === key));
       }
     });
-
+    
     map.setStyle(baseMap.endpoint, {
       diff: true,
       transformStyle: (previousStyle, nextStyle) => {
@@ -250,14 +251,12 @@ const MainMap: React.FC<Props> = (props) => {
           ...nextStyle,
           sources: {
             ...nextStyle.sources,
-            [municipalityId]: previousStyle.sources[municipalityId],
-            [TERRAIN_DEM_ID]: previousStyle.sources[TERRAIN_DEM_ID],
             ...nowSources
           },
           layers: [
             ...nextStyle.layers,
             ...(previousStyle.layers.filter(
-              layer => (layer as any).source === municipalityId || (layer as any).source === TERRAIN_DEM_ID
+              layer => Object.keys(SOURCES).includes((layer as any).source)
             )),
             ...nowLayers
           ]
