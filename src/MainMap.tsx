@@ -204,23 +204,26 @@ const MainMap: React.FC<Props> = (props) => {
   useEffect(() => {
     if(!map) { return; }
 
+    console.log(pitch, BASE_PITCH, map.getLayer(TERRAIN_DEM_ID))
+
     if(pitch === BASE_PITCH && map.getLayer(TERRAIN_DEM_ID)) {
       map.removeLayer(TERRAIN_DEM_ID);
       setShow3dDem(false);
-      map.setTerrain({ 'source': 'gsidem', 'exaggeration': 0 });
+      map.setTerrain({ 'source': TERRAIN_DEM_ID, 'exaggeration': 0 });
 
     } else if(pitch > BASE_PITCH && !map.getLayer(TERRAIN_DEM_ID)) {
+      const beforeLayer = map.getStyle().layers.find(layer => layer.id === 'park') ? 'park' : map.getStyle().layers[0].id;
       map.addLayer({
         id: TERRAIN_DEM_ID,
         type: 'hillshade',
-        source: 'gsidem',
+        source: TERRAIN_DEM_ID,
         paint: {
           'hillshade-exaggeration': 0.5,
           'hillshade-shadow-color': 'rgba(71, 59, 36, 0.1)',
         }
-      },'park');
+      }, beforeLayer);
       setShow3dDem(true);
-      map.setTerrain({ 'source': 'gsidem', 'exaggeration': 1 });
+      map.setTerrain({ 'source': TERRAIN_DEM_ID, 'exaggeration': 1 });
     }
 
   }, [map, pitch])
