@@ -239,7 +239,7 @@ const MainMap: React.FC<Props> = (props) => {
    * ベースマップ選択時の処理
    * ***************/
   useLayoutEffect(() => {
-    if (!map || !selectedBaseMap) { return; }
+    if (!map || !selectedBaseMap || !map.getStyle()) { return; }
     const baseMap = selectedBaseMap;
     const nowSources: {[key: string]: any} = {};
     const nowLayers: any[] = [];
