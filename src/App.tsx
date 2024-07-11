@@ -24,6 +24,7 @@ function App() {
         <Sidebar
           isOpenedSidebar={isOpenedSidebar}
           setIsOpenedSidebar={setIsOpenedSidebar}
+          baseMap={selectedBaseMap?.id || ''}
         />
         <div className="map-container">
           <SidebarDetail />

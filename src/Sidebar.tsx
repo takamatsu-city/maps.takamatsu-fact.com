@@ -10,7 +10,8 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { catalogDataAtom, selectedLayersAtom, selectedThirdPartLayersAtom, thirdPartyDataAtom } from './atoms';
 
 type SidebarItemProps = {
-  item: CatalogItem
+  item: CatalogItem,
+  baseMap?: string
 }
 
 const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory }> = (props) => {
@@ -134,7 +135,8 @@ const DataSidebarItem: React.FC<SidebarItemProps & { item: CatalogDataItem }> = 
       <input 
       type="checkbox" 
       checked={(isThirdParty ? selectedThirdPartLayers : selectedLayers).includes(item.shortId)} 
-      onChange={handleCheckboxChange} 
+      onChange={handleCheckboxChange}
+      disabled={isThirdParty && props.baseMap === 'satellite'}
       />
       {item.name}
     </label>
@@ -142,11 +144,11 @@ const DataSidebarItem: React.FC<SidebarItemProps & { item: CatalogDataItem }> = 
 };
 
 const SingleSidebarItem: React.FC<SidebarItemProps> = (props) => {
-  const { item } = props;
+  const { item, baseMap } = props;
   if (item.type === "Category") {
-    return <CategorySidebarItem {...props} item={item} />;
+    return <CategorySidebarItem {...props} item={item} baseMap={baseMap} />;
   } else if (item.type === "DataItem") {
-    return <DataSidebarItem {...props} item={item} />;
+    return <DataSidebarItem {...props} item={item} baseMap={baseMap} />;
   } else {
     return <>Error</>;
   }
@@ -155,9 +157,10 @@ const SingleSidebarItem: React.FC<SidebarItemProps> = (props) => {
 type SidebarProps = {
   isOpenedSidebar: boolean
   setIsOpenedSidebar: React.Dispatch<React.SetStateAction<boolean>>
+  baseMap: string
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpenedSidebar, setIsOpenedSidebar }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isOpenedSidebar, setIsOpenedSidebar, baseMap }) => {
   const catalogData = useAtomValue(catalogDataAtom);
   const thirdPartyData = useAtomValue(thirdPartyDataAtom);
   const setSelectedLayers = useSetAtom(selectedLayersAtom);
@@ -202,7 +205,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpenedSidebar, setIsOpenedSidebar }
         <p className='sidebar-item-title'>サードパーティー</p>
         <div className='inner-content'>
           {thirdPartyData.map((item) =>
-            <SingleSidebarItem key={item.id} item={item} />
+            <SingleSidebarItem key={item.id} item={item} baseMap={baseMap} />
           )}
         </div>
       </div>

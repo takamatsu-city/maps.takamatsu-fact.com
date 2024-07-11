@@ -10,7 +10,7 @@ import { mapObjAtom, selectedThirdPartLayersAtom, thirdPartyDataAtom } from './a
 
 import mapStyleConfig from './config/mapStyleConfig.json';
 import classNames from 'classnames';
-import { useAtomValue, useSetAtom } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { catalogDataAtom, selectedFeaturesAtom, selectedLayersAtom } from './atoms';
 import { MapStyleConfigType } from './config/mapStyleConfig';
 import { useSearchParams } from 'react-router-dom';
@@ -70,7 +70,7 @@ const MainMap: React.FC<Props> = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialBaseMap = useRef<string | null>(null);
   const setMapObj = useSetAtom(mapObjAtom);
-  const selectedThirdPartLayers = useAtomValue(selectedThirdPartLayersAtom);
+  const [ selectedThirdPartLayers, setSelectedThirdPartLayers ] = useAtom(selectedThirdPartLayersAtom);
 
   const catalogDataItems = useMemo(() => {
     return [...walkCategories(catalogData)];
@@ -273,6 +273,10 @@ const MainMap: React.FC<Props> = (props) => {
       }
     });
 
+    if(selectedBaseMap.id === 'satellite') {
+      setSelectedThirdPartLayers(selectedThirdPartLayers.filter(layer => !layer.includes('Osm')));
+    }
+
     setSearchParams((prev) => {
       prev.set('baseMap', baseMap.id);
       return prev;
@@ -408,7 +412,7 @@ const MainMap: React.FC<Props> = (props) => {
     if (!map) return;
     const beforeLayer = map.getStyle().layers.find(layer => layer.id === 'highway-motorway-casing') ? 
       'highway-motorway-casing' : `${SOURCES.NEGATIVE_MASK_ID}-layer`;
-      
+
     for (const data of thirdPartyData) {
       const target = selectedThirdPartLayers.find((shortId) => data.shortId === shortId);
       const layers = map.getStyle().layers.filter(layer => 'source' in layer && layer.source === data.class);
