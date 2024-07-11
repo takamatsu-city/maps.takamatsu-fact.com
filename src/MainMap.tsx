@@ -282,7 +282,8 @@ const MainMap: React.FC<Props> = (props) => {
       return prev;
     });
 
-  }, [map, catalogData, setSearchParams, selectedBaseMap, selectedThirdPartLayers, setSelectedThirdPartLayers]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map, catalogData, setSearchParams, selectedBaseMap]);
 
 
   /* ***************
