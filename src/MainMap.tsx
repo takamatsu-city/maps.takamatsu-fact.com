@@ -425,7 +425,7 @@ const MainMap: React.FC<Props> = (props) => {
 
       nowStyle.layers = layers;
 
-      map.setStyle(nowStyle);
+      map.setStyle(nowStyle, {diff: false});
     }
   }, [map, thirdPartyData, selectedThirdPartLayers]);
 
