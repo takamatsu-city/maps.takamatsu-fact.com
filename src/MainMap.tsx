@@ -420,7 +420,6 @@ const MainMap: React.FC<Props> = (props) => {
         if(!('layout' in layers[i]) || !layers[i]["layout"]) { continue; }
         if('source' in layer && layer.source === data.class) {
           layers[i]['layout'] = { ...layers[i]['layout'], 'visibility': isSelect ? 'visible' : 'none' };
-          console.log(layers[i] );
         }
       }
 
