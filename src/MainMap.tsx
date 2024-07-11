@@ -282,7 +282,7 @@ const MainMap: React.FC<Props> = (props) => {
       return prev;
     });
 
-  }, [map, catalogData, setSearchParams, selectedBaseMap]);
+  }, [map, catalogData, setSearchParams, selectedBaseMap, selectedThirdPartLayers, setSelectedThirdPartLayers]);
 
 
   /* ***************
