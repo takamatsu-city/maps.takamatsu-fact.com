@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type * as maplibregl from 'maplibre-gl';
-import { CatalogCustomStyleDataItem, walkCategories } from './api/catalog';
+import { walkCategories } from './api/catalog';
 import { CustomStyle, customStyleToLineStringTemplate, customStyleToPointTemplate, customStyleToPolygonTemplate, DEFAULT_LINESTRING_STYLE, DEFAULT_POINT_STYLE, DEFAULT_POLYGON_STYLE, getCustomStyle, LayerTemplate, WEB_COLORS } from './utils/mapStyling';
 import CityOS__Takamatsu from './cityos/cityos_takamatsu';
 
@@ -411,19 +411,22 @@ const MainMap: React.FC<Props> = (props) => {
    * ***************/
   useEffect(() => {
     if (!map) return;
-    const beforeLayer = map.getStyle().layers.find(layer => layer.id === 'highway-motorway-casing') ? 
-      'highway-motorway-casing' : `${SOURCES.NEGATIVE_MASK_ID}-layer`;
-
     for (const data of thirdPartyData) {
-      const target = selectedThirdPartLayers.find((shortId) => data.shortId === shortId);
-      const layers = map.getStyle().layers.filter(layer => 'source' in layer && layer.source === data.class);
-      if(layers.length > 0 && !target) {
-        layers.forEach(element => { map.removeLayer(element.id); });
-      } else {
-        (data as unknown as CatalogCustomStyleDataItem).layers?.forEach(element => { 
-          map.addLayer(element, beforeLayer); 
-        });
+      const nowStyle = map.getStyle();
+      const isSelect = selectedThirdPartLayers.includes(data.shortId);
+      const layers = nowStyle.layers;
+      for (let i = 0; i < layers.length; i++) {
+        const layer = layers[i];
+        if(!('layout' in layers[i]) || !layers[i]["layout"]) { continue; }
+        if('source' in layer && layer.source === data.class) {
+          layers[i]['layout'] = { ...layers[i]['layout'], 'visibility': isSelect ? 'visible' : 'none' };
+          console.log(layers[i] );
+        }
       }
+
+      nowStyle.layers = layers;
+
+      map.setStyle(nowStyle);
     }
   }, [map, thirdPartyData, selectedThirdPartLayers]);
 

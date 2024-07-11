@@ -24,14 +24,15 @@ const downloadStyle = async () => {
   styleJson.layers = styleJson.layers.filter(layer => !layer.id.startsWith('oc-'));
 
 
-  const removeSourceIds = ['landcover', 'landuse', 'building', 'v3'];
+  const removeSourceIds = ['landcover', 'landuse', 'building'];
   const targetLayers = [];
 
-  // delete styleJson.sources.v3;
-
-  for (const layer of styleJson.layers.filter(layer => layer.source !== 'v3')) {
+  for (const layer of styleJson.layers) {
     // レイヤーのソースが削除対象のソースでなければ追加する
     if (!removeSourceIds.includes(layer["source-layer"]) || layer.id === 'landcover-wood') {
+      if (layer.source === 'v3') {
+        layer["layout"]["visibility"] = 'none';
+      }
       targetLayers.push(layer);
     }
   }
