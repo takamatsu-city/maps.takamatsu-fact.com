@@ -5,5 +5,4 @@ export type MapStyleConfigType = {
     "previewImgUrl"?: string;                // プレビュー画像URL
     "endpoint": string;                      // エンドポイント
     "beforeLayer": string;                   // レイヤーの前に表示するレイヤー名
-    "thirdPartySourceIds"?: string[];        // サードパーティのソースID
 }
