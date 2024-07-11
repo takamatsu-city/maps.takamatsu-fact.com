@@ -1,12 +1,12 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type * as maplibregl from 'maplibre-gl';
-import { walkCategories } from './api/catalog';
+import { CatalogCustomStyleDataItem, walkCategories } from './api/catalog';
 import { CustomStyle, customStyleToLineStringTemplate, customStyleToPointTemplate, customStyleToPolygonTemplate, DEFAULT_LINESTRING_STYLE, DEFAULT_POINT_STYLE, DEFAULT_POLYGON_STYLE, getCustomStyle, LayerTemplate, WEB_COLORS } from './utils/mapStyling';
 import CityOS__Takamatsu from './cityos/cityos_takamatsu';
 
 import { FaMountain } from "react-icons/fa";
 
-import { mapObjAtom } from './atoms';
+import { mapObjAtom, selectedThirdPartLayersAtom, thirdPartyDataAtom } from './atoms';
 
 import mapStyleConfig from './config/mapStyleConfig.json';
 import classNames from 'classnames';
@@ -62,6 +62,7 @@ const MainMap: React.FC<Props> = (props) => {
   const selectedLayers = useAtomValue(selectedLayersAtom);
   const setSelectedFeatures = useSetAtom(selectedFeaturesAtom);
   const catalogData = useAtomValue(catalogDataAtom);
+  const thirdPartyData = useAtomValue(thirdPartyDataAtom);
   const [cityOS, setCityOS] = useState<CityOS__Takamatsu | undefined>(undefined);
   const mapContainer = useRef<HTMLDivElement>(null);
   const [show3dDem, setShow3dDem] = useState<boolean>(false);
@@ -69,6 +70,7 @@ const MainMap: React.FC<Props> = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialBaseMap = useRef<string | null>(null);
   const setMapObj = useSetAtom(mapObjAtom);
+  const selectedThirdPartLayers = useAtomValue(selectedThirdPartLayersAtom);
 
   const catalogDataItems = useMemo(() => {
     return [...walkCategories(catalogData)];
@@ -121,6 +123,7 @@ const MainMap: React.FC<Props> = (props) => {
       });
       // End add GSI DEM
 
+      // マスクレイヤーの追加
       map.addSource(SOURCES.NEGATIVE_MASK_ID, {
         type: 'vector',
         url: 'https://tileserver.geolonia.com/takamatsu_negative_mask/tiles.json?key=YOUR-API-KEY',
@@ -240,11 +243,13 @@ const MainMap: React.FC<Props> = (props) => {
     const baseMap = selectedBaseMap;
     const nowSources: {[key: string]: any} = {};
     const nowLayers: any[] = [];
-
     Object.keys(map.getStyle().sources).forEach(key => { 
       // 表示されているデータを取得
       //（selectedLayersは、shortIdが入っていて比較ができない為、catalogDataと比較）
-      if(catalogData.some(data => key.includes(data.id)) || Object.keys(SOURCES).some(id => key.includes(SOURCES[id])) ) {
+      if(
+        catalogData.some(data => key.includes(data.id)) || 
+        Object.keys(SOURCES).some(id => key.includes(SOURCES[id]))
+      ) {
         nowSources[key] = map.getStyle().sources[key];
         nowLayers.push(...map.getStyle().layers.filter(layer => (layer as any).source === key));
       }
@@ -276,6 +281,9 @@ const MainMap: React.FC<Props> = (props) => {
   }, [map, catalogData, setSearchParams, selectedBaseMap]);
 
 
+  /* ***************
+   * データの表示非表示
+   * ***************/
   useEffect(() => {
     if (!map) return;
 
@@ -369,12 +377,13 @@ const MainMap: React.FC<Props> = (props) => {
                 layerConfig.source = definition.customDataSource;
                 layerConfig['source-layer'] = definition.customDataSourceLayer || definition.customDataSource;
               }
-              map.addLayer(layerConfig);
 
+              map.addLayer(layerConfig);
               if (!map.getLayer(layerConfig.id)) {
                 console.error(`Failed to add layer ${layerConfig.id}!!!`);
                 debugger;
               }
+
             } else if (mapLayers.length > 0 && !isSelected) {
               for (const mapLayer of mapLayers) {
                 map.removeLayer(mapLayer.id);
@@ -391,6 +400,27 @@ const MainMap: React.FC<Props> = (props) => {
     
   
   }, [map, catalogData, selectedLayers, cityOS]);
+
+  /* ***************
+   * サードパーティーデータの表示非表示
+   * ***************/
+  useEffect(() => {
+    if (!map) return;
+    const beforeLayer = map.getStyle().layers.find(layer => layer.id === 'highway-motorway-casing') ? 
+      'highway-motorway-casing' : `${SOURCES.NEGATIVE_MASK_ID}-layer`;
+      
+    for (const data of thirdPartyData) {
+      const target = selectedThirdPartLayers.find((shortId) => data.shortId === shortId);
+      const layers = map.getStyle().layers.filter(layer => 'source' in layer && layer.source === data.class);
+      if(layers.length > 0 && !target) {
+        layers.forEach(element => { map.removeLayer(element.id); });
+      } else {
+        (data as unknown as CatalogCustomStyleDataItem).layers?.forEach(element => { 
+          map.addLayer(element, beforeLayer); 
+        });
+      }
+    }
+  }, [map, thirdPartyData, selectedThirdPartLayers]);
 
   return (
     <>
