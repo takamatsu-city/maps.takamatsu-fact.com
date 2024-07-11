@@ -381,11 +381,9 @@ const MainMap: React.FC<Props> = (props) => {
                 layerConfig.source = definitionId;
                 delete layerConfig['source-layer'];
               } else if ('customDataSource' in definition) {
-                console.log(definition.customDataSource);
                 layerConfig.source = definition.customDataSource;
                 layerConfig['source-layer'] = definition.customDataSourceLayer || definition.customDataSource;
               }
-              console.log(layerConfig, map.getSource(layerConfig.source));
               map.addLayer(layerConfig);
 
               if (!map.getLayer(layerConfig.id)) {
