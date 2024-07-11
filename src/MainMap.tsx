@@ -410,7 +410,8 @@ const MainMap: React.FC<Props> = (props) => {
    * サードパーティーデータの表示非表示
    * ***************/
   useEffect(() => {
-    if (!map) return;
+    if (!map || !map.getStyle()) return;
+
     for (const data of thirdPartyData) {
       const nowStyle = map.getStyle();
       const isSelect = selectedThirdPartLayers.includes(data.shortId);
@@ -424,7 +425,6 @@ const MainMap: React.FC<Props> = (props) => {
       }
 
       nowStyle.layers = layers;
-
       map.setStyle(nowStyle, {diff: false});
     }
   }, [map, thirdPartyData, selectedThirdPartLayers]);
