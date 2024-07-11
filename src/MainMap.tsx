@@ -47,7 +47,8 @@ const BASE_PITCH = 0;
 const SOURCES: {[key: string]: string} = {
   MUNICIPALITY_ID: 'takamatsu',
   TERRAIN_DEM_ID: 'gsidem',
-  NEGATIVE_MASK_ID: 'negative-city-mask'
+  NEGATIVE_MASK_ID: 'negative-city-mask',
+  KIHONZU: 'kihonzu',
 }
 
 interface Props {
@@ -150,11 +151,12 @@ const MainMap: React.FC<Props> = (props) => {
         }
       })
 
-      map.addSource('takamatsu', {
+      map.addSource(SOURCES.MUNICIPALITY_ID, {
         type: 'vector',
         url: "https://tileserver.geolonia.com/takamatsu_main_v0/tiles.json?key=YOUR-API-KEY"
       });
-      map.addSource('kihonzu', {
+
+      map.addSource(SOURCES.KIHONZU, {
         type: 'vector',
         url: "https://tileserver.geolonia.com/takamatsu_kihonzu_v1/tiles.json?key=YOUR-API-KEY"
       });
@@ -379,16 +381,17 @@ const MainMap: React.FC<Props> = (props) => {
                 layerConfig.source = definitionId;
                 delete layerConfig['source-layer'];
               } else if ('customDataSource' in definition) {
+                console.log(definition.customDataSource);
                 layerConfig.source = definition.customDataSource;
                 layerConfig['source-layer'] = definition.customDataSourceLayer || definition.customDataSource;
               }
-
+              console.log(layerConfig, map.getSource(layerConfig.source));
               map.addLayer(layerConfig);
+
               if (!map.getLayer(layerConfig.id)) {
                 console.error(`Failed to add layer ${layerConfig.id}!!!`);
                 debugger;
               }
-
             } else if (mapLayers.length > 0 && !isSelected) {
               for (const mapLayer of mapLayers) {
                 map.removeLayer(mapLayer.id);
