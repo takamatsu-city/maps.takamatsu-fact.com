@@ -30,10 +30,13 @@ const downloadStyle = async () => {
   for (const layer of styleJson.layers) {
     // レイヤーのソースが削除対象のソースでなければ追加する
     if (!removeSourceIds.includes(layer["source-layer"]) || layer.id === 'landcover-wood') {
+      if (layer.source === 'v3') {
+        layer["layout"]["visibility"] = 'none';
+      }
       targetLayers.push(layer);
     }
   }
-
+  
   styleJson.layers = targetLayers;
   const styleJsonString = JSON.stringify(styleJson).replace('["!in","subclass","community_centre"],', "");
 
@@ -41,6 +44,7 @@ const downloadStyle = async () => {
     path.resolve(__dirname, "../public/customStyles/baseStyle.json"),
     styleJsonString,
   );
+
 };
 
 downloadStyle();

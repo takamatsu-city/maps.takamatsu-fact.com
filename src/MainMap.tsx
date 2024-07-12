@@ -6,11 +6,11 @@ import CityOS__Takamatsu from './cityos/cityos_takamatsu';
 
 import { FaMountain } from "react-icons/fa";
 
-import { mapObjAtom } from './atoms';
+import { mapObjAtom, selectedThirdPartLayersAtom, thirdPartyDataAtom } from './atoms';
 
 import mapStyleConfig from './config/mapStyleConfig.json';
 import classNames from 'classnames';
-import { useAtomValue, useSetAtom } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { catalogDataAtom, selectedFeaturesAtom, selectedLayersAtom } from './atoms';
 import { MapStyleConfigType } from './config/mapStyleConfig';
 import { useSearchParams } from 'react-router-dom';
@@ -47,7 +47,8 @@ const BASE_PITCH = 0;
 const SOURCES: {[key: string]: string} = {
   MUNICIPALITY_ID: 'takamatsu',
   TERRAIN_DEM_ID: 'gsidem',
-  NEGATIVE_MASK_ID: 'negative-city-mask'
+  NEGATIVE_MASK_ID: 'negative-city-mask',
+  KIHONZU: 'kihonzu',
 }
 
 interface Props {
@@ -62,6 +63,7 @@ const MainMap: React.FC<Props> = (props) => {
   const selectedLayers = useAtomValue(selectedLayersAtom);
   const setSelectedFeatures = useSetAtom(selectedFeaturesAtom);
   const catalogData = useAtomValue(catalogDataAtom);
+  const thirdPartyData = useAtomValue(thirdPartyDataAtom);
   const [cityOS, setCityOS] = useState<CityOS__Takamatsu | undefined>(undefined);
   const mapContainer = useRef<HTMLDivElement>(null);
   const [show3dDem, setShow3dDem] = useState<boolean>(false);
@@ -69,11 +71,15 @@ const MainMap: React.FC<Props> = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialBaseMap = useRef<string | null>(null);
   const setMapObj = useSetAtom(mapObjAtom);
+  const [ selectedThirdPartLayers, setSelectedThirdPartLayers ] = useAtom(selectedThirdPartLayersAtom);
 
   const catalogDataItems = useMemo(() => {
     return [...walkCategories(catalogData)];
   }, [catalogData]);
 
+  /* ***************
+   * 3Dボタンクリック時処理
+   * ***************/ 
   const onClick3dBtn = async () => {
     if(!map) { return; }
     const newPitch = show3dDem ? 0 : 60;
@@ -118,6 +124,7 @@ const MainMap: React.FC<Props> = (props) => {
       });
       // End add GSI DEM
 
+      // マスクレイヤーの追加
       map.addSource(SOURCES.NEGATIVE_MASK_ID, {
         type: 'vector',
         url: 'https://tileserver.geolonia.com/takamatsu_negative_mask/tiles.json?key=YOUR-API-KEY',
@@ -144,11 +151,12 @@ const MainMap: React.FC<Props> = (props) => {
         }
       })
 
-      map.addSource('takamatsu', {
+      map.addSource(SOURCES.MUNICIPALITY_ID, {
         type: 'vector',
         url: "https://tileserver.geolonia.com/takamatsu_main_v0/tiles.json?key=YOUR-API-KEY"
       });
-      map.addSource('kihonzu', {
+
+      map.addSource(SOURCES.KIHONZU, {
         type: 'vector',
         url: "https://tileserver.geolonia.com/takamatsu_kihonzu_v1/tiles.json?key=YOUR-API-KEY"
       });
@@ -201,7 +209,9 @@ const MainMap: React.FC<Props> = (props) => {
   }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures, setMapObj, setSelectedBaseMap]);
 
 
-  // 3D表示の切り替え
+  /* ***************
+   * 3D表示の切り替え
+   * ***************/
   useEffect(() => {
     if(!map) { return; }
     if(pitch === BASE_PITCH && map.getLayer(SOURCES.TERRAIN_DEM_ID)) {
@@ -227,17 +237,21 @@ const MainMap: React.FC<Props> = (props) => {
   }, [map, pitch])
 
 
-  // ===== ベースマップ選択時の処理 =====
+  /* ***************
+   * ベースマップ選択時の処理
+   * ***************/
   useLayoutEffect(() => {
-    if (!map || !selectedBaseMap) { return; }
+    if (!map || !selectedBaseMap || !map.getStyle()) { return; }
     const baseMap = selectedBaseMap;
     const nowSources: {[key: string]: any} = {};
     const nowLayers: any[] = [];
-
     Object.keys(map.getStyle().sources).forEach(key => { 
       // 表示されているデータを取得
       //（selectedLayersは、shortIdが入っていて比較ができない為、catalogDataと比較）
-      if(catalogData.some(data => key.includes(data.id)) || Object.keys(SOURCES).some(id => key.includes(SOURCES[id])) ) {
+      if(
+        catalogData.some(data => key.includes(data.id)) || 
+        Object.keys(SOURCES).some(id => key.includes(SOURCES[id]))
+      ) {
         nowSources[key] = map.getStyle().sources[key];
         nowLayers.push(...map.getStyle().layers.filter(layer => (layer as any).source === key));
       }
@@ -255,23 +269,28 @@ const MainMap: React.FC<Props> = (props) => {
           },
           layers: [
             ...nextStyle.layers,
-            ...(previousStyle.layers.filter(
-              layer => Object.keys(SOURCES).includes((layer as any).source)
-            )),
             ...nowLayers
           ]
         };
       }
     });
 
+    if(selectedBaseMap.id === 'satellite') {
+      setSelectedThirdPartLayers(selectedThirdPartLayers.filter(layer => !layer.includes('Osm')));
+    }
+
     setSearchParams((prev) => {
       prev.set('baseMap', baseMap.id);
       return prev;
     });
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map, catalogData, setSearchParams, selectedBaseMap]);
 
 
+  /* ***************
+   * データの表示非表示
+   * ***************/
   useEffect(() => {
     if (!map) return;
 
@@ -387,6 +406,29 @@ const MainMap: React.FC<Props> = (props) => {
     
   
   }, [map, catalogData, selectedLayers, cityOS]);
+
+  /* ***************
+   * サードパーティーデータの表示非表示
+   * ***************/
+  useEffect(() => {
+    if (!map || !map.getStyle()) return;
+
+    for (const data of thirdPartyData) {
+      const nowStyle = map.getStyle();
+      const isSelect = selectedThirdPartLayers.includes(data.shortId);
+      const layers = nowStyle.layers;
+      for (let i = 0; i < layers.length; i++) {
+        const layer = layers[i];
+        if(!('layout' in layers[i]) || !layers[i]["layout"]) { continue; }
+        if('source' in layer && layer.source === data.class) {
+          layers[i]['layout'] = { ...layers[i]['layout'], 'visibility': isSelect ? 'visible' : 'none' };
+        }
+      }
+
+      nowStyle.layers = layers;
+      map.setStyle(nowStyle, {diff: false});
+    }
+  }, [map, thirdPartyData, selectedThirdPartLayers]);
 
   return (
     <>

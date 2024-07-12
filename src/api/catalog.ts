@@ -23,6 +23,16 @@ export type CatalogCustomSourceVectorDataItem = {
   metadata: Record<string, string>
 }
 
+export type CatalogCustomStyleDataItem = {
+  type: "DataItem"
+  id: string
+  shortId: string
+  name: string
+  class?: string
+  style?: string
+  layers?: any[]
+}
+
 export type CatalogGeoJSONDataItem = {
   type: "DataItem"
   id: string
@@ -43,7 +53,7 @@ export type CatalogLiveLocationDataItem = {
   metadata: Record<string, string>
 }
 
-export type CatalogDataItem = CatalogVectorDataItem | CatalogCustomSourceVectorDataItem | CatalogGeoJSONDataItem | CatalogLiveLocationDataItem;
+export type CatalogDataItem = CatalogVectorDataItem | CatalogCustomSourceVectorDataItem | CatalogGeoJSONDataItem | CatalogLiveLocationDataItem | CatalogCustomStyleDataItem;
 
 export type CatalogCategory = {
   type: "Category"

@@ -7,10 +7,11 @@ import { CatalogCategory, CatalogDataItem, CatalogItem, walkCategories } from '.
 
 import classNames from 'classnames';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { catalogDataAtom, selectedLayersAtom } from './atoms';
+import { catalogDataAtom, selectedLayersAtom, selectedThirdPartLayersAtom, thirdPartyDataAtom } from './atoms';
 
 type SidebarItemProps = {
-  item: CatalogItem
+  item: CatalogItem,
+  baseMap?: string
 }
 
 const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory }> = (props) => {
@@ -90,41 +91,64 @@ const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory }
 
 const DataSidebarItem: React.FC<SidebarItemProps & { item: CatalogDataItem }> = (props) => {
   const [ selectedLayers, setSelectedLayers ] = useAtom(selectedLayersAtom);
+  const [ selectedThirdPartLayers, setSelectedThirdPartLayers ] = useAtom(selectedThirdPartLayersAtom);
   const { item } = props;
   const itemShortId = item.shortId;
+  const isThirdParty = item.id.includes('thirdParty');
 
   const handleCheckboxChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>((event) => {
     const checked = event.target.checked;
-
-    setSelectedLayers((prev) => {
-      if (checked) {
-        return [...prev, itemShortId];
-      } else {
-        const index = prev.indexOf(itemShortId);
-        if (index >= 0) {
-          const out = [...prev];
-          out.splice(index, 1);
-          return out;
+    if (isThirdParty) {
+      setSelectedThirdPartLayers((prev) => {
+        if (checked) {
+          return [...prev, itemShortId];
+        } else {
+          const index = prev.indexOf(itemShortId);
+          if (index >= 0) {
+            const out = [...prev];
+            out.splice(index, 1);
+            return out;
+          }
         }
-      }
-      return prev;
-    });
-  }, [itemShortId, setSelectedLayers]);
+        return prev;
+      });
+    } else {
+      setSelectedLayers((prev) => {
+        if (checked) {
+          return [...prev, itemShortId];
+        } else {
+          const index = prev.indexOf(itemShortId);
+          if (index >= 0) {
+            const out = [...prev];
+            out.splice(index, 1);
+            return out;
+          }
+        }
+        return prev;
+      });
+    }
+
+  }, [itemShortId, setSelectedLayers, setSelectedThirdPartLayers, isThirdParty]);
 
   return <div className="sidebar-item">
     <label className="label">
-      <input type="checkbox" checked={selectedLayers.includes(item.shortId)} onChange={handleCheckboxChange} />
+      <input 
+      type="checkbox" 
+      checked={(isThirdParty ? selectedThirdPartLayers : selectedLayers).includes(item.shortId)} 
+      onChange={handleCheckboxChange}
+      disabled={isThirdParty && props.baseMap === 'satellite'}
+      />
       {item.name}
     </label>
   </div>;
 };
 
 const SingleSidebarItem: React.FC<SidebarItemProps> = (props) => {
-  const { item } = props;
+  const { item, baseMap } = props;
   if (item.type === "Category") {
-    return <CategorySidebarItem {...props} item={item} />;
+    return <CategorySidebarItem {...props} item={item} baseMap={baseMap} />;
   } else if (item.type === "DataItem") {
-    return <DataSidebarItem {...props} item={item} />;
+    return <DataSidebarItem {...props} item={item} baseMap={baseMap} />;
   } else {
     return <>Error</>;
   }
@@ -133,10 +157,12 @@ const SingleSidebarItem: React.FC<SidebarItemProps> = (props) => {
 type SidebarProps = {
   isOpenedSidebar: boolean
   setIsOpenedSidebar: React.Dispatch<React.SetStateAction<boolean>>
+  baseMap: string
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpenedSidebar, setIsOpenedSidebar }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isOpenedSidebar, setIsOpenedSidebar, baseMap }) => {
   const catalogData = useAtomValue(catalogDataAtom);
+  const thirdPartyData = useAtomValue(thirdPartyDataAtom);
   const setSelectedLayers = useSetAtom(selectedLayersAtom);
 
   const selectAllHandler = useCallback<React.MouseEventHandler<HTMLButtonElement>>((event) => {
@@ -168,12 +194,20 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpenedSidebar, setIsOpenedSidebar }
         <button type="button" onClick={selectNoneHandler}>全選択解除</button>
       </div>
       <div className='sidebar-item-container'>
-        {catalogData.map((item) =>
-          <SingleSidebarItem
-            key={item.id}
-            item={item}
-          />
-        )}
+        <p className='sidebar-item-title'>高松市データ</p>
+        <div className='inner-content'>
+          {catalogData.map((item) =>
+            <SingleSidebarItem key={item.id} item={item} />
+          )}
+        </div>
+      </div>
+      <div className='sidebar-item-container'>
+        <p className='sidebar-item-title'>サードパーティー</p>
+        <div className='inner-content'>
+          {thirdPartyData.map((item) =>
+            <SingleSidebarItem key={item.id} item={item} baseMap={baseMap} />
+          )}
+        </div>
       </div>
       <a href="https://docs.takamatsu-fact.com/#%E3%81%94%E5%88%A9%E7%94%A8%E3%81%AB%E3%81%82%E3%81%9F%E3%81%A3%E3%81%A6" className='user-guide-link' target="_blank" rel="noreferrer">
         <AiOutlineLink /><span>ご利用にあたって</span>
