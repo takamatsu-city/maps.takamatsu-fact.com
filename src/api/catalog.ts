@@ -31,6 +31,7 @@ export type CatalogCustomStyleDataItem = {
   class?: string
   style?: string
   layers?: any[]
+  sources?: any
 }
 
 export type CatalogGeoJSONDataItem = {

@@ -2,7 +2,7 @@ import { atom } from 'jotai'
 import { atomWithHash } from 'jotai-location';
 import { decodeLayerList, encodeLayerList } from './utils/urlEncoding';
 import { getCatalog, CatalogFeature } from './api/catalog';
-import { THIRD_PARTY_CATALOG } from './thirdPartyCatalog';
+import { THIRD_PARTY_CATALOG } from './api/thirdPartyCatalog';
 
 export const selectedLayersAtom = atomWithHash<string[]>(
   'layers', [], {
