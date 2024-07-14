@@ -1,6 +1,7 @@
 import { CatalogDataItem } from "./catalog";
 
 export const THIRD_PARTY_CATALOG: CatalogDataItem[] = [
+  // TODO：カテゴリに変更し、公園・poi毎につけ消しができるように分ける
   {
     "type": "DataItem",
     "id": "thirdParty/OpenStreetMap",

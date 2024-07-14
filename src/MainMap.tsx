@@ -161,6 +161,8 @@ const MainMap: React.FC<Props> = (props) => {
         url: "https://tileserver.geolonia.com/takamatsu_kihonzu_v1/tiles.json?key=YOUR-API-KEY"
       });
 
+      // TODO：サードパーティーソースの追加
+
       const initialPitch = map.getPitch();
       setPitch(initialPitch);
       setShow3dDem(initialPitch > 0);
