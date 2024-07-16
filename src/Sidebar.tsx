@@ -7,14 +7,15 @@ import { CatalogCategory, CatalogDataItem, CatalogItem, walkCategories } from '.
 
 import classNames from 'classnames';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { catalogDataAtom, selectedLayersAtom, selectedThirdPartLayersAtom, thirdPartyDataAtom } from './atoms';
+import { catalogDataAtom, selectedLayersAtom, selectedThirdPartLayersAtom, thirdPartyCatalogAtom } from './atoms';
+import { ThirdPartyCatalogCategory, ThirdPartyCatalogItem } from './api/thirdPartyCatalog';
 
 type SidebarItemProps = {
-  item: CatalogItem,
+  item: CatalogItem | ThirdPartyCatalogItem,
   baseMap?: string
 }
 
-const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory }> = (props) => {
+const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory | ThirdPartyCatalogCategory }> = (props) => {
   const [ selectedLayers, setSelectedLayers ] = useAtom(selectedLayersAtom);
   const { item } = props;
   const checkboxRef = useRef<HTMLInputElement>(null);
@@ -162,7 +163,7 @@ type SidebarProps = {
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpenedSidebar, setIsOpenedSidebar, baseMap }) => {
   const catalogData = useAtomValue(catalogDataAtom);
-  const thirdPartyData = useAtomValue(thirdPartyDataAtom);
+  const thirdPartyData = useAtomValue(thirdPartyCatalogAtom);
   const setSelectedLayers = useSetAtom(selectedLayersAtom);
 
   const selectAllHandler = useCallback<React.MouseEventHandler<HTMLButtonElement>>((event) => {

@@ -6,7 +6,7 @@ import CityOS__Takamatsu from './cityos/cityos_takamatsu';
 
 import { FaMountain } from "react-icons/fa";
 
-import { mapObjAtom, selectedThirdPartLayersAtom, thirdPartyDataAtom } from './atoms';
+import { mapObjAtom, selectedThirdPartLayersAtom, thirdPartyCatalogAtom } from './atoms';
 
 import mapStyleConfig from './config/mapStyleConfig.json';
 import classNames from 'classnames';
@@ -63,7 +63,7 @@ const MainMap: React.FC<Props> = (props) => {
   const selectedLayers = useAtomValue(selectedLayersAtom);
   const setSelectedFeatures = useSetAtom(selectedFeaturesAtom);
   const catalogData = useAtomValue(catalogDataAtom);
-  const thirdPartyData = useAtomValue(thirdPartyDataAtom);
+  const thirdPartyCatalogData = useAtomValue(thirdPartyCatalogAtom);
   const [cityOS, setCityOS] = useState<CityOS__Takamatsu | undefined>(undefined);
   const mapContainer = useRef<HTMLDivElement>(null);
   const [show3dDem, setShow3dDem] = useState<boolean>(false);
@@ -162,6 +162,33 @@ const MainMap: React.FC<Props> = (props) => {
       });
 
       // TODO：サードパーティーソースの追加
+      thirdPartyCatalogData.forEach((data) => {
+        if(!data.sources && (!data.style || data.style === '')) { return; }
+
+        // 直接ソースを指定している場合
+        if('sources' in data && data.sources) { 
+          Object.keys(data.sources).forEach(key => {
+            if(!data.sources) { return; }
+            map.addSource(key, data.sources[key] as maplibregl.GeoJSONSourceSpecification);
+          });
+        } else {
+        // スタイルファイルを指定している場合
+          if(!data.style) { return; }
+          // 相談：サードパーティーは初めから読み込まれていてはダメ？
+          map.setStyle(data.style, {
+            transformStyle: (previousStyle, nextStyle) => {
+              if(!previousStyle) { return nextStyle; }
+              return {
+                ...nextStyle,
+                sources: {
+                  ...previousStyle.sources,
+                  ...nextStyle.sources
+                }
+              };
+            }
+          });
+        }
+      });
 
       const initialPitch = map.getPitch();
       setPitch(initialPitch);
@@ -415,22 +442,22 @@ const MainMap: React.FC<Props> = (props) => {
   useEffect(() => {
     if (!map || !map.getStyle()) return;
 
-    for (const data of thirdPartyData) {
-      const nowStyle = map.getStyle();
-      const isSelect = selectedThirdPartLayers.includes(data.shortId);
-      const layers = nowStyle.layers;
-      for (let i = 0; i < layers.length; i++) {
-        const layer = layers[i];
-        if(!('layout' in layers[i]) || !layers[i]["layout"]) { continue; }
-        if('source' in layer && layer.source === data.class) {
-          layers[i]['layout'] = { ...layers[i]['layout'], 'visibility': isSelect ? 'visible' : 'none' };
-        }
-      }
+    // for (const data of thirdPartyData) {
+    //   const nowStyle = map.getStyle();
+    //   const isSelect = selectedThirdPartLayers.includes(data.shortId);
+    //   const layers = nowStyle.layers;
+    //   for (let i = 0; i < layers.length; i++) {
+    //     const layer = layers[i];
+    //     if(!('layout' in layers[i]) || !layers[i]["layout"]) { continue; }
+    //     if('source' in layer && layer.source === data.class) {
+    //       layers[i]['layout'] = { ...layers[i]['layout'], 'visibility': isSelect ? 'visible' : 'none' };
+    //     }
+    //   }
 
-      nowStyle.layers = layers;
-      map.setStyle(nowStyle, {diff: false});
-    }
-  }, [map, thirdPartyData, selectedThirdPartLayers]);
+    //   nowStyle.layers = layers;
+    //   map.setStyle(nowStyle, {diff: false});
+    // }
+  }, [map, selectedThirdPartLayers]);
 
   return (
     <>

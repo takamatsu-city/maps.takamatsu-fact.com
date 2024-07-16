@@ -1,3 +1,5 @@
+import { ThirdPartyCatalogDataItem, ThirdPartyCatalogItem } from "./thirdPartyCatalog"
+
 export type CatalogFeature = {
   catalog: CatalogDataItem
   properties: Record<string, any>
@@ -23,17 +25,6 @@ export type CatalogCustomSourceVectorDataItem = {
   metadata: Record<string, string>
 }
 
-export type CatalogCustomStyleDataItem = {
-  type: "DataItem"
-  id: string
-  shortId: string
-  name: string
-  class?: string
-  style?: string
-  layers?: any[]
-  sources?: any
-}
-
 export type CatalogGeoJSONDataItem = {
   type: "DataItem"
   id: string
@@ -54,7 +45,7 @@ export type CatalogLiveLocationDataItem = {
   metadata: Record<string, string>
 }
 
-export type CatalogDataItem = CatalogVectorDataItem | CatalogCustomSourceVectorDataItem | CatalogGeoJSONDataItem | CatalogLiveLocationDataItem | CatalogCustomStyleDataItem;
+export type CatalogDataItem = CatalogVectorDataItem | CatalogCustomSourceVectorDataItem | CatalogGeoJSONDataItem | CatalogLiveLocationDataItem;
 
 export type CatalogCategory = {
   type: "Category"
@@ -72,7 +63,7 @@ export const getCatalog: () => Promise<CatalogItem[]> = async () => {
   return data;
 }
 
-export function *walkCategories(data: CatalogItem[]): Generator<CatalogDataItem, void, unknown> {
+export function *walkCategories(data: CatalogItem[] | ThirdPartyCatalogItem[]): Generator<CatalogDataItem | ThirdPartyCatalogDataItem, void, unknown> {
   for (const x of data) {
     if (x.type === "Category") {
       yield *walkCategories(x.items);
