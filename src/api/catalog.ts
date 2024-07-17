@@ -63,7 +63,7 @@ export const getCatalog: () => Promise<CatalogItem[]> = async () => {
   return data;
 }
 
-export function *walkCategories(data: CatalogItem[] | ThirdPartyCatalogItem[]): Generator<CatalogDataItem | ThirdPartyCatalogDataItem, void, unknown> {
+export function *walkCategories(data: CatalogItem[]): Generator<CatalogDataItem, void, unknown> {
   for (const x of data) {
     if (x.type === "Category") {
       yield *walkCategories(x.items);

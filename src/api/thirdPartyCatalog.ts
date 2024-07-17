@@ -29,3 +29,13 @@ export const getThirdPartyCatalog: () => Promise<ThirdPartyCatalogItem[]> = asyn
   const data: ThirdPartyCatalogItem[] = await res.json();
   return data;
 }
+
+export function *walkThirdPartyCategories(data: ThirdPartyCatalogItem[]): Generator<ThirdPartyCatalogDataItem, void, unknown> {
+  for (const x of data) {
+    if (x.type === "Category") {
+      yield *walkThirdPartyCategories(x.items);
+    } else {
+      yield x;
+    }
+  }
+}

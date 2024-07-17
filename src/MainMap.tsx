@@ -15,7 +15,7 @@ import { catalogDataAtom, selectedFeaturesAtom, selectedLayersAtom } from './ato
 import { MapStyleConfigType } from './config/mapStyleConfig';
 import { useSearchParams } from 'react-router-dom';
 import { addLayerStyle, removeLayerStyle } from './utils/mapStyleController';
-import { ThirdPartyCatalogDataItem } from './api/thirdPartyCatalog';
+import { ThirdPartyCatalogDataItem, walkThirdPartyCategories } from './api/thirdPartyCatalog';
 
 declare global {
   interface Window {
@@ -80,7 +80,7 @@ const MainMap: React.FC<Props> = (props) => {
   }, [catalogData]);
 
   const thirdPartySource = useMemo(() => {
-    return [...walkCategories(thirdPartyCatalogData)];
+    return [...walkThirdPartyCategories(thirdPartyCatalogData)];
   }, [thirdPartyCatalogData]);
 
 
@@ -315,7 +315,7 @@ const MainMap: React.FC<Props> = (props) => {
         index += 1;
         if (shouldStop) return;
 
-        const definition = data as CatalogDataItem;
+        const definition = data;
 
         const definitionId = definition.id;
         const isSelected = selectedLayers.includes(definition.shortId);

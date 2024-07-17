@@ -3,42 +3,48 @@ import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { AiFillCaretRight, AiFillCaretDown, AiOutlineLink, AiOutlineBars } from 'react-icons/ai';
 
 import './Sidebar.scss';
-import { CatalogCategory, CatalogItem, walkCategories } from './api/catalog';
+import { CatalogCategory, CatalogDataItem, CatalogItem, walkCategories } from './api/catalog';
 
 import classNames from 'classnames';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { catalogDataAtom, selectedLayersAtom, selectedThirdPartyLayersAtom, thirdPartyCatalogAtom } from './atoms';
-import { ThirdPartyCatalogCategory, ThirdPartyCatalogItem } from './api/thirdPartyCatalog';
+import { ThirdPartyCatalogCategory, ThirdPartyCatalogDataItem, ThirdPartyCatalogItem, walkThirdPartyCategories } from './api/thirdPartyCatalog';
 
 type SidebarItemProps = {
-  item: CatalogItem | ThirdPartyCatalogItem,
-  baseMap?: string
+  item: CatalogItem | undefined;
+  thirdPartyItem: ThirdPartyCatalogItem | undefined;
+  baseMap?: string;
 }
 
-const CategorySidebarItem: React.FC<SidebarItemProps> = (props) => {
+const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory, thirdPartyItem: ThirdPartyCatalogCategory }> = (props) => {
   const [ selectedLayers, setSelectedLayers ] = useAtom(selectedLayersAtom);
   const [ selectedThirdPartyLayers, setSelectedThirdPartyLayers ] = useAtom(selectedThirdPartyLayersAtom);
-  const { item } = props;
+  const { item, thirdPartyItem } = props;
   const checkboxRef = useRef<HTMLInputElement>(null);
-  const catalogItem = useRef<CatalogCategory | ThirdPartyCatalogCategory>(item as CatalogCategory | ThirdPartyCatalogCategory);
 
   const shortIdsOfThisCategory = useMemo(() => {
-    return [...walkCategories(catalogItem.current.items)].map(x => x.shortId);
-  }, []);
+    if(!item) { return []; }
+    return [...walkCategories(item.items)].map(x => x.shortId);
+  }, [item]);
+
+  const shortIdsOfThirdPartyCategory = useMemo(() => {
+    if(!thirdPartyItem) { return []; }
+    return [...walkThirdPartyCategories(thirdPartyItem.items)].map(x => x.shortId);
+  }, [thirdPartyItem]);
 
   const {
     checked,
     indeterminate,
   } = useMemo(() => {
     let every = shortIdsOfThisCategory.every(id => selectedLayers.includes(id));
-    if(item.id.includes('thirdParty')) {
-      every = shortIdsOfThisCategory.every(id => selectedThirdPartyLayers.includes(id))
+    if(thirdPartyItem) {
+      every = shortIdsOfThirdPartyCategory.every(id => selectedThirdPartyLayers.includes(id))
     }
     return {
       checked: every,
       indeterminate: !every && shortIdsOfThisCategory.some(id => selectedLayers.includes(id) || selectedThirdPartyLayers.includes(id)),
     };
-  }, [selectedLayers, shortIdsOfThisCategory, selectedThirdPartyLayers, item.id]);
+  }, [selectedLayers, shortIdsOfThisCategory, selectedThirdPartyLayers, shortIdsOfThirdPartyCategory, thirdPartyItem]);
 
   useLayoutEffect(() => {
     if (!checkboxRef.current) { return; }
@@ -49,14 +55,14 @@ const CategorySidebarItem: React.FC<SidebarItemProps> = (props) => {
   const handleCheckboxChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>((event) => {
     const checked = event.target.checked;
 
-    if(item.id.includes('thirdParty')) {
+    if(thirdPartyItem) {
       setSelectedThirdPartyLayers((prev) => {
         if (checked) {
-          const newLayers = new Set([...prev, ...shortIdsOfThisCategory]);
+          const newLayers = new Set([...prev, ...shortIdsOfThirdPartyCategory]);
           return [...newLayers];
         } else {
           let out = [...prev];
-          for (const itemClass of shortIdsOfThisCategory) {
+          for (const itemClass of shortIdsOfThirdPartyCategory) {
             const index = out.indexOf(itemClass);
             if (index >= 0) {
               out.splice(index, 1);
@@ -83,9 +89,7 @@ const CategorySidebarItem: React.FC<SidebarItemProps> = (props) => {
       });
     }
 
-  }, [shortIdsOfThisCategory, setSelectedLayers, item.id, setSelectedThirdPartyLayers]);
-
-
+  }, [shortIdsOfThisCategory, setSelectedLayers, setSelectedThirdPartyLayers, shortIdsOfThirdPartyCategory, thirdPartyItem]);
 
   const [isOpen, setIsOpen] = useState<boolean>(checked || indeterminate);
 
@@ -106,28 +110,37 @@ const CategorySidebarItem: React.FC<SidebarItemProps> = (props) => {
           checked={checked}
           onChange={handleCheckboxChange}
         />
-        {item.name}
+        { thirdPartyItem ?  thirdPartyItem.name : item.name }
       </label>
     </div>
     {isOpen && <div className="sidebar-item-category-items">
-      {catalogItem.current.items.map(item => (
-        <SingleSidebarItem key={item.id} {...props} item={item} />
-      ))}
+      { thirdPartyItem ? 
+        thirdPartyItem.items.map(item => (
+          <SingleSidebarItem key={item.id} {...props} thirdPartyItem={item} />
+        ))
+        :
+        item.items.map(item => (
+          <SingleSidebarItem key={item.id} {...props} item={item} />
+        ))
+      }
     </div>}
   </div>
 }
 
-const DataSidebarItem: React.FC<SidebarItemProps> = (props) => {
+const DataSidebarItem: React.FC<SidebarItemProps & { item: CatalogDataItem, thirdPartyItem: ThirdPartyCatalogDataItem }> = (props) => {
   const [ selectedLayers, setSelectedLayers ] = useAtom(selectedLayersAtom);
-  const [ selectedThirdPartLayers, setSelectedThirdPartLayers ] = useAtom(selectedThirdPartyLayersAtom);
-  const { item } = props;
-  const itemShortId = item.shortId;
-  const isThirdParty = item.id.includes('thirdParty');
+  const [ selectedThirdPartyLayers, setSelectedThirdPartyLayers ] = useAtom(selectedThirdPartyLayersAtom);
+  const { item, thirdPartyItem } = props;
+  const itemShortId = thirdPartyItem ? thirdPartyItem.shortId : item.shortId;
+  const isChecked = thirdPartyItem ? 
+    selectedThirdPartyLayers.includes(thirdPartyItem.shortId)
+    :
+    selectedLayers.includes(item.shortId);
 
   const handleCheckboxChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>((event) => {
     const checked = event.target.checked;
-    if (isThirdParty) {
-      setSelectedThirdPartLayers((prev) => {
+    if (thirdPartyItem) {
+      setSelectedThirdPartyLayers((prev) => {
         if (checked) {
           return [...prev, itemShortId];
         } else {
@@ -156,26 +169,26 @@ const DataSidebarItem: React.FC<SidebarItemProps> = (props) => {
       });
     }
 
-  }, [itemShortId, setSelectedLayers, setSelectedThirdPartLayers, isThirdParty]);
+  }, [itemShortId, setSelectedLayers, setSelectedThirdPartyLayers, thirdPartyItem]);
 
   return <div className="sidebar-item">
     <label className="label">
       <input 
       type="checkbox" 
-      checked={(isThirdParty ? selectedThirdPartLayers : selectedLayers).includes(item.shortId)} 
+      checked={isChecked} 
       onChange={handleCheckboxChange}
       />
-      {item.name}
+      { thirdPartyItem ? thirdPartyItem.name : item.name}
     </label>
   </div>;
 };
 
 const SingleSidebarItem: React.FC<SidebarItemProps> = (props) => {
-  const { item, baseMap } = props;
-  if (item.type === "Category") {
-    return <CategorySidebarItem {...props} item={item} baseMap={baseMap} />;
-  } else if (item.type === "DataItem") {
-    return <DataSidebarItem {...props} item={item} baseMap={baseMap} />;
+  const { item, thirdPartyItem, baseMap } = props;
+  if ((item && item.type === "Category") || (thirdPartyItem && thirdPartyItem.type === "Category")) {
+    return <CategorySidebarItem {...props} item={item as CatalogCategory} thirdPartyItem={thirdPartyItem as ThirdPartyCatalogCategory} baseMap={baseMap} />;
+  } else if ((item && item.type === "DataItem") || (thirdPartyItem && thirdPartyItem.type === "DataItem")) {
+    return <DataSidebarItem {...props} item={item as CatalogDataItem} thirdPartyItem={thirdPartyItem as ThirdPartyCatalogDataItem} baseMap={baseMap} />;
   } else {
     return <>Error</>;
   }
@@ -224,7 +237,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpenedSidebar, setIsOpenedSidebar, 
         <p className='sidebar-item-title'>高松市データ</p>
         <div className='inner-content'>
           {catalogData.map((item) =>
-            <SingleSidebarItem key={item.id} item={item} />
+            <SingleSidebarItem key={item.id} item={item} thirdPartyItem={undefined} />
           )}
         </div>
       </div>
@@ -232,7 +245,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpenedSidebar, setIsOpenedSidebar, 
         <p className='sidebar-item-title'>サードパーティー</p>
         <div className='inner-content'>
           {thirdPartyData.map((item) =>
-            <SingleSidebarItem key={item.id} item={item} baseMap={baseMap} />
+            <SingleSidebarItem key={item.id} item={undefined} baseMap={baseMap} thirdPartyItem={item} />
           )}
         </div>
       </div>
