@@ -24,7 +24,7 @@ const CategorySidebarItem: React.FC<SidebarItemProps> = (props) => {
 
   const shortIdsOfThisCategory = useMemo(() => {
     return [...walkCategories(catalogItem.current.items)].map(x => x.shortId);
-  }, [item]);
+  }, []);
 
   const {
     checked,
@@ -38,7 +38,7 @@ const CategorySidebarItem: React.FC<SidebarItemProps> = (props) => {
       checked: every,
       indeterminate: !every && shortIdsOfThisCategory.some(id => selectedLayers.includes(id) || selectedThirdPartyLayers.includes(id)),
     };
-  }, [selectedLayers, shortIdsOfThisCategory, selectedThirdPartyLayers]);
+  }, [selectedLayers, shortIdsOfThisCategory, selectedThirdPartyLayers, item.id]);
 
   useLayoutEffect(() => {
     if (!checkboxRef.current) { return; }
@@ -83,7 +83,7 @@ const CategorySidebarItem: React.FC<SidebarItemProps> = (props) => {
       });
     }
 
-  }, [shortIdsOfThisCategory, setSelectedLayers]);
+  }, [shortIdsOfThisCategory, setSelectedLayers, item.id, setSelectedThirdPartyLayers]);
 
 
 
