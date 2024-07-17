@@ -28,11 +28,9 @@ const downloadStyle = async () => {
   const targetLayers = [];
 
   for (const layer of styleJson.layers) {
+    if(layer.source === 'v3') { continue; }
     // レイヤーのソースが削除対象のソースでなければ追加する
     if (!removeSourceIds.includes(layer["source-layer"]) || layer.id === 'landcover-wood') {
-      if (layer.source === 'v3') {
-        layer["layout"]["visibility"] = 'none';
-      }
       targetLayers.push(layer);
     }
   }

@@ -7,7 +7,7 @@ import { CatalogCategory, CatalogDataItem, CatalogItem, walkCategories } from '.
 
 import classNames from 'classnames';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { catalogDataAtom, selectedLayersAtom, selectedThirdPartLayersAtom, thirdPartyCatalogAtom } from './atoms';
+import { catalogDataAtom, selectedLayersAtom, selectedThirdPartyLayersAtom, thirdPartyCatalogAtom } from './atoms';
 import { ThirdPartyCatalogCategory, ThirdPartyCatalogItem } from './api/thirdPartyCatalog';
 
 type SidebarItemProps = {
@@ -15,13 +15,14 @@ type SidebarItemProps = {
   baseMap?: string
 }
 
-const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory | ThirdPartyCatalogCategory }> = (props) => {
+const CategorySidebarItem: React.FC<SidebarItemProps> = (props) => {
   const [ selectedLayers, setSelectedLayers ] = useAtom(selectedLayersAtom);
   const { item } = props;
   const checkboxRef = useRef<HTMLInputElement>(null);
+  const catalogItem = useRef<CatalogCategory | ThirdPartyCatalogCategory>(item as CatalogCategory | ThirdPartyCatalogCategory);
 
   const shortIdsOfThisCategory = useMemo(() => {
-    return [...walkCategories(item.items)].map(x => x.shortId);
+    return [...walkCategories(catalogItem.current.items)].map(x => x.shortId);
   }, [item]);
 
   const {
@@ -83,16 +84,16 @@ const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory |
       </label>
     </div>
     {isOpen && <div className="sidebar-item-category-items">
-      {item.items.map(item => (
+      {catalogItem.current.items.map(item => (
         <SingleSidebarItem key={item.id} {...props} item={item} />
       ))}
     </div>}
   </div>
 }
 
-const DataSidebarItem: React.FC<SidebarItemProps & { item: CatalogDataItem }> = (props) => {
+const DataSidebarItem: React.FC<SidebarItemProps> = (props) => {
   const [ selectedLayers, setSelectedLayers ] = useAtom(selectedLayersAtom);
-  const [ selectedThirdPartLayers, setSelectedThirdPartLayers ] = useAtom(selectedThirdPartLayersAtom);
+  const [ selectedThirdPartLayers, setSelectedThirdPartLayers ] = useAtom(selectedThirdPartyLayersAtom);
   const { item } = props;
   const itemShortId = item.shortId;
   const isThirdParty = item.id.includes('thirdParty');
