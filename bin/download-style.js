@@ -34,6 +34,8 @@ const downloadStyle = async () => {
       targetLayers.push(layer);
     }
   }
+
+  delete styleJson.sources.v3;
   
   styleJson.layers = targetLayers;
   const styleJsonString = JSON.stringify(styleJson).replace('["!in","subclass","community_centre"],', "");
