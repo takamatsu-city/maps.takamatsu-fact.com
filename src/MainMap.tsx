@@ -15,6 +15,7 @@ import { catalogDataAtom, selectedFeaturesAtom, selectedLayersAtom } from './ato
 import { MapStyleConfigType } from './config/mapStyleConfig';
 import { useSearchParams } from 'react-router-dom';
 import { addLayerStyle, removeLayerStyle } from './utils/mapStyleController';
+import { ThirdPartyCatalogDataItem, ThirdPartyCatalogItem } from './api/thirdPartyCatalog';
 
 declare global {
   interface Window {
@@ -78,6 +79,10 @@ const MainMap: React.FC<Props> = (props) => {
     return [...walkCategories(catalogData)];
   }, [catalogData]);
 
+  const thirdPartySource = useMemo(() => {
+    return [...walkCategories(thirdPartyCatalogData)];
+  }, [catalogData]);
+
 
   /* ***************
    * 3Dボタンクリック時処理
@@ -118,7 +123,7 @@ const MainMap: React.FC<Props> = (props) => {
     const cityOS = new CityOS__Takamatsu(map);
     setCityOS(cityOS);
 
-    map.on("load", () => {
+    map.on("load", async () => {
       // Start add GSI DEM
       map.addSource('gsidem', {
         type: 'raster-dem',
@@ -163,35 +168,6 @@ const MainMap: React.FC<Props> = (props) => {
         url: "https://tileserver.geolonia.com/takamatsu_kihonzu_v1/tiles.json?key=YOUR-API-KEY"
       });
 
-      // サードパーティーソースの追加
-      thirdPartyCatalogData.forEach((data) => {
-        if(!data.sources && (!data.style || data.style === '')) { return; }
-
-        // 直接ソースを指定している場合
-        if('sources' in data && data.sources && typeof data.sources === 'object') { 
-          Object.keys(data.sources).forEach(key => {
-            if(!data.sources) { return; }
-            map.addSource(key, data.sources[key] as maplibregl.GeoJSONSourceSpecification);
-          });
-        } else {
-        // スタイルファイルを指定している場合
-          if(!data.style) { return; }
-          // 相談：サードパーティーは初めから読み込まれていてはダメ？
-          map.setStyle(data.style, {
-            transformStyle: (previousStyle, nextStyle) => {
-              if(!previousStyle) { return nextStyle; }
-              return {
-                ...previousStyle,
-                sources: {
-                  ...previousStyle.sources,
-                  ...nextStyle.sources
-                }
-              };
-            }
-          });
-        }
-
-      });
 
       const initialPitch = map.getPitch();
       setPitch(initialPitch);
@@ -277,23 +253,29 @@ const MainMap: React.FC<Props> = (props) => {
     const baseMap = selectedBaseMap;
     const nowSources: {[key: string]: any} = {};
     const nowLayers: any[] = [];
+
     Object.keys(map.getStyle().sources).forEach(key => { 
       // 表示されているデータを取得
       //（selectedLayersは、shortIdが入っていて比較ができない為、catalogDataと比較）
+      const isSlectedThirdParty = (thirdPartySource as ThirdPartyCatalogDataItem[]).some( data => key === data.sourceId );
       if(
         catalogData.some(data => key.includes(data.id)) || 
-        Object.keys(SOURCES).some(id => key.includes(SOURCES[id]))
+        Object.keys(SOURCES).some(id => key.includes(SOURCES[id])) ||
+        isSlectedThirdParty
       ) {
         nowSources[key] = map.getStyle().sources[key];
-        nowLayers.push(...map.getStyle().layers.filter(layer => (layer as any).source === key));
+        nowLayers.push(...map.getStyle().layers.filter(layer => 
+          (layer as any).source === key
+        ));
       }
     });
     
     map.setStyle(baseMap.endpoint, {
-      diff: true,
+      diff: false,
       transformStyle: (previousStyle, nextStyle) => {
         if(!previousStyle) { return nextStyle; }
         return {
+          ...previousStyle,
           ...nextStyle,
           sources: {
             ...nextStyle.sources,
@@ -324,7 +306,7 @@ const MainMap: React.FC<Props> = (props) => {
    * データの表示非表示
    * ***************/
   useEffect(() => {
-    if (!map) return;
+    if (!map || !map.getStyle()) return;
 
     let shouldStop = false;
     (async () => {
@@ -456,10 +438,10 @@ const MainMap: React.FC<Props> = (props) => {
           const isSelect = selectedThirdPartLayers.includes(item.shortId);
           if(isSelect) {
             // 選択されていたら、レイヤーを追加
-            addLayerStyle(map, data.style, item.layers as string[])
+            addLayerStyle(map, data.style, item.layers as string[], item.sourceId)
           } else {
             // 選択されていなかったら、レイヤーを削除
-            removeLayerStyle(map, item.layers as string[]);
+            removeLayerStyle(map, item.layers as string[], item.sourceId);
           }
         });
 
@@ -467,13 +449,14 @@ const MainMap: React.FC<Props> = (props) => {
         if(!data.style || data.style === '') { continue; }
         const isSelect = selectedThirdPartLayers.includes(data.shortId);
         if(isSelect) {
-          addLayerStyle(map, data.style, data.layers as string[]);
+          addLayerStyle(map, data.style, data.layers as string[], data.sourceId);
         } else {
           // 選択されていなかったら、レイヤーを削除
-          removeLayerStyle(map, data.layers as string[]);
+          removeLayerStyle(map, data.layers as string[], data.sourceId);
         }
       }
     }
+
   }, [map, selectedThirdPartLayers, thirdPartyCatalogData]);
 
 

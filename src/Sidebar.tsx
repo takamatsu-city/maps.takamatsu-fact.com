@@ -164,7 +164,6 @@ const DataSidebarItem: React.FC<SidebarItemProps> = (props) => {
       type="checkbox" 
       checked={(isThirdParty ? selectedThirdPartLayers : selectedLayers).includes(item.shortId)} 
       onChange={handleCheckboxChange}
-      disabled={isThirdParty && props.baseMap === 'satellite'}
       />
       {item.name}
     </label>

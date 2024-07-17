@@ -6,7 +6,7 @@ export type ThirdPartyCatalogDataItem = {
   name: string
   style?: string
   sources?: { [key: string]: any }
-  class: string
+  sourceId: string
   layers: any[] | string      // レイヤーを配列で直接指定するか、URLで指定する
 }
 
