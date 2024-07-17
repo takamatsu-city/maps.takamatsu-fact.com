@@ -1,4 +1,4 @@
-import { ThirdPartyCatalogDataItem, ThirdPartyCatalogItem } from "./thirdPartyCatalog"
+import { ThirdPartyCatalogDataItem } from "./thirdPartyCatalog"
 
 export type CatalogFeature = {
   catalog: CatalogDataItem | ThirdPartyCatalogDataItem
