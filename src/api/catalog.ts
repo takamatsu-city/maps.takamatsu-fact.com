@@ -1,7 +1,5 @@
-import { ThirdPartyCatalogDataItem } from "./thirdPartyCatalog"
-
 export type CatalogFeature = {
-  catalog: CatalogDataItem | ThirdPartyCatalogDataItem
+  catalog: CatalogDataItem
   properties: Record<string, any>
 }
 
