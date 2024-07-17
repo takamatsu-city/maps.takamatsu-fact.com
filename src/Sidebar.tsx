@@ -3,7 +3,7 @@ import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { AiFillCaretRight, AiFillCaretDown, AiOutlineLink, AiOutlineBars } from 'react-icons/ai';
 
 import './Sidebar.scss';
-import { CatalogCategory, CatalogDataItem, CatalogItem, walkCategories } from './api/catalog';
+import { CatalogCategory, CatalogItem, walkCategories } from './api/catalog';
 
 import classNames from 'classnames';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
@@ -17,6 +17,7 @@ type SidebarItemProps = {
 
 const CategorySidebarItem: React.FC<SidebarItemProps> = (props) => {
   const [ selectedLayers, setSelectedLayers ] = useAtom(selectedLayersAtom);
+  const [ selectedThirdPartyLayers, setSelectedThirdPartyLayers ] = useAtom(selectedThirdPartyLayersAtom);
   const { item } = props;
   const checkboxRef = useRef<HTMLInputElement>(null);
   const catalogItem = useRef<CatalogCategory | ThirdPartyCatalogCategory>(item as CatalogCategory | ThirdPartyCatalogCategory);
@@ -29,37 +30,62 @@ const CategorySidebarItem: React.FC<SidebarItemProps> = (props) => {
     checked,
     indeterminate,
   } = useMemo(() => {
-    const every = shortIdsOfThisCategory.every(id => selectedLayers.includes(id));
+    let every = shortIdsOfThisCategory.every(id => selectedLayers.includes(id));
+    if(item.id.includes('thirdParty')) {
+      every = shortIdsOfThisCategory.every(id => selectedThirdPartyLayers.includes(id))
+    }
     return {
       checked: every,
-      indeterminate: !every && shortIdsOfThisCategory.some(id => selectedLayers.includes(id)),
+      indeterminate: !every && shortIdsOfThisCategory.some(id => selectedLayers.includes(id) || selectedThirdPartyLayers.includes(id)),
     };
-  }, [selectedLayers, shortIdsOfThisCategory]);
+  }, [selectedLayers, shortIdsOfThisCategory, selectedThirdPartyLayers]);
 
   useLayoutEffect(() => {
     if (!checkboxRef.current) { return; }
     checkboxRef.current.indeterminate = indeterminate;
   }, [indeterminate]);
 
+
   const handleCheckboxChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>((event) => {
     const checked = event.target.checked;
 
-    setSelectedLayers((prev) => {
-      if (checked) {
-        const newLayers = new Set([...prev, ...shortIdsOfThisCategory]);
-        return [...newLayers];
-      } else {
-        let out = [...prev];
-        for (const itemClass of shortIdsOfThisCategory) {
-          const index = out.indexOf(itemClass);
-          if (index >= 0) {
-            out.splice(index, 1);
+    if(item.id.includes('thirdParty')) {
+      setSelectedThirdPartyLayers((prev) => {
+        if (checked) {
+          const newLayers = new Set([...prev, ...shortIdsOfThisCategory]);
+          return [...newLayers];
+        } else {
+          let out = [...prev];
+          for (const itemClass of shortIdsOfThisCategory) {
+            const index = out.indexOf(itemClass);
+            if (index >= 0) {
+              out.splice(index, 1);
+            }
           }
+          return out;
         }
-        return out;
-      }
-    });
+      });
+    } else {
+      setSelectedLayers((prev) => {
+        if (checked) {
+          const newLayers = new Set([...prev, ...shortIdsOfThisCategory]);
+          return [...newLayers];
+        } else {
+          let out = [...prev];
+          for (const itemClass of shortIdsOfThisCategory) {
+            const index = out.indexOf(itemClass);
+            if (index >= 0) {
+              out.splice(index, 1);
+            }
+          }
+          return out;
+        }
+      });
+    }
+
   }, [shortIdsOfThisCategory, setSelectedLayers]);
+
+
 
   const [isOpen, setIsOpen] = useState<boolean>(checked || indeterminate);
 

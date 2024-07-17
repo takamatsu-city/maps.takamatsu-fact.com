@@ -163,8 +163,7 @@ const MainMap: React.FC<Props> = (props) => {
         url: "https://tileserver.geolonia.com/takamatsu_kihonzu_v1/tiles.json?key=YOUR-API-KEY"
       });
 
-      console.log(thirdPartyCatalogData)
-      // TODO：サードパーティーソースの追加
+      // サードパーティーソースの追加
       thirdPartyCatalogData.forEach((data) => {
         if(!data.sources && (!data.style || data.style === '')) { return; }
 
@@ -239,7 +238,7 @@ const MainMap: React.FC<Props> = (props) => {
       map.remove();
     };
 
-  }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures, setMapObj, setSelectedBaseMap]);
+  }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures, setMapObj, setSelectedBaseMap, thirdPartyCatalogData]);
 
 
   /* ***************
@@ -449,7 +448,6 @@ const MainMap: React.FC<Props> = (props) => {
    * ***************/
   useEffect(() => {
     if (!map || !map.getStyle() || !map.getStyle().layers) return;
-    console.log(selectedThirdPartLayers);
 
     for (const data of thirdPartyCatalogData) {
       if(data.type === 'Category') {
@@ -476,7 +474,7 @@ const MainMap: React.FC<Props> = (props) => {
         }
       }
     }
-  }, [map, selectedThirdPartLayers]);
+  }, [map, selectedThirdPartLayers, thirdPartyCatalogData]);
 
 
   return (
