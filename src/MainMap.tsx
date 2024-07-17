@@ -257,11 +257,11 @@ const MainMap: React.FC<Props> = (props) => {
     Object.keys(map.getStyle().sources).forEach(key => { 
       // 表示されているデータを取得
       //（selectedLayersは、shortIdが入っていて比較ができない為、catalogDataと比較）
-      const isSlectedThirdParty = (thirdPartySource as ThirdPartyCatalogDataItem[]).some( data => key === data.sourceId );
+      const isSelectedThirdParty = (thirdPartySource as ThirdPartyCatalogDataItem[]).some( data => key === data.sourceId );
       if(
         catalogData.some(data => key.includes(data.id)) || 
         Object.keys(SOURCES).some(id => key.includes(SOURCES[id])) ||
-        isSlectedThirdParty
+        isSelectedThirdParty
       ) {
         nowSources[key] = map.getStyle().sources[key];
         nowLayers.push(...map.getStyle().layers.filter(layer => 
