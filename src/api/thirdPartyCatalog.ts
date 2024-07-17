@@ -1,3 +1,4 @@
+import { CatalogItem } from "./catalog"
 
 export type ThirdPartyCatalogDataItem = {
   type: "DataItem"
@@ -38,4 +39,9 @@ export function *walkThirdPartyCategories(data: ThirdPartyCatalogItem[]): Genera
       yield x;
     }
   }
+}
+
+
+export function isThirdPartyItem(item: ThirdPartyCatalogItem | CatalogItem): item is ThirdPartyCatalogItem {
+  return item.id.startsWith('thirdParty/');
 }

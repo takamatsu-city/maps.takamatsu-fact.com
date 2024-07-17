@@ -8,7 +8,7 @@ import { CatalogCategory, CatalogDataItem, CatalogItem, walkCategories } from '.
 import classNames from 'classnames';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { catalogDataAtom, selectedLayersAtom, selectedThirdPartyLayersAtom, thirdPartyCatalogAtom } from './atoms';
-import { ThirdPartyCatalogCategory, ThirdPartyCatalogDataItem, ThirdPartyCatalogItem, walkThirdPartyCategories } from './api/thirdPartyCatalog';
+import { isThirdPartyItem, ThirdPartyCatalogCategory, ThirdPartyCatalogDataItem, ThirdPartyCatalogItem, walkThirdPartyCategories } from './api/thirdPartyCatalog';
 
 type SidebarItemProps = {
   item: CatalogItem | ThirdPartyCatalogItem;
@@ -20,7 +20,7 @@ const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory |
   const [ selectedThirdPartyLayers, setSelectedThirdPartyLayers ] = useAtom(selectedThirdPartyLayersAtom);
   const { item } = props;
   const checkboxRef = useRef<HTMLInputElement>(null);
-  const isThirdParty = item.id.includes('thirdParty');
+  const isThirdParty = isThirdPartyItem(item);
 
   const shortIdsOfThisCategory = useMemo(() => {
     if(isThirdParty) { 
@@ -122,7 +122,7 @@ const DataSidebarItem: React.FC<SidebarItemProps & { item: CatalogDataItem | Thi
   const [ selectedLayers, setSelectedLayers ] = useAtom(selectedLayersAtom);
   const [ selectedThirdPartyLayers, setSelectedThirdPartyLayers ] = useAtom(selectedThirdPartyLayersAtom);
   const { item } = props;
-  const isThirdParty = item.id.includes('thirdParty');
+  const isThirdParty = isThirdPartyItem(item);
   const itemShortId = item.shortId;
   const isChecked = isThirdParty ? 
     selectedThirdPartyLayers.includes(item.shortId)
