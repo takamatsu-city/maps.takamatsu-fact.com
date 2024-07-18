@@ -2,7 +2,7 @@ import { atom } from 'jotai'
 import { atomWithHash } from 'jotai-location';
 import { decodeLayerList, encodeLayerList } from './utils/urlEncoding';
 import { getCatalog, CatalogFeature } from './api/catalog';
-import { THIRD_PARTY_CATALOG } from './thirdPartyCatalog';
+import { getThirdPartyCatalog } from './api/thirdPartyCatalog';
 
 export const selectedLayersAtom = atomWithHash<string[]>(
   'layers', [], {
@@ -20,11 +20,10 @@ export const selectedLayersAtom = atomWithHash<string[]>(
   }
 );
 
-export const selectedThirdPartLayersAtom = atom<string[]>([]);
-
+export const selectedThirdPartyLayersAtom = atom<string[]>([]);
 export const selectedFeaturesAtom = atom<CatalogFeature[]>([]);
 
 export const catalogDataAtom = atom(getCatalog);
-export const thirdPartyDataAtom = atom(THIRD_PARTY_CATALOG);
+export const thirdPartyCatalogAtom = atom(getThirdPartyCatalog);
 
 export const mapObjAtom = atom<maplibregl.Map | undefined>(undefined);

@@ -1,12 +1,12 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type * as maplibregl from 'maplibre-gl';
-import { walkCategories } from './api/catalog';
+import { CatalogDataItem, walkCategories } from './api/catalog';
 import { CustomStyle, customStyleToLineStringTemplate, customStyleToPointTemplate, customStyleToPolygonTemplate, DEFAULT_LINESTRING_STYLE, DEFAULT_POINT_STYLE, DEFAULT_POLYGON_STYLE, getCustomStyle, LayerTemplate, WEB_COLORS } from './utils/mapStyling';
 import CityOS__Takamatsu from './cityos/cityos_takamatsu';
 
 import { FaMountain } from "react-icons/fa";
 
-import { mapObjAtom, selectedThirdPartLayersAtom, thirdPartyDataAtom } from './atoms';
+import { mapObjAtom, selectedThirdPartyLayersAtom, thirdPartyCatalogAtom } from './atoms';
 
 import mapStyleConfig from './config/mapStyleConfig.json';
 import classNames from 'classnames';
@@ -14,6 +14,8 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { catalogDataAtom, selectedFeaturesAtom, selectedLayersAtom } from './atoms';
 import { MapStyleConfigType } from './config/mapStyleConfig';
 import { useSearchParams } from 'react-router-dom';
+import { addLayerStyle, removeLayerStyle } from './utils/mapStyleController';
+import { ThirdPartyCatalogDataItem, walkThirdPartyCategories } from './api/thirdPartyCatalog';
 
 declare global {
   interface Window {
@@ -63,7 +65,7 @@ const MainMap: React.FC<Props> = (props) => {
   const selectedLayers = useAtomValue(selectedLayersAtom);
   const setSelectedFeatures = useSetAtom(selectedFeaturesAtom);
   const catalogData = useAtomValue(catalogDataAtom);
-  const thirdPartyData = useAtomValue(thirdPartyDataAtom);
+  const thirdPartyCatalogData = useAtomValue(thirdPartyCatalogAtom);
   const [cityOS, setCityOS] = useState<CityOS__Takamatsu | undefined>(undefined);
   const mapContainer = useRef<HTMLDivElement>(null);
   const [show3dDem, setShow3dDem] = useState<boolean>(false);
@@ -71,11 +73,16 @@ const MainMap: React.FC<Props> = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialBaseMap = useRef<string | null>(null);
   const setMapObj = useSetAtom(mapObjAtom);
-  const [ selectedThirdPartLayers, setSelectedThirdPartLayers ] = useAtom(selectedThirdPartLayersAtom);
+  const [ selectedThirdPartLayers, setSelectedThirdPartLayers ] = useAtom(selectedThirdPartyLayersAtom);
 
   const catalogDataItems = useMemo(() => {
     return [...walkCategories(catalogData)];
   }, [catalogData]);
+
+  const thirdPartySource = useMemo(() => {
+    return [...walkThirdPartyCategories(thirdPartyCatalogData)];
+  }, [thirdPartyCatalogData]);
+
 
   /* ***************
    * 3Dボタンクリック時処理
@@ -116,7 +123,7 @@ const MainMap: React.FC<Props> = (props) => {
     const cityOS = new CityOS__Takamatsu(map);
     setCityOS(cityOS);
 
-    map.on("load", () => {
+    map.on("load", async () => {
       // Start add GSI DEM
       map.addSource('gsidem', {
         type: 'raster-dem',
@@ -161,6 +168,7 @@ const MainMap: React.FC<Props> = (props) => {
         url: "https://tileserver.geolonia.com/takamatsu_kihonzu_v1/tiles.json?key=YOUR-API-KEY"
       });
 
+
       const initialPitch = map.getPitch();
       setPitch(initialPitch);
       setShow3dDem(initialPitch > 0);
@@ -184,7 +192,7 @@ const MainMap: React.FC<Props> = (props) => {
       setSelectedFeatures(features.map(feature => {
         const catalogData = catalogDataItems.find(item => (
           item.type === "DataItem" && (
-            ((feature.source === 'takamatsu' || feature.properties._viewer_selectable === true) && item.class === feature.properties.class) ||
+            ((feature.source === 'takamatsu' || feature.properties._viewer_selectable === true) && (item as CatalogDataItem).class === feature.properties.class) ||
             ('customDataSource' in item && item.customDataSource === feature.source)
           )
         ));
@@ -206,7 +214,7 @@ const MainMap: React.FC<Props> = (props) => {
       map.remove();
     };
 
-  }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures, setMapObj, setSelectedBaseMap]);
+  }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures, setMapObj, setSelectedBaseMap, thirdPartyCatalogData]);
 
 
   /* ***************
@@ -245,23 +253,29 @@ const MainMap: React.FC<Props> = (props) => {
     const baseMap = selectedBaseMap;
     const nowSources: {[key: string]: any} = {};
     const nowLayers: any[] = [];
+
     Object.keys(map.getStyle().sources).forEach(key => { 
       // 表示されているデータを取得
       //（selectedLayersは、shortIdが入っていて比較ができない為、catalogDataと比較）
+      const isSelectedThirdParty = (thirdPartySource as ThirdPartyCatalogDataItem[]).some( data => key === data.sourceId );
       if(
         catalogData.some(data => key.includes(data.id)) || 
-        Object.keys(SOURCES).some(id => key.includes(SOURCES[id]))
+        Object.keys(SOURCES).some(id => key.includes(SOURCES[id])) ||
+        isSelectedThirdParty
       ) {
         nowSources[key] = map.getStyle().sources[key];
-        nowLayers.push(...map.getStyle().layers.filter(layer => (layer as any).source === key));
+        nowLayers.push(...map.getStyle().layers.filter(layer => 
+          (layer as any).source === key
+        ));
       }
     });
     
     map.setStyle(baseMap.endpoint, {
-      diff: true,
+      diff: false,
       transformStyle: (previousStyle, nextStyle) => {
         if(!previousStyle) { return nextStyle; }
         return {
+          ...previousStyle,
           ...nextStyle,
           sources: {
             ...nextStyle.sources,
@@ -292,14 +306,16 @@ const MainMap: React.FC<Props> = (props) => {
    * データの表示非表示
    * ***************/
   useEffect(() => {
-    if (!map) return;
+    if (!map || !map.getStyle()) return;
 
     let shouldStop = false;
     (async () => {
       let index = -1;
-      for (const definition of walkCategories(catalogData)) {
+      for (const data of walkCategories(catalogData)) {
         index += 1;
         if (shouldStop) return;
+
+        const definition = data;
 
         const definitionId = definition.id;
         const isSelected = selectedLayers.includes(definition.shortId);
@@ -407,28 +423,42 @@ const MainMap: React.FC<Props> = (props) => {
   
   }, [map, catalogData, selectedLayers, cityOS]);
 
+
+
   /* ***************
    * サードパーティーデータの表示非表示
    * ***************/
   useEffect(() => {
-    if (!map || !map.getStyle()) return;
+    if (!map || !map.getStyle() || !map.getStyle().layers) return;
 
-    for (const data of thirdPartyData) {
-      const nowStyle = map.getStyle();
-      const isSelect = selectedThirdPartLayers.includes(data.shortId);
-      const layers = nowStyle.layers;
-      for (let i = 0; i < layers.length; i++) {
-        const layer = layers[i];
-        if(!('layout' in layers[i]) || !layers[i]["layout"]) { continue; }
-        if('source' in layer && layer.source === data.class) {
-          layers[i]['layout'] = { ...layers[i]['layout'], 'visibility': isSelect ? 'visible' : 'none' };
+    for (const data of thirdPartyCatalogData) {
+      if(data.type === 'Category') {
+        data.items.forEach(item => {
+          if(!data.style || data.style === '') { return; }
+          const isSelect = selectedThirdPartLayers.includes(item.shortId);
+          if(isSelect) {
+            // 選択されていたら、レイヤーを追加
+            addLayerStyle(map, data.style, item.layers as string[], item.sourceId)
+          } else {
+            // 選択されていなかったら、レイヤーを削除
+            removeLayerStyle(map, item.layers as string[], item.sourceId);
+          }
+        });
+
+      } else {
+        if(!data.style || data.style === '') { continue; }
+        const isSelect = selectedThirdPartLayers.includes(data.shortId);
+        if(isSelect) {
+          addLayerStyle(map, data.style, data.layers as string[], data.sourceId);
+        } else {
+          // 選択されていなかったら、レイヤーを削除
+          removeLayerStyle(map, data.layers as string[], data.sourceId);
         }
       }
-
-      nowStyle.layers = layers;
-      map.setStyle(nowStyle, {diff: false});
     }
-  }, [map, thirdPartyData, selectedThirdPartLayers]);
+
+  }, [map, selectedThirdPartLayers, thirdPartyCatalogData]);
+
 
   return (
     <>

@@ -1,0 +1,19 @@
+[
+    {
+      "type": "Category",
+      "id": "thirdParty/OpenStreetMap",
+      "shortId": "Osm",
+      "name": "OpenStreetMap",
+      "style": "./thirdPartyStyle/osmStyle.json",
+      "items": [
+        {
+            "type": "DataItem",
+            "id": "thirdParty/OpenStreetMap/poi",
+            "shortId": "OP",
+            "name": "施設情報",
+            "layers": ["poi", "poi-z15", "poi-z14", "poi-z13"],
+            "sourceId": "v3"
+        }
+      ]
+    }
+]
