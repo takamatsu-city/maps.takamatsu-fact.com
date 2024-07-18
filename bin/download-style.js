@@ -28,14 +28,11 @@ const downloadStyle = async () => {
   const targetLayers = [];
 
   for (const layer of styleJson.layers) {
-    if(layer.source === 'v3') { continue; }
     // レイヤーのソースが削除対象のソースでなければ追加する
     if (!removeSourceIds.includes(layer["source-layer"]) || layer.id === 'landcover-wood') {
       targetLayers.push(layer);
     }
   }
-
-  delete styleJson.sources.v3;
   
   styleJson.layers = targetLayers;
   const styleJsonString = JSON.stringify(styleJson).replace('["!in","subclass","community_centre"],', "");
