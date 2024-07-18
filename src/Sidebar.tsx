@@ -24,9 +24,9 @@ const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory |
 
   const shortIdsOfThisCategory = useMemo(() => {
     if(isThirdParty) { 
-      return [...walkThirdPartyCategories((item as ThirdPartyCatalogCategory).items)].map(x => x.shortId);
+      return [...walkThirdPartyCategories(item.items)].map(x => x.shortId);
     } else {
-      return [...walkCategories((item as CatalogCategory).items)].map(x => x.shortId);
+      return [...walkCategories(item.items)].map(x => x.shortId);
     }
   }, [item, isThirdParty]);
 
