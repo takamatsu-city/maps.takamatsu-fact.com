@@ -139,7 +139,7 @@
             "layout": {
                 "text-padding": 2,
                 "text-font": [
-                    "Noto Sans Regular"
+                    "NotoSansJP-Regular"
                 ],
                 "icon-image": [
                     "coalesce",
@@ -221,7 +221,7 @@
             "layout": {
                 "text-padding": 2,
                 "text-font": [
-                    "Noto Sans Regular"
+                    "NotoSansJP-Regular"
                 ],
                 "text-anchor": "top",
                 "icon-anchor": "bottom",
@@ -302,7 +302,7 @@
             "layout": {
                 "text-padding": 2,
                 "text-font": [
-                    "Noto Sans Regular"
+                    "NotoSansJP-Regular"
                 ],
                 "text-anchor": "top",
                 "icon-anchor": "bottom",
@@ -381,7 +381,7 @@
             "layout": {
                 "text-padding": 2,
                 "text-font": [
-                    "Noto Sans Regular"
+                    "NotoSansJP-Regular"
                 ],
                 "text-anchor": "top",
                 "icon-anchor": "bottom",
