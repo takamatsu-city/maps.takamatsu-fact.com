@@ -1,0 +1,14 @@
+.container {
+  .notFound {
+    text-align: left;
+    padding: 26px;
+    color: #2B2B2B;
+    max-width: 1120px;
+    margin: auto;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+  }
+}
