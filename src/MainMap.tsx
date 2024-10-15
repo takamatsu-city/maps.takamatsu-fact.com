@@ -60,7 +60,6 @@ interface Props {
 
 const MainMap: React.FC<Props> = (props) => {
   const { selectedBaseMap, setSelectedBaseMap } = props;
-  const selectedBaseMapRef = useRef<MapStyleConfigType | undefined>(selectedBaseMap);
   const [map, setMap] = useState<maplibregl.Map | undefined>(undefined);
   const selectedLayers = useAtomValue(selectedLayersAtom);
   const setSelectedFeatures = useSetAtom(selectedFeaturesAtom);
@@ -71,7 +70,6 @@ const MainMap: React.FC<Props> = (props) => {
   const [show3dDem, setShow3dDem] = useState<boolean>(false);
   const [pitch, setPitch] = useState<number>(0);
   const [searchParams, setSearchParams] = useSearchParams();
-  const initialBaseMap = useRef<string | null>(null);
   const setMapObj = useSetAtom(mapObjAtom);
   const [ selectedThirdPartLayers, setSelectedThirdPartLayers ] = useAtom(selectedThirdPartyLayersAtom);
 
@@ -93,29 +91,47 @@ const MainMap: React.FC<Props> = (props) => {
     map.flyTo({ pitch: newPitch });
   }
 
-  useLayoutEffect(() => {
-    initialBaseMap.current = searchParams.get('baseMap');
+  const { initialCenter, initialZoom, initialPitch, initialBaseMap } = useMemo(() => {
+    const center = searchParams.get('center')?.split('/').map(v => parseFloat(v));
+    const zoomStr = searchParams.get('zoom');
+    const pitch = searchParams.get('pitch');
+    const zoom = zoomStr ? parseFloat(zoomStr) : undefined;
+    const baseMap = searchParams.get('baseMap');
+    const selectedFeature = searchParams.get('feature');
+    return {
+      initialCenter: center || [138.2953143924599, 34.827982509853456],
+      initialZoom: zoom || 11,
+      initialPitch: pitch ? parseFloat(pitch) : 0,
+      initialBaseMap: baseMap ? baseMap : undefined,
+      initialSelectedFeature: selectedFeature ? selectedFeature : undefined
+    };
   }, [searchParams]);
 
+
   useLayoutEffect(() => {
-    let baseMap;
-    if (!selectedBaseMapRef.current || selectedBaseMapRef.current.endpoint === '') {
-      const target = mapStyleConfig.find((style) => style.id === initialBaseMap.current);
+    let baseMap = selectedBaseMap;
+    if (!baseMap || baseMap.endpoint === '') {
+      const target = mapStyleConfig.find((style) => style.id === initialBaseMap);
       baseMap = target ? target : mapStyleConfig[0];
       setSelectedBaseMap(baseMap);
     }
-    
-    if(!baseMap) { return; }
+    console.log('baseMap', baseMap);
+    if (!baseMap) { return; }
 
     const map: maplibregl.Map = new window.geolonia.Map({
       container: mapContainer.current,
       style: baseMap.endpoint,
       hash: 'map',
-      center: [ 134.0403, 34.334 ],
       fitBoundsOptions: { padding: 50 },
+      center: initialCenter as maplibregl.LngLatLike,
+      // 意図せず傾き・回転を変更してしまうことを防ぐ
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       maxRotate: 0,
+      pitch: initialPitch,
+      zoom: initialZoom,
       minZoom: 9,
-      zoom: 9.2,
+      localIdeographFontFamily: 'sans-serif'
     });
 
     (window as any)._mainMap = map;
@@ -168,12 +184,12 @@ const MainMap: React.FC<Props> = (props) => {
         url: "https://tileserver.geolonia.com/takamatsu_kihonzu_v1/tiles.json?key=YOUR-API-KEY"
       });
 
-
       const initialPitch = map.getPitch();
       setPitch(initialPitch);
       setShow3dDem(initialPitch > 0);
 
       setMapObj(map);
+      console.log('map', map.getStyle());
       setMap(map);
     });
 
@@ -214,7 +230,7 @@ const MainMap: React.FC<Props> = (props) => {
       map.remove();
     };
 
-  }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures, setMapObj, setSelectedBaseMap, thirdPartyCatalogData]);
+  }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures, setMapObj, setSelectedBaseMap, thirdPartyCatalogData, selectedBaseMap, initialCenter, initialPitch, initialZoom, initialBaseMap]);
 
 
   /* ***************
@@ -301,127 +317,137 @@ const MainMap: React.FC<Props> = (props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map, catalogData, setSearchParams, selectedBaseMap]);
 
+  /* ***************
+   * map.getStyle()が表示されるのを待つ処理
+   * ***************/
+  function waitForMapStyle(map: any): Promise<any> {
+    return new Promise((resolve) => {
+      const checkMapStyle = () => {
+        if (map && map.getStyle()) {
+          resolve(map);
+        } else {
+          setTimeout(checkMapStyle, 100); // 100ms待機して再度確認
+        }
+      };
+      checkMapStyle();
+    });
+  }
+
 
   /* ***************
    * データの表示非表示
    * ***************/
   useEffect(() => {
-    if (!map || !map.getStyle()) return;
+    if (!map) return;
 
-    let shouldStop = false;
-    (async () => {
-      let index = -1;
-      for (const data of walkCategories(catalogData)) {
-        index += 1;
-        if (shouldStop) return;
-
-        const definition = data;
-
-        const definitionId = definition.id;
-        const isSelected = selectedLayers.includes(definition.shortId);
-
-        if ("liveLocationId" in definition) {
-          if (isSelected) {
-            const color = WEB_COLORS[index * 1999 % WEB_COLORS.length];
-            // CityOS SDK will take care of the data fetching
-            // and the map will be updated automatically.
-            // But we have to add a style layer to the map manually.
-            const sourceId = cityOS?.addLiveDataSet(definition.liveLocationId, {
-              featureFilter: (feature) => {
-                feature.properties ||= {};
-                feature.properties.class = definition.class;
-                feature.properties!._viewer_selectable = true;
-                return feature;
-              }
-            });
-            if (sourceId) {
-              map.addLayer({
-                id: `${sourceId}-points`,
-                type: 'circle',
-                source: sourceId,
-                paint: {
-                  'circle-radius': 7,
-                  'circle-color': color,
-                  'circle-opacity': .8,
-                  'circle-stroke-width': 1,
-                  'circle-stroke-color': 'gray',
-                  'circle-stroke-opacity': 1,
+    // map.getStyle()がtrueになるまで待つ
+    waitForMapStyle(map).then((map) => {
+      (async () => {
+        let index = -1;
+        for (const data of walkCategories(catalogData)) {
+          index += 1;
+          const definition = data;
+  
+          const definitionId = definition.id;
+          const isSelected = selectedLayers.includes(definition.shortId);
+  
+          if ("liveLocationId" in definition) {
+            if (isSelected) {
+              const color = WEB_COLORS[index * 1999 % WEB_COLORS.length];
+              // CityOS SDK will take care of the data fetching
+              // and the map will be updated automatically.
+              // But we have to add a style layer to the map manually.
+              const sourceId = cityOS?.addLiveDataSet(definition.liveLocationId, {
+                featureFilter: (feature) => {
+                  feature.properties ||= {};
+                  feature.properties.class = definition.class;
+                  feature.properties!._viewer_selectable = true;
+                  return feature;
                 }
               });
+              if (sourceId) {
+                map.addLayer({
+                  id: `${sourceId}-points`,
+                  type: 'circle',
+                  source: sourceId,
+                  paint: {
+                    'circle-radius': 7,
+                    'circle-color': color,
+                    'circle-opacity': .8,
+                    'circle-stroke-width': 1,
+                    'circle-stroke-color': 'gray',
+                    'circle-stroke-opacity': 1,
+                  }
+                });
+              }
+            } else {
+              cityOS?.removeLiveDataSet(definition.liveLocationId);
             }
-          } else {
-            cityOS?.removeLiveDataSet(definition.liveLocationId);
+            continue;
           }
-          continue;
-        }
-
-        let geojsonEndpoint: string | undefined = undefined;
-        if ("geojsonEndpoint" in definition) {
-          // this is a GeoJSON layer
-          geojsonEndpoint = definition.geojsonEndpoint;
-
-          const mapSource = map.getSource(definitionId);
-          if (!mapSource && isSelected) {
-            const geojsonResp = await fetch(geojsonEndpoint);
-            const geojson = await geojsonResp.json();
-            for (const feature of geojson.features) {
-              feature.properties.class = definition.class;
-              feature.properties._viewer_selectable = true;
-            }
-            map.addSource(definitionId, {
-              type: 'geojson',
-              data: geojson,
-            });
-          }
-        }
-
-        for (const [sublayerName, template] of LAYER_TEMPLATES) {
-          const fullLayerName = `takamatsu/${definitionId}/${sublayerName}`;
-          const mapLayers = map.getStyle().layers.filter((layer) => layer.id.startsWith(fullLayerName));
-          const customStyle = getCustomStyle(definition);
-          for (const subtemplate of template(index, customStyle)) {
-            if (mapLayers.length === 0 && isSelected) {
-              const filterExp: maplibregl.FilterSpecification = ["all", ["==", "$type", sublayerName]];
-              if (definition.class) {
-                filterExp.push(["==", "class", definition.class]);
-              }
-              if (subtemplate.filter) {
-                filterExp.push(subtemplate.filter as any);
-              }
-              const layerConfig: maplibregl.LayerSpecification = {
-                ...subtemplate,
-                filter: filterExp,
-                id: fullLayerName + subtemplate.id,
-              };
-              if (geojsonEndpoint) {
-                layerConfig.source = definitionId;
-                delete layerConfig['source-layer'];
-              } else if ('customDataSource' in definition) {
-                layerConfig.source = definition.customDataSource;
-                layerConfig['source-layer'] = definition.customDataSourceLayer || definition.customDataSource;
-              }
-              map.addLayer(layerConfig);
-
-              if (!map.getLayer(layerConfig.id)) {
-                console.error(`Failed to add layer ${layerConfig.id}!!!`);
-                debugger;
-              }
-            } else if (mapLayers.length > 0 && !isSelected) {
-              for (const mapLayer of mapLayers) {
-                map.removeLayer(mapLayer.id);
-              }
-            }
-          }
-        }
-      }
-    })();
-
-    return () => {
-      shouldStop = true;
-    }
-    
   
-  }, [map, catalogData, selectedLayers, cityOS]);
+          let geojsonEndpoint: string | undefined = undefined;
+          if ("geojsonEndpoint" in definition) {
+            // this is a GeoJSON layer
+            geojsonEndpoint = definition.geojsonEndpoint;
+  
+            const mapSource = map.getSource(definitionId);
+            if (!mapSource && isSelected) {
+              const geojsonResp = await fetch(geojsonEndpoint);
+              const geojson = await geojsonResp.json();
+              for (const feature of geojson.features) {
+                feature.properties.class = definition.class;
+                feature.properties._viewer_selectable = true;
+              }
+              map.addSource(definitionId, {
+                type: 'geojson',
+                data: geojson,
+              });
+            }
+          }
+  
+          for (const [sublayerName, template] of LAYER_TEMPLATES) {
+            const fullLayerName = `takamatsu/${definitionId}/${sublayerName}`;
+            const mapLayers = map.getStyle().layers.filter((layer: any) => layer.id.startsWith(fullLayerName));
+            const customStyle = getCustomStyle(definition);
+            for (const subtemplate of template(index, customStyle)) {
+              if (mapLayers.length === 0 && isSelected) {
+                const filterExp: maplibregl.FilterSpecification = ["all", ["==", "$type", sublayerName]];
+                if (definition.class) {
+                  filterExp.push(["==", "class", definition.class]);
+                }
+                if (subtemplate.filter) {
+                  filterExp.push(subtemplate.filter as any);
+                }
+                const layerConfig: maplibregl.LayerSpecification = {
+                  ...subtemplate,
+                  filter: filterExp,
+                  id: fullLayerName + subtemplate.id,
+                };
+                if (geojsonEndpoint) {
+                  layerConfig.source = definitionId;
+                  delete layerConfig['source-layer'];
+                } else if ('customDataSource' in definition) {
+                  layerConfig.source = definition.customDataSource;
+                  layerConfig['source-layer'] = definition.customDataSourceLayer || definition.customDataSource;
+                }
+                map.addLayer(layerConfig);
+  
+                if (!map.getLayer(layerConfig.id)) {
+                  console.error(`Failed to add layer ${layerConfig.id}!!!`);
+                  debugger;
+                }
+              } else if (mapLayers.length > 0 && !isSelected) {
+                for (const mapLayer of mapLayers) {
+                  map.removeLayer(mapLayer.id);
+                }
+              }
+            }
+          }
+        }
+      })();
+    });
+  }, [map, catalogData, selectedLayers, cityOS, selectedBaseMap]);
 
 
 
