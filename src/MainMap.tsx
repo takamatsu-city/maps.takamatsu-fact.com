@@ -99,7 +99,7 @@ const MainMap: React.FC<Props> = (props) => {
     const baseMap = searchParams.get('baseMap');
     const selectedFeature = searchParams.get('feature');
     return {
-      initialCenter: center || [138.2953143924599, 34.827982509853456],
+      initialCenter: center || [134.046550, 34.342788],
       initialZoom: zoom || 11,
       initialPitch: pitch ? parseFloat(pitch) : 0,
       initialBaseMap: baseMap ? baseMap : undefined,
