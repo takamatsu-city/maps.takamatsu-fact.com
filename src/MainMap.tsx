@@ -108,14 +108,14 @@ const MainMap: React.FC<Props> = (props) => {
   }, [searchParams]);
 
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     let baseMap = selectedBaseMap;
     if (!baseMap || baseMap.endpoint === '') {
       const target = mapStyleConfig.find((style) => style.id === initialBaseMap);
       baseMap = target ? target : mapStyleConfig[0];
       setSelectedBaseMap(baseMap);
     }
-    console.log('baseMap', baseMap);
+    
     if (!baseMap) { return; }
 
     const map: maplibregl.Map = new window.geolonia.Map({
@@ -189,7 +189,6 @@ const MainMap: React.FC<Props> = (props) => {
       setShow3dDem(initialPitch > 0);
 
       setMapObj(map);
-      console.log('map', map.getStyle());
       setMap(map);
     });
 
@@ -244,7 +243,12 @@ const MainMap: React.FC<Props> = (props) => {
       map.setTerrain({ 'source': SOURCES.TERRAIN_DEM_ID, 'exaggeration': 0 });
 
     } else if(pitch > BASE_PITCH && !map.getLayer(SOURCES.TERRAIN_DEM_ID)) {
-      const beforeLayer = map.getStyle().layers.find(layer => layer.id === 'park') ? 'park' : map.getStyle().layers[0].id;
+      let beforeLayer = undefined;
+
+      if(map.getStyle()) {
+        beforeLayer = map.getStyle().layers.find(layer => layer.id === 'park') ? 'park' : map.getStyle().layers[0].id;
+      }
+      
       map.addLayer({
         id: SOURCES.TERRAIN_DEM_ID,
         type: 'hillshade',
@@ -264,7 +268,7 @@ const MainMap: React.FC<Props> = (props) => {
   /* ***************
    * ベースマップ選択時の処理
    * ***************/
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!map || !selectedBaseMap || !map.getStyle()) { return; }
     const baseMap = selectedBaseMap;
     const nowSources: {[key: string]: any} = {};
@@ -313,6 +317,8 @@ const MainMap: React.FC<Props> = (props) => {
       prev.set('baseMap', baseMap.id);
       return prev;
     });
+
+    map.on('styledata', () => {console.log('styledata', map.getStyle())});
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map, catalogData, setSearchParams, selectedBaseMap]);
