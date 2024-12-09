@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type * as maplibregl from 'maplibre-gl';
 import { CatalogDataItem, walkCategories } from './api/catalog';
 import { CustomStyle, customStyleToLineStringTemplate, customStyleToPointTemplate, customStyleToPolygonTemplate, DEFAULT_LINESTRING_STYLE, DEFAULT_POINT_STYLE, DEFAULT_POLYGON_STYLE, getCustomStyle, LayerTemplate, WEB_COLORS } from './utils/mapStyling';
@@ -108,14 +108,14 @@ const MainMap: React.FC<Props> = (props) => {
   }, [searchParams]);
 
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     let baseMap = selectedBaseMap;
     if (!baseMap || baseMap.endpoint === '') {
       const target = mapStyleConfig.find((style) => style.id === initialBaseMap);
       baseMap = target ? target : mapStyleConfig[0];
       setSelectedBaseMap(baseMap);
     }
-    console.log('baseMap', baseMap);
+    
     if (!baseMap) { return; }
 
     const map: maplibregl.Map = new window.geolonia.Map({
@@ -189,7 +189,6 @@ const MainMap: React.FC<Props> = (props) => {
       setShow3dDem(initialPitch > 0);
 
       setMapObj(map);
-      console.log('map', map.getStyle());
       setMap(map);
     });
 
@@ -244,18 +243,23 @@ const MainMap: React.FC<Props> = (props) => {
       map.setTerrain({ 'source': SOURCES.TERRAIN_DEM_ID, 'exaggeration': 0 });
 
     } else if(pitch > BASE_PITCH && !map.getLayer(SOURCES.TERRAIN_DEM_ID)) {
-      const beforeLayer = map.getStyle().layers.find(layer => layer.id === 'park') ? 'park' : map.getStyle().layers[0].id;
-      map.addLayer({
-        id: SOURCES.TERRAIN_DEM_ID,
-        type: 'hillshade',
-        source: SOURCES.TERRAIN_DEM_ID,
-        paint: {
-          'hillshade-exaggeration': 0.5,
-          'hillshade-shadow-color': 'rgba(71, 59, 36, 0.1)',
-        }
-      }, beforeLayer);
-      setShow3dDem(true);
-      map.setTerrain({ 'source': SOURCES.TERRAIN_DEM_ID, 'exaggeration': 1 });
+
+      map.on('idle', () => {
+        const beforeLayer = map.getStyle().layers.find(layer => layer.id === 'park') ? 'park' : map.getStyle().layers[0].id;
+      
+        map.addLayer({
+          id: SOURCES.TERRAIN_DEM_ID,
+          type: 'hillshade',
+          source: SOURCES.TERRAIN_DEM_ID,
+          paint: {
+            'hillshade-exaggeration': 0.5,
+            'hillshade-shadow-color': 'rgba(71, 59, 36, 0.1)',
+          }
+        }, beforeLayer);
+        setShow3dDem(true);
+        map.setTerrain({ 'source': SOURCES.TERRAIN_DEM_ID, 'exaggeration': 1 });
+      });
+      
     }
 
   }, [map, pitch])
@@ -264,7 +268,7 @@ const MainMap: React.FC<Props> = (props) => {
   /* ***************
    * ベースマップ選択時の処理
    * ***************/
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!map || !selectedBaseMap || !map.getStyle()) { return; }
     const baseMap = selectedBaseMap;
     const nowSources: {[key: string]: any} = {};
