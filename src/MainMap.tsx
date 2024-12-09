@@ -60,7 +60,7 @@ interface Props {
 
 const MainMap: React.FC<Props> = (props) => {
   const { selectedBaseMap, setSelectedBaseMap } = props;
-  const [map, setMap] = useState<maplibregl.Map | undefined>(undefined);
+  // const [map, setMap] = useState<maplibregl.Map | undefined>(undefined);
   const selectedLayers = useAtomValue(selectedLayersAtom);
   const setSelectedFeatures = useSetAtom(selectedFeaturesAtom);
   const catalogData = useAtomValue(catalogDataAtom);
@@ -70,7 +70,7 @@ const MainMap: React.FC<Props> = (props) => {
   const [show3dDem, setShow3dDem] = useState<boolean>(false);
   const [pitch, setPitch] = useState<number>(0);
   const [searchParams, setSearchParams] = useSearchParams();
-  const setMapObj = useSetAtom(mapObjAtom);
+  const [map, setMap] = useAtom(mapObjAtom);
   const [ selectedThirdPartLayers, setSelectedThirdPartLayers ] = useAtom(selectedThirdPartyLayersAtom);
 
   const catalogDataItems = useMemo(() => {
@@ -109,127 +109,128 @@ const MainMap: React.FC<Props> = (props) => {
 
 
   useEffect(() => {
-    let baseMap = selectedBaseMap;
-    if (!baseMap || baseMap.endpoint === '') {
+    if(!map) {
       const target = mapStyleConfig.find((style) => style.id === initialBaseMap);
-      baseMap = target ? target : mapStyleConfig[0];
+      const baseMap = target ? target : mapStyleConfig[0];
       setSelectedBaseMap(baseMap);
+
+      const map: maplibregl.Map = new window.geolonia.Map({
+        container: mapContainer.current,
+        style: baseMap.endpoint,
+        hash: 'map',
+        fitBoundsOptions: { padding: 50 },
+        center: initialCenter as maplibregl.LngLatLike,
+        // 意図せず傾き・回転を変更してしまうことを防ぐ
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
+        maxRotate: 0,
+        pitch: initialPitch,
+        zoom: initialZoom,
+        minZoom: 9,
+        localIdeographFontFamily: 'sans-serif'
+      });
+
+      (window as any)._mainMap = map;
+
+      const cityOS = new CityOS__Takamatsu(map);
+      setCityOS(cityOS);
+
+      map.on("load", async () => {
+
+        // Start add GSI DEM
+        if (!map.getSource('gsidem')) {
+          map.addSource('gsidem', {
+            type: 'raster-dem',
+            url: 'https://tileserver.geolonia.com/gsi-dem/tiles.json?key=YOUR-API-KEY',
+          });
+        }
+        // End add GSI DEM
+
+        // マスクレイヤーの追加
+        if (!map.getSource(SOURCES.NEGATIVE_MASK_ID)) {
+          map.addSource(SOURCES.NEGATIVE_MASK_ID, {
+            type: 'vector',
+            url: 'https://tileserver.geolonia.com/takamatsu_negative_mask/tiles.json?key=YOUR-API-KEY',
+          });
+          map.addLayer({
+            id: `${SOURCES.NEGATIVE_MASK_ID}-layer`,
+            source: SOURCES.NEGATIVE_MASK_ID,
+            'source-layer': 'negativecitymask',
+            type: 'fill',
+            paint: {
+              'fill-color': '#0079C4',
+              'fill-opacity': .3,
+            }
+          });
+          map.addLayer({
+            id: `${SOURCES.NEGATIVE_MASK_ID}-layer-border`,
+            source: SOURCES.NEGATIVE_MASK_ID,
+            'source-layer': 'negativecitymask',
+            type: 'line',
+            paint: {
+              'line-color': '#0079C4',
+              'line-opacity': 0.5,
+              'line-width': 2,
+            }
+          });
+        }
+
+        if (!map.getSource(SOURCES.MUNICIPALITY_ID)) {
+          map.addSource(SOURCES.MUNICIPALITY_ID, {
+            type: 'vector',
+            url: "https://tileserver.geolonia.com/takamatsu_main_v0_1/tiles.json?key=YOUR-API-KEY"
+          });
+        }
+
+        if (!map.getSource(SOURCES.KIHONZU)) {
+          map.addSource(SOURCES.KIHONZU, {
+            type: 'vector',
+            url: "https://tileserver.geolonia.com/takamatsu_kihonzu_v1/tiles.json?key=YOUR-API-KEY"
+          });
+        }
+
+        const initialPitch = map.getPitch();
+        setPitch(initialPitch);
+        setShow3dDem(initialPitch > 0);
+
+        setMap(map);
+      });
+
+      map.on('click', (e) => {
+        const features = map
+          .queryRenderedFeatures(e.point)
+          .filter(feature => (
+            feature.source === 'takamatsu' ||
+            feature.source === 'kihonzu' ||
+            feature.properties._viewer_selectable === true
+          ));
+        if (features.length === 0) {
+          setSelectedFeatures([]);
+          return;
+        }
+        setSelectedFeatures(features.map(feature => {
+          const catalogData = catalogDataItems.find(item => (
+            item.type === "DataItem" && (
+              ((feature.source === 'takamatsu' || feature.properties._viewer_selectable === true) && (item as CatalogDataItem).class === feature.properties.class) ||
+              ('customDataSource' in item && item.customDataSource === feature.source)
+            )
+          ));
+          if (!catalogData) {
+            throw new Error(`Catalog data not available for feature: ${feature}`);
+          }
+          return {
+            catalog: catalogData,
+            properties: feature.properties,
+          };
+        }));
+      });
+
+      map.on('pitchend', (e) => {
+        setPitch(e.target.getPitch());
+      })
     }
-    
-    if (!baseMap) { return; }
 
-    const map: maplibregl.Map = new window.geolonia.Map({
-      container: mapContainer.current,
-      style: baseMap.endpoint,
-      hash: 'map',
-      fitBoundsOptions: { padding: 50 },
-      center: initialCenter as maplibregl.LngLatLike,
-      // 意図せず傾き・回転を変更してしまうことを防ぐ
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
-      maxRotate: 0,
-      pitch: initialPitch,
-      zoom: initialZoom,
-      minZoom: 9,
-      localIdeographFontFamily: 'sans-serif'
-    });
-
-    (window as any)._mainMap = map;
-
-    const cityOS = new CityOS__Takamatsu(map);
-    setCityOS(cityOS);
-
-    map.on("load", async () => {
-      // Start add GSI DEM
-      map.addSource('gsidem', {
-        type: 'raster-dem',
-        url: 'https://tileserver.geolonia.com/gsi-dem/tiles.json?key=YOUR-API-KEY',
-      });
-      // End add GSI DEM
-
-      // マスクレイヤーの追加
-      map.addSource(SOURCES.NEGATIVE_MASK_ID, {
-        type: 'vector',
-        url: 'https://tileserver.geolonia.com/takamatsu_negative_mask/tiles.json?key=YOUR-API-KEY',
-      })
-      map.addLayer({
-        id: `${SOURCES.NEGATIVE_MASK_ID}-layer`,
-        source: SOURCES.NEGATIVE_MASK_ID,
-        'source-layer': 'negativecitymask',
-        type: 'fill',
-        paint: {
-          'fill-color': '#0079C4',
-          'fill-opacity': .3,
-        }
-      });
-      map.addLayer({
-        id: `${SOURCES.NEGATIVE_MASK_ID}-layer-border`,
-        source: SOURCES.NEGATIVE_MASK_ID,
-        'source-layer': 'negativecitymask',
-        type: 'line',
-        paint: {
-          'line-color': '#0079C4',
-          'line-opacity': 0.5,
-          'line-width': 2,
-        }
-      })
-
-      map.addSource(SOURCES.MUNICIPALITY_ID, {
-        type: 'vector',
-        url: "https://tileserver.geolonia.com/takamatsu_main_v0_1/tiles.json?key=YOUR-API-KEY"
-      });
-
-      map.addSource(SOURCES.KIHONZU, {
-        type: 'vector',
-        url: "https://tileserver.geolonia.com/takamatsu_kihonzu_v1/tiles.json?key=YOUR-API-KEY"
-      });
-
-      const initialPitch = map.getPitch();
-      setPitch(initialPitch);
-      setShow3dDem(initialPitch > 0);
-
-      setMapObj(map);
-      setMap(map);
-    });
-
-    map.on('click', (e) => {
-      const features = map
-        .queryRenderedFeatures(e.point)
-        .filter(feature => (
-          feature.source === 'takamatsu' ||
-          feature.source === 'kihonzu' ||
-          feature.properties._viewer_selectable === true
-        ));
-      if (features.length === 0) {
-        setSelectedFeatures([]);
-        return;
-      }
-      setSelectedFeatures(features.map(feature => {
-        const catalogData = catalogDataItems.find(item => (
-          item.type === "DataItem" && (
-            ((feature.source === 'takamatsu' || feature.properties._viewer_selectable === true) && (item as CatalogDataItem).class === feature.properties.class) ||
-            ('customDataSource' in item && item.customDataSource === feature.source)
-          )
-        ));
-        if (!catalogData) {
-          throw new Error(`Catalog data not available for feature: ${feature}`);
-        }
-        return {
-          catalog: catalogData,
-          properties: feature.properties,
-        };
-      }));
-    });
-
-    map.on('pitchend', (e) => {
-      setPitch(e.target.getPitch());
-    })
-
-    return () => {
-      map.remove();
-    };
-
-  }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures, setMapObj, setSelectedBaseMap, thirdPartyCatalogData, selectedBaseMap, initialCenter, initialPitch, initialZoom, initialBaseMap]);
+  }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures, setSelectedBaseMap, thirdPartyCatalogData, map, initialCenter, initialPitch, initialZoom, initialBaseMap]);
 
 
   /* ***************
@@ -239,27 +240,21 @@ const MainMap: React.FC<Props> = (props) => {
     if(!map) { return; }
     if(pitch === BASE_PITCH && map.getLayer(SOURCES.TERRAIN_DEM_ID)) {
       map.removeLayer(SOURCES.TERRAIN_DEM_ID);
-      setShow3dDem(false);
       map.setTerrain({ 'source': SOURCES.TERRAIN_DEM_ID, 'exaggeration': 0 });
+      setShow3dDem(false);
 
     } else if(pitch > BASE_PITCH && !map.getLayer(SOURCES.TERRAIN_DEM_ID)) {
-
-      map.on('idle', () => {
-        const beforeLayer = map.getStyle().layers.find(layer => layer.id === 'park') ? 'park' : map.getStyle().layers[0].id;
-      
-        map.addLayer({
-          id: SOURCES.TERRAIN_DEM_ID,
-          type: 'hillshade',
-          source: SOURCES.TERRAIN_DEM_ID,
-          paint: {
-            'hillshade-exaggeration': 0.5,
-            'hillshade-shadow-color': 'rgba(71, 59, 36, 0.1)',
-          }
-        }, beforeLayer);
-        setShow3dDem(true);
-        map.setTerrain({ 'source': SOURCES.TERRAIN_DEM_ID, 'exaggeration': 1 });
+      map.addLayer({
+        id: SOURCES.TERRAIN_DEM_ID,
+        type: 'hillshade',
+        source: SOURCES.TERRAIN_DEM_ID,
+        paint: {
+          'hillshade-exaggeration': 0.5,
+          'hillshade-shadow-color': 'rgba(71, 59, 36, 0.1)',
+        }
       });
-      
+      map.setTerrain({ 'source': SOURCES.TERRAIN_DEM_ID, 'exaggeration': 1 });
+      setShow3dDem(true);
     }
 
   }, [map, pitch])
