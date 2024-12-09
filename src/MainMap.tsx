@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type * as maplibregl from 'maplibre-gl';
 import { CatalogDataItem, walkCategories } from './api/catalog';
 import { CustomStyle, customStyleToLineStringTemplate, customStyleToPointTemplate, customStyleToPolygonTemplate, DEFAULT_LINESTRING_STYLE, DEFAULT_POINT_STYLE, DEFAULT_POLYGON_STYLE, getCustomStyle, LayerTemplate, WEB_COLORS } from './utils/mapStyling';
@@ -243,23 +243,23 @@ const MainMap: React.FC<Props> = (props) => {
       map.setTerrain({ 'source': SOURCES.TERRAIN_DEM_ID, 'exaggeration': 0 });
 
     } else if(pitch > BASE_PITCH && !map.getLayer(SOURCES.TERRAIN_DEM_ID)) {
-      let beforeLayer = undefined;
 
-      if(map.getStyle()) {
-        beforeLayer = map.getStyle().layers.find(layer => layer.id === 'park') ? 'park' : map.getStyle().layers[0].id;
-      }
+      map.on('idle', () => {
+        const beforeLayer = map.getStyle().layers.find(layer => layer.id === 'park') ? 'park' : map.getStyle().layers[0].id;
       
-      map.addLayer({
-        id: SOURCES.TERRAIN_DEM_ID,
-        type: 'hillshade',
-        source: SOURCES.TERRAIN_DEM_ID,
-        paint: {
-          'hillshade-exaggeration': 0.5,
-          'hillshade-shadow-color': 'rgba(71, 59, 36, 0.1)',
-        }
-      }, beforeLayer);
-      setShow3dDem(true);
-      map.setTerrain({ 'source': SOURCES.TERRAIN_DEM_ID, 'exaggeration': 1 });
+        map.addLayer({
+          id: SOURCES.TERRAIN_DEM_ID,
+          type: 'hillshade',
+          source: SOURCES.TERRAIN_DEM_ID,
+          paint: {
+            'hillshade-exaggeration': 0.5,
+            'hillshade-shadow-color': 'rgba(71, 59, 36, 0.1)',
+          }
+        }, beforeLayer);
+        setShow3dDem(true);
+        map.setTerrain({ 'source': SOURCES.TERRAIN_DEM_ID, 'exaggeration': 1 });
+      });
+      
     }
 
   }, [map, pitch])
@@ -317,8 +317,6 @@ const MainMap: React.FC<Props> = (props) => {
       prev.set('baseMap', baseMap.id);
       return prev;
     });
-
-    map.on('styledata', () => {console.log('styledata', map.getStyle())});
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map, catalogData, setSearchParams, selectedBaseMap]);
