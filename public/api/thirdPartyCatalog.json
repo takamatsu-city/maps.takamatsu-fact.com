@@ -1,19 +1,217 @@
 [
-    {
-      "type": "Category",
-      "id": "thirdParty/OpenStreetMap",
-      "shortId": "Osm",
-      "name": "OpenStreetMap",
-      "style": "./thirdPartyStyle/osmStyle.json",
-      "items": [
-        {
+  {
+    "type": "Category",
+    "id": "thirdParty/OpenStreetMap",
+    "shortId": "Osm",
+    "name": "OpenStreetMap",
+    "style": "./thirdPartyStyle/osmStyle.json",
+    "items": [
+      {
+          "type": "DataItem",
+          "id": "thirdParty/OpenStreetMap/poi",
+          "shortId": "OP",
+          "name": "施設情報",
+          "layers": ["poi", "poi-z15", "poi-z14", "poi-z13"],
+          "sourceId": "v3"
+      }
+    ]
+  },
+  {
+    "type": "Category",
+    "id": "thirdParty/国土数値情報",
+    "shortId": "KOK",
+    "name": "国土数値情報",
+    "style": "./thirdPartyStyle/kokudoSuuchiStyle.json",
+    "items": [
+      {
+        "type": "DataItem",
+        "id": "thirdParty/国土数値情報/学校",
+        "shortId": "ZXS",
+        "name": "学校",
+        "layers": [
+          "国土数値情報--学校"
+        ],
+        "sourceId": "ksj_takamatsu"
+      },
+      {
+        "type": "DataItem",
+        "id": "thirdParty/国土数値情報/中学校区",
+        "shortId": "EBC",
+        "name": "中学校区",
+        "layers": [
+          "国土数値情報--中学校区"
+        ],
+        "sourceId": "ksj_takamatsu"
+      },
+      {
+        "type": "DataItem",
+        "id": "thirdParty/国土数値情報/小学校区",
+        "shortId": "WHH",
+        "name": "小学校区",
+        "layers": [
+          "国土数値情報--小学校区"
+        ],
+        "sourceId": "ksj_takamatsu"
+      },
+      {
+        "type": "DataItem",
+        "id": "thirdParty/国土数値情報/土砂災害警戒区域",
+        "shortId": "MJV",
+        "name": "土砂災害警戒区域",
+        "layers": [
+          "国土数値情報--土砂災害警戒区域"
+        ],
+        "sourceId": "ksj_takamatsu"
+      },
+      {
+        "type": "DataItem",
+        "id": "thirdParty/国土数値情報/大規模盛土造成地",
+        "shortId": "DRN",
+        "name": "大規模盛土造成地",
+        "layers": [
+          "国土数値情報--大規模盛土造成地"
+        ],
+        "sourceId": "ksj_takamatsu"
+      },
+      {
+        "type": "Category",
+        "id": "thirdParty/国土数値情報/都市計画決定情報",
+        "shortId": "TKK",
+        "name": "都市計画決定情報",
+        "style": "./thirdPartyStyle/kokudoSuuchiStyle.json",
+        "items": [
+          {
             "type": "DataItem",
-            "id": "thirdParty/OpenStreetMap/poi",
-            "shortId": "OP",
-            "name": "施設情報",
-            "layers": ["poi", "poi-z15", "poi-z14", "poi-z13"],
-            "sourceId": "v3"
-        }
-      ]
-    }
+            "id": "thirdParty/国土数値情報/都市計画決定情報/防火・準防火地域",
+            "shortId": "SMF",
+            "name": "防火・準防火地域",
+            "layers": [
+              "国土数値情報-都市計画決定情報-防火・準防火地域"
+            ],
+            "sourceId": "ksj_takamatsu",
+            "metadata": {
+              "color": "#00ff00"
+            }
+          },
+          {
+            "type": "DataItem",
+            "id": "thirdParty/国土数値情報/都市計画決定情報/地区計画",
+            "shortId": "TBX",
+            "name": "地区計画",
+            "layers": [
+              "国土数値情報-都市計画決定情報-地区計画"
+            ],
+            "sourceId": "ksj_takamatsu",
+            "metadata": {
+              "color": "#00ff00"
+            }
+          },
+          {
+            "type": "DataItem",
+            "id": "thirdParty/国土数値情報/都市計画決定情報/都市計画道路",
+            "shortId": "OLB",
+            "name": "都市計画道路",
+            "layers": [
+              "国土数値情報-都市計画決定情報-都市計画道路"
+            ],
+            "sourceId": "ksj_takamatsu",
+            "metadata": {
+              "color": "#00ff00"
+            }
+          },
+          {
+            "type": "DataItem",
+            "id": "thirdParty/国土数値情報/都市計画決定情報/高度利用地区",
+            "shortId": "LJS",
+            "name": "高度利用地区",
+            "layers": [
+              "国土数値情報-都市計画決定情報-高度利用地区"
+            ],
+            "sourceId": "ksj_takamatsu",
+            "metadata": {
+              "color": "#00ff00"
+            }
+          },
+          {
+            "type": "DataItem",
+            "id": "thirdParty/国土数値情報/都市計画決定情報/都市公園",
+            "shortId": "REQ",
+            "name": "都市公園",
+            "layers": [
+              "国土数値情報-都市計画決定情報-都市公園"
+            ],
+            "sourceId": "ksj_takamatsu",
+            "metadata": {
+              "color": "#00ff00"
+            }
+          },
+          {
+            "type": "DataItem",
+            "id": "thirdParty/国土数値情報/都市計画決定情報/立地適正化計画",
+            "shortId": "QWI",
+            "name": "立地適正化計画",
+            "layers": [
+              "国土数値情報-都市計画決定情報-立地適正化計画"
+            ],
+            "sourceId": "ksj_takamatsu",
+            "metadata": {
+              "color": "#00ff00"
+            }
+          },
+          {
+            "type": "DataItem",
+            "id": "thirdParty/国土数値情報/都市計画決定情報/特別用途地区",
+            "shortId": "MUV",
+            "name": "特別用途地区",
+            "layers": [
+              "国土数値情報-都市計画決定情報-特別用途地区"
+            ],
+            "sourceId": "ksj_takamatsu",
+            "metadata": {
+              "color": "#00ff00"
+            }
+          },
+          {
+            "type": "DataItem",
+            "id": "thirdParty/国土数値情報/都市計画決定情報/土地区画整理事業",
+            "shortId": "EVZ",
+            "name": "土地区画整理事業",
+            "layers": [
+              "国土数値情報-都市計画決定情報-土地区画整理事業"
+            ],
+            "sourceId": "ksj_takamatsu",
+            "metadata": {
+              "color": "#00ff00"
+            }
+          },
+          {
+            "type": "DataItem",
+            "id": "thirdParty/国土数値情報/都市計画決定情報/都市計画区域",
+            "shortId": "RVJ",
+            "name": "都市計画区域",
+            "layers": [
+              "国土数値情報-都市計画決定情報-都市計画区域"
+            ],
+            "sourceId": "ksj_takamatsu",
+            "metadata": {
+              "color": "#00ff00"
+            }
+          },
+          {
+            "type": "DataItem",
+            "id": "thirdParty/国土数値情報/都市計画決定情報/用途地域",
+            "shortId": "HCB",
+            "name": "用途地域",
+            "layers": [
+              "国土数値情報-都市計画決定情報-用途地域"
+            ],
+            "sourceId": "ksj_takamatsu",
+            "metadata": {
+              "color": "#00ff00"
+            }
+          }
+        ]
+      }
+    ]
+  }
 ]

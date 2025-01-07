@@ -84,7 +84,7 @@ const MainMap: React.FC<Props> = (props) => {
 
   /* ***************
    * 3Dボタンクリック時処理
-   * ***************/ 
+   * ***************/
   const onClick3dBtn = async () => {
     if(!map) { return; }
     const newPitch = show3dDem ? 0 : 60;
@@ -269,22 +269,22 @@ const MainMap: React.FC<Props> = (props) => {
     const nowSources: {[key: string]: any} = {};
     const nowLayers: any[] = [];
 
-    Object.keys(map.getStyle().sources).forEach(key => { 
+    Object.keys(map.getStyle().sources).forEach(key => {
       // 表示されているデータを取得
       //（selectedLayersは、shortIdが入っていて比較ができない為、catalogDataと比較）
       const isSelectedThirdParty = (thirdPartySource as ThirdPartyCatalogDataItem[]).some( data => key === data.sourceId );
       if(
-        catalogData.some(data => key.includes(data.id)) || 
+        catalogData.some(data => key.includes(data.id)) ||
         Object.keys(SOURCES).some(id => key.includes(SOURCES[id])) ||
         isSelectedThirdParty
       ) {
         nowSources[key] = map.getStyle().sources[key];
-        nowLayers.push(...map.getStyle().layers.filter(layer => 
+        nowLayers.push(...map.getStyle().layers.filter(layer =>
           (layer as any).source === key
         ));
       }
     });
-    
+
     map.setStyle(baseMap.endpoint, {
       diff: false,
       transformStyle: (previousStyle, nextStyle) => {
@@ -346,10 +346,10 @@ const MainMap: React.FC<Props> = (props) => {
         for (const data of walkCategories(catalogData)) {
           index += 1;
           const definition = data;
-  
+
           const definitionId = definition.id;
           const isSelected = selectedLayers.includes(definition.shortId);
-  
+
           if ("liveLocationId" in definition) {
             if (isSelected) {
               const color = WEB_COLORS[index * 1999 % WEB_COLORS.length];
@@ -384,12 +384,12 @@ const MainMap: React.FC<Props> = (props) => {
             }
             continue;
           }
-  
+
           let geojsonEndpoint: string | undefined = undefined;
           if ("geojsonEndpoint" in definition) {
             // this is a GeoJSON layer
             geojsonEndpoint = definition.geojsonEndpoint;
-  
+
             const mapSource = map.getSource(definitionId);
             if (!mapSource && isSelected) {
               const geojsonResp = await fetch(geojsonEndpoint);
@@ -404,7 +404,7 @@ const MainMap: React.FC<Props> = (props) => {
               });
             }
           }
-  
+
           for (const [sublayerName, template] of LAYER_TEMPLATES) {
             const fullLayerName = `takamatsu/${definitionId}/${sublayerName}`;
             const mapLayers = map.getStyle().layers.filter((layer: any) => layer.id.startsWith(fullLayerName));
@@ -431,7 +431,7 @@ const MainMap: React.FC<Props> = (props) => {
                   layerConfig['source-layer'] = definition.customDataSourceLayer || definition.customDataSource;
                 }
                 map.addLayer(layerConfig);
-  
+
                 if (!map.getLayer(layerConfig.id)) {
                   console.error(`Failed to add layer ${layerConfig.id}!!!`);
                   debugger;
@@ -456,30 +456,30 @@ const MainMap: React.FC<Props> = (props) => {
   useEffect(() => {
     if (!map || !map.getStyle() || !map.getStyle().layers) return;
 
-    for (const data of thirdPartyCatalogData) {
-      if(data.type === 'Category') {
-        data.items.forEach(item => {
-          if(!data.style || data.style === '') { return; }
-          const isSelect = selectedThirdPartLayers.includes(item.shortId);
-          if(isSelect) {
-            // 選択されていたら、レイヤーを追加
-            addLayerStyle(map, data.style, item.layers as string[], item.sourceId)
+    const processCategory = (data: any) => {
+      if (data.type === 'Category') {
+        data.items.forEach((item: { type: string; shortId: string; layers: string[]; sourceId: string }) => {
+          if (item.type === 'Category') {
+            processCategory(item);
           } else {
-            // 選択されていなかったら、レイヤーを削除
-            removeLayerStyle(map, item.layers as string[], item.sourceId);
+            // DataItemの場合の処理
+            if(!data.style || data.style === '') { return; }
+            const isSelect = selectedThirdPartLayers.includes(item.shortId);
+            if(isSelect) {
+              // 選択されていたら、レイヤーを追加
+              addLayerStyle(map, data.style, item.layers as string[], item.sourceId)
+            } else {
+              // 選択されていなかったら、レイヤーを削除
+              removeLayerStyle(map, item.layers as string[], item.sourceId);
+            }
           }
         });
-
-      } else {
-        if(!data.style || data.style === '') { continue; }
-        const isSelect = selectedThirdPartLayers.includes(data.shortId);
-        if(isSelect) {
-          addLayerStyle(map, data.style, data.layers as string[], data.sourceId);
-        } else {
-          // 選択されていなかったら、レイヤーを削除
-          removeLayerStyle(map, data.layers as string[], data.sourceId);
-        }
       }
+    };
+
+    // 全てのデータに対して再帰的に処理を実行
+    for (const data of thirdPartyCatalogData) {
+      processCategory(data);
     }
 
   }, [map, selectedThirdPartLayers, thirdPartyCatalogData]);

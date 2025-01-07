@@ -36,17 +36,7 @@ export const addLayerStyle = (mapObj: maplibregl.Map, style: string, layers: str
  * スタイルを削除する
  * ******************/
 export const removeLayerStyle = (mapObj: maplibregl.Map, layers: string[], sourceId: string) => {
-    mapObj.setStyle(mapObj.getStyle(), {
-      transformStyle: (previousStyle, nextStyle) => {
-        if(!previousStyle) { return nextStyle; }
-        if(!nextStyle) { return previousStyle; }
-        delete previousStyle.sources[sourceId];
-        return {
-          ...previousStyle,
-          layers: [
-            ...nextStyle.layers.filter(layer => !layers.includes(layer.id))
-          ]
-        };
-      }
-    });
+  for (const layer of layers) {
+    mapObj.removeLayer(layer);
+  }
 };
