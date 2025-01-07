@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type * as maplibregl from 'maplibre-gl';
-import { CatalogDataItem, walkCategories } from './api/catalog';
+import { CatalogDataItem, CatalogFeature, walkCategories } from './api/catalog';
 import { CustomStyle, customStyleToLineStringTemplate, customStyleToPointTemplate, customStyleToPolygonTemplate, DEFAULT_LINESTRING_STYLE, DEFAULT_POINT_STYLE, DEFAULT_POLYGON_STYLE, getCustomStyle, LayerTemplate, WEB_COLORS } from './utils/mapStyling';
 import CityOS__Takamatsu from './cityos/cityos_takamatsu';
 
@@ -202,26 +202,37 @@ const MainMap: React.FC<Props> = (props) => {
           .filter(feature => (
             feature.source === 'takamatsu' ||
             feature.source === 'kihonzu' ||
+            feature.source === 'ksj_takamatsu' || // 国土数値情報のデータを含める
             feature.properties._viewer_selectable === true
           ));
         if (features.length === 0) {
           setSelectedFeatures([]);
           return;
         }
+
         setSelectedFeatures(features.map(feature => {
           const catalogData = catalogDataItems.find(item => (
             item.type === "DataItem" && (
               ((feature.source === 'takamatsu' || feature.properties._viewer_selectable === true) && (item as CatalogDataItem).class === feature.properties.class) ||
               ('customDataSource' in item && item.customDataSource === feature.source)
             )
-          ));
-          if (!catalogData) {
+          )) as CatalogDataItem;
+
+          // 市区町村とサードパーティのデータどちらも対象にする
+          const thirdPartyData = thirdPartySource.find(item => item.sourceId === feature.source);
+          const mergedCatalog: CatalogDataItem = {
+            ...catalogData,
+            ...thirdPartyData
+          };
+
+          if (!mergedCatalog) {
             throw new Error(`Catalog data not available for feature: ${feature}`);
           }
+
           return {
-            catalog: catalogData,
+            catalog: mergedCatalog,
             properties: feature.properties,
-          };
+          } as CatalogFeature;
         }));
       });
 
@@ -230,7 +241,7 @@ const MainMap: React.FC<Props> = (props) => {
       })
     }
 
-  }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures, setSelectedBaseMap, thirdPartyCatalogData, map, initialCenter, initialPitch, initialZoom, initialBaseMap]);
+  }, [catalogDataItems, mapContainer, setMap, setSelectedFeatures, setSelectedBaseMap, thirdPartyCatalogData, map, initialCenter, initialPitch, initialZoom, initialBaseMap, thirdPartySource]);
 
 
   /* ***************
