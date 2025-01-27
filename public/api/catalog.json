@@ -1243,5 +1243,32 @@
         ]
       }
     ]
+  },
+  {
+    "type": "Category",
+    "id": "GQ",
+    "shortId": "GQ",
+    "name": "GQ",
+    "items": [
+      {
+        "type": "DataItem",
+        "id": "GQ/うどん屋",
+        "shortId": "ZZX",
+        "name": "うどん屋",
+        "class": "うどん屋",
+        "geojsonEndpoint": "https://geolonia.github.io/takamatsu-city-geoquest-files/takamatsu-udon.geojson",
+        "metadata": {}
+      },
+      {
+        "type": "DataItem",
+        "id": "GQ/指定避難場所",
+        "shortId": "ZZY",
+        "name": "指定避難場所",
+        "class": "指定避難場所",
+        "geojsonEndpoint": "https://geolonia.github.io/takamatsu-city-geoquest-files/takamatsu-hinanjo.geojson",
+        "metadata": {}
+      }
+    ]
   }
+
 ]
