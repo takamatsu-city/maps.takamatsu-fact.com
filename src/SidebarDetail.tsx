@@ -30,7 +30,11 @@ const SingleFeatureTable: React.FC<{feature: CatalogFeature}> = ({feature}) => {
         { detailItems.map(([key, value]) => (
           <tr className="sidebar-detail-item" key={key}>
             <th className='label'>{key}</th>
-            <td className='content'><ReplaceTextToLink text={value} /></td>
+            <td className='content'>
+              {(feature.catalog.id.startsWith('GQ/') && key === '写真ファイル名') ?
+    <img src={`https://geolonia.github.io/takamatsu-city-geoquest-files/photos/${value}`} alt='' style={{ maxWidth: '100%' }} /> : null}
+              <ReplaceTextToLink text={value} />
+            </td>
           </tr>
         ))}
       </tbody>
