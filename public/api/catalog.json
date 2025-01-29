@@ -38,6 +38,15 @@
         "metadata": {}
       },
       {
+        "type": "DataItem",
+        "id": "都市計画情報/高松市航空写真",
+        "shortId": "2Zw",
+        "name": "高松市航空写真",
+        "class": "航空写真",
+        "tileUrl": "https://tileserver.geolonia.com/takamatsu_aerial_photo/tiles.json?key=YOUR-API-KEY",
+        "metadata": {}
+      },
+      {
         "type": "Category",
         "id": "都市計画情報/用途地域",
         "shortId": "UDT",

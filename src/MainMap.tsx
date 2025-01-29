@@ -404,7 +404,35 @@ const MainMap: React.FC<Props> = (props) => {
               });
             }
           }
-  
+          if("tileUrl" in definition) {
+            if (typeof definition.tileUrl === 'string') {
+              console.log('Check Network tab for requests to:', 
+                definition.tileUrl.split('?')[0]);
+            }
+            const mapSource = map.getSource(definitionId);
+            if (!mapSource && isSelected) {
+              map.addSource(definitionId, {
+                type: 'raster',
+                url: definition.tileUrl,
+                tileSize: 256,
+                minzoom: 2,
+                maxzoom: 19
+              });
+              map.addLayer({
+                id: definitionId,
+                type: 'raster',
+                source: definitionId,
+                minzoom: 2,
+                maxzoom: 19,
+                paint: {
+                  'raster-opacity': 1
+                }
+              });
+            } else if(mapSource && !isSelected) {
+              map.removeLayer(definitionId);
+              map.removeSource(definitionId);
+            }
+          }
           for (const [sublayerName, template] of LAYER_TEMPLATES) {
             const fullLayerName = `takamatsu/${definitionId}/${sublayerName}`;
             const mapLayers = map.getStyle().layers.filter((layer: any) => layer.id.startsWith(fullLayerName));
