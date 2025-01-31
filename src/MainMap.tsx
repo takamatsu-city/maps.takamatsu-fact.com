@@ -416,14 +416,14 @@ const MainMap: React.FC<Props> = (props) => {
                 url: definition.tileUrl,
                 tileSize: 256,
                 minzoom: 2,
-                maxzoom: 19
+                maxzoom: 22,
               });
               map.addLayer({
                 id: definitionId,
                 type: 'raster',
                 source: definitionId,
                 minzoom: 2,
-                maxzoom: 19,
+                maxzoom: 22,
                 paint: {
                   'raster-opacity': 1
                 }
