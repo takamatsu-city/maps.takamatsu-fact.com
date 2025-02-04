@@ -10,7 +10,16 @@ const downloadStyle = async () => {
     .replace(/"{name}"/g, '["string", ["get", "name:ja"], ["get", "name"]]');
   const styleJson = JSON.parse(rawStyleJson);
 
-  styleJson.sprite = "https://api.geolonia.com/v1/sprites/gsi";
+  styleJson.sprite = [
+    { 
+      "id": "custom", 
+      "url": "https://geolonia.github.io/custom-smartmap-sprite/sprite" 
+    },
+    { 
+      "id": "default", 
+      "url": "https://api.geolonia.com/v1/sprites/gsi" 
+    }
+  ];
   delete styleJson.sources.dem;
 
   /**

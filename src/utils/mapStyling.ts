@@ -321,7 +321,7 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
   "居住誘導区域":[
     {
       id: "",
-      fillColor: "rgb(196, 217, 255)",
+      pattern: "custom:stripe-blue",
       outlineColor: "rgb(196, 217, 255)"
     }
   ]
