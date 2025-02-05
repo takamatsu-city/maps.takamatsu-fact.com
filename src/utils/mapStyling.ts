@@ -322,7 +322,7 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
     {
       id: "",
       pattern: "custom:stripe-blue",
-      outlineColor: "rgb(196, 217, 255)"
+      outlineColor: "rgb(139,202,252)"
     }
   ]
 
