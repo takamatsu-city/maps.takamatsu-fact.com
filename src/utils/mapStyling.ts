@@ -303,7 +303,29 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
       opacity: 0.3,
       lineOpacity: 1
     }
+  ],
+  "広域都市機能誘導区域":[
+    {
+      id: "",
+      fillColor: "rgb(255,102,102)",
+      outlineColor: "rgb(255,0,0)"
+    }
+  ],
+  "一般都市機能誘導区域":[
+    {
+      id: "",
+      fillColor: "rgb(240,174,126)",
+      outlineColor: "rgb(230,121,40)"
+    }
+  ],
+  "居住誘導区域":[
+    {
+      id: "",
+      pattern: "custom:stripe-blue",
+      outlineColor: "rgb(139,202,252)"
+    }
   ]
+
 };
 
 export const getCustomStyle: (layerDefinition: CatalogDataItem) => CustomStyle[] | undefined = (def) => {
