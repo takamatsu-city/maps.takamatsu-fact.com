@@ -178,7 +178,7 @@ const MainMap: React.FC<Props> = (props) => {
         if (!map.getSource(SOURCES.MUNICIPALITY_ID)) {
           map.addSource(SOURCES.MUNICIPALITY_ID, {
             type: 'vector',
-            url: "https://tileserver.geolonia.com/takamatsu_main_v0_1/tiles.json?key=YOUR-API-KEY"
+            url: "https://tileserver-dev.geolonia.com/takamatsu_main_v0_1/tiles.json?key=YOUR-API-KEY"
           });
         }
 

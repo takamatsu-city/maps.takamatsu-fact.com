@@ -7,7 +7,6 @@ import { CatalogFeature } from "../api/catalog"
 type DisplayConversionType = (features: CatalogFeature) => CatalogFeature;
 
 const displayConversion: DisplayConversionType = (features: CatalogFeature): CatalogFeature => {
-
   let items: CatalogFeature = JSON.parse(JSON.stringify(features));
   let properties:{ [key: string]: string } = {};
 
@@ -75,6 +74,13 @@ const displayConversion: DisplayConversionType = (features: CatalogFeature): Cat
     'targetAge':'対象年齢',
     'serviceContents':'サービス内容',
     'Equipment':'設備',
+  }
+
+  const yotochiki: {[key: string]: string} = {
+    'youtomei': '用途名',
+    'kenpeirits': '建ぺい率',
+    'yousekirit': '容積率',
+    'takasaseig': '高さ制限',
   }
 
   const translationMap: { [key: string]: { [key: string]: string } } = {
@@ -484,13 +490,17 @@ const displayConversion: DisplayConversionType = (features: CatalogFeature): Cat
   if(features.properties['class'] in translationMap) {
     const propertyMap = translationMap[features.properties['class']];
     for (const [prop, propJa] of Object.entries(propertyMap)) {
-      properties[propJa] = items.properties[prop];
       if(features.properties['class'] === '冠水状況' && prop === 'status') {
         properties[propJa] = items.properties[prop] === 0 ? '冠水なし': '冠水あり'
       }
     }
     items.properties = properties;
-  } else {
+  } else if(features.catalog.id.includes('用途地域')){
+    for (const [prop, propJa] of Object.entries(yotochiki)) {
+      properties[propJa] = items.properties[prop];
+    }
+    items.properties = properties;
+  }else {
     delete items.properties['NO'];
     delete items.properties['class'];
     delete items.properties['subclass'];
