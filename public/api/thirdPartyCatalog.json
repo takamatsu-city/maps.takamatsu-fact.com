@@ -28,6 +28,7 @@
         "id": "thirdParty/国土数値情報/土砂災害警戒区域",
         "shortId": "YSL",
         "name": "土砂災害警戒区域",
+        "class": "土砂災害警戒区域",
         "layers": [
           "国土数値情報--土砂災害警戒区域"
         ],
@@ -38,40 +39,44 @@
         "id": "thirdParty/国土数値情報/高潮浸水想定区域",
         "shortId": "LCM",
         "name": "高潮浸水想定区域",
+        "class": "高潮浸水想定区域",
         "layers": [
-          "国土数値情報--土砂災害警戒区域"
+          "高潮浸水想定区域"
         ],
-        "sourceId": "ksj_takamatsu"
+        "sourceId": "ksj_tide_depth"
       },
       {
         "type": "DataItem",
         "id": "thirdParty/国土数値情報/津波浸水想定",
         "shortId": "QOS",
         "name": "津波浸水想定",
+        "class": "津波浸水想定",
         "layers": [
-          "国土数値情報--土砂災害警戒区域"
+          "津波浸水想定"
         ],
-        "sourceId": "ksj_takamatsu"
+        "sourceId": "ksj_tsunami_depth"
       },
       {
         "type": "DataItem",
         "id": "thirdParty/国土数値情報/洪水浸水想定区域データ_想定最大規模",
         "shortId": "PLS",
         "name": "洪水浸水想定区域データ（想定最大規模）",
+        "class": "洪水浸水想定区域データ（想定最大規模）",
         "layers": [
-          "国土数値情報--土砂災害警戒区域"
+          "洪水浸水想定区域データ_想定最大規模"
         ],
-        "sourceId": "ksj_takamatsu"
+        "sourceId": "ksj_flood_depth_max"
       },
       {
         "type": "DataItem",
         "id": "thirdParty/国土数値情報/洪水浸水想定区域データ_計画規模",
         "shortId": "SNH",
         "name": "洪水浸水想定区域データ（計画規模）",
+        "class": "洪水浸水想定区域データ（計画規模）",
         "layers": [
-          "国土数値情報--土砂災害警戒区域"
+          "洪水浸水想定区域データ_計画規模"
         ],
-        "sourceId": "ksj_takamatsu"
+         "sourceId": "ksj_flood_depth_planned"
       },
       {
         "type": "DataItem",

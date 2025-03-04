@@ -9,18 +9,144 @@
     "ksj_takamatsu": {
       "type": "vector",
       "url": "https://tileserver-dev.geolonia.com/ksj_takamatsu/tiles.json?key=YOUR-API-KEY"
+    },
+    "ksj_flood_depth_max": {
+      "type": "raster",
+      "tiles": [
+        "https://disaportaldata.gsi.go.jp/raster/01_flood_l2_shinsuishin_data/{z}/{x}/{y}.png"
+      ]
+    },
+    "ksj_flood_depth_planned": {
+      "type": "raster",
+      "tiles": [
+        "https://disaportaldata.gsi.go.jp/raster/01_flood_l1_shinsuishin_newlegend_data/{z}/{x}/{y}.png"
+      ]
+    },
+    "ksj_tsunami_depth": {
+      "type": "raster",
+      "tiles": [
+        "https://disaportaldata.gsi.go.jp/raster/04_tsunami_newlegend_data/{z}/{x}/{y}.png"
+      ]
+    },
+    "ksj_tide_depth": {
+      "type": "raster",
+      "tiles": [
+        "https://disaportaldata.gsi.go.jp/raster/03_hightide_l2_shinsuishin_data/{z}/{x}/{y}.png"
+      ]
     }
   },
   "layers": [
-
+    {
+      "id": "高潮浸水想定区域",
+      "type": "raster",
+      "source": "ksj_tide_depth",
+      "minzoom": 0,
+      "maxzoom": 22,
+      "paint": {
+        "raster-opacity": 0.6
+      }
+    },
+    {
+      "id": "津波浸水想定",
+      "type": "raster",
+      "source": "ksj_tsunami_depth",
+      "minzoom": 0,
+      "maxzoom": 22,
+      "paint": {
+        "raster-opacity": 0.6
+      }
+    },
+    {
+      "id": "洪水浸水想定区域データ_想定最大規模",
+      "type": "raster",
+      "source": "ksj_flood_depth_max",
+      "minzoom": 0,
+      "maxzoom": 22,
+      "paint": {
+        "raster-opacity": 0.6
+      }
+    },
+    {
+      "id": "洪水浸水想定区域データ_計画規模",
+      "type": "raster",
+      "source": "ksj_flood_depth_planned",
+      "minzoom": 0,
+      "maxzoom": 22,
+      "paint": {
+        "raster-opacity": 0.6
+      }
+    },
     {
       "id": "国土数値情報--土砂災害警戒区域",
       "type": "fill",
       "source": "ksj_takamatsu",
       "source-layer": "国土数値情報--土砂災害警戒区域",
       "paint": {
-        "fill-color": "#ff0000",
-        "fill-opacity": 0.3
+        "fill-color": [
+          "case",
+          [
+            "all",
+            ["==", ["get", "A33_001"], 1],
+            [
+              "any",
+              ["==", ["get", "A33_002"], 1],
+              ["==", ["get", "A33_002"], 3]
+            ]
+          ],
+          "#FBE40B",
+          [
+            "all",
+            ["==", ["get", "A33_001"], 1],
+            [
+              "any",
+              ["==", ["get", "A33_002"], 2],
+              ["==", ["get", "A33_002"], 4]
+            ]
+          ],
+          "#F6300E",
+          [
+            "all",
+            ["==", ["get", "A33_001"], 2],
+            [
+              "any",
+              ["==", ["get", "A33_002"], 1],
+              ["==", ["get", "A33_002"], 3]
+            ]
+          ],
+          "#E3C73B",
+          [
+            "all",
+            ["==", ["get", "A33_001"], 2],
+            [
+              "any",
+              ["==", ["get", "A33_002"], 2],
+              ["==", ["get", "A33_002"], 4]
+            ]
+          ],
+          "#A60C2B",
+          [
+            "all",
+            ["==", ["get", "A33_001"], 3],
+            [
+              "any",
+              ["==", ["get", "A33_002"], 1],
+              ["==", ["get", "A33_002"], 3]
+            ]
+          ],
+          "#FB9B0C",
+          [
+            "all",
+            ["==", ["get", "A33_001"], 3],
+            [
+              "any",
+              ["==", ["get", "A33_002"], 2],
+              ["==", ["get", "A33_002"], 4]
+            ]
+          ],
+          "#B40D6F",
+          "#000000"
+        ],
+        "fill-opacity": 0.5
       }
     },
     {
