@@ -484,6 +484,21 @@ const displayConversion: DisplayConversionType = (features: CatalogFeature): Cat
       'A32_004':'名称',
       'A32_005':'所在地',
     },
+    '小学校区': {
+      'A27_001':'行政区域コード',
+      'A27_002':'設置主体',
+      'A27_003':'学校コード',
+      'A27_004':'名称',
+      'A27_005':'所在地',
+    },
+    '大規模盛土造成地': {
+      'A54_001':'盛土区分',
+      'A54_002':'都道府県コード',
+      'A54_003':'都道府県名',
+      'A54_004':'市区町村コード',
+      'A54_005':'市区町村名',
+      'A54_006':'盛土番号',
+    },
   }
 
   const featureClass = features.properties['class'] || features.catalog?.class;

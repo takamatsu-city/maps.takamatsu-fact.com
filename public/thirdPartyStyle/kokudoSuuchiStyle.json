@@ -24,13 +24,90 @@
       }
     },
     {
-      "id": "国土数値情報--大規模盛土造成地",
+      "id": "国土数値情報--大規模盛土造成地_区分をしていない",
       "type": "fill",
       "source": "ksj_takamatsu",
       "source-layer": "国土数値情報--大規模盛土造成地",
+      "filter": ["==", ["get", "A54_001"], "9"],
       "paint": {
-        "fill-color": "#8b0000",
-        "fill-opacity": 0.3
+        "fill-color": "#FB9EA0",
+        "fill-opacity": 1
+      }
+    },
+    {
+      "id": "国土数値情報--大規模盛土造成地_区分をしていない_outline",
+      "type": "line",
+      "source": "ksj_takamatsu",
+      "source-layer": "国土数値情報--大規模盛土造成地",
+      "filter": ["==", ["get", "A54_001"], "9"],
+      "paint": {
+        "line-color": "#000000",
+        "line-opacity": 0.5,
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          9, 0.5,
+          14, 2
+        ]
+      }
+    },
+    {
+      "id": "国土数値情報--大規模盛土造成地_谷埋め型",
+      "type": "fill",
+      "source": "ksj_takamatsu",
+      "source-layer": "国土数値情報--大規模盛土造成地",
+      "filter": ["==", ["get", "A54_001"], "1"],
+      "paint": {
+        "fill-color": "#9DFDA0",
+        "fill-opacity": 1
+      }
+    },
+    {
+      "id": "国土数値情報--大規模盛土造成地_谷埋め型_outline",
+      "type": "line",
+      "source": "ksj_takamatsu",
+      "source-layer": "国土数値情報--大規模盛土造成地",
+      "filter": ["==", ["get", "A54_001"], "1"],
+      "paint": {
+        "line-color": "#000000",
+        "line-opacity": 0.5,
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          9, 0.5,
+          14, 2
+        ]
+      }
+    },
+    {
+      "id": "国土数値情報--大規模盛土造成地_腹付け型",
+      "type": "fill",
+      "source": "ksj_takamatsu",
+      "source-layer": "国土数値情報--大規模盛土造成地",
+      "filter": ["==", ["get", "A54_001"], "2"],
+      "paint": {
+        "fill-color": "#9D9EFF",
+        "fill-opacity": 1
+      }
+    },
+    {
+      "id": "国土数値情報--大規模盛土造成地_腹付け型_outline",
+      "type": "line",
+      "source": "ksj_takamatsu",
+      "source-layer": "国土数値情報--大規模盛土造成地",
+      "filter": ["==", ["get", "A54_001"], "2"],
+      "paint": {
+        "line-color": "#000000",
+        "line-opacity": 0.5,
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          9, 0.5,
+          14, 2
+        ]
       }
     },
     {
@@ -38,9 +115,27 @@
       "type": "fill",
       "source": "ksj_takamatsu",
       "source-layer": "国土数値情報--小学校区",
+      "filter": ["==", ["get", "A27_001"], "37201"],
       "paint": {
         "fill-color": "#ff0000",
         "fill-opacity": 0.4
+      }
+    },
+    {
+      "id": "国土数値情報--小学校区_outline",
+      "type": "line",
+      "source": "ksj_takamatsu",
+      "source-layer": "国土数値情報--小学校区",
+      "filter": ["==", ["get", "A27_001"], "37201"],
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          9, 0.5,
+          14, 2
+        ]
       }
     },
     {
@@ -48,7 +143,7 @@
       "type": "fill",
       "source": "ksj_takamatsu",
       "source-layer": "国土数値情報--中学校区",
-      "filter": ["==", ["get", "A32_002"], "高松市"],
+      "filter": ["==", ["get", "A32_001"], "37201"],
       "paint": {
         "fill-color": "#006AB6",
         "fill-opacity": 0.4
@@ -59,7 +154,7 @@
       "type": "line",
       "source": "ksj_takamatsu",
       "source-layer": "国土数値情報--中学校区",
-      "filter": ["==", ["get", "A32_002"], "高松市"],
+      "filter": ["==", ["get", "A32_001"], "37201"],
       "paint": {
         "line-color": "#ffffff",
         "line-width": [
