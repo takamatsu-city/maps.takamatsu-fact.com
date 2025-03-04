@@ -12,16 +12,7 @@
     }
   },
   "layers": [
-    {
-      "id": "国土数値情報--中学校区",
-      "type": "fill",
-      "source": "ksj_takamatsu",
-      "source-layer": "国土数値情報--中学校区",
-      "paint": {
-        "fill-color": "#f28cb1",
-        "fill-opacity": 0.4
-      }
-    },
+
     {
       "id": "国土数値情報--土砂災害警戒区域",
       "type": "fill",
@@ -43,123 +34,41 @@
       }
     },
     {
-      "id": "国土数値情報--学校",
-      "type": "circle",
-      "source": "ksj_takamatsu",
-      "source-layer": "国土数値情報--学校",
-      "paint": {
-        "circle-radius": 5,
-        "circle-color": "#4264fb"
-      }
-    },
-    {
       "id": "国土数値情報--小学校区",
       "type": "fill",
       "source": "ksj_takamatsu",
       "source-layer": "国土数値情報--小学校区",
       "paint": {
-        "fill-color": "#ffd700",
+        "fill-color": "#ff0000",
         "fill-opacity": 0.4
       }
     },
     {
-      "id": "国土数値情報-都市計画決定情報-土地区画整理事業",
+      "id": "国土数値情報--中学校区",
       "type": "fill",
       "source": "ksj_takamatsu",
-      "source-layer": "国土数値情報-都市計画決定情報-土地区画整理事業",
+      "source-layer": "国土数値情報--中学校区",
+      "filter": ["==", ["get", "A32_002"], "高松市"],
       "paint": {
-        "fill-color": "#ffa500",
-        "fill-opacity": 0.3
-      }
-    },
-    {
-      "id": "国土数値情報-都市計画決定情報-地区計画",
-      "type": "fill",
-      "source": "ksj_takamatsu",
-      "source-layer": "国土数値情報-都市計画決定情報-地区計画",
-      "paint": {
-        "fill-color": "#00ff00",
-        "fill-opacity": 0.3
-      }
-    },
-    {
-      "id": "国土数値情報-都市計画決定情報-特別用途地区",
-      "type": "fill",
-      "source": "ksj_takamatsu",
-      "source-layer": "国土数値情報-都市計画決定情報-特別用途地区",
-      "paint": {
-        "fill-color": "#008000",
-        "fill-opacity": 0.3
-      }
-    },
-    {
-      "id": "国土数値情報-都市計画決定情報-用途地域",
-      "type": "fill",
-      "source": "ksj_takamatsu",
-      "source-layer": "国土数値情報-都市計画決定情報-用途地域",
-      "paint": {
-        "fill-color": "#f08080",
+        "fill-color": "#006AB6",
         "fill-opacity": 0.4
       }
     },
     {
-      "id": "国土数値情報-都市計画決定情報-立地適正化計画",
-      "type": "fill",
-      "source": "ksj_takamatsu",
-      "source-layer": "国土数値情報-都市計画決定情報-立地適正化計画",
-      "paint": {
-        "fill-color": "#daa520",
-        "fill-opacity": 0.3
-      }
-    },
-    {
-      "id": "国土数値情報-都市計画決定情報-都市公園",
-      "type": "fill",
-      "source": "ksj_takamatsu",
-      "source-layer": "国土数値情報-都市計画決定情報-都市公園",
-      "paint": {
-        "fill-color": "#32cd32",
-        "fill-opacity": 0.3
-      }
-    },
-    {
-      "id": "国土数値情報-都市計画決定情報-都市計画区域",
-      "type": "fill",
-      "source": "ksj_takamatsu",
-      "source-layer": "国土数値情報-都市計画決定情報-都市計画区域",
-      "paint": {
-        "fill-color": "#ffa07a",
-        "fill-opacity": 0.3
-      }
-    },
-    {
-      "id": "国土数値情報-都市計画決定情報-都市計画道路",
+      "id": "国土数値情報--中学校区_outline",
       "type": "line",
       "source": "ksj_takamatsu",
-      "source-layer": "国土数値情報-都市計画決定情報-都市計画道路",
+      "source-layer": "国土数値情報--中学校区",
+      "filter": ["==", ["get", "A32_002"], "高松市"],
       "paint": {
-        "line-width": 3,
-        "line-color": "#ff7f50"
-      }
-    },
-    {
-      "id": "国土数値情報-都市計画決定情報-防火・準防火地域",
-      "type": "fill",
-      "source": "ksj_takamatsu",
-      "source-layer": "国土数値情報-都市計画決定情報-防火・準防火地域",
-      "paint": {
-        "fill-color": "#ff69b4",
-        "fill-opacity": 0.4
-      }
-    },
-    {
-      "id": "国土数値情報-都市計画決定情報-高度利用地区",
-      "type": "fill",
-      "source": "ksj_takamatsu",
-      "source-layer": "国土数値情報-都市計画決定情報-高度利用地区",
-      "paint": {
-        "fill-color": "#b22222",
-        "fill-opacity": 0.4
+        "line-color": "#ffffff",
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          9, 0.5,
+          14, 2
+        ]
       }
     }
   ]

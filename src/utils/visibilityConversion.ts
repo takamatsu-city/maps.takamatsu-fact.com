@@ -477,15 +477,22 @@ const displayConversion: DisplayConversionType = (features: CatalogFeature): Cat
       '測定日時':'測定日時',
       '更新日時':'更新日時',
     },
-
+    '中学校区': {
+      'A32_001':'行政区域コード',
+      'A32_002':'設置主体',
+      'A32_003':'学校コード',
+      'A32_004':'名称',
+      'A32_005':'所在地',
+    },
   }
 
+  const featureClass = features.properties['class'] || features.catalog?.class;
   // 日本語変換・表示非表示
-  if(features.properties['class'] in translationMap) {
-    const propertyMap = translationMap[features.properties['class']];
+  if(featureClass in translationMap) {
+    const propertyMap = translationMap[featureClass];
     for (const [prop, propJa] of Object.entries(propertyMap)) {
       properties[propJa] = items.properties[prop];
-      if(features.properties['class'] === '冠水状況' && prop === 'status') {
+      if(featureClass === '冠水状況' && prop === 'status') {
         properties[propJa] = items.properties[prop] === 0 ? '冠水なし': '冠水あり'
       }
     }
