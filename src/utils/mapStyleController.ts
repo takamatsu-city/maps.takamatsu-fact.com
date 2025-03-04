@@ -1,3 +1,5 @@
+import { moveMaskLayer2Top } from './moveMaskLayer2Top';
+
 /* ******************
  * スタイルを追加する
  * ******************/
@@ -26,7 +28,7 @@ export const addLayerStyle = (mapObj: maplibregl.Map, style: string, layers: str
             ]
         };
 
-        return newStyle;
+        return moveMaskLayer2Top(newStyle);
       }
     });
 };

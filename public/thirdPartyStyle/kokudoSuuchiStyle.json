@@ -8,31 +8,36 @@
   "sources": {
     "ksj_takamatsu": {
       "type": "vector",
-      "url": "https://tileserver-dev.geolonia.com/ksj_takamatsu/tiles.json?key=YOUR-API-KEY"
+      "url": "https://tileserver-dev.geolonia.com/ksj_takamatsu/tiles.json?key=YOUR-API-KEY",
+      "attribution": "<a href=\"https://nlftp.mlit.go.jp/ksj/index.html\" target=\"_blank\">国土数値情報（土砂災害警戒区域/大規模盛土造成地/小学校区/中学校区）（国土交通省）を加工して作成</a>"
     },
     "ksj_flood_depth_max": {
       "type": "raster",
       "tiles": [
         "https://disaportaldata.gsi.go.jp/raster/01_flood_l2_shinsuishin_data/{z}/{x}/{y}.png"
-      ]
+      ],
+      "attribution": "<a href=\"https://disaportal.gsi.go.jp/index.html\" target=\"_blank\">「ハザードマップポータルサイト」を加工して作成</a>"
     },
     "ksj_flood_depth_planned": {
       "type": "raster",
       "tiles": [
         "https://disaportaldata.gsi.go.jp/raster/01_flood_l1_shinsuishin_newlegend_data/{z}/{x}/{y}.png"
-      ]
+      ],
+      "attribution": "<a href=\"https://disaportal.gsi.go.jp/index.html\" target=\"_blank\">「ハザードマップポータルサイト」を加工して作成</a>"
     },
     "ksj_tsunami_depth": {
       "type": "raster",
       "tiles": [
         "https://disaportaldata.gsi.go.jp/raster/04_tsunami_newlegend_data/{z}/{x}/{y}.png"
-      ]
+      ],
+      "attribution": "<a href=\"https://disaportal.gsi.go.jp/index.html\" target=\"_blank\">「ハザードマップポータルサイト」を加工して作成</a>"
     },
     "ksj_tide_depth": {
       "type": "raster",
       "tiles": [
         "https://disaportaldata.gsi.go.jp/raster/03_hightide_l2_shinsuishin_data/{z}/{x}/{y}.png"
-      ]
+      ],
+      "attribution": "<a href=\"https://disaportal.gsi.go.jp/index.html\" target=\"_blank\">「ハザードマップポータルサイト」を加工して作成</a>"
     }
   },
   "layers": [

@@ -16,6 +16,7 @@ import { MapStyleConfigType } from './config/mapStyleConfig';
 import { useSearchParams } from 'react-router-dom';
 import { addLayerStyle, removeLayerStyle } from './utils/mapStyleController';
 import { ThirdPartyCatalogDataItem, walkThirdPartyCategories } from './api/thirdPartyCatalog';
+import { moveMaskLayer2Top } from './utils/moveMaskLayer2Top';
 
 declare global {
   interface Window {
@@ -46,7 +47,7 @@ const LAYER_TEMPLATES: [string, (idx: number, customStyle?: CustomStyle[]) => La
 
 const BASE_PITCH = 0;
 
-const SOURCES: {[key: string]: string} = {
+export const SOURCES: {[key: string]: string} = {
   MUNICIPALITY_ID: 'takamatsu',
   TERRAIN_DEM_ID: 'gsidem',
   NEGATIVE_MASK_ID: 'negative-city-mask',
@@ -300,7 +301,7 @@ const MainMap: React.FC<Props> = (props) => {
       diff: false,
       transformStyle: (previousStyle, nextStyle) => {
         if(!previousStyle) { return nextStyle; }
-        return {
+        const newStyle = {
           ...previousStyle,
           ...nextStyle,
           sources: {
@@ -312,6 +313,8 @@ const MainMap: React.FC<Props> = (props) => {
             ...nowLayers
           ]
         };
+
+        return moveMaskLayer2Top(newStyle);
       }
     });
 
