@@ -219,7 +219,7 @@ const MainMap: React.FC<Props> = (props) => {
           )) as CatalogDataItem;
 
           // 市区町村とサードパーティのデータどちらも対象にする
-          const thirdPartyData = thirdPartySource.find(item => item.sourceId === feature.source);
+          const thirdPartyData = thirdPartySource.find(item => item.layers.includes(feature.layer.id));
           const mergedCatalog: CatalogDataItem = {
             ...catalogData,
             ...thirdPartyData
