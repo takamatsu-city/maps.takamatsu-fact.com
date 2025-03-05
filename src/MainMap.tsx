@@ -16,6 +16,7 @@ import { MapStyleConfigType } from './config/mapStyleConfig';
 import { useSearchParams } from 'react-router-dom';
 import { addLayerStyle, removeLayerStyle } from './utils/mapStyleController';
 import { ThirdPartyCatalogDataItem, walkThirdPartyCategories } from './api/thirdPartyCatalog';
+import { addLayersBefore } from './utils/addLayersBefore';
 import { moveMaskLayer2Top } from './utils/moveMaskLayer2Top';
 
 declare global {
@@ -301,6 +302,11 @@ const MainMap: React.FC<Props> = (props) => {
       diff: false,
       transformStyle: (previousStyle, nextStyle) => {
         if(!previousStyle) { return nextStyle; }
+        if(!nextStyle) { return previousStyle; }
+
+        const updatedLayers = addLayersBefore(map, nextStyle.layers, nowLayers, '注記シンボル付き重なり');
+        const moveMaskToTopLayers = moveMaskLayer2Top(updatedLayers);
+
         const newStyle = {
           ...previousStyle,
           ...nextStyle,
@@ -308,13 +314,10 @@ const MainMap: React.FC<Props> = (props) => {
             ...nextStyle.sources,
             ...nowSources
           },
-          layers: [
-            ...nextStyle.layers,
-            ...nowLayers
-          ]
+          layers: moveMaskToTopLayers
         };
 
-        return moveMaskLayer2Top(newStyle);
+        return newStyle;
       }
     });
 
@@ -418,10 +421,10 @@ const MainMap: React.FC<Props> = (props) => {
               });
             }
           }
-          
+
           if("tileUrl" in definition) {
             if (typeof definition.tileUrl === 'string') {
-              console.log('Check Network tab for requests to:', 
+              console.log('Check Network tab for requests to:',
                 definition.tileUrl.split('?')[0]);
             }
             const mapSource = map.getSource(definitionId);
@@ -448,7 +451,7 @@ const MainMap: React.FC<Props> = (props) => {
               map.removeSource(definitionId);
             }
           }
-          
+
           for (const [sublayerName, template] of LAYER_TEMPLATES) {
             const fullLayerName = `takamatsu/${definitionId}/${sublayerName}`;
             const mapLayers = map.getStyle().layers.filter((layer: any) => layer.id.startsWith(fullLayerName));

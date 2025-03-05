@@ -1,3 +1,4 @@
+import { addLayersBefore } from './addLayersBefore';
 import { moveMaskLayer2Top } from './moveMaskLayer2Top';
 
 /* ******************
@@ -16,19 +17,18 @@ export const addLayerStyle = (mapObj: maplibregl.Map, style: string, layers: str
             if(key === sourceId) { sources[key] = nextStyle.sources[key]; }
         });
 
-        const newStyle = {
+        const layersToAdd = nextStyle.layers.filter(layer => layers.includes(layer.id));
+        const updatedLayers = addLayersBefore(mapObj, previousStyle.layers, layersToAdd, '注記シンボル付き重なり');
+        const moveMaskToTopLayers = moveMaskLayer2Top(updatedLayers);
+
+        return {
             ...previousStyle,
             sources: {
               ...previousStyle.sources,
               ...sources
             },
-            layers: [
-              ...previousStyle.layers,
-              ...nextStyle.layers.filter(layer => layers.includes(layer.id))
-            ]
+            layers: moveMaskToTopLayers
         };
-
-        return moveMaskLayer2Top(newStyle);
       }
     });
 };
