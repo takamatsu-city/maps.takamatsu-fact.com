@@ -162,7 +162,7 @@
       "filter": ["==", ["get", "A54_001"], "9"],
       "paint": {
         "fill-color": "#FB9EA0",
-        "fill-opacity": 1
+        "fill-opacity": 0.5
       }
     },
     {
@@ -191,7 +191,7 @@
       "filter": ["==", ["get", "A54_001"], "1"],
       "paint": {
         "fill-color": "#9DFDA0",
-        "fill-opacity": 1
+        "fill-opacity": 0.5
       }
     },
     {
@@ -220,7 +220,7 @@
       "filter": ["==", ["get", "A54_001"], "2"],
       "paint": {
         "fill-color": "#9D9EFF",
-        "fill-opacity": 1
+        "fill-opacity": 0.5
       }
     },
     {
