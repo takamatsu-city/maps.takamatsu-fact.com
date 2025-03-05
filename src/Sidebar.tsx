@@ -23,7 +23,7 @@ const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory |
   const isThirdParty = isThirdPartyItem(item);
 
   const shortIdsOfThisCategory = useMemo(() => {
-    if(isThirdParty) { 
+    if(isThirdParty) {
       return [...walkThirdPartyCategories(item.items)].map(x => x.shortId);
     } else {
       return [...walkCategories(item.items)].map(x => x.shortId);
@@ -109,7 +109,7 @@ const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory |
       </label>
     </div>
     {isOpen && <div className="sidebar-item-category-items">
-      { 
+      {
         (item as unknown as ThirdPartyCatalogCategory | CatalogCategory).items.map((item) => (
           <SingleSidebarItem key={item.id} {...props} item={item} />
         ))
@@ -124,7 +124,7 @@ const DataSidebarItem: React.FC<SidebarItemProps & { item: CatalogDataItem | Thi
   const { item } = props;
   const isThirdParty = isThirdPartyItem(item);
   const itemShortId = item.shortId;
-  const isChecked = isThirdParty ? 
+  const isChecked = isThirdParty ?
     selectedThirdPartyLayers.includes(item.shortId)
     :
     selectedLayers.includes(item.shortId);
@@ -165,9 +165,9 @@ const DataSidebarItem: React.FC<SidebarItemProps & { item: CatalogDataItem | Thi
 
   return <div className="sidebar-item">
     <label className="label">
-      <input 
-      type="checkbox" 
-      checked={isChecked} 
+      <input
+      type="checkbox"
+      checked={isChecked}
       onChange={handleCheckboxChange}
       />
       {item.name}
@@ -241,9 +241,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpenedSidebar, setIsOpenedSidebar, 
           )}
         </div>
       </div>
-      <a href="https://docs.takamatsu-fact.com/#%E3%81%94%E5%88%A9%E7%94%A8%E3%81%AB%E3%81%82%E3%81%9F%E3%81%A3%E3%81%A6" className='user-guide-link' target="_blank" rel="noreferrer">
-        <AiOutlineLink /><span>ご利用にあたって</span>
-      </a>
+      <details className='user-guide-link'>
+        <summary>ご利用にあたって</summary>
+        <ul>
+          <li>本サイトのご利用にあたっては、<a href='https://docs.takamatsu-fact.com/#%E3%81%94%E5%88%A9%E7%94%A8%E3%81%AB%E3%81%82%E3%81%9F%E3%81%A3%E3%81%A6'>ご利用にあたって</a>をご覧ください</li>
+          <li>高潮浸水想定区域/津波浸水想定/洪水浸水想定区域データ（想定最大規模・計画規模）の凡例は、<a href='https://disaportal.gsi.go.jp/hazardmapportal/hazardmap/copyright/opendata.html#l2shinsuishin'>ハザードマップポータルサイト</a>を参考にして下さい</li>
+          <li>小学校区/中学校区は、整備範囲全域において十分な正確性を保証するものではありません。詳細な通学区域を判断する場合はお問い合下さい</li>
+        </ul>
+      </details>
     </div>
   );
 }
