@@ -9,7 +9,7 @@
     "ksj_takamatsu": {
       "type": "vector",
       "url": "https://tileserver-dev.geolonia.com/ksj_takamatsu/tiles.json?key=YOUR-API-KEY",
-      "attribution": "<a href=\"https://nlftp.mlit.go.jp/ksj/index.html\" target=\"_blank\">国土数値情報（土砂災害警戒区域/大規模盛土造成地/小学校区/中学校区）（国土交通省）を加工して作成</a>"
+      "attribution": "<a href=\"https://nlftp.mlit.go.jp/ksj/index.html\" target=\"_blank\">国土数値情報（国土交通省）を加工して作成</a>"
     },
     "ksj_flood_depth_max": {
       "type": "raster",
