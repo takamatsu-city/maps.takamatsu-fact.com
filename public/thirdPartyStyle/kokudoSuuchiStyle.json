@@ -16,28 +16,28 @@
       "tiles": [
         "https://disaportaldata.gsi.go.jp/raster/01_flood_l2_shinsuishin_data/{z}/{x}/{y}.png"
       ],
-      "attribution": "<a href=\"https://disaportal.gsi.go.jp/hazardmapportal/hazardmap/copyright/opendata.html#l2shinsuishin\" target=\"_blank\">「ハザードマップポータルサイト」を加工して作成</a>"
+      "attribution": "<a href=\"https://disaportal.gsi.go.jp/index.html\" target=\"_blank\">「ハザードマップポータルサイト」を加工して作成</a>"
     },
     "ksj_flood_depth_planned": {
       "type": "raster",
       "tiles": [
         "https://disaportaldata.gsi.go.jp/raster/01_flood_l1_shinsuishin_newlegend_data/{z}/{x}/{y}.png"
       ],
-      "attribution": "<a href=\"https://disaportal.gsi.go.jp/hazardmapportal/hazardmap/copyright/opendata.html#l2shinsuishin\" target=\"_blank\">「ハザードマップポータルサイト」を加工して作成</a>"
+      "attribution": "<a href=\"https://disaportal.gsi.go.jp/index.html\" target=\"_blank\">「ハザードマップポータルサイト」を加工して作成</a>"
     },
     "ksj_tsunami_depth": {
       "type": "raster",
       "tiles": [
         "https://disaportaldata.gsi.go.jp/raster/04_tsunami_newlegend_data/{z}/{x}/{y}.png"
       ],
-      "attribution": "<a href=\"https://disaportal.gsi.go.jp/hazardmapportal/hazardmap/copyright/opendata.html#l2shinsuishin\" target=\"_blank\">「ハザードマップポータルサイト」を加工して作成</a>"
+      "attribution": "<a href=\"https://disaportal.gsi.go.jp/index.html\" target=\"_blank\">「ハザードマップポータルサイト」を加工して作成</a>"
     },
     "ksj_tide_depth": {
       "type": "raster",
       "tiles": [
         "https://disaportaldata.gsi.go.jp/raster/03_hightide_l2_shinsuishin_data/{z}/{x}/{y}.png"
       ],
-      "attribution": "<a href=\"https://disaportal.gsi.go.jp/hazardmapportal/hazardmap/copyright/opendata.html#l2shinsuishin\" target=\"_blank\">「ハザードマップポータルサイト」を加工して作成</a>"
+      "attribution": "<a href=\"https://disaportal.gsi.go.jp/index.html\" target=\"_blank\">「ハザードマップポータルサイト」を加工して作成</a>"
     }
   },
   "layers": [
@@ -162,7 +162,7 @@
       "filter": ["==", ["get", "A54_001"], "9"],
       "paint": {
         "fill-color": "#FB9EA0",
-        "fill-opacity": 0.6
+        "fill-opacity": 1
       }
     },
     {
@@ -173,7 +173,7 @@
       "filter": ["==", ["get", "A54_001"], "9"],
       "paint": {
         "line-color": "#000000",
-        "line-opacity": 0.6,
+        "line-opacity": 0.5,
         "line-width": [
           "interpolate",
           ["linear"],
@@ -191,7 +191,7 @@
       "filter": ["==", ["get", "A54_001"], "1"],
       "paint": {
         "fill-color": "#9DFDA0",
-        "fill-opacity": 0.6
+        "fill-opacity": 1
       }
     },
     {
@@ -202,7 +202,7 @@
       "filter": ["==", ["get", "A54_001"], "1"],
       "paint": {
         "line-color": "#000000",
-        "line-opacity": 0.6,
+        "line-opacity": 0.5,
         "line-width": [
           "interpolate",
           ["linear"],
@@ -220,7 +220,7 @@
       "filter": ["==", ["get", "A54_001"], "2"],
       "paint": {
         "fill-color": "#9D9EFF",
-        "fill-opacity": 0.5
+        "fill-opacity": 1
       }
     },
     {
@@ -231,7 +231,7 @@
       "filter": ["==", ["get", "A54_001"], "2"],
       "paint": {
         "line-color": "#000000",
-        "line-opacity": 0.6,
+        "line-opacity": 0.5,
         "line-width": [
           "interpolate",
           ["linear"],
