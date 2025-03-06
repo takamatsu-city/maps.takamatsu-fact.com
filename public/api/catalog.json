@@ -1136,6 +1136,15 @@
         "items": [
           {
             "type": "DataItem",
+            "id": "施設情報/防災施設/常設土のう作成場所",
+            "shortId": "z90",
+            "name": "常設土のう作成場所",
+            "class": "常設土のう作成場所",
+            "geojsonEndpoint": "https://opendata.takamatsu-fact.com/sandbag_creation_location/data.geojson",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
             "id": "施設情報/防災施設/市民防災センター",
             "shortId": "Y7w",
             "name": "市民防災センター",
