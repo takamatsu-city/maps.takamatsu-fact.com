@@ -1,4 +1,4 @@
-export const addLayersBefore = (map: maplibregl.Map, previousLayers: any[], layersToAdd: any[], beforeId?: string) => {
+export const addLayersBefore = (previousLayers: any[], layersToAdd: any[], beforeId?: string) => {
 
   const newLayers = [...previousLayers];
 

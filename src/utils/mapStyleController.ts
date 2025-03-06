@@ -18,7 +18,7 @@ export const addLayerStyle = (mapObj: maplibregl.Map, style: string, layers: str
         });
 
         const layersToAdd = nextStyle.layers.filter(layer => layers.includes(layer.id));
-        const updatedLayers = addLayersBefore(mapObj, previousStyle.layers, layersToAdd, '注記シンボル付き重なり');
+        const updatedLayers = addLayersBefore(previousStyle.layers, layersToAdd, '注記シンボル付き重なり');
         const moveMaskToTopLayers = moveMaskLayer2Top(updatedLayers);
 
         return {

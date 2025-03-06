@@ -304,7 +304,7 @@ const MainMap: React.FC<Props> = (props) => {
         if(!previousStyle) { return nextStyle; }
         if(!nextStyle) { return previousStyle; }
 
-        const updatedLayers = addLayersBefore(map, nextStyle.layers, nowLayers, '注記シンボル付き重なり');
+        const updatedLayers = addLayersBefore(nextStyle.layers, nowLayers, '注記シンボル付き重なり');
         const moveMaskToTopLayers = moveMaskLayer2Top(updatedLayers);
 
         const newStyle = {
