@@ -6,7 +6,7 @@
     "sources": {
         "v3": {
             "type": "vector",
-            "url": "https://tileserver.geolonia.com/v3/tiles.json?key=YOUR-API-KEY"
+            "url": "https://tileserver-dev.geolonia.com/shikoku_osm_v3/tiles.json?key=YOUR-API-KEY"
         }
     },
     "sprite": "https://api.geolonia.com/v1/sprites/gsi",
