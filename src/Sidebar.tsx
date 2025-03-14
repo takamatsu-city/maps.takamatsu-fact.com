@@ -1,6 +1,6 @@
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
-import { AiFillCaretRight, AiFillCaretDown, AiOutlineBars } from 'react-icons/ai';
+import { AiFillCaretRight, AiFillCaretDown, AiOutlineLink, AiOutlineBars } from 'react-icons/ai';
 
 import './Sidebar.scss';
 import { CatalogCategory, CatalogDataItem, CatalogItem, walkCategories } from './api/catalog';
@@ -23,7 +23,7 @@ const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory |
   const isThirdParty = isThirdPartyItem(item);
 
   const shortIdsOfThisCategory = useMemo(() => {
-    if(isThirdParty) {
+    if(isThirdParty) { 
       return [...walkThirdPartyCategories(item.items)].map(x => x.shortId);
     } else {
       return [...walkCategories(item.items)].map(x => x.shortId);
@@ -109,7 +109,7 @@ const CategorySidebarItem: React.FC<SidebarItemProps & { item: CatalogCategory |
       </label>
     </div>
     {isOpen && <div className="sidebar-item-category-items">
-      {
+      { 
         (item as unknown as ThirdPartyCatalogCategory | CatalogCategory).items.map((item) => (
           <SingleSidebarItem key={item.id} {...props} item={item} />
         ))
@@ -124,7 +124,7 @@ const DataSidebarItem: React.FC<SidebarItemProps & { item: CatalogDataItem | Thi
   const { item } = props;
   const isThirdParty = isThirdPartyItem(item);
   const itemShortId = item.shortId;
-  const isChecked = isThirdParty ?
+  const isChecked = isThirdParty ? 
     selectedThirdPartyLayers.includes(item.shortId)
     :
     selectedLayers.includes(item.shortId);
@@ -165,9 +165,9 @@ const DataSidebarItem: React.FC<SidebarItemProps & { item: CatalogDataItem | Thi
 
   return <div className="sidebar-item">
     <label className="label">
-      <input
-      type="checkbox"
-      checked={isChecked}
+      <input 
+      type="checkbox" 
+      checked={isChecked} 
       onChange={handleCheckboxChange}
       />
       {item.name}
@@ -241,14 +241,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpenedSidebar, setIsOpenedSidebar, 
           )}
         </div>
       </div>
-      <details className='user-guide-link'>
-        <summary>ご利用にあたって</summary>
-        <ul>
-          <li>本サイトのご利用にあたっては、<a href='https://docs.takamatsu-fact.com/#%E3%81%94%E5%88%A9%E7%94%A8%E3%81%AB%E3%81%82%E3%81%9F%E3%81%A3%E3%81%A6'>ご利用にあたって</a>をご覧ください</li>
-          <li>国土数値情報のうち、土砂災害警戒区域/小学校区/中学校区のデータは2023年度（令和5年度）時点のものです。高潮浸水想定区域/津波浸水想定/洪水浸水想定区域データ（想定最大規模・計画規模）は、<a href="https://disaportal.gsi.go.jp/hazardmapportal/hazardmap/copyright/opendata.html">ハザードマップポータルサイト</a>で配信されているタイルを利用しています（凡例はリンク先を参照してください）。</li>
-          <li>国土数値情報のうち、小学校区/中学校区に関して、正確な情報は、<a href="https://www.city.takamatsu.kagawa.jp/smph/kurashi/kosodate/shouchugakkou/nyugaku/kouku-choumei.html">校区一覧のページ</a>でご確認ください。</li>
-        </ul>
-      </details>
+      <a href="https://docs.takamatsu-fact.com/#%E3%81%94%E5%88%A9%E7%94%A8%E3%81%AB%E3%81%82%E3%81%9F%E3%81%A3%E3%81%A6" className='user-guide-link' target="_blank" rel="noreferrer">
+        <AiOutlineLink /><span>ご利用にあたって</span>
+      </a>
     </div>
   );
 }

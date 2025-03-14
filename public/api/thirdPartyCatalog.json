@@ -1,107 +1,19 @@
 [
-  {
-    "type": "Category",
-    "id": "thirdParty/OpenStreetMap",
-    "shortId": "Osm",
-    "name": "OpenStreetMap",
-    "style": "./thirdPartyStyle/osmStyle.json",
-    "items": [
-      {
-          "type": "DataItem",
-          "id": "thirdParty/OpenStreetMap/poi",
-          "shortId": "OP",
-          "name": "施設情報",
-          "layers": ["poi", "poi-z15", "poi-z14", "poi-z13"],
-          "sourceId": "v3"
-      }
-    ]
-  },
-  {
-    "type": "Category",
-    "id": "thirdParty/国土数値情報",
-    "shortId": "KOK",
-    "name": "国土数値情報",
-    "style": "./thirdPartyStyle/kokudoSuuchiStyle.json",
-    "items": [
-      {
-        "type": "DataItem",
-        "id": "thirdParty/国土数値情報/土砂災害警戒区域",
-        "shortId": "YSL",
-        "name": "土砂災害警戒区域",
-        "class": "土砂災害警戒区域",
-        "layers": [
-          "国土数値情報--土砂災害警戒区域"
-        ],
-        "sourceId": "ksj_takamatsu"
-      },
-      {
-        "type": "DataItem",
-        "id": "thirdParty/国土数値情報/高潮浸水想定区域",
-        "shortId": "LCM",
-        "name": "高潮浸水想定区域",
-        "class": "高潮浸水想定区域",
-        "layers": [
-          "高潮浸水想定区域"
-        ],
-        "sourceId": "ksj_tide_depth"
-      },
-      {
-        "type": "DataItem",
-        "id": "thirdParty/国土数値情報/津波浸水想定",
-        "shortId": "QOS",
-        "name": "津波浸水想定",
-        "class": "津波浸水想定",
-        "layers": [
-          "津波浸水想定"
-        ],
-        "sourceId": "ksj_tsunami_depth"
-      },
-      {
-        "type": "DataItem",
-        "id": "thirdParty/国土数値情報/洪水浸水想定区域データ_想定最大規模",
-        "shortId": "PLS",
-        "name": "洪水浸水想定区域データ（想定最大規模）",
-        "class": "洪水浸水想定区域データ（想定最大規模）",
-        "layers": [
-          "洪水浸水想定区域データ_想定最大規模"
-        ],
-        "sourceId": "ksj_flood_depth_max"
-      },
-      {
-        "type": "DataItem",
-        "id": "thirdParty/国土数値情報/洪水浸水想定区域データ_計画規模",
-        "shortId": "SNH",
-        "name": "洪水浸水想定区域データ（計画規模）",
-        "class": "洪水浸水想定区域データ（計画規模）",
-        "layers": [
-          "洪水浸水想定区域データ_計画規模"
-        ],
-         "sourceId": "ksj_flood_depth_planned"
-      },
-      {
-        "type": "DataItem",
-        "id": "thirdParty/国土数値情報/小学校区",
-        "shortId": "WHH",
-        "name": "小学校区",
-        "class": "小学校区",
-        "layers": [
-          "国土数値情報--小学校区",
-          "国土数値情報--小学校区_outline"
-        ],
-        "sourceId": "ksj_takamatsu"
-      },
-      {
-        "type": "DataItem",
-        "id": "thirdParty/国土数値情報/中学校区",
-        "shortId": "EBC",
-        "name": "中学校区",
-        "class": "中学校区",
-        "layers": [
-          "国土数値情報--中学校区",
-          "国土数値情報--中学校区_outline"
-        ],
-        "sourceId": "ksj_takamatsu"
-      }
-    ]
-  }
+    {
+      "type": "Category",
+      "id": "thirdParty/OpenStreetMap",
+      "shortId": "Osm",
+      "name": "OpenStreetMap",
+      "style": "./thirdPartyStyle/osmStyle.json",
+      "items": [
+        {
+            "type": "DataItem",
+            "id": "thirdParty/OpenStreetMap/poi",
+            "shortId": "OP",
+            "name": "施設情報",
+            "layers": ["poi", "poi-z15", "poi-z14", "poi-z13"],
+            "sourceId": "v3"
+        }
+      ]
+    }
 ]

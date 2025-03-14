@@ -1,6 +1,3 @@
-import { addLayersBefore } from './addLayersBefore';
-import { moveMaskLayer2Top } from './moveMaskLayer2Top';
-
 /* ******************
  * スタイルを追加する
  * ******************/
@@ -17,18 +14,19 @@ export const addLayerStyle = (mapObj: maplibregl.Map, style: string, layers: str
             if(key === sourceId) { sources[key] = nextStyle.sources[key]; }
         });
 
-        const layersToAdd = nextStyle.layers.filter(layer => layers.includes(layer.id));
-        const updatedLayers = addLayersBefore(previousStyle.layers, layersToAdd, '注記シンボル付き重なり');
-        const moveMaskToTopLayers = moveMaskLayer2Top(updatedLayers);
-
-        return {
+        const newStyle = {
             ...previousStyle,
             sources: {
               ...previousStyle.sources,
               ...sources
             },
-            layers: moveMaskToTopLayers
+            layers: [
+              ...previousStyle.layers,
+              ...nextStyle.layers.filter(layer => layers.includes(layer.id))
+            ]
         };
+
+        return newStyle;
       }
     });
 };
@@ -38,7 +36,17 @@ export const addLayerStyle = (mapObj: maplibregl.Map, style: string, layers: str
  * スタイルを削除する
  * ******************/
 export const removeLayerStyle = (mapObj: maplibregl.Map, layers: string[], sourceId: string) => {
-  for (const layer of layers) {
-    mapObj.removeLayer(layer);
-  }
+    mapObj.setStyle(mapObj.getStyle(), {
+      transformStyle: (previousStyle, nextStyle) => {
+        if(!previousStyle) { return nextStyle; }
+        if(!nextStyle) { return previousStyle; }
+        delete previousStyle.sources[sourceId];
+        return {
+          ...previousStyle,
+          layers: [
+            ...nextStyle.layers.filter(layer => !layers.includes(layer.id))
+          ]
+        };
+      }
+    });
 };

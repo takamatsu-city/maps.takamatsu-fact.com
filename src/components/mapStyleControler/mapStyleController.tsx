@@ -46,7 +46,7 @@ const MapStyleController: React.FC<MapStyleControllerProps> = (props) => {
           <p className='label'>レイヤー選択</p>
         </div>
       </div>
-      <motion.div
+      <motion.div 
         className='layer-select-area'
         initial={{ bottom: 100, height: 0, opacity: 0 }}
         animate={open ? { bottom: 116, height: 'auto', opacity: 1 }:{ bottom: 100, height: 0, opacity: 0 }}
