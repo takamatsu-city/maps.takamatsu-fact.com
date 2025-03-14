@@ -477,16 +477,90 @@ const displayConversion: DisplayConversionType = (features: CatalogFeature): Cat
       '測定日時':'測定日時',
       '更新日時':'更新日時',
     },
-
+    '中学校区': {
+      'A32_001':'行政区域コード',
+      'A32_002':'設置主体',
+      'A32_003':'学校コード',
+      'A32_004':'名称',
+      'A32_005':'所在地',
+    },
+    '小学校区': {
+      'A27_001':'行政区域コード',
+      'A27_002':'設置主体',
+      'A27_003':'学校コード',
+      'A27_004':'名称',
+      'A27_005':'所在地',
+    },
+    '大規模盛土造成地': {
+      'A54_001':'盛土区分',
+      'A54_002':'都道府県コード',
+      'A54_003':'都道府県名',
+      'A54_004':'市区町村コード',
+      'A54_005':'市区町村名',
+      'A54_006':'盛土番号',
+    },
+    '土砂災害警戒区域': {
+      'A33_001':'現象の種類',
+      'A33_002':'区域区分',
+      'A33_003':'都道府県コード',
+      'A33_004':'区域番号',
+      'A33_005':'区域名',
+      'A33_006':'所在地',
+      'A33_007':'公示日',
+      'A33_008':'特別警戒未指定フラグ',
+    },
   }
 
+  const featureClass = features.properties['class'] || features.catalog?.class;
   // 日本語変換・表示非表示
-  if(features.properties['class'] in translationMap) {
-    const propertyMap = translationMap[features.properties['class']];
+  if(featureClass in translationMap) {
+    const propertyMap = translationMap[featureClass];
     for (const [prop, propJa] of Object.entries(propertyMap)) {
       properties[propJa] = items.properties[prop];
-      if(features.properties['class'] === '冠水状況' && prop === 'status') {
+      if(featureClass === '冠水状況' && prop === 'status') {
         properties[propJa] = items.properties[prop] === 0 ? '冠水なし': '冠水あり'
+      }
+      if(featureClass === '大規模盛土造成地' && prop === 'A54_001') {
+        const value = items.properties[prop];
+        if (value === '1') {
+          properties[propJa] = '谷埋め型';
+        } else if (value === '2') {
+          properties[propJa] = '腹付け型';
+        } else if (value === '9') {
+          properties[propJa] = '区分をしていない';
+        }
+      }
+      if (featureClass === '土砂災害警戒区域') {
+        if (prop === 'A33_001') {
+          const value = items.properties[prop];
+          if (value === 1) {
+            properties[propJa] = '急傾斜地の崩壊';
+          } else if (value === 2) {
+            properties[propJa] = '土石流';
+          } else if (value === 3) {
+            properties[propJa] = '地滑り';
+          }
+        }
+        if (prop === 'A33_002') {
+          const value = items.properties[prop];
+          if (value === 1) {
+            properties[propJa] = '土砂災害警戒区域(指定済)';
+          } else if (value === 2) {
+            properties[propJa] = '土砂災害特別警戒区域(指定済)';
+          } else if (value === 3) {
+            properties[propJa] = '土砂災害警戒区域(指定前)';
+          } else if (value === 4) {
+            properties[propJa] = '土砂災害特別警戒区域(指定前)';
+          }
+        }
+        if (prop === 'A33_008') {
+          const value = items.properties[prop];
+          if (value === 0) {
+            properties[propJa] = '特別警戒区域指定済み';
+          } else if (value === 1) {
+            properties[propJa] = '特別警戒区域未指定';
+          }
+        }
       }
     }
     items.properties = properties;
