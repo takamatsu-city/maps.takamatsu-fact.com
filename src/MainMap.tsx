@@ -199,14 +199,18 @@ const MainMap: React.FC<Props> = (props) => {
       });
 
       map.on('click', (e) => {
+        const customDataSourceIds = catalogDataItems.filter((item) => "customDataSource" in item).map((item) => item.id);
+        console.log(customDataSourceIds)
         const features = map
           .queryRenderedFeatures(e.point)
           .filter(feature => (
             feature.source === 'takamatsu' ||
             feature.source === 'kihonzu' ||
             feature.source === 'ksj_takamatsu' || // 国土数値情報のデータを含める
+            customDataSourceIds.includes(feature.source) ||
             feature.properties._viewer_selectable === true
           ));
+          
         if (features.length === 0) {
           setSelectedFeatures([]);
           return;
@@ -491,7 +495,7 @@ const MainMap: React.FC<Props> = (props) => {
                   layerConfig['filter'] = (layerConfig['filter'] as any[])[1];
 
                 }
-                
+
                 map.addLayer(layerConfig);
                 
                 if (!map.getLayer(layerConfig.id)) {
