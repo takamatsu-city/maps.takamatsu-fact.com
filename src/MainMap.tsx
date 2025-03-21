@@ -220,10 +220,10 @@ const MainMap: React.FC<Props> = (props) => {
           const catalogData = catalogDataItems.find(item => (
             item.type === "DataItem" && (
               ((feature.source === 'takamatsu' || feature.properties._viewer_selectable === true) && (item as CatalogDataItem).class === feature.properties.class) ||
-              ('customDataSource' in item && item.customDataSource === feature.source)
+              ('customDataSource' in item && item.id === feature.source)
             )
           )) as CatalogDataItem;
-
+          console.log(catalogData);
           // 市区町村とサードパーティのデータどちらも対象にする
           const thirdPartyData = thirdPartySource.find(item => item.layers.includes(feature.layer.id));
           const mergedCatalog: CatalogDataItem = {
