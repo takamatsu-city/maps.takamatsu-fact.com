@@ -200,7 +200,6 @@ const MainMap: React.FC<Props> = (props) => {
 
       map.on('click', (e) => {
         const customDataSourceIds = catalogDataItems.filter((item) => "customDataSource" in item).map((item) => item.id);
-        console.log(customDataSourceIds)
         const features = map
           .queryRenderedFeatures(e.point)
           .filter(feature => (
@@ -223,7 +222,6 @@ const MainMap: React.FC<Props> = (props) => {
               ('customDataSource' in item && item.id === feature.source)
             )
           )) as CatalogDataItem;
-          console.log(catalogData);
           // 市区町村とサードパーティのデータどちらも対象にする
           const thirdPartyData = thirdPartySource.find(item => item.layers.includes(feature.layer.id));
           const mergedCatalog: CatalogDataItem = {
@@ -438,10 +436,6 @@ const MainMap: React.FC<Props> = (props) => {
           }
 
           if("tileUrl" in definition) {
-            if (typeof definition.tileUrl === 'string') {
-              console.log('Check Network tab for requests to:',
-                definition.tileUrl.split('?')[0]);
-            }
             const mapSource = map.getSource(definitionId);
             if (!mapSource && isSelected) {
               map.addSource(definitionId, {
