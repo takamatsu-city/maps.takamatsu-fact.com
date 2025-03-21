@@ -21,6 +21,7 @@
     "shortId": "2Zw",
     "name": "高松市航空写真",
     "class": "航空写真",
+    "source_type": "raster",
     "tileUrl": "https://tileserver.geolonia.com/takamatsu_aerial_photo/tiles.json?key=YOUR-API-KEY",
     "metadata": {}
   },
@@ -1259,6 +1260,35 @@
             "metadata": {}
           }
         ]
+      }
+    ]
+  },
+  {
+    "type": "Category",
+    "id": "盛土規制法",
+    "shortId": "89P",
+    "name": "盛土規制法",
+    "items": [
+      {
+        "type": "DataItem",
+        "id": "盛土規制法/宅地造成等工事規制区域",
+        "shortId": "0bu",
+        "name": "宅地造成等工事規制区域",
+        "class": "宅地造成等工事規制区域",
+        "customDataSource": "https://tileserver-dev.geolonia.com/takamatsu_takuzou/tiles.json?key=YOUR-API-KEY",
+        "customDataSourceLayer": "main",
+        "metadata": {}
+      },
+      {
+        "type": "DataItem",
+        "id": "盛土規制法/特定盛土等規制区域",
+        "shortId": "08u",
+        "name": "特定盛土等規制区域",
+        "class": "特定盛土等規制区域",
+        "source_type": "vector",
+        "customDataSource": "https://tileserver.geolonia.com/takamatsu_tokumori/tiles.json?key=YOUR-API-KEY",
+        "customDataSourceLayer": "main",
+        "metadata": {}
       }
     ]
   }

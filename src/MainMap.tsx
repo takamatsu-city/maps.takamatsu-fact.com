@@ -422,6 +422,17 @@ const MainMap: React.FC<Props> = (props) => {
             }
           }
 
+          if ("customDataSource" in definition) {;
+
+            const mapSource = map.getSource(definitionId);
+            if (!mapSource && isSelected) {
+              map.addSource(definitionId, {
+                type: 'vector',
+                url: definition.customDataSource
+              });
+            }
+          }
+
           if("tileUrl" in definition) {
             if (typeof definition.tileUrl === 'string') {
               console.log('Check Network tab for requests to:',
@@ -473,12 +484,16 @@ const MainMap: React.FC<Props> = (props) => {
                 if (geojsonEndpoint) {
                   layerConfig.source = definitionId;
                   delete layerConfig['source-layer'];
-                } else if ('customDataSource' in definition) {
-                  layerConfig.source = definition.customDataSource;
-                  layerConfig['source-layer'] = definition.customDataSourceLayer || definition.customDataSource;
-                }
-                map.addLayer(layerConfig);
 
+                } else if ('customDataSource' in definition) {
+                  layerConfig.source = definitionId;
+                  layerConfig['source-layer'] = definition.customDataSourceLayer || definition.customDataSource;
+                  layerConfig['filter'] = (layerConfig['filter'] as any[])[1];
+
+                }
+                
+                map.addLayer(layerConfig);
+                
                 if (!map.getLayer(layerConfig.id)) {
                   console.error(`Failed to add layer ${layerConfig.id}!!!`);
                   debugger;
