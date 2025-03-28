@@ -16,6 +16,15 @@
     "metadata": {}
   },
   {
+    "type": "DataItem",
+    "id": "高松市航空写真",
+    "shortId": "2Zw",
+    "name": "高松市航空写真",
+    "class": "航空写真",
+    "tileUrl": "https://tileserver.geolonia.com/takamatsu_aerial_photo/tiles.json?key=YOUR-API-KEY",
+    "metadata": {}
+  },
+  {
     "type": "Category",
     "id": "都市計画情報",
     "shortId": "40Q",
@@ -1125,6 +1134,15 @@
         "shortId": "Eme",
         "name": "防災施設",
         "items": [
+          {
+            "type": "DataItem",
+            "id": "施設情報/防災施設/常設土のう作製場所",
+            "shortId": "z90",
+            "name": "常設土のう作製場所",
+            "class": "常設土のう作製場所",
+            "geojsonEndpoint": "https://opendata.takamatsu-fact.com/sandbag_creation_location/data.geojson",
+            "metadata": {}
+          },
           {
             "type": "DataItem",
             "id": "施設情報/防災施設/市民防災センター",
