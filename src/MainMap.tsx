@@ -199,14 +199,17 @@ const MainMap: React.FC<Props> = (props) => {
       });
 
       map.on('click', (e) => {
+        const customDataSourceIds = catalogDataItems.filter((item) => "customDataSource" in item).map((item) => item.id);
         const features = map
           .queryRenderedFeatures(e.point)
           .filter(feature => (
             feature.source === 'takamatsu' ||
             feature.source === 'kihonzu' ||
             feature.source === 'ksj_takamatsu' || // 国土数値情報のデータを含める
+            customDataSourceIds.includes(feature.source) ||
             feature.properties._viewer_selectable === true
           ));
+          
         if (features.length === 0) {
           setSelectedFeatures([]);
           return;
@@ -216,10 +219,9 @@ const MainMap: React.FC<Props> = (props) => {
           const catalogData = catalogDataItems.find(item => (
             item.type === "DataItem" && (
               ((feature.source === 'takamatsu' || feature.properties._viewer_selectable === true) && (item as CatalogDataItem).class === feature.properties.class) ||
-              ('customDataSource' in item && item.customDataSource === feature.source)
+              ('customDataSource' in item && item.id === feature.source)
             )
           )) as CatalogDataItem;
-
           // 市区町村とサードパーティのデータどちらも対象にする
           const thirdPartyData = thirdPartySource.find(item => item.layers.includes(feature.layer.id));
           const mergedCatalog: CatalogDataItem = {
@@ -422,11 +424,18 @@ const MainMap: React.FC<Props> = (props) => {
             }
           }
 
-          if("tileUrl" in definition) {
-            if (typeof definition.tileUrl === 'string') {
-              console.log('Check Network tab for requests to:',
-                definition.tileUrl.split('?')[0]);
+          if ("customDataSource" in definition) {;
+
+            const mapSource = map.getSource(definitionId);
+            if (!mapSource && isSelected) {
+              map.addSource(definitionId, {
+                type: 'vector',
+                url: definition.customDataSource
+              });
             }
+          }
+
+          if("tileUrl" in definition) {
             const mapSource = map.getSource(definitionId);
             if (!mapSource && isSelected) {
               map.addSource(definitionId, {
@@ -473,12 +482,16 @@ const MainMap: React.FC<Props> = (props) => {
                 if (geojsonEndpoint) {
                   layerConfig.source = definitionId;
                   delete layerConfig['source-layer'];
-                } else if ('customDataSource' in definition) {
-                  layerConfig.source = definition.customDataSource;
-                  layerConfig['source-layer'] = definition.customDataSourceLayer || definition.customDataSource;
-                }
-                map.addLayer(layerConfig);
 
+                } else if ('customDataSource' in definition) {
+                  layerConfig.source = definitionId;
+                  layerConfig['source-layer'] = definition.customDataSourceLayer || definition.customDataSource;
+                  layerConfig['filter'] = (layerConfig['filter'] as any[])[1];
+
+                }
+
+                map.addLayer(layerConfig);
+                
                 if (!map.getLayer(layerConfig.id)) {
                   console.error(`Failed to add layer ${layerConfig.id}!!!`);
                   debugger;
