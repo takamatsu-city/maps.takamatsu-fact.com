@@ -432,6 +432,15 @@
           },
           {
             "type": "DataItem",
+            "id": "施設情報/くらし/交流センター",
+            "shortId": "BJP",
+            "name": "交流センター",
+            "class": "交流センター",
+            "geojsonEndpoint": "https://opendata.takamatsu-fact.com/exchange_center/data.geojson",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
             "id": "施設情報/くらし/ため池一覧",
             "shortId": "9af",
             "name": "ため池一覧",
@@ -807,6 +816,42 @@
           },
           {
             "type": "DataItem",
+            "id": "施設情報/保健・医療・福祉/柔道整復師施術所一覧",
+            "shortId": "8Mb",
+            "name": "柔道整復師施術所一覧",
+            "class": "柔道整復師施術所一覧",
+            "geojsonEndpoint": "https://opendata.takamatsu-fact.com/judo_therapy/data.geojson",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "施設情報/保健・医療・福祉/あはき施術所一覧",
+            "shortId": "tQX",
+            "name": "あはき施術所一覧",
+            "class": "あはき施術所一覧",
+            "geojsonEndpoint": "https://opendata.takamatsu-fact.com/Finger_Pressure_Acupuncture_and_Moxacauterization/data.geojson",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "施設情報/保健・医療・福祉/助産所一覧",
+            "shortId": "Eiz",
+            "name": "助産所一覧",
+            "class": "助産所一覧",
+            "geojsonEndpoint": "https://opendata.takamatsu-fact.com/midwifery_center/data.geojson",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "施設情報/保健・医療・福祉/歯科技工所一覧",
+            "shortId": "ZDf",
+            "name": "歯科技工所一覧",
+            "class": "歯科技工所一覧",
+            "geojsonEndpoint": "https://opendata.takamatsu-fact.com/dental_laboratories/data.geojson",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
             "id": "施設情報/保健・医療・福祉/地域包括支援センター",
             "shortId": "6IU",
             "name": "地域包括支援センター",
@@ -1088,6 +1133,15 @@
             "name": "レンタサイクルポート",
             "class": "レンタサイクルポート",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/bictcle_rental_port/data.geojson",
+            "metadata": {}
+          },
+          {
+            "type": "DataItem",
+            "id": "施設情報/交通/高松市パークアンドライド駐車場",
+            "shortId": "AiO",
+            "name": "高松市パークアンドライド駐車場",
+            "class": "高松市パークアンドライド駐車場",
+            "geojsonEndpoint": "https://opendata.takamatsu-fact.com/Takamatsu_park_and_ride/data.geojson",
             "metadata": {}
           },
           {
