@@ -53,6 +53,7 @@ export const SOURCES: {[key: string]: string} = {
   TERRAIN_DEM_ID: 'gsidem',
   NEGATIVE_MASK_ID: 'negative-city-mask',
   KIHONZU: 'kihonzu',
+  OKUGAI_KOUKOKU_ID: 'takamatsu-okugaikoukoku',
 }
 
 interface Props {
@@ -181,6 +182,13 @@ const MainMap: React.FC<Props> = (props) => {
           map.addSource(SOURCES.MUNICIPALITY_ID, {
             type: 'vector',
             url: "https://tileserver.geolonia.com/takamatsu_main_v0_1/tiles.json?key=YOUR-API-KEY"
+          });
+        }
+
+        if (!map.getSource(SOURCES.OKUGAI_KOUKOKU_ID)) {
+          map.addSource(SOURCES.OKUGAI_KOUKOKU_ID, {
+            type: 'vector',
+            url: `https://tileserver.geolonia.com/${ SOURCES.OKUGAI_KOUKOKU_ID }/tiles.json?key=YOUR-API-KEY`
           });
         }
 
