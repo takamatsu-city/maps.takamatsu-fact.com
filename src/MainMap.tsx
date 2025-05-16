@@ -464,6 +464,7 @@ const MainMap: React.FC<Props> = (props) => {
             const fullLayerName = `takamatsu/${definitionId}/${sublayerName}`;
             const mapLayers = map.getStyle().layers.filter((layer: any) => layer.id.startsWith(fullLayerName));
             const customStyle = getCustomStyle(definition);
+
             for (const subtemplate of template(index, customStyle)) {
               if (mapLayers.length === 0 && isSelected) {
                 const filterExp: maplibregl.FilterSpecification = ["all", ["==", "$type", sublayerName]];
@@ -478,6 +479,7 @@ const MainMap: React.FC<Props> = (props) => {
                   filter: filterExp,
                   id: fullLayerName + subtemplate.id,
                 };
+                
                 if (geojsonEndpoint) {
                   layerConfig.source = definitionId;
                   delete layerConfig['source-layer'];

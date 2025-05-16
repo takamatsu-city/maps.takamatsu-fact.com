@@ -1273,16 +1273,18 @@
         "id": "屋外広告物規制図/景観計画区域図",
         "shortId": "78u",
         "name": "景観計画区域図",
-        "class": "景観計画区域図",
-        "metadata": {}
+        "metadata": {},
+        "customDataSource": "takamatsu-okugaikoukoku",
+        "customDataSourceLayer": "景観計画区域"
       },
       {
         "type": "DataItem",
         "id": "屋外広告物規制図/屋外広告物規制図",
         "shortId": "jh9",
         "name": "屋外広告物規制図",
-        "class": "屋外広告物規制図",
-        "metadata": {}
+        "metadata": {},
+        "customDataSource": "takamatsu-okugaikoukoku",
+        "customDataSourceLayer": "屋外広告物規制区域"
       }
     ]
   }
