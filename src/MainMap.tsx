@@ -54,6 +54,7 @@ export const SOURCES: {[key: string]: string} = {
   NEGATIVE_MASK_ID: 'negative-city-mask',
   KIHONZU: 'kihonzu',
   OKUGAI_KOUKOKU_ID: 'takamatsu-okugaikoukoku',
+  KSJ_TAKAMATSU_ID: 'ksj_takamatsu',
 }
 
 interface Props {
@@ -210,21 +211,19 @@ const MainMap: React.FC<Props> = (props) => {
         const features = map
           .queryRenderedFeatures(e.point)
           .filter(feature => (
-            feature.source === 'takamatsu' ||
-            feature.source === 'kihonzu' ||
-            feature.source === 'ksj_takamatsu' || // 国土数値情報のデータを含める
+            Object.values(SOURCES).includes(feature.source) ||
             feature.properties._viewer_selectable === true
           ));
         if (features.length === 0) {
           setSelectedFeatures([]);
           return;
         }
-
+        console.log('Clicked features:', features);
         setSelectedFeatures(features.map(feature => {
           const catalogData = catalogDataItems.find(item => (
             item.type === "DataItem" && (
               ((feature.source === 'takamatsu' || feature.properties._viewer_selectable === true) && (item as CatalogDataItem).class === feature.properties.class) ||
-              ('customDataSource' in item && item.customDataSource === feature.source)
+              ('customDataSource' in item && item.customDataSource === feature.source && item.customDataSourceLayer === feature.sourceLayer)
             )
           )) as CatalogDataItem;
 
@@ -238,6 +237,7 @@ const MainMap: React.FC<Props> = (props) => {
           if (!mergedCatalog) {
             throw new Error(`Catalog data not available for feature: ${feature}`);
           }
+          console.log('Merged catalog:', mergedCatalog, feature.properties);
 
           return {
             catalog: mergedCatalog,
