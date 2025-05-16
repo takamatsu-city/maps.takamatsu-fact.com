@@ -218,7 +218,7 @@ const MainMap: React.FC<Props> = (props) => {
           setSelectedFeatures([]);
           return;
         }
-        console.log('Clicked features:', features);
+        
         setSelectedFeatures(features.map(feature => {
           const catalogData = catalogDataItems.find(item => (
             item.type === "DataItem" && (
@@ -237,7 +237,6 @@ const MainMap: React.FC<Props> = (props) => {
           if (!mergedCatalog) {
             throw new Error(`Catalog data not available for feature: ${feature}`);
           }
-          console.log('Merged catalog:', mergedCatalog, feature.properties);
 
           return {
             catalog: mergedCatalog,
