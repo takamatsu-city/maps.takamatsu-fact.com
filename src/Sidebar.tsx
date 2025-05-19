@@ -241,6 +241,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpenedSidebar, setIsOpenedSidebar, 
           )}
         </div>
       </div>
+      <p className='sidebar-news'>用途地域の一部変更に伴い、現在、データの更新作業を行っております。<br/>ご不便をおかけしますが、詳細についてはたかまっぷをご確認いただくか、都市計画課までお問い合わせください。</p>
       <details className='user-guide-link'>
         <summary>ご利用にあたって</summary>
         <ul>
