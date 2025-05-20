@@ -1261,5 +1261,31 @@
         ]
       }
     ]
+  },
+  {
+    "type": "Category",
+    "id": "屋外広告物規制図",
+    "shortId": "A1_",
+    "name": "屋外広告物規制図",
+    "items": [
+      {
+        "type": "DataItem",
+        "id": "屋外広告物規制図/景観計画区域",
+        "shortId": "78u",
+        "name": "景観計画区域",
+        "metadata": {},
+        "customDataSource": "takamatsu-okugaikoukoku",
+        "customDataSourceLayer": "景観計画区域"
+      },
+      {
+        "type": "DataItem",
+        "id": "屋外広告物規制図/屋外広告物規制区域",
+        "shortId": "jh9",
+        "name": "屋外広告物規制区域",
+        "metadata": {},
+        "customDataSource": "takamatsu-okugaikoukoku",
+        "customDataSourceLayer": "屋外広告物規制区域"
+      }
+    ]
   }
 ]

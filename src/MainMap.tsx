@@ -53,6 +53,8 @@ export const SOURCES: {[key: string]: string} = {
   TERRAIN_DEM_ID: 'gsidem',
   NEGATIVE_MASK_ID: 'negative-city-mask',
   KIHONZU: 'kihonzu',
+  OKUGAI_KOUKOKU_ID: 'takamatsu-okugaikoukoku',
+  KSJ_TAKAMATSU_ID: 'ksj_takamatsu',
 }
 
 interface Props {
@@ -184,6 +186,13 @@ const MainMap: React.FC<Props> = (props) => {
           });
         }
 
+        if (!map.getSource(SOURCES.OKUGAI_KOUKOKU_ID)) {
+          map.addSource(SOURCES.OKUGAI_KOUKOKU_ID, {
+            type: 'vector',
+            url: `https://tileserver.geolonia.com/${ SOURCES.OKUGAI_KOUKOKU_ID }/tiles.json?key=YOUR-API-KEY`
+          });
+        }
+
         if (!map.getSource(SOURCES.KIHONZU)) {
           map.addSource(SOURCES.KIHONZU, {
             type: 'vector',
@@ -202,21 +211,19 @@ const MainMap: React.FC<Props> = (props) => {
         const features = map
           .queryRenderedFeatures(e.point)
           .filter(feature => (
-            feature.source === 'takamatsu' ||
-            feature.source === 'kihonzu' ||
-            feature.source === 'ksj_takamatsu' || // 国土数値情報のデータを含める
+            Object.values(SOURCES).includes(feature.source) ||
             feature.properties._viewer_selectable === true
           ));
         if (features.length === 0) {
           setSelectedFeatures([]);
           return;
         }
-
+        
         setSelectedFeatures(features.map(feature => {
           const catalogData = catalogDataItems.find(item => (
             item.type === "DataItem" && (
               ((feature.source === 'takamatsu' || feature.properties._viewer_selectable === true) && (item as CatalogDataItem).class === feature.properties.class) ||
-              ('customDataSource' in item && item.customDataSource === feature.source)
+              ('customDataSource' in item && item.customDataSource === feature.source && item.customDataSourceLayer === feature.sourceLayer)
             )
           )) as CatalogDataItem;
 
@@ -456,6 +463,7 @@ const MainMap: React.FC<Props> = (props) => {
             const fullLayerName = `takamatsu/${definitionId}/${sublayerName}`;
             const mapLayers = map.getStyle().layers.filter((layer: any) => layer.id.startsWith(fullLayerName));
             const customStyle = getCustomStyle(definition);
+
             for (const subtemplate of template(index, customStyle)) {
               if (mapLayers.length === 0 && isSelected) {
                 const filterExp: maplibregl.FilterSpecification = ["all", ["==", "$type", sublayerName]];
@@ -470,6 +478,7 @@ const MainMap: React.FC<Props> = (props) => {
                   filter: filterExp,
                   id: fullLayerName + subtemplate.id,
                 };
+                
                 if (geojsonEndpoint) {
                   layerConfig.source = definitionId;
                   delete layerConfig['source-layer'];
