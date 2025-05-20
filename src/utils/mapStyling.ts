@@ -1,4 +1,4 @@
-import type { DataDrivenPropertyValueSpecification } from "maplibre-gl";
+import type { DataDrivenPropertyValueSpecification, ExpressionSpecification } from "maplibre-gl";
 import { CatalogDataItem } from "../api/catalog";
 
 export const lineWidth_thin: DataDrivenPropertyValueSpecification<number> = [
@@ -117,9 +117,9 @@ export type CustomStyle = {
   id: string
   filter?: any
   pattern?: string
-  outlineColor?: string
-  fillColor?: string
-  lineColor?: string
+  outlineColor?: string | ExpressionSpecification;
+  fillColor?: string | ExpressionSpecification;
+  lineColor?: string | ExpressionSpecification;
   pointColor?: string
   pointLabel?: string
   lineWidth?: any
@@ -324,8 +324,65 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
       pattern: "custom:stripe-blue",
       outlineColor: "rgb(139,202,252)"
     }
+  ],
+  "屋外広告物規制図/景観計画区域": [
+    {
+      id: "景観形成重点地区",
+      opacity: 0.5,
+      lineWidth: 2,
+      fillColor: [
+        "match",
+        ["get", "区域名"],
+        "景観形成重点地区", "rgb(249,156,112)",
+        "海・島しょ景観ゾーン", "rgb(110,222,240)",
+        "市街地景観ゾーン（住居系）", "rgb(169,244,154)",
+        "市街地景観ゾーン（商工系）", "rgb(196,165,248)",
+        "田園居住、山地・丘陵地景観ゾーン", "rgb(242,247,121)",
+        "rgb(255,255,255)"
+      ],
+      outlineColor: [
+        "match",
+        ["get", "区域名"],
+        "景観形成重点地区", "rgb(249,156,112)",
+        "海・島しょ景観ゾーン", "rgb(110,222,240)",
+        "市街地景観ゾーン（住居系）", "rgb(169,244,154)",
+        "市街地景観ゾーン（商工系）", "rgb(196,165,248)",
+        "田園居住、山地・丘陵地景観ゾーン", "rgb(242,247,121)",
+        "rgb(255,255,255)"
+      ]
+    }
+  ],
+  "屋外広告物規制図/屋外広告物規制区域": [
+    {
+      id: "第1種許可地域",
+      opacity: 0.5,
+      lineWidth: 2,
+      fillColor: [
+        "match",
+        ["get", "許可地域"],
+        "第１種許可地域", "rgb(206,206,202)",
+        "第１種禁止地域", "rgb(241,196,197)",
+        "第２種許可地域", "rgb(254,254,191)",
+        "第２種禁止地域", "rgb(255,195,198)",
+        "第３種許可地域", "rgb(183,253,195)",
+        "第４種許可地域", "rgb(255,225,194)",
+        "第５種許可地域", "rgb(255,196,255)",
+        "rgb(255,255,255)"
+      ],
+      outlineColor: [
+        "match",
+        ["get", "許可地域"],
+        "第１種許可地域", "rgb(206,206,202)",
+        "第１種禁止地域", "rgb(241,196,197)",
+        "第２種許可地域", "rgb(254,254,191)",
+        "第２種禁止地域", "rgb(255,195,198)",
+        "第３種許可地域", "rgb(183,253,195)",
+        "第４種許可地域", "rgb(255,225,194)",
+        "第５種許可地域", "rgb(255,196,255)",
+        "rgb(255,255,255)"
+      ]
+    }
   ]
-
 };
 
 export const getCustomStyle: (layerDefinition: CatalogDataItem) => CustomStyle[] | undefined = (def) => {
@@ -345,6 +402,7 @@ export type LayerTemplate = (LayerSpecification & {
 
 export const customStyleToPolygonTemplate: (customStyle: CustomStyle, defaultColor: string) => LayerTemplate[] = (style, color) => {
   const fillPaint = style.pattern ? { 'fill-pattern': style.pattern } : { 'fill-color': style.fillColor || color };
+  console.log("customStyleToPolygonTemplate", style, fillPaint);
   return [
     {
       "id": `${style.id}`,
@@ -365,7 +423,7 @@ export const customStyleToPolygonTemplate: (customStyle: CustomStyle, defaultCol
       filter: style.filter,
       paint: {
         "line-color": style.outlineColor || color,
-        "line-width": lineWidth_thin,
+        "line-width": style.lineWidth || lineWidth_thin,
         "line-opacity": style.lineOpacity ?? 1,
       },
     }
