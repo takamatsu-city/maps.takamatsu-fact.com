@@ -338,6 +338,13 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
       fillColor: "rgba(152,251,152,0.5)",
       outlineColor: "rgba(152,251,152,1)"
     }
+  ],
+  "既存盛土":[
+    {
+      id: "",
+      fillColor: "rgba(0, 47, 203, 0.56)",
+      outlineColor: "rgba(0, 30, 255,1)"
+    }
   ]
 };
 
