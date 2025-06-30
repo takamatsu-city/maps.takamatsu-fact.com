@@ -339,11 +339,11 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
       outlineColor: "rgba(152,251,152,1)"
     }
   ],
-  "既存盛土":[
+  "既存盛土等":[
     {
       id: "",
-      fillColor: "rgba(0, 47, 203, 0.56)",
-      outlineColor: "rgba(0, 30, 255,1)"
+      fillColor: "rgba(124, 237, 241, 0.7)",
+      outlineColor: "rgba(124, 237, 241, 1)"
     }
   ]
 };
