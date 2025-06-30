@@ -1292,10 +1292,10 @@
       },
       {
         "type": "DataItem",
-        "id": "盛土規制法/既存盛土",
+        "id": "盛土規制法/既存盛土等",
         "shortId": "8i5",
-        "name": "既存盛土",
-        "class": "既存盛土",
+        "name": "既存盛土等",
+        "class": "既存盛土等",
         "source_type": "vector",
         "customDataSource": "https://tileserver.geolonia.com/takamatsu_morido_250522/tiles.json?key=YOUR-API-KEY",
         "customDataSourceLayer": "高松市既存盛土250522",

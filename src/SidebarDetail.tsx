@@ -6,6 +6,7 @@ import ReplaceTextToLink from './utils/ReplaceTextToLink';
 import displayConversion from './utils/visibilityConversion';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { selectedFeaturesAtom } from './atoms';
+import ReplaceSpecialText from './utils/ReplaceSpecialText';
 
 const SingleFeatureTable: React.FC<{feature: CatalogFeature}> = ({feature}) => {
   const detailItems = Object.entries(feature.properties).filter(([key, _value]) => !key.startsWith('_viewer_'));
@@ -29,7 +30,7 @@ const SingleFeatureTable: React.FC<{feature: CatalogFeature}> = ({feature}) => {
       <tbody>
         { detailItems.map(([key, value]) => (
           <tr className="sidebar-detail-item" key={key}>
-            <th className='label'>{key}</th>
+            <th className='label'><ReplaceSpecialText text={key} /></th>
             <td className='content'><ReplaceTextToLink text={value} /></td>
           </tr>
         ))}
