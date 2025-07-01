@@ -324,8 +324,28 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
       pattern: "custom:stripe-blue",
       outlineColor: "rgb(139,202,252)"
     }
+  ],
+  "宅地造成等工事規制区域":[
+    {
+      id: "",
+      fillColor: "rgba(241, 173, 231,0.5)",
+      outlineColor: "rgba(241, 173, 231,1)"
+    }
+  ],
+  "特定盛土等規制区域":[
+    {
+      id: "",
+      fillColor: "rgba(152,251,152,0.5)",
+      outlineColor: "rgba(152,251,152,1)"
+    }
+  ],
+  "既存盛土等":[
+    {
+      id: "",
+      fillColor: "rgba(124, 237, 241, 0.7)",
+      outlineColor: "rgba(124, 237, 241, 1)"
+    }
   ]
-
 };
 
 export const getCustomStyle: (layerDefinition: CatalogDataItem) => CustomStyle[] | undefined = (def) => {
