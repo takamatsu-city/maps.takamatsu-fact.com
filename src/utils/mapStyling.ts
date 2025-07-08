@@ -130,17 +130,39 @@ export type CustomStyle = {
 const AREA_STYLES: { [key: string]: CustomStyle[] } = {
   "第一種低層住居専用地域": [
     {
-      id: "",
-      "fillColor": "rgb(36,190,159)",
-      "outlineColor": "rgb(156,84,160)",
-      "lineColor": "rgb(36,190,159)",
+      id: "/60_40",
+      filter: ["all", ["==", "yousekirit", "６／１０以下"], ["==", "kenpeirits", "４／１０以下"]],
+      pattern: "first_low_resident_60_40",
+      outlineColor: "rgb(156,84,160)",
+      lineColor: "rgb(36,190,159)",
+    },
+    {
+      id: "/80_50",
+      filter: ["all", ["==", "yousekirit", "８／１０以下"], ["==", "kenpeirits", "５／１０以下"]],
+      pattern: "first_low_resident_80_50",
+      outlineColor: "rgb(156,84,160)",
+      lineColor: "rgb(36,190,159)",
+    },
+    {
+      id: "/100_60",
+      filter: ["all", ["==", "yousekirit", "１０／１０以下"], ["==", "kenpeirits", "６／１０以下"]],
+      fillColor: "rgb(36,190,159)",
+      outlineColor: "rgb(156,84,160)",
+      lineColor: "rgb(36,190,159)",
     },
   ],
   "第二種低層住居専用地域": [
     {
-      id: "",
-      "outlineColor": "rgb(156,84,160)",
-      "fillColor": "rgb(215,237,229)",
+      id: "/100_60",
+      filter: ["all", ["==", "yousekirit", "１０／１０以下"], ["==", "kenpeirits", "６／１０以下"]],
+      outlineColor: "rgb(156,84,160)",
+      pattern: "second_low_resident_100_60",
+    },
+    {
+      id: "/150_60",
+      filter: ["all", ["==", "yousekirit", "１５／１０以下"], ["==", "kenpeirits", "６／１０以下"]],
+      outlineColor: "rgb(156,84,160)",
+      fillColor: "rgb(215,237,229)",
     }
   ],
   "第一種中高層住居専用地域": [
@@ -180,17 +202,68 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
   ],
   "近隣商業地域": [
     {
-      id: "",
-      "outlineColor": "rgb(179,114,173)",
-      "fillColor": "rgb(252,226,225)",
+      id: "/200_80",
+      filter: ["all", ["==", "yousekirit", "２０／１０以下"], ["==", "kenpeirits", "８／１０以下"]],
+      outlineColor: "rgb(179,114,173)",
+      pattern: "near_commerce_200_80",
+    },
+    {
+      id: "/300_80",
+      filter: ["all", ["==", "yousekirit", "３０／１０以下"], ["==", "kenpeirits", "８／１０以下"]],
+      outlineColor: "rgb(179,114,173)",
+      fillColor: "rgb(252,226,225)",
     }
   ],
   "商業地域": [
     {
-      id: "",
-      "fillColor": "rgb(179,114,173)",
-      "outlineColor": "rgb(241,93,125)",
-    }
+      id: "/200_80",
+      filter: ["all", ["==", "yousekirit", "２０／１０以下"], ["==", "kenpeirits", "８／１０以下"]],
+      pattern: "commerce_200_80",
+      outlineColor: "rgb(179,114,173)",
+      lineColor: "rgb(241,93,125)",
+    },
+    {
+      id: "/300_80",
+      filter: ["all", ["==", "yousekirit", "３０／１０以下"], ["==", "kenpeirits", "８／１０以下"]],
+      pattern: "commerce_300_80",
+      outlineColor: "rgb(179,114,173)",
+      lineColor: "rgb(241,93,125)",
+    },
+    {
+      id: "/400_80",
+      filter: ["all", ["==", "yousekirit", "４０／１０以下"], ["==", "kenpeirits", "８／１０以下"]],
+      fillColor: "rgb(247,166,172)",
+      outlineColor: "rgb(179,114,173)",
+      lineColor: "rgb(241,93,125)",
+    },
+    {
+      id: "/500_80",
+      filter: ["all", ["==", "yousekirit", "５０／１０以下"], ["==", "kenpeirits", "８／１０以下"]],
+      pattern: "commerce_500_80",
+      outlineColor: "rgb(179,114,173)",
+      lineColor: "rgb(241,93,125)",
+    },
+    {
+      id: "/600_80",
+      filter: ["all", ["==", "yousekirit", "６０／１０以下"], ["==", "kenpeirits", "８／１０以下"]],
+      pattern: "commerce_600_80",
+      outlineColor: "rgb(179,114,173)",
+      lineColor: "rgb(241,93,125)",
+    },
+    {
+      id: "/700_80",
+      filter: ["all", ["==", "yousekirit", "７０／１０以下"], ["==", "kenpeirits", "８／１０以下"]],
+      pattern: "commerce_700_80",
+      outlineColor: "rgb(179,114,173)",
+      lineColor: "rgb(241,93,125)",
+    },
+    {
+      id: "/800_80",
+      filter: ["all", ["==", "yousekirit", "８０／１０以下"], ["==", "kenpeirits", "８／１０以下"]],
+      pattern: "commerce_800_80",
+      outlineColor: "rgb(179,114,173)",
+      lineColor: "rgb(241,93,125)",
+    },
   ],
   "準工業地域": [
     {
@@ -251,8 +324,28 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
       pattern: "custom:stripe-blue",
       outlineColor: "rgb(139,202,252)"
     }
+  ],
+  "宅地造成等工事規制区域":[
+    {
+      id: "",
+      fillColor: "rgba(241, 173, 231,0.5)",
+      outlineColor: "rgba(241, 173, 231,1)"
+    }
+  ],
+  "特定盛土等規制区域":[
+    {
+      id: "",
+      fillColor: "rgba(152,251,152,0.5)",
+      outlineColor: "rgba(152,251,152,1)"
+    }
+  ],
+  "既存盛土等":[
+    {
+      id: "",
+      fillColor: "rgba(124, 237, 241, 0.7)",
+      outlineColor: "rgba(124, 237, 241, 1)"
+    }
   ]
-
 };
 
 export const getCustomStyle: (layerDefinition: CatalogDataItem) => CustomStyle[] | undefined = (def) => {
