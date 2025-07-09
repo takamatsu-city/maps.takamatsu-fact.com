@@ -7,6 +7,7 @@ import { CatalogFeature } from "../api/catalog"
 type DisplayConversionType = (features: CatalogFeature) => CatalogFeature;
 
 const displayConversion: DisplayConversionType = (features: CatalogFeature): CatalogFeature => {
+
   let items: CatalogFeature = JSON.parse(JSON.stringify(features));
   let properties:{ [key: string]: string } = {};
 
@@ -75,7 +76,6 @@ const displayConversion: DisplayConversionType = (features: CatalogFeature): Cat
     'serviceContents':'サービス内容',
     'Equipment':'設備',
   }
-
 
   const translationMap: { [key: string]: { [key: string]: string } } = {
     '大字界': {
@@ -564,7 +564,7 @@ const displayConversion: DisplayConversionType = (features: CatalogFeature): Cat
       }
     }
     items.properties = properties;
-  }else {
+  } else {
     delete items.properties['NO'];
     delete items.properties['class'];
     delete items.properties['subclass'];
