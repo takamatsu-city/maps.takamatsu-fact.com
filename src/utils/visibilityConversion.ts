@@ -77,6 +77,13 @@ const displayConversion: DisplayConversionType = (features: CatalogFeature): Cat
     'Equipment':'設備',
   }
 
+  const yotochiki: {[key: string]: string} = {
+    'youtomei': '用途名',
+    'kenpeirits': '建ぺい率',
+    'yousekirit': '容積率',
+    'takasaseig': '高さ制限',
+  }
+
   const translationMap: { [key: string]: { [key: string]: string } } = {
     '大字界': {
       'meisho': '名称',
@@ -562,6 +569,11 @@ const displayConversion: DisplayConversionType = (features: CatalogFeature): Cat
           }
         }
       }
+    }
+    items.properties = properties;
+  } else if(features.catalog.id.includes('用途地域')){
+    for (const [prop, propJa] of Object.entries(yotochiki)) {
+      properties[propJa] = items.properties[prop];
     }
     items.properties = properties;
   } else {
