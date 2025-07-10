@@ -450,69 +450,69 @@ const MainMap: React.FC<Props> = (props) => {
               map.addSource(definitionId, source);
             }
 
-            if( (definition as any)["source_type"] === 'raster') {
-              if(mapSource && isSelected) {
-                map.addLayer({
-                  id: definitionId,
-                  type: 'raster',
-                  source: definitionId,
-                  minzoom: 2,
-                  maxzoom: 22,
-                  paint: {
-                    'raster-opacity': 1
-                  }
-                });
-              } else {
-                map.removeLayer(definitionId);
-              }
-            }
-
           }
 
-          for (const [sublayerName, template] of LAYER_TEMPLATES) {
-            const fullLayerName = `takamatsu/${definitionId}/${sublayerName}`;
-            const mapLayers = map.getStyle().layers.filter((layer: any) => layer.id.startsWith(fullLayerName));
-            const customStyle = getCustomStyle(definition);
-            for (const subtemplate of template(index, customStyle)) {
-              if (mapLayers.length === 0 && isSelected) {
-                const filterExp: maplibregl.FilterSpecification = ["all", ["==", "$type", sublayerName]];
-                if (definition.class) {
-                  filterExp.push(["==", "class", definition.class]);
+          if("tileUrl" in definition && (definition as any)["source_type"] === 'raster') {
+            if(isSelected) {
+              map.addLayer({
+                id: definitionId,
+                type: 'raster',
+                source: definitionId,
+                minzoom: 2,
+                maxzoom: 22,
+                paint: {
+                  'raster-opacity': 1
                 }
-                if (subtemplate.filter) {
-                  filterExp.push(subtemplate.filter as any);
-                }
-                const layerConfig: maplibregl.LayerSpecification = {
-                  ...subtemplate,
-                  filter: filterExp,
-                  id: fullLayerName + subtemplate.id,
-                };
-                if (geojsonEndpoint) {
-                  layerConfig.source = definitionId;
-                  delete layerConfig['source-layer'];
+              });
+            } else {
+              map.removeLayer(definitionId);
+            }
+          } else {
+            for (const [sublayerName, template] of LAYER_TEMPLATES) {
+              const fullLayerName = `takamatsu/${definitionId}/${sublayerName}`;
+              const mapLayers = map.getStyle().layers.filter((layer: any) => layer.id.startsWith(fullLayerName));
+              const customStyle = getCustomStyle(definition);
+              for (const subtemplate of template(index, customStyle)) {
+                if (mapLayers.length === 0 && isSelected) {
+                  const filterExp: maplibregl.FilterSpecification = ["all", ["==", "$type", sublayerName]];
+                  if (definition.class) {
+                    filterExp.push(["==", "class", definition.class]);
+                  }
+                  if (subtemplate.filter) {
+                    filterExp.push(subtemplate.filter as any);
+                  }
+                  const layerConfig: maplibregl.LayerSpecification = {
+                    ...subtemplate,
+                    filter: filterExp,
+                    id: fullLayerName + subtemplate.id,
+                  };
+                  if (geojsonEndpoint) {
+                    layerConfig.source = definitionId;
+                    delete layerConfig['source-layer'];
 
-                } else if ('customDataSource' in definition) {
-                  layerConfig.source = definition.customDataSource;
-                  layerConfig['filter'] = (layerConfig['filter'] as any[])[1];
+                  } else if ('customDataSource' in definition) {
+                    layerConfig.source = definition.customDataSource;
+                    layerConfig['filter'] = (layerConfig['filter'] as any[])[1];
+                    
+                  } else if ('tileUrl' in definition) {
+                    layerConfig.source = definitionId;
+                    layerConfig['filter'] = (layerConfig['filter'] as any[])[1];
+                  }
+
+                  if ('customDataSourceLayer' in definition) {
+                    layerConfig['source-layer'] = definition.customDataSourceLayer;
+                  }
+
+                  map.addLayer(layerConfig);
                   
-                } else if ('tileUrl' in definition) {
-                  layerConfig.source = definitionId;
-                  layerConfig['filter'] = (layerConfig['filter'] as any[])[1];
-                }
-
-                if ('customDataSourceLayer' in definition) {
-                  layerConfig['source-layer'] = definition.customDataSourceLayer;
-                }
-
-                map.addLayer(layerConfig);
-                
-                if (!map.getLayer(layerConfig.id)) {
-                  console.error(`Failed to add layer ${layerConfig.id}!!!`);
-                  debugger;
-                }
-              } else if (mapLayers.length > 0 && !isSelected) {
-                for (const mapLayer of mapLayers) {
-                  map.removeLayer(mapLayer.id);
+                  if (!map.getLayer(layerConfig.id)) {
+                    console.error(`Failed to add layer ${layerConfig.id}!!!`);
+                    debugger;
+                  }
+                } else if (mapLayers.length > 0 && !isSelected) {
+                  for (const mapLayer of mapLayers) {
+                    map.removeLayer(mapLayer.id);
+                  }
                 }
               }
             }
