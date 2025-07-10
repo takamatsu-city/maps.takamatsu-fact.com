@@ -216,10 +216,11 @@ const MainMap: React.FC<Props> = (props) => {
         }
 
         setSelectedFeatures(features.map(feature => {
+          console.log('feature', feature.source);
           const catalogData = catalogDataItems.find(item => (
             item.type === "DataItem" && (
               ((feature.source === 'takamatsu' || feature.properties._viewer_selectable === true) && (item as CatalogDataItem).class === feature.properties.class) ||
-              ('customDataSource' in item && item.id === feature.source)
+              ('customDataSource' in item && item.customDataSource === feature.source)
             )
           )) as CatalogDataItem;
           // 市区町村とサードパーティのデータどちらも対象にする
@@ -424,17 +425,6 @@ const MainMap: React.FC<Props> = (props) => {
             }
           }
 
-          if ("customDataSource" in definition) {;
-
-            const mapSource = map.getSource(definitionId);
-            if (!mapSource && isSelected) {
-              map.addSource(definitionId, {
-                type: 'vector',
-                url: definition.customDataSource
-              });
-            }
-          }
-
           if("tileUrl" in definition) {
             const mapSource = map.getSource(definitionId);
             if (!mapSource && isSelected) {
@@ -484,12 +474,14 @@ const MainMap: React.FC<Props> = (props) => {
                   delete layerConfig['source-layer'];
 
                 } else if ('customDataSource' in definition) {
-                  layerConfig.source = definitionId;
-                  layerConfig['source-layer'] = definition.customDataSourceLayer || definition.customDataSource;
+                  layerConfig.source = definition.customDataSource;
                   layerConfig['filter'] = (layerConfig['filter'] as any[])[1];
-
                 }
 
+                if ('customDataSourceLayer' in definition) {
+                  layerConfig['source-layer'] = typeof definition.customDataSourceLayer === 'string' ? definition.customDataSourceLayer : "main";
+                }
+                
                 map.addLayer(layerConfig);
                 
                 if (!map.getLayer(layerConfig.id)) {
