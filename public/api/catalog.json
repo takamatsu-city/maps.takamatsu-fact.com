@@ -1330,6 +1330,7 @@
         "shortId": "0bu",
         "name": "宅地造成等工事規制区域",
         "class": "宅地造成等工事規制区域",
+        "source_type": "vector",
         "tileUrl": "https://tileserver.geolonia.com/takamatsu_takuzou/tiles.json?key=YOUR-API-KEY",
         "customDataSourceLayer": "main",
         "metadata": {}
