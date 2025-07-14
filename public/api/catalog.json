@@ -45,6 +45,7 @@
         "shortId": "ObF",
         "name": "都市計画基本図",
         "customDataSource": "kihonzu",
+        "customDataSourceLayer": "kihonzu",
         "metadata": {}
       },
       {
@@ -1329,7 +1330,8 @@
         "shortId": "0bu",
         "name": "宅地造成等工事規制区域",
         "class": "宅地造成等工事規制区域",
-        "customDataSource": "https://tileserver.geolonia.com/takamatsu_takuzou/tiles.json?key=YOUR-API-KEY",
+        "source_type": "vector",
+        "tileUrl": "https://tileserver.geolonia.com/takamatsu_takuzou/tiles.json?key=YOUR-API-KEY",
         "customDataSourceLayer": "main",
         "metadata": {}
       },
@@ -1340,7 +1342,7 @@
         "name": "特定盛土等規制区域",
         "class": "特定盛土等規制区域",
         "source_type": "vector",
-        "customDataSource": "https://tileserver.geolonia.com/takamatsu_tokumori/tiles.json?key=YOUR-API-KEY",
+        "tileUrl": "https://tileserver.geolonia.com/takamatsu_tokumori/tiles.json?key=YOUR-API-KEY",
         "customDataSourceLayer": "main",
         "metadata": {}
       },
@@ -1351,7 +1353,7 @@
         "name": "既存盛土等",
         "class": "既存盛土等",
         "source_type": "vector",
-        "customDataSource": "https://tileserver.geolonia.com/takamatsu_morido_250522/tiles.json?key=YOUR-API-KEY",
+        "tileUrl": "https://tileserver.geolonia.com/takamatsu_morido_250522/tiles.json?key=YOUR-API-KEY",
         "customDataSourceLayer": "高松市既存盛土250522",
         "metadata": {}
       }
