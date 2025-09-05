@@ -182,7 +182,7 @@ const MainMap: React.FC<Props> = (props) => {
         if (!map.getSource(SOURCES.MUNICIPALITY_ID)) {
           map.addSource(SOURCES.MUNICIPALITY_ID, {
             type: 'vector',
-            url: "https://tileserver.geolonia.com/takamatsu_main_v0_1/tiles.json?key=YOUR-API-KEY"
+            url: "https://tileserver.geolonia.com/takamatsu_main_v0_2/tiles.json?key=YOUR-API-KEY"
           });
         }
 
@@ -208,22 +208,31 @@ const MainMap: React.FC<Props> = (props) => {
       });
 
       map.on('click', (e) => {
+        const customDataSourceIds = catalogDataItems.filter((item) => "customDataSource" in item).map((item) => item.id);
+        const tileUrlIds = catalogDataItems.filter((item) => "tileUrl" in item).map((item) => item.id);
         const features = map
           .queryRenderedFeatures(e.point)
           .filter(feature => (
-            Object.values(SOURCES).includes(feature.source) ||
+            feature.source === 'takamatsu' ||
+            feature.source === 'kihonzu' ||
+            feature.source === 'ksj_takamatsu' || // 国土数値情報のデータを含める
+            feature.source === 'takamatsu-okugaikoukoku' ||
+            customDataSourceIds.includes(feature.source) ||
+            tileUrlIds.includes(feature.source) ||
             feature.properties._viewer_selectable === true
           ));
+
         if (features.length === 0) {
           setSelectedFeatures([]);
           return;
         }
-        
+
         setSelectedFeatures(features.map(feature => {
           const catalogData = catalogDataItems.find(item => (
             item.type === "DataItem" && (
               ((feature.source === 'takamatsu' || feature.properties._viewer_selectable === true) && (item as CatalogDataItem).class === feature.properties.class) ||
-              ('customDataSource' in item && item.customDataSource === feature.source && item.customDataSourceLayer === feature.sourceLayer)
+              ('customDataSource' in item && (item.customDataSource === feature.source && item.customDataSourceLayer === feature.sourceLayer)) ||
+              ('tileUrl' in item && item.id === feature.source)
             )
           )) as CatalogDataItem;
 
@@ -430,19 +439,25 @@ const MainMap: React.FC<Props> = (props) => {
           }
 
           if("tileUrl" in definition) {
-            if (typeof definition.tileUrl === 'string') {
-              console.log('Check Network tab for requests to:',
-                definition.tileUrl.split('?')[0]);
-            }
             const mapSource = map.getSource(definitionId);
-            if (!mapSource && isSelected) {
-              map.addSource(definitionId, {
+            if (!mapSource) {
+              const source = (definition as any)["source_type"] === 'raster' ? {
                 type: 'raster',
                 url: definition.tileUrl,
                 tileSize: 256,
                 minzoom: 2,
                 maxzoom: 22,
-              });
+              } : {
+                type: 'vector',
+                url: definition.tileUrl,
+              };
+              map.addSource(definitionId, source);
+            }
+
+          }
+
+          if("tileUrl" in definition && (definition as any)["source_type"] === 'raster') {
+            if(isSelected) {
               map.addLayer({
                 id: definitionId,
                 type: 'raster',
@@ -453,48 +468,54 @@ const MainMap: React.FC<Props> = (props) => {
                   'raster-opacity': 1
                 }
               });
-            } else if(mapSource && !isSelected) {
+            } else {
               map.removeLayer(definitionId);
-              map.removeSource(definitionId);
             }
-          }
+          } else {
+            for (const [sublayerName, template] of LAYER_TEMPLATES) {
+              const fullLayerName = `takamatsu/${definitionId}/${sublayerName}`;
+              const mapLayers = map.getStyle().layers.filter((layer: any) => layer.id.startsWith(fullLayerName));
+              const customStyle = getCustomStyle(definition);
+              for (const subtemplate of template(index, customStyle)) {
+                if (mapLayers.length === 0 && isSelected) {
+                  const filterExp: maplibregl.FilterSpecification = ["all", ["==", "$type", sublayerName]];
+                  if (definition.class) {
+                    filterExp.push(["==", "class", definition.class]);
+                  }
+                  if (subtemplate.filter) {
+                    filterExp.push(subtemplate.filter as any);
+                  }
+                  const layerConfig: maplibregl.LayerSpecification = {
+                    ...subtemplate,
+                    filter: filterExp,
+                    id: fullLayerName + subtemplate.id,
+                  };
+                  if (geojsonEndpoint) {
+                    layerConfig.source = definitionId;
+                    delete layerConfig['source-layer'];
+                  } else if ('customDataSource' in definition) {
+                    layerConfig.source = definition.customDataSource;
+                    layerConfig['filter'] = (layerConfig['filter'] as any[])[1];
 
-          for (const [sublayerName, template] of LAYER_TEMPLATES) {
-            const fullLayerName = `takamatsu/${definitionId}/${sublayerName}`;
-            const mapLayers = map.getStyle().layers.filter((layer: any) => layer.id.startsWith(fullLayerName));
-            const customStyle = getCustomStyle(definition);
+                  } else if ('tileUrl' in definition) {
+                    layerConfig.source = definitionId;
+                    layerConfig['filter'] = (layerConfig['filter'] as any[])[1];
+                  }
 
-            for (const subtemplate of template(index, customStyle)) {
-              if (mapLayers.length === 0 && isSelected) {
-                const filterExp: maplibregl.FilterSpecification = ["all", ["==", "$type", sublayerName]];
-                if (definition.class) {
-                  filterExp.push(["==", "class", definition.class]);
-                }
-                if (subtemplate.filter) {
-                  filterExp.push(subtemplate.filter as any);
-                }
-                const layerConfig: maplibregl.LayerSpecification = {
-                  ...subtemplate,
-                  filter: filterExp,
-                  id: fullLayerName + subtemplate.id,
-                };
-                
-                if (geojsonEndpoint) {
-                  layerConfig.source = definitionId;
-                  delete layerConfig['source-layer'];
-                } else if ('customDataSource' in definition) {
-                  layerConfig.source = definition.customDataSource;
-                  layerConfig['source-layer'] = definition.customDataSourceLayer || definition.customDataSource;
-                }
-                map.addLayer(layerConfig);
+                  if ('customDataSourceLayer' in definition) {
+                    layerConfig['source-layer'] = definition.customDataSourceLayer;
+                  }
 
-                if (!map.getLayer(layerConfig.id)) {
-                  console.error(`Failed to add layer ${layerConfig.id}!!!`);
-                  debugger;
-                }
-              } else if (mapLayers.length > 0 && !isSelected) {
-                for (const mapLayer of mapLayers) {
-                  map.removeLayer(mapLayer.id);
+                  map.addLayer(layerConfig);
+
+                  if (!map.getLayer(layerConfig.id)) {
+                    console.error(`Failed to add layer ${layerConfig.id}!!!`);
+                    debugger;
+                  }
+                } else if (mapLayers.length > 0 && !isSelected) {
+                  for (const mapLayer of mapLayers) {
+                    map.removeLayer(mapLayer.id);
+                  }
                 }
               }
             }
