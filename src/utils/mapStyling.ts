@@ -346,7 +346,7 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
       outlineColor: "rgba(124, 237, 241, 1)"
     }
   ],
-  "屋外広告物規制図/景観計画区域": [
+  "景観条例・屋外広告物条例/景観計画区域": [
     {
       id: "景観形成重点地区",
       opacity: 0.5,
@@ -371,7 +371,7 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
       ]
     }
   ],
-  "屋外広告物規制図/屋外広告物規制区域": [
+  "景観条例・屋外広告物条例/屋外広告物規制区域": [
     {
       id: "第1種許可地域",
       opacity: 0.5,
