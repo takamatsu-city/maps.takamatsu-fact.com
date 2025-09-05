@@ -53,6 +53,8 @@ export const SOURCES: {[key: string]: string} = {
   TERRAIN_DEM_ID: 'gsidem',
   NEGATIVE_MASK_ID: 'negative-city-mask',
   KIHONZU: 'kihonzu',
+  OKUGAI_KOUKOKU_ID: 'takamatsu-okugaikoukoku',
+  KSJ_TAKAMATSU_ID: 'ksj_takamatsu',
 }
 
 interface Props {
@@ -184,6 +186,13 @@ const MainMap: React.FC<Props> = (props) => {
           });
         }
 
+        if (!map.getSource(SOURCES.OKUGAI_KOUKOKU_ID)) {
+          map.addSource(SOURCES.OKUGAI_KOUKOKU_ID, {
+            type: 'vector',
+            url: `https://tileserver.geolonia.com/takamatsu-okugaikoukoku_v0_2/tiles.json?key=YOUR-API-KEY`
+          });
+        }
+
         if (!map.getSource(SOURCES.KIHONZU)) {
           map.addSource(SOURCES.KIHONZU, {
             type: 'vector',
@@ -207,11 +216,12 @@ const MainMap: React.FC<Props> = (props) => {
             feature.source === 'takamatsu' ||
             feature.source === 'kihonzu' ||
             feature.source === 'ksj_takamatsu' || // 国土数値情報のデータを含める
+            feature.source === SOURCES.OKUGAI_KOUKOKU_ID ||
             customDataSourceIds.includes(feature.source) ||
             tileUrlIds.includes(feature.source) ||
             feature.properties._viewer_selectable === true
           ));
-          
+
         if (features.length === 0) {
           setSelectedFeatures([]);
           return;
@@ -220,18 +230,12 @@ const MainMap: React.FC<Props> = (props) => {
         setSelectedFeatures(features.map(feature => {
           const catalogData = catalogDataItems.find(item => (
             item.type === "DataItem" && (
-              (
-                (feature.source === 'takamatsu' || feature.properties._viewer_selectable === true) && 
-                (item as CatalogDataItem).class === feature.properties.class
-              ) ||
-              (
-                'customDataSource' in item && 
-                (item.customDataSource === feature.source)
-              ) ||
+              ((feature.source === 'takamatsu' || feature.properties._viewer_selectable === true) && (item as CatalogDataItem).class === feature.properties.class) ||
+              ('customDataSource' in item && (item.customDataSource === feature.source && item.customDataSourceLayer === feature.sourceLayer)) ||
               ('tileUrl' in item && item.id === feature.source)
             )
           )) as CatalogDataItem;
-          
+
           // 市区町村とサードパーティのデータどちらも対象にする
           const thirdPartyData = thirdPartySource.find(item => item.layers.includes(feature.layer.id));
           const mergedCatalog: CatalogDataItem = {
@@ -489,11 +493,10 @@ const MainMap: React.FC<Props> = (props) => {
                   if (geojsonEndpoint) {
                     layerConfig.source = definitionId;
                     delete layerConfig['source-layer'];
-
                   } else if ('customDataSource' in definition) {
                     layerConfig.source = definition.customDataSource;
                     layerConfig['filter'] = (layerConfig['filter'] as any[])[1];
-                    
+
                   } else if ('tileUrl' in definition) {
                     layerConfig.source = definitionId;
                     layerConfig['filter'] = (layerConfig['filter'] as any[])[1];
@@ -504,7 +507,7 @@ const MainMap: React.FC<Props> = (props) => {
                   }
 
                   map.addLayer(layerConfig);
-                  
+
                   if (!map.getLayer(layerConfig.id)) {
                     console.error(`Failed to add layer ${layerConfig.id}!!!`);
                     debugger;
