@@ -60,6 +60,7 @@
             "shortId": "7ri",
             "name": "第一種低層住居専用地域",
             "class": "第一種低層住居専用地域",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -68,6 +69,7 @@
             "shortId": "nFF",
             "name": "第二種低層住居専用地域",
             "class": "第二種低層住居専用地域",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -76,6 +78,7 @@
             "shortId": "mcV",
             "name": "第一種中高層住居専用地域",
             "class": "第一種中高層住居専用地域",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -84,6 +87,7 @@
             "shortId": "p9i",
             "name": "第二種中高層住居専用地域",
             "class": "第二種中高層住居専用地域",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -92,6 +96,7 @@
             "shortId": "EJe",
             "name": "第一種住居地域",
             "class": "第一種住居地域",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -100,6 +105,7 @@
             "shortId": "mAr",
             "name": "第二種住居地域",
             "class": "第二種住居地域",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -108,6 +114,7 @@
             "shortId": "GKG",
             "name": "準住居地域",
             "class": "準住居地域",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -116,6 +123,7 @@
             "shortId": "v2N",
             "name": "近隣商業地域",
             "class": "近隣商業地域",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -124,6 +132,7 @@
             "shortId": "yvq",
             "name": "商業地域",
             "class": "商業地域",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -132,6 +141,7 @@
             "shortId": "Lye",
             "name": "準工業地域",
             "class": "準工業地域",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -140,6 +150,7 @@
             "shortId": "8Bq",
             "name": "工業地域",
             "class": "工業地域",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -148,6 +159,7 @@
             "shortId": "nSo",
             "name": "工業専用地域",
             "class": "工業専用地域",
+            "maxZoom": 16.74,
             "metadata": {}
           }
         ]
@@ -164,6 +176,7 @@
             "shortId": "cx0",
             "name": "一般・環境保全型",
             "class": "一般・環境保全型",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -172,6 +185,7 @@
             "shortId": "bHT",
             "name": "幹線沿道型I型",
             "class": "幹線沿道型I型",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -180,6 +194,7 @@
             "shortId": "cNT",
             "name": "幹線沿道型II型",
             "class": "幹線沿道型II型",
+            "maxZoom": 16.74,
             "metadata": {}
           }
         ]
@@ -196,6 +211,7 @@
             "shortId": "UKQ",
             "name": "防火地域",
             "class": "防火地域",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -204,6 +220,7 @@
             "shortId": "jMs",
             "name": "準防火地域",
             "class": "準防火地域",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -212,6 +229,7 @@
             "shortId": "2bE",
             "name": "法22条地域",
             "class": "法22条地域",
+            "maxZoom": 16.74,
             "metadata": {}
           }
         ]
@@ -228,6 +246,7 @@
             "shortId": "QoO",
             "name": "特別用途地区",
             "class": "特別用途地区",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -236,6 +255,7 @@
             "shortId": "fPB",
             "name": "高度利用地域",
             "class": "高度利用地域",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -244,6 +264,7 @@
             "shortId": "HXl",
             "name": "都市再生特別地区",
             "class": "都市再生特別地区",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -252,6 +273,7 @@
             "shortId": "r50",
             "name": "風致地区",
             "class": "風致地区",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -260,6 +282,7 @@
             "shortId": "2of",
             "name": "駐車場整備地区",
             "class": "駐車場整備地区",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -268,6 +291,7 @@
             "shortId": "Dp-",
             "name": "駐輪場整備地区",
             "class": "駐輪場整備地区",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -276,6 +300,7 @@
             "shortId": "o0y",
             "name": "臨港地区",
             "class": "臨港地区",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -284,6 +309,7 @@
             "shortId": "BtD",
             "name": "用途白地地域",
             "class": "用途白地地域",
+            "maxZoom": 16.74,
             "metadata": {}
           }
         ]
@@ -300,6 +326,7 @@
             "shortId": "66I",
             "name": "都市計画道路",
             "class": "都市計画道路",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -308,6 +335,7 @@
             "shortId": "wGb",
             "name": "都市高速鉄道",
             "class": "都市高速鉄道",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -316,6 +344,7 @@
             "shortId": "bwA",
             "name": "下水",
             "class": "公共下水道",
+            "maxZoom": 16.74,
             "metadata": {}
           }
         ]
@@ -332,6 +361,7 @@
             "shortId": "7G1",
             "name": "市街地再開発事業",
             "class": "市街地再開発事業",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -340,6 +370,7 @@
             "shortId": "QHC",
             "name": "土地区画整理事業",
             "class": "土地区画整理事業",
+            "maxZoom": 16.74,
             "metadata": {}
           }
         ]
@@ -350,6 +381,7 @@
         "shortId": "ZoG",
         "name": "地区計画",
         "class": "地区計画",
+        "maxZoom": 16.74,
         "metadata": {}
       },
       {
@@ -364,6 +396,7 @@
             "shortId": "Rcm",
             "name": "広域都市機能誘導区域",
             "class": "広域都市機能誘導区域",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -372,6 +405,7 @@
             "shortId": "C1Q",
             "name": "一般都市機能誘導区域",
             "class": "一般都市機能誘導区域",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -380,6 +414,7 @@
             "shortId": "x_l",
             "name": "学術都市機能誘導区域",
             "class": "学術都市機能誘導区域",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -388,6 +423,7 @@
             "shortId": "gRt",
             "name": "居住誘導区域",
             "class": "居住誘導区域",
+            "maxZoom": 16.74,
             "metadata": {}
           },
           {
@@ -396,6 +432,7 @@
             "shortId": "c2L",
             "name": "一般居住区域",
             "class": "一般居住区域",
+            "maxZoom": 16.74,
             "metadata": {}
           }
         ]
@@ -1333,6 +1370,7 @@
         "source_type": "vector",
         "tileUrl": "https://tileserver.geolonia.com/takamatsu_takuzou/tiles.json?key=YOUR-API-KEY",
         "customDataSourceLayer": "main",
+        "maxZoom": 16.74,
         "metadata": {}
       },
       {
@@ -1344,6 +1382,7 @@
         "source_type": "vector",
         "tileUrl": "https://tileserver.geolonia.com/takamatsu_tokumori/tiles.json?key=YOUR-API-KEY",
         "customDataSourceLayer": "main",
+        "maxZoom": 16.74,
         "metadata": {}
       },
       {
@@ -1355,6 +1394,7 @@
         "source_type": "vector",
         "tileUrl": "https://tileserver.geolonia.com/takamatsu_morido_250522/tiles.json?key=YOUR-API-KEY",
         "customDataSourceLayer": "高松市既存盛土250522",
+        "maxZoom": 16.74,
         "metadata": {}
       }
     ]

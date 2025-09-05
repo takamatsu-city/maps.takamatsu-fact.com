@@ -211,7 +211,7 @@ const MainMap: React.FC<Props> = (props) => {
             tileUrlIds.includes(feature.source) ||
             feature.properties._viewer_selectable === true
           ));
-          
+
         if (features.length === 0) {
           setSelectedFeatures([]);
           return;
@@ -221,17 +221,17 @@ const MainMap: React.FC<Props> = (props) => {
           const catalogData = catalogDataItems.find(item => (
             item.type === "DataItem" && (
               (
-                (feature.source === 'takamatsu' || feature.properties._viewer_selectable === true) && 
+                (feature.source === 'takamatsu' || feature.properties._viewer_selectable === true) &&
                 (item as CatalogDataItem).class === feature.properties.class
               ) ||
               (
-                'customDataSource' in item && 
+                'customDataSource' in item &&
                 (item.customDataSource === feature.source)
               ) ||
               ('tileUrl' in item && item.id === feature.source)
             )
           )) as CatalogDataItem;
-          
+
           // 市区町村とサードパーティのデータどちらも対象にする
           const thirdPartyData = thirdPartySource.find(item => item.layers.includes(feature.layer.id));
           const mergedCatalog: CatalogDataItem = {
@@ -379,6 +379,14 @@ const MainMap: React.FC<Props> = (props) => {
           const definitionId = definition.id;
           const isSelected = selectedLayers.includes(definition.shortId);
 
+          const zoomConfig: { minzoom?: number, maxzoom?: number } = {}
+          if (definition.minZoom !== undefined) {
+            zoomConfig.minzoom = definition.minZoom;
+          }
+          if (definition.maxZoom !== undefined) {
+            zoomConfig.maxzoom = definition.maxZoom;
+          }
+
           if ("liveLocationId" in definition) {
             if (isSelected) {
               const color = WEB_COLORS[index * 1999 % WEB_COLORS.length];
@@ -405,7 +413,8 @@ const MainMap: React.FC<Props> = (props) => {
                     'circle-stroke-width': 1,
                     'circle-stroke-color': 'gray',
                     'circle-stroke-opacity': 1,
-                  }
+                  },
+                  ...zoomConfig
                 });
               }
             } else {
@@ -462,7 +471,8 @@ const MainMap: React.FC<Props> = (props) => {
                 maxzoom: 22,
                 paint: {
                   'raster-opacity': 1
-                }
+                },
+                ...zoomConfig
               });
             } else {
               map.removeLayer(definitionId);
@@ -485,6 +495,7 @@ const MainMap: React.FC<Props> = (props) => {
                     ...subtemplate,
                     filter: filterExp,
                     id: fullLayerName + subtemplate.id,
+                    ...zoomConfig
                   };
                   if (geojsonEndpoint) {
                     layerConfig.source = definitionId;
@@ -493,7 +504,7 @@ const MainMap: React.FC<Props> = (props) => {
                   } else if ('customDataSource' in definition) {
                     layerConfig.source = definition.customDataSource;
                     layerConfig['filter'] = (layerConfig['filter'] as any[])[1];
-                    
+
                   } else if ('tileUrl' in definition) {
                     layerConfig.source = definitionId;
                     layerConfig['filter'] = (layerConfig['filter'] as any[])[1];
@@ -504,7 +515,7 @@ const MainMap: React.FC<Props> = (props) => {
                   }
 
                   map.addLayer(layerConfig);
-                  
+
                   if (!map.getLayer(layerConfig.id)) {
                     console.error(`Failed to add layer ${layerConfig.id}!!!`);
                     debugger;
