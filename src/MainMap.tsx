@@ -189,7 +189,7 @@ const MainMap: React.FC<Props> = (props) => {
         if (!map.getSource(SOURCES.OKUGAI_KOUKOKU_ID)) {
           map.addSource(SOURCES.OKUGAI_KOUKOKU_ID, {
             type: 'vector',
-            url: `https://tileserver.geolonia.com/${ SOURCES.OKUGAI_KOUKOKU_ID }/tiles.json?key=YOUR-API-KEY`
+            url: `https://tileserver.geolonia.com/takamatsu-okugaikoukoku_v0_2/tiles.json?key=YOUR-API-KEY`
           });
         }
 
@@ -216,7 +216,7 @@ const MainMap: React.FC<Props> = (props) => {
             feature.source === 'takamatsu' ||
             feature.source === 'kihonzu' ||
             feature.source === 'ksj_takamatsu' || // 国土数値情報のデータを含める
-            feature.source === 'takamatsu-okugaikoukoku' ||
+            feature.source === SOURCES.OKUGAI_KOUKOKU_ID ||
             customDataSourceIds.includes(feature.source) ||
             tileUrlIds.includes(feature.source) ||
             feature.properties._viewer_selectable === true
