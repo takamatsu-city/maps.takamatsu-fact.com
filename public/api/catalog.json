@@ -448,6 +448,7 @@
             "id": "景観条例・屋外広告物条例/景観計画区域",
             "shortId": "78u",
             "name": "景観計画区域",
+            "maxZoom": 16.74,
             "metadata": {},
             "customDataSource": "takamatsu-okugaikoukoku",
             "customDataSourceLayer": "景観計画区域"
@@ -457,6 +458,7 @@
             "id": "景観条例・屋外広告物条例/屋外広告物規制区域",
             "shortId": "jh9",
             "name": "屋外広告物規制区域",
+            "maxZoom": 16.74,
             "metadata": {},
             "customDataSource": "takamatsu-okugaikoukoku",
             "customDataSourceLayer": "屋外広告物規制区域"
