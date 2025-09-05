@@ -10,6 +10,8 @@ export type CatalogVectorDataItem = {
   name: string
   class: string
   metadata: Record<string, string>
+  minZoom?: number;
+  maxZoom?: number;
 }
 
 export type CatalogCustomSourceVectorDataItem = {
@@ -21,6 +23,8 @@ export type CatalogCustomSourceVectorDataItem = {
   customDataSourceLayer?: string
   class?: string
   metadata: Record<string, string>
+  minZoom?: number;
+  maxZoom?: number;
 }
 
 export type CatalogGeoJSONDataItem = {
@@ -31,6 +35,8 @@ export type CatalogGeoJSONDataItem = {
   class: string
   geojsonEndpoint: string
   metadata: Record<string, string>
+  minZoom?: number;
+  maxZoom?: number;
 }
 
 export type CatalogLiveLocationDataItem = {
@@ -41,6 +47,8 @@ export type CatalogLiveLocationDataItem = {
   class: string
   liveLocationId: string
   metadata: Record<string, string>
+  minZoom?: number;
+  maxZoom?: number;
 }
 
 export type CatalogDataItem = CatalogVectorDataItem | CatalogCustomSourceVectorDataItem | CatalogGeoJSONDataItem | CatalogLiveLocationDataItem;

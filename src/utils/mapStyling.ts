@@ -421,7 +421,6 @@ export type LayerTemplate = (LayerSpecification & {
 
 export const customStyleToPolygonTemplate: (customStyle: CustomStyle, defaultColor: string) => LayerTemplate[] = (style, color) => {
   const fillPaint = style.pattern ? { 'fill-pattern': style.pattern } : { 'fill-color': style.fillColor || color };
-  console.log("customStyleToPolygonTemplate", style, fillPaint);
   return [
     {
       "id": `${style.id}`,
