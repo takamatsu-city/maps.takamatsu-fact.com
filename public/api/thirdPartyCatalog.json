@@ -103,5 +103,18 @@
         "sourceId": "ksj_takamatsu"
       }
     ]
+  },
+  {
+    "type": "DataItem",
+    "id": "thirdParty/行政界（町字）",
+    "shortId": "V2W",
+    "name": "行政界（町字）",
+    "layers": [
+      "行政界_20250930",
+      "行政界_20250930_outline"
+    ],
+    "sourceId": "行政界",
+    "style": "./thirdPartyStyle/boundingArea.json",
+    "metadata": {}
   }
 ]
