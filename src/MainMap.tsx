@@ -210,7 +210,8 @@ const MainMap: React.FC<Props> = (props) => {
       map.on('click', (e) => {
         const customDataSourceIds = catalogDataItems.filter((item) => "customDataSource" in item).map((item) => item.id);
         const tileUrlIds = catalogDataItems.filter((item) => "tileUrl" in item).map((item) => item.id);
-        const features = map
+        const thirdPartySourceIds = thirdPartySource.map(item => item.sourceId).filter((id) => id !== 'v3' && !id.startsWith('ksj_'));
+        const allFeatures = map
           .queryRenderedFeatures(e.point)
           .filter(feature => (
             feature.source === 'takamatsu' ||
@@ -219,8 +220,19 @@ const MainMap: React.FC<Props> = (props) => {
             feature.source === SOURCES.OKUGAI_KOUKOKU_ID ||
             customDataSourceIds.includes(feature.source) ||
             tileUrlIds.includes(feature.source) ||
-            feature.properties._viewer_selectable === true
+            feature.properties._viewer_selectable === true ||
+            thirdPartySourceIds.includes(feature.source)
           ));
+
+        const features: maplibregl.MapGeoJSONFeature[] = [];
+        allFeatures.forEach((f1) => {
+          const exist = features.some((f2) =>
+            f2.source === f1.source && JSON.stringify(f2.properties) === JSON.stringify(f1.properties)
+          )
+          if (!exist) {
+            features.push(f1);
+          }
+        })
 
         if (features.length === 0) {
           setSelectedFeatures([]);
@@ -568,6 +580,18 @@ const MainMap: React.FC<Props> = (props) => {
             }
           }
         });
+      } else if (data.type === 'DataItem') {
+        if (!data.style) {
+          return;
+        }
+        const isSelect = selectedThirdPartLayers.includes(data.shortId);
+        if (isSelect) {
+          // 選択されていたら、レイヤーを追加
+          addLayerStyle(map, data.style, data.layers as string[], data.sourceId)
+        } else {
+          // 選択されていなかったら、レイヤーを削除
+          removeLayerStyle(map, data.layers as string[], data.sourceId);
+        }
       }
     };
 

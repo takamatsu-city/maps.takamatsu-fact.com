@@ -294,16 +294,6 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
       pointLabel: "{TextString}"
     }
   ],
-  "大字界": [
-    {
-      id: "",
-      outlineColor: "#D99502",
-      fillColor: "#F4CD78",
-      lineWidth: 10,
-      opacity: 0.3,
-      lineOpacity: 1
-    }
-  ],
   "広域都市機能誘導区域":[
     {
       id: "",
