@@ -26,7 +26,6 @@
     "source_type": "vector",
     "tileUrl": "https://tileserver.geolonia.com/takamatsu_community_20250930/tiles.json?key=YOUR-API-KEY",
     "customDataSourceLayer": "コミュニティ協議会エリア",
-    "maxZoom": 16.74,
     "metadata": {}
   },
   {

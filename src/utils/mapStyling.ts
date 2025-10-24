@@ -391,7 +391,13 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
         "rgb(255,255,255)"
       ]
     }
-  ]
+  ],
+  "コミュニティ協議会エリア": [
+    {
+      id: "コミュニティ協議会エリア",
+      outlineColor: 'rgb(74,142,61)',
+    }
+  ],
 };
 
 export const getCustomStyle: (layerDefinition: CatalogDataItem) => CustomStyle[] | undefined = (def) => {
