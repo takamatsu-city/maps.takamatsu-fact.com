@@ -31,7 +31,13 @@
       "paint": {
         "line-color": "#D99502",
         "line-opacity": 1,
-        "line-width": 10
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          9, 0.5,
+          14, 2
+        ]
       }
     }
   ]
