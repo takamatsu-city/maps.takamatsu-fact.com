@@ -396,6 +396,7 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
     {
       id: "コミュニティ協議会エリア",
       outlineColor: 'rgb(74,142,61)',
+      opacity: 0.3
     }
   ],
 };
