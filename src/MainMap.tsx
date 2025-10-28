@@ -210,7 +210,7 @@ const MainMap: React.FC<Props> = (props) => {
       map.on('click', (e) => {
         const customDataSourceIds = catalogDataItems.filter((item) => "customDataSource" in item).map((item) => item.id);
         const tileUrlIds = catalogDataItems.filter((item) => "tileUrl" in item).map((item) => item.id);
-        const features = map
+        const allFeatures = map
           .queryRenderedFeatures(e.point)
           .filter(feature => (
             feature.source === 'takamatsu' ||
@@ -221,6 +221,16 @@ const MainMap: React.FC<Props> = (props) => {
             tileUrlIds.includes(feature.source) ||
             feature.properties._viewer_selectable === true
           ));
+
+        const features: maplibregl.MapGeoJSONFeature[] = [];
+        allFeatures.forEach((f1) => {
+          const exist = features.some((f2) =>
+            f2.source === f1.source && JSON.stringify(f2.properties) === JSON.stringify(f1.properties)
+          )
+          if (!exist) {
+            features.push(f1);
+          }
+        })
 
         if (features.length === 0) {
           setSelectedFeatures([]);
