@@ -210,7 +210,6 @@ const MainMap: React.FC<Props> = (props) => {
       map.on('click', (e) => {
         const customDataSourceIds = catalogDataItems.filter((item) => "customDataSource" in item).map((item) => item.id);
         const tileUrlIds = catalogDataItems.filter((item) => "tileUrl" in item).map((item) => item.id);
-        const thirdPartySourceIds = thirdPartySource.map(item => item.sourceId).filter((id) => id !== 'v3' && !id.startsWith('ksj_'));
         const allFeatures = map
           .queryRenderedFeatures(e.point)
           .filter(feature => (
@@ -220,8 +219,7 @@ const MainMap: React.FC<Props> = (props) => {
             feature.source === SOURCES.OKUGAI_KOUKOKU_ID ||
             customDataSourceIds.includes(feature.source) ||
             tileUrlIds.includes(feature.source) ||
-            feature.properties._viewer_selectable === true ||
-            thirdPartySourceIds.includes(feature.source)
+            feature.properties._viewer_selectable === true
           ));
 
         const features: maplibregl.MapGeoJSONFeature[] = [];
@@ -580,18 +578,6 @@ const MainMap: React.FC<Props> = (props) => {
             }
           }
         });
-      } else if (data.type === 'DataItem') {
-        if (!data.style) {
-          return;
-        }
-        const isSelect = selectedThirdPartLayers.includes(data.shortId);
-        if (isSelect) {
-          // 選択されていたら、レイヤーを追加
-          addLayerStyle(map, data.style, data.layers as string[], data.sourceId)
-        } else {
-          // 選択されていなかったら、レイヤーを削除
-          removeLayerStyle(map, data.layers as string[], data.sourceId);
-        }
       }
     };
 

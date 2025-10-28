@@ -1,6 +1,14 @@
 [
   {
     "type": "DataItem",
+    "id": "行政界（町字）",
+    "shortId": "V2W",
+    "name": "行政界（町字）",
+    "class": "大字界",
+    "metadata": {}
+  },
+  {
+    "type": "DataItem",
     "id": "市道道路網図",
     "shortId": "by-",
     "name": "市道道路網図",
@@ -15,18 +23,6 @@
     "class": "航空写真",
     "source_type": "raster",
     "tileUrl": "https://tileserver.geolonia.com/takamatsu_aerial_photo/tiles.json?key=YOUR-API-KEY",
-    "metadata": {}
-  },
-  {
-    "type": "DataItem",
-    "id": "コミュニティ協議会エリア",
-    "shortId": "d4_",
-    "name": "コミュニティ協議会エリア",
-    "class": "コミュニティ協議会エリア",
-    "source_type": "vector",
-    "tileUrl": "https://tileserver.geolonia.com/takamatsu_community_20250930/tiles.json?key=YOUR-API-KEY",
-    "customDataSourceLayer": "コミュニティ協議会エリア",
-    "maxZoom": 16.74,
     "metadata": {}
   },
   {
