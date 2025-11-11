@@ -24,15 +24,46 @@
     "style": "./thirdPartyStyle/kokudoSuuchiStyle.json",
     "items": [
       {
-        "type": "DataItem",
+        "type": "Category",
         "id": "thirdParty/国土数値情報/土砂災害警戒区域",
         "shortId": "YSL",
         "name": "土砂災害警戒区域",
-        "class": "土砂災害警戒区域",
-        "layers": [
-          "国土数値情報--土砂災害警戒区域"
-        ],
-        "sourceId": "ksj_takamatsu"
+        "style": "./thirdPartyStyle/kokudoSuuchiStyle.json",
+        "items": [
+          {
+            "type": "DataItem",
+            "id": "thirdParty/国土数値情報/土砂災害警戒区域/土石流",
+            "shortId": "YaL",
+            "name": "土石流",
+            "class": "土砂災害警戒区域",
+            "layers": [
+              "国土数値情報--土砂災害警戒区域--土石流"
+            ],
+            "sourceId": "ksj_takamatsu"
+          },
+          {
+            "type": "DataItem",
+            "id": "thirdParty/国土数値情報/土砂災害警戒区域/急傾斜地の崩壊",
+            "shortId": "YbL",
+            "name": "急傾斜地の崩壊",
+            "class": "土砂災害警戒区域",
+            "layers": [
+              "国土数値情報--土砂災害警戒区域--急傾斜地の崩壊"
+            ],
+            "sourceId": "ksj_takamatsu"
+          },
+          {
+            "type": "DataItem",
+            "id": "thirdParty/国土数値情報/土砂災害警戒区域/地滑り",
+            "shortId": "YcL",
+            "name": "地滑り",
+            "class": "土砂災害警戒区域",
+            "layers": [
+              "国土数値情報--土砂災害警戒区域--地滑り"
+            ],
+            "sourceId": "ksj_takamatsu"
+          }
+        ]
       },
       {
         "type": "DataItem",
@@ -103,18 +134,5 @@
         "sourceId": "ksj_takamatsu"
       }
     ]
-  },
-  {
-    "type": "DataItem",
-    "id": "thirdParty/行政界（町字）",
-    "shortId": "V2W",
-    "name": "行政界（町字）",
-    "layers": [
-      "行政界_20250930",
-      "行政界_20250930_outline"
-    ],
-    "sourceId": "行政界",
-    "style": "./thirdPartyStyle/boundingArea.json",
-    "metadata": {}
   }
 ]
