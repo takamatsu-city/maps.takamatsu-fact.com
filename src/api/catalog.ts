@@ -9,7 +9,7 @@ export type CatalogVectorDataItem = {
   shortId: string
   name: string
   class: string
-  metadata: Record<string, string>
+  metadata: { attributesOrder?: string[] } & { [key: string]: string }
   minZoom?: number;
   maxZoom?: number;
 }
@@ -22,7 +22,7 @@ export type CatalogCustomSourceVectorDataItem = {
   customDataSource: string
   customDataSourceLayer?: string
   class?: string
-  metadata: Record<string, string>
+  metadata: { attributesOrder?: string[] } & { [key: string]: string }
   minZoom?: number;
   maxZoom?: number;
 }
@@ -34,7 +34,7 @@ export type CatalogGeoJSONDataItem = {
   name: string
   class: string
   geojsonEndpoint: string
-  metadata: Record<string, string>
+  metadata: { attributesOrder?: string[] } & { [key: string]: string }
   minZoom?: number;
   maxZoom?: number;
 }
@@ -46,7 +46,7 @@ export type CatalogLiveLocationDataItem = {
   name: string
   class: string
   liveLocationId: string
-  metadata: Record<string, string>
+  metadata: { attributesOrder?: string[] } & { [key: string]: string }
   minZoom?: number;
   maxZoom?: number;
 }
