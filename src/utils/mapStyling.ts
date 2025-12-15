@@ -120,7 +120,7 @@ export type CustomStyle = {
   outlineColor?: string | ExpressionSpecification;
   fillColor?: string | ExpressionSpecification;
   lineColor?: string | ExpressionSpecification;
-  pointColor?: string
+  pointColor?: string | ExpressionSpecification;
   pointLabel?: string
   lineWidth?: any
   opacity?: number
@@ -399,6 +399,29 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
       opacity: 0.3
     }
   ],
+  "届出盛土":[
+    {
+      id: "届出盛土",
+      outlineColor: [
+        "case",
+        ["has", "_viewer_stroke"],
+        ["get", "_viewer_stroke"],
+        "rgba(252, 227, 35, 0.6)"
+      ],
+      pointColor: [
+        "case",
+        ["has", "_viewer_marker-color"],
+        ["get", "_viewer_marker-color"],
+        "rgba(252, 227, 35, 0.6)"
+      ],
+      fillColor: [
+        "case",
+        ["has", "_viewer_fill"],
+        ["get", "_viewer_fill"],
+        "rgba(252, 227, 35, 0.6)"
+      ]
+    }
+  ]
 };
 
 export const getCustomStyle: (layerDefinition: CatalogDataItem) => CustomStyle[] | undefined = (def) => {
