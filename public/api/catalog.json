@@ -1440,6 +1440,7 @@
         "customDataSourceLayer": "届出盛土",
         "metadata": {
           "attributesOrder": [
+            "ID",
             "工事主の氏名又は名称",
             "土地の所在地",
             "届出年月日",
