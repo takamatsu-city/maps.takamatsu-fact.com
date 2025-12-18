@@ -10,6 +10,7 @@ import ReplaceSpecialText from './utils/ReplaceSpecialText';
 
 const SingleFeatureTable: React.FC<{feature: CatalogFeature}> = ({feature}) => {
   const detailItems = Object.entries(feature.properties).filter(([key, _value]) => !key.startsWith('_viewer_'));
+  const attributesOrder = feature.catalog.metadata.attributesOrder ?? [];
 
   detailItems.sort(([key1, _value1], [key2, _value2]) => {
     // make sure items with key=`class` and key=`subclass` are always on top
@@ -17,6 +18,10 @@ const SingleFeatureTable: React.FC<{feature: CatalogFeature}> = ({feature}) => {
     if (key2 === 'class') return 1;
     if (key1 === 'subclass' && key2 !== 'class') return -1;
     if (key2 === 'subclass' && key1 !== 'class') return 1;
+
+    if (attributesOrder.length > 0) {
+      return (attributesOrder.indexOf(key1) - attributesOrder.indexOf(key2));
+    }
 
     return 0;
   });

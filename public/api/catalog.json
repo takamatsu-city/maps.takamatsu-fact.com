@@ -1428,6 +1428,37 @@
         "customDataSourceLayer": "高松市既存盛土250522",
         "maxZoom": 16.74,
         "metadata": {}
+      },
+      {
+        "type": "DataItem",
+        "id": "盛土規制法/届出盛土",
+        "shortId": "hkF",
+        "name": "届出盛土",
+        "class": "届出盛土",
+        "source_type": "vector",
+        "tileUrl": "https://tileserver.geolonia.com/takamatsu_morido_251215/tiles.json?key=YOUR-API-KEY",
+        "customDataSourceLayer": "届出盛土",
+        "metadata": {
+          "attributesOrder": [
+            "ID",
+            "工事主の氏名又は名称",
+            "土地の所在地",
+            "届出年月日",
+            "工事施行者の氏名又は名称",
+            "工事着手(予定)年月日",
+            "工事完了予定年月日",
+            "盛土高さH（m）",
+            "切土高さH（m）",
+            "盛土又は切土面積A（㎡）",
+            "盛土土量V（m³）",
+            "切土土量V（m³）",
+            "土石の最大堆積高さH(m)",
+            "土石の堆積面積A（㎡）",
+            "土石の最大堆積土量V(m³)",
+            "備考"
+          ]
+        },
+        "maxZoom": 16.74
       }
     ]
   }
