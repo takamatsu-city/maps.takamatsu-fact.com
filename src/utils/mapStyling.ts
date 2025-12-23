@@ -415,6 +415,23 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
         "rgba(252, 227, 35, 0.6)"
       ]
     }
+  ],
+  "許可盛土":[
+    {
+      id: "許可盛土",
+      outlineColor: [
+        "case",
+        ["has", "_viewer_stroke"],
+        ["get", "_viewer_stroke"],
+        "rgba(221, 51, 51, 1)"
+      ],
+      fillColor: [
+        "case",
+        ["has", "_viewer_fill"],
+        ["get", "_viewer_fill"],
+        "rgba(221, 51, 51, 0.6)"
+      ]
+    }
   ]
 };
 
