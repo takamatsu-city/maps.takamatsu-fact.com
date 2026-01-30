@@ -413,6 +413,12 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
         ["has", "_viewer_marker-color"],
         ["get", "_viewer_marker-color"],
         "rgba(252, 227, 35, 0.6)"
+      ],
+      fillColor: [
+        "case",
+        ["has", "_viewer_fill"],
+        ["get", "_viewer_fill"],
+        "rgba(252, 227, 35, 0.6)"
       ]
     }
   ],
