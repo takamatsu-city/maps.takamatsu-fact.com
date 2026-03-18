@@ -1436,7 +1436,7 @@
         "name": "許可盛土",
         "class": "許可盛土",
         "source_type": "vector",
-        "tileUrl": "https://tileserver.geolonia.com/takamatsu_morido_allowed_260218/tiles.json?key=YOUR-API-KEY",
+        "tileUrl": "https://tileserver.geolonia.com/takamatsu_morido_allowed_260318/tiles.json?key=YOUR-API-KEY",
         "customDataSourceLayer": "許可盛土",
         "metadata": {
           "attributesOrder": [
