@@ -39,8 +39,7 @@
     "tileUrl": "https://takamatsu-city.kagawa.smartcity.geolonia.com/data/chiban-genkyo-zu/latest/tiles/tiles.json",
     "customDataSourceLayer": "g-simplestyle-v1",
     "metadata": {
-      "attributesOrder": ["町名", "地番"],
-      "disclaimer": "本データは資産税課窓口で紙閲覧対応している資料を参考用に表示しているものです。法的効力を持つ情報ではありません。（暫定文面・本番反映前に正式文面に差し替え）"
+      "attributesOrder": ["町名", "地番"]
     }
   },
   {
