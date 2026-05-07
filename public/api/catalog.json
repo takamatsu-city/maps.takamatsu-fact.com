@@ -30,6 +30,19 @@
     "metadata": {}
   },
   {
+    "type": "DataItem",
+    "id": "地番現況図",
+    "shortId": "cGz",
+    "name": "地番現況図",
+    "class": "地番現況図",
+    "source_type": "vector",
+    "tileUrl": "https://takamatsu-city.kagawa.smartcity.geolonia.com/data/chiban-genkyo-zu/latest/tiles/tiles.json",
+    "customDataSourceLayer": "g-simplestyle-v1",
+    "metadata": {
+      "attributesOrder": ["町名", "地番"]
+    }
+  },
+  {
     "type": "Category",
     "id": "都市計画情報",
     "shortId": "40Q",
