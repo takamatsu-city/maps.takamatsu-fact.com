@@ -31,6 +31,25 @@
     }
   }
 
+  .kagawa-bousai-portal {
+    color: #FFFFFF;
+    font-size: 15px;
+    line-height: 22px;
+
+    .sensor-name {
+      font-weight: 700;
+      margin: 8px 0;
+    }
+
+    .portal-link {
+      margin: 8px 0;
+
+      a {
+        color: #FFFFFF;
+      }
+    }
+  }
+
   .sidebar-detail-item {
     border-bottom: 1.3px solid rgba(255, 255, 255, 0.1);
 

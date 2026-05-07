@@ -81,7 +81,13 @@ export default class LiveDataSet extends EventTarget {
   }
 
   private async _retrieveInitialDataSet() {
-    const initialDataResp = await fetch(`${WS_HTTP_URL}/channels/${this.id}/messages`);
+    // dev 環境ではバックエンドが API キー認証を要求する（v1 は未要求）。
+    // REACT_APP_API_KEY が設定されている場合のみ Authorization ヘッダーを送る。
+    const headers: HeadersInit = {};
+    if (process.env.REACT_APP_API_KEY) {
+      headers['Authorization'] = process.env.REACT_APP_API_KEY;
+    }
+    const initialDataResp = await fetch(`${WS_HTTP_URL}/channels/${this.id}/messages`, { headers });
     const initialDataJson = await initialDataResp.json();
 
     this.features = initialDataJson.data.map((data: any) => {
