@@ -403,6 +403,18 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
       opacity: 0.3
     }
   ],
+  "地番現況図": [
+    {
+      id: "地番現況図",
+      fillColor: "rgba(255, 204, 102, 0.3)",
+      outlineColor: "rgb(153, 102, 0)",
+      lineColor: "rgb(153, 102, 0)",
+      lineWidth: 0.5,
+      opacity: 0.3,
+      labelField: "表示文字列",
+      labelMinZoom: 16
+    }
+  ],
   "届出盛土":[
     {
       id: "届出盛土",
