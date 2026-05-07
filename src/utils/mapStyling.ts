@@ -125,6 +125,10 @@ export type CustomStyle = {
   lineWidth?: any
   opacity?: number
   lineOpacity?: number
+  // Polygon の中心にラベルを出すための symbol layer 設定。labelField は属性名を渡す（例: "表示文字列"）。
+  labelField?: string
+  labelMinZoom?: number
+  labelTextSize?: number
 }
 
 const AREA_STYLES: { [key: string]: CustomStyle[] } = {
@@ -458,7 +462,7 @@ export type LayerTemplate = (LayerSpecification & {
 
 export const customStyleToPolygonTemplate: (customStyle: CustomStyle, defaultColor: string) => LayerTemplate[] = (style, color) => {
   const fillPaint = style.pattern ? { 'fill-pattern': style.pattern } : { 'fill-color': style.fillColor || color };
-  return [
+  const out: LayerTemplate[] = [
     {
       "id": `${style.id}`,
       source: "takamatsu",
@@ -483,6 +487,28 @@ export const customStyleToPolygonTemplate: (customStyle: CustomStyle, defaultCol
       },
     }
   ];
+  if (style.labelField) {
+    out.push({
+      "id": `${style.id}/label`,
+      source: "takamatsu",
+      "source-layer": "main",
+      type: "symbol",
+      filter: style.filter,
+      minzoom: style.labelMinZoom ?? 16,
+      layout: {
+        'text-field': ["get", style.labelField],
+        'text-size': style.labelTextSize ?? 12,
+        'text-anchor': 'center',
+        'text-font': ["Noto Sans Regular"],
+      },
+      paint: {
+        'text-color': '#333333',
+        'text-halo-color': '#ffffff',
+        'text-halo-width': 1,
+      },
+    });
+  }
+  return out;
 }
 
 export const customStyleToLineStringTemplate: (customStyle: CustomStyle, defaultColor: string) => LayerTemplate[] = (style, color) => [
