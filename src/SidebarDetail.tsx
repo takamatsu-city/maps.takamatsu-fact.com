@@ -8,7 +8,25 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import { selectedFeaturesAtom } from './atoms';
 import ReplaceSpecialText from './utils/ReplaceSpecialText';
 
+const KAGAWA_BOUSAI_PORTAL_URL = 'https://www.bousai-kagawa.jp/dis_portal/';
+const KAGAWA_BOUSAI_PORTAL_CLASSES = new Set(['水位（県防災）', '潮位（県防災）', '降雨量']);
+
 const SingleFeatureTable: React.FC<{feature: CatalogFeature}> = ({feature}) => {
+  const featureClass = feature.catalog?.class;
+  if (typeof featureClass === 'string' && KAGAWA_BOUSAI_PORTAL_CLASSES.has(featureClass)) {
+    const sensorName = feature.properties['名称'] ?? '';
+    return (
+      <div className='kagawa-bousai-portal'>
+        {sensorName && <p className='sensor-name'>{sensorName}</p>}
+        <p className='portal-link'>
+          詳細内容については、
+          <a href={KAGAWA_BOUSAI_PORTAL_URL} target='_blank' rel='noopener noreferrer'>かがわ防災Webポータル</a>
+          をご確認ください。
+        </p>
+      </div>
+    );
+  }
+
   const detailItems = Object.entries(feature.properties).filter(([key, _value]) => !key.startsWith('_viewer_'));
   const attributesOrder = feature.catalog.metadata.attributesOrder ?? [];
 
