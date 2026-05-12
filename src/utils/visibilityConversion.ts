@@ -189,7 +189,6 @@ const displayConversion: DisplayConversionType = (features: CatalogFeature): Cat
     '陸上競技場': pattern1,
     '歴史・民俗施設': pattern1,
     'その他福祉施設': pattern1,
-    '市立病院': pattern1,
     '障がい福祉施設': pattern1,
     '地域包括支援センター': pattern1,
     '福祉会館・社会福祉協議会': pattern1,
