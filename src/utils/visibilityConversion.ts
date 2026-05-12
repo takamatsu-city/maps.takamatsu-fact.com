@@ -516,6 +516,10 @@ const displayConversion: DisplayConversionType = (features: CatalogFeature): Cat
       'A33_007':'公示日',
       'A33_008':'特別警戒未指定フラグ',
     },
+    '地番現況図': {
+      '大字名':'町名',
+      '表示文字列':'地番',
+    },
   }
 
   const featureClass = features.properties['class'] || features.catalog?.class;
