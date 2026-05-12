@@ -851,15 +851,6 @@
           },
           {
             "type": "DataItem",
-            "id": "施設情報/保健・医療・福祉/市立病院",
-            "shortId": "0qf",
-            "name": "市立病院",
-            "class": "市立病院",
-            "geojsonEndpoint": "https://opendata.takamatsu-fact.com/municipal_hospital/data.geojson",
-            "metadata": {}
-          },
-          {
-            "type": "DataItem",
             "id": "施設情報/保健・医療・福祉/小規模多機能型居宅介護施設",
             "shortId": "Vuz",
             "name": "小規模多機能型居宅介護施設",
