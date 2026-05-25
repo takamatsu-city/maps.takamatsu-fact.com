@@ -1461,7 +1461,7 @@
         "name": "届出盛土",
         "class": "届出盛土",
         "source_type": "vector",
-        "tileUrl": "https://tileserver.geolonia.com/takamatsu_morido_reported_260512/tiles.json?key=YOUR-API-KEY",
+        "tileUrl": "https://tileserver.geolonia.com/takamatsu_morido_reported_260525/tiles.json?key=YOUR-API-KEY",
         "customDataSourceLayer": "届出盛土",
         "metadata": {
           "attributesOrder": [
