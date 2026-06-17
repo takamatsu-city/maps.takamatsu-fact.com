@@ -397,13 +397,7 @@ const displayConversion: DisplayConversionType = (features: CatalogFeature): Cat
     '商店街通行量情報': {
       'name':'名称',
       'surveyDate':'調査日',
-      'manWeekdaysAverage':'男性平日平均',
-      'womanWeekdaysAverage':'女性平日平均',
-      'bicycleWeekdaysAverage':'自転車平日平均',
       'totalWeekdaysAverage':'合計平日平均',
-      'manHolidayAverage':'男性休日平均',
-      'womanHolidayAverage':'女性休日平均',
-      'bicycleHolidayAverage':'自転車休日平均',
       'totalHolidayAverage':'休日平均合計',
     },
     '指定緊急避難場所・指定避難所': {
