@@ -332,18 +332,6 @@ const displayConversion: DisplayConversionType = (features: CatalogFeature): Cat
     '老人福祉センターなど': pattern4,
     '老人福祉施設': pattern4,
     '小規模多機能型居宅介護施設': pattern4,
-    '診療所': {
-      'name':'名称',
-      'nickname':'ニックネーム',
-      'address':'住所',
-      'telephoneNumber':'電話番号',
-      'referenceObject':'参照先',
-      'note':'備考',
-      'availableDate':'利用可能日',
-      'startTime':'開始時刻',
-      'endTime':'終了時刻',
-      'availableDateNote':'利用可能日備考',
-    },
     '企業主導型保育施設一覧': pattern5,
     '認可外保育施設一覧': pattern5,
     '病児・病後児保育施設': {
