@@ -213,6 +213,9 @@ const MainMap: React.FC<Props> = (props) => {
         const thirdPartySourceIds = thirdPartySource.map(item => item.sourceId).filter((id) => id !== 'v3' && !id.startsWith('ksj_'));
         const allFeatures = map
           .queryRenderedFeatures(e.point)
+          // 独自タイル(tileUrl)の Point はラベル用の代表点なので選択対象から除外する。
+          // 除外しないとポリゴン本体とラベル代表点の両方が拾われ、ポップアップが重複する（#20）。
+          .filter(feature => !(feature.geometry.type === 'Point' && tileUrlIds.includes(feature.source)))
           .filter(feature => (
             feature.source === 'takamatsu' ||
             feature.source === 'kihonzu' ||
@@ -528,7 +531,12 @@ const MainMap: React.FC<Props> = (props) => {
 
                   } else if ('tileUrl' in definition) {
                     layerConfig.source = definitionId;
-                    layerConfig['filter'] = (layerConfig['filter'] as any[])[1];
+                    // 独自タイルでは class フィルタは不要なので $type フィルタのみに絞るが、
+                    // サブテンプレートが独自フィルタ（例: ラベルを代表点=Point に限定）を持つ場合は
+                    // それを優先する。これを落とすとラベルがポリゴンに乗り、タイル境界で二重描画される（#20）。
+                    layerConfig['filter'] = subtemplate.filter
+                      ? subtemplate.filter
+                      : (layerConfig['filter'] as any[])[1];
                   }
 
                   if ('customDataSourceLayer' in definition) {
