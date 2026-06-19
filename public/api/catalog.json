@@ -869,15 +869,6 @@
           },
           {
             "type": "DataItem",
-            "id": "施設情報/保健・医療・福祉/診療所",
-            "shortId": "3UK",
-            "name": "診療所",
-            "class": "診療所",
-            "geojsonEndpoint": "https://opendata.takamatsu-fact.com/clinic/data.geojson",
-            "metadata": {}
-          },
-          {
-            "type": "DataItem",
             "id": "施設情報/保健・医療・福祉/柔道整復師施術所一覧",
             "shortId": "8Mb",
             "name": "柔道整復師施術所一覧",
