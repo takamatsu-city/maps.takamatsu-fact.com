@@ -125,6 +125,10 @@ export type CustomStyle = {
   lineWidth?: any
   opacity?: number
   lineOpacity?: number
+  // Polygon の中心にラベルを出すための symbol layer 設定。labelField は属性名を渡す（例: "表示文字列"）。
+  labelField?: string
+  labelMinZoom?: number
+  labelTextSize?: number
 }
 
 const AREA_STYLES: { [key: string]: CustomStyle[] } = {
@@ -399,6 +403,18 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
       opacity: 0.3
     }
   ],
+  "地番現況図": [
+    {
+      id: "地番現況図",
+      fillColor: "rgba(255, 204, 102, 0.3)",
+      outlineColor: "rgb(153, 102, 0)",
+      lineColor: "rgb(153, 102, 0)",
+      lineWidth: 0.5,
+      opacity: 0.3,
+      labelField: "表示文字列",
+      labelMinZoom: 16
+    }
+  ],
   "届出盛土":[
     {
       id: "届出盛土",
@@ -458,7 +474,7 @@ export type LayerTemplate = (LayerSpecification & {
 
 export const customStyleToPolygonTemplate: (customStyle: CustomStyle, defaultColor: string) => LayerTemplate[] = (style, color) => {
   const fillPaint = style.pattern ? { 'fill-pattern': style.pattern } : { 'fill-color': style.fillColor || color };
-  return [
+  const out: LayerTemplate[] = [
     {
       "id": `${style.id}`,
       source: "takamatsu",
@@ -483,6 +499,35 @@ export const customStyleToPolygonTemplate: (customStyle: CustomStyle, defaultCol
       },
     }
   ];
+  if (style.labelField) {
+    // ラベルはポリゴン代表点(Point)にのみ乗せる。ポリゴン本体に乗せると、タイル境界を
+    // またぐポリゴンが各タイルにクリップされる際にラベルがタイルごとに描画され「同じ地番が
+    // 複数表示」になる(地番現況図 #20)。タイル側(build.sh)で各地番の代表点を生成済みのため、
+    // geometry-type=Point に限定することで 1地番=1ラベル となる。
+    const labelFilter: any = style.filter
+      ? ["all", style.filter, ["==", ["geometry-type"], "Point"]]
+      : ["==", ["geometry-type"], "Point"];
+    out.push({
+      "id": `${style.id}/label`,
+      source: "takamatsu",
+      "source-layer": "main",
+      type: "symbol",
+      filter: labelFilter,
+      minzoom: style.labelMinZoom ?? 16,
+      layout: {
+        'text-field': ["get", style.labelField],
+        'text-size': style.labelTextSize ?? 12,
+        'text-anchor': 'center',
+        'text-font': ["Noto Sans Regular"],
+      },
+      paint: {
+        'text-color': '#333333',
+        'text-halo-color': '#ffffff',
+        'text-halo-width': 1,
+      },
+    });
+  }
+  return out;
 }
 
 export const customStyleToLineStringTemplate: (customStyle: CustomStyle, defaultColor: string) => LayerTemplate[] = (style, color) => [
@@ -500,6 +545,12 @@ export const customStyleToLineStringTemplate: (customStyle: CustomStyle, default
 ];
 
 export const customStyleToPointTemplate: (customStyle: CustomStyle, defaultColor: string) => LayerTemplate[] = (style, color) => {
+  // labelField を持つスタイルは「ポリゴンのラベルを代表点(Point)に乗せる」用途。
+  // その代表点は描画対象にしない（ラベルは Polygon テンプレートの label レイヤが担当）。
+  // 描画すると点がドット表示され、低ズームで間引かれて見え方が安定しない（#20）。
+  if (style.labelField) {
+    return [];
+  }
   let out: LayerTemplate[] = [];
   if (style.pointLabel) {
     out.push({
