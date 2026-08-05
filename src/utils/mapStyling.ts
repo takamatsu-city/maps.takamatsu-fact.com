@@ -411,7 +411,7 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
       lineColor: "rgb(153, 102, 0)",
       lineWidth: 0.5,
       opacity: 0.3,
-      labelField: "表示文字列",
+      labelField: "title",
       labelMinZoom: 16
     }
   ],
