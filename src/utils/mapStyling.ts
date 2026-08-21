@@ -438,6 +438,23 @@ const AREA_STYLES: { [key: string]: CustomStyle[] } = {
         "rgba(221, 51, 51, 0.6)"
       ]
     }
+  ],
+  "検査済盛土":[
+    {
+      id: "検査済盛土",
+      outlineColor: [
+        "case",
+        ["has", "_viewer_stroke"],
+        ["get", "_viewer_stroke"],
+        "rgba(30, 115, 190, 1)"
+      ],
+      fillColor: [
+        "case",
+        ["has", "_viewer_fill"],
+        ["get", "_viewer_fill"],
+        "rgba(30, 115, 190, 0.6)"
+      ]
+    }
   ]
 };
 
