@@ -241,6 +241,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpenedSidebar, setIsOpenedSidebar, 
           )}
         </div>
       </div>
+      <p className='sidebar-news'>メンテナンス作業のため、令和８年９月１０日（木）９：３０～１１：３０（内、最大９０分）はセンサーデータの一部にアクセスできなくなります。ご理解の程お願い申しあげます。</p>
       <details className='user-guide-link'>
         <summary>ご利用にあたって</summary>
         <ul>
