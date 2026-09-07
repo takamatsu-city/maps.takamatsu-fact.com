@@ -56,11 +56,11 @@ describe('盛土規制法カテゴリのカタログ定義', () => {
 });
 
 describe('検査済盛土のスタイル', () => {
-  test('class 検査済盛土に既定色(青系)が引ける', () => {
+  test('class 検査済盛土に既定色(オレンジ系)が引ける', () => {
     const checked = findItem('検査済盛土') as CatalogDataItem;
     const styles = getCustomStyle(checked);
     expect(styles).toBeDefined();
-    expect(JSON.stringify(styles)).toContain('rgba(30, 115, 190,');
+    expect(JSON.stringify(styles)).toContain('rgba(255, 140, 0,');
   });
 
   test('許可盛土(赤系)とは別の色が引ける', () => {
