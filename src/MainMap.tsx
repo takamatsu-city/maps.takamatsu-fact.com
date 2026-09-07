@@ -18,6 +18,7 @@ import { addLayerStyle, removeLayerStyle } from './utils/mapStyleController';
 import { ThirdPartyCatalogDataItem, walkThirdPartyCategories } from './api/thirdPartyCatalog';
 import { addLayersBefore } from './utils/addLayersBefore';
 import { moveMaskLayer2Top } from './utils/moveMaskLayer2Top';
+import { reorderMoridoZoneLayer } from './utils/moridoLayerOrder';
 
 declare global {
   interface Window {
@@ -541,6 +542,11 @@ const MainMap: React.FC<Props> = (props) => {
                     console.error(`Failed to add layer ${layerConfig.id}!!!`);
                     debugger;
                   }
+
+                  // 盛土規制法カテゴリだけ、区域レイヤーが個別案件レイヤーより
+                  // 後から追加された場合に重なり順を強制する（#164）。
+                  // 対象外のDataItemでは何もしないため、他カテゴリの挙動は変わらない。
+                  reorderMoridoZoneLayer(map, layerConfig.id, definitionId);
                 } else if (mapLayers.length > 0 && !isSelected) {
                   for (const mapLayer of mapLayers) {
                     map.removeLayer(mapLayer.id);
