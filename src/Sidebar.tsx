@@ -248,6 +248,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpenedSidebar, setIsOpenedSidebar, 
           <li>国土数値情報のうち、土砂災害警戒区域/小学校区/中学校区のデータは2023年度（令和5年度）時点のものです。高潮浸水想定区域/津波浸水想定/洪水浸水想定区域データ（想定最大規模・計画規模）は、<a href="https://disaportal.gsi.go.jp/hazardmapportal/hazardmap/copyright/opendata.html">ハザードマップポータルサイト</a>で配信されているタイルを利用しています（凡例はリンク先を参照してください）。</li>
           <li>国土数値情報のうち、小学校区/中学校区に関して、正確な情報は、<a href="https://www.city.takamatsu.kagawa.jp/smph/kurashi/kosodate/shouchugakkou/nyugaku/kouku-choumei.html">校区一覧のページ</a>でご確認ください。</li>
           <li>盛土規制法のうち、既存盛土等は、造成前後等の地形図等を基に抽出された盛土等の概ねの位置を示したものであり、直ちに危険性のある盛土等を示したものではありません。</li>
+          <li>地番現況図は、資産税課窓口で紙閲覧対応している資料を参考用に表示しているものです。法的効力を持つ情報ではありません。（暫定文面・本番反映前に正式文面に差し替え）</li>
         </ul>
       </details>
     </div>
