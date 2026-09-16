@@ -211,9 +211,17 @@ const MainMap: React.FC<Props> = (props) => {
       map.on('click', (e) => {
         const customDataSourceIds = catalogDataItems.filter((item) => "customDataSource" in item).map((item) => item.id);
         const tileUrlIds = catalogDataItems.filter((item) => "tileUrl" in item).map((item) => item.id);
+        // metadata.disablePopup=true のレイヤーは属性パネルを出さない(クリック集計から丸ごと除外)。
+        // 地番現況図: 地番は地図ラベルに表示済みのため属性情報は非表示にする方針(#20)。
+        const noPopupIds = catalogDataItems.filter((item) => (item as any).metadata?.disablePopup === true).map((item) => item.id);
         const thirdPartySourceIds = thirdPartySource.map(item => item.sourceId).filter((id) => id !== 'v3' && !id.startsWith('ksj_'));
         const allFeatures = map
           .queryRenderedFeatures(e.point)
+          // 独自タイル(tileUrl)の Point はラベル用の代表点なので選択対象から除外する。
+          // 除外しないとポリゴン本体とラベル代表点の両方が拾われ、ポップアップが重複する（#20）。
+          .filter(feature => !(feature.geometry.type === 'Point' && tileUrlIds.includes(feature.source)))
+          // disablePopup 指定レイヤー(地番現況図など)は Polygon 含め丸ごと除外 → 属性パネルを開かない
+          .filter(feature => !noPopupIds.includes(feature.source))
           .filter(feature => (
             feature.source === 'takamatsu' ||
             feature.source === 'kihonzu' ||
@@ -529,7 +537,12 @@ const MainMap: React.FC<Props> = (props) => {
 
                   } else if ('tileUrl' in definition) {
                     layerConfig.source = definitionId;
-                    layerConfig['filter'] = (layerConfig['filter'] as any[])[1];
+                    // 独自タイルでは class フィルタは不要なので $type フィルタのみに絞るが、
+                    // サブテンプレートが独自フィルタ（例: ラベルを代表点=Point に限定）を持つ場合は
+                    // それを優先する。これを落とすとラベルがポリゴンに乗り、タイル境界で二重描画される（#20）。
+                    layerConfig['filter'] = subtemplate.filter
+                      ? subtemplate.filter
+                      : (layerConfig['filter'] as any[])[1];
                   }
 
                   if ('customDataSourceLayer' in definition) {
