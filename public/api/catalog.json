@@ -865,15 +865,6 @@
           },
           {
             "type": "DataItem",
-            "id": "施設情報/保健・医療・福祉/市立病院",
-            "shortId": "0qf",
-            "name": "市立病院",
-            "class": "市立病院",
-            "geojsonEndpoint": "https://opendata.takamatsu-fact.com/municipal_hospital/data.geojson",
-            "metadata": {}
-          },
-          {
-            "type": "DataItem",
             "id": "施設情報/保健・医療・福祉/小規模多機能型居宅介護施設",
             "shortId": "Vuz",
             "name": "小規模多機能型居宅介護施設",
@@ -888,15 +879,6 @@
             "name": "障がい福祉施設",
             "class": "障がい福祉施設",
             "geojsonEndpoint": "https://opendata.takamatsu-fact.com/disabled_welfare_facility/data.geojson",
-            "metadata": {}
-          },
-          {
-            "type": "DataItem",
-            "id": "施設情報/保健・医療・福祉/診療所",
-            "shortId": "3UK",
-            "name": "診療所",
-            "class": "診療所",
-            "geojsonEndpoint": "https://opendata.takamatsu-fact.com/clinic/data.geojson",
             "metadata": {}
           },
           {
@@ -1450,8 +1432,8 @@
         "name": "許可盛土",
         "class": "許可盛土",
         "source_type": "vector",
-        "tileUrl": "https://tileserver.geolonia.com/takamatsu_morido_allowed_260330/tiles.json?key=YOUR-API-KEY",
-        "customDataSourceLayer": "許可盛土",
+        "tileUrl": "https://takamatsu-city.kagawa.smartcity.geolonia.com/data/morido-allowed/latest/tiles/tiles.json",
+        "customDataSourceLayer": "g-simplestyle-v1",
         "metadata": {
           "attributesOrder": [
             "ID",
@@ -1479,12 +1461,50 @@
       },
       {
         "type": "DataItem",
+        "id": "盛土規制法/検査済盛土",
+        "shortId": "hcF",
+        "name": "検査済盛土",
+        "class": "検査済盛土",
+        "source_type": "vector",
+        "tileUrl": "https://takamatsu-city.kagawa.smartcity.geolonia.com/data/morido-checked/latest/tiles/tiles.json",
+        "customDataSourceLayer": "g-simplestyle-v1",
+        "metadata": {
+          "attributesOrder": [
+            "ID",
+            "盛土等種別",
+            "工事主の氏名又は名称",
+            "土地の所在地",
+            "許可年月日",
+            "届出年月日",
+            "許可番号",
+            "工事施行者の氏名又は名称",
+            "工事着手(予定)年月日",
+            "工事完了予定年月日",
+            "工事完了年月日",
+            "工事完了検査/確認年月日",
+            "検査済証/確認済証交付番号",
+            "検査済証/確認済証交付年月日",
+            "盛土高さH（m）",
+            "切土高さH（m）",
+            "盛土又は切土面積A（㎡）",
+            "盛土土量V（m³）",
+            "切土土量V（m³）",
+            "土石の最大堆積高さH(m)",
+            "土石の堆積面積A（㎡）",
+            "土石の最大堆積土量V(m³)",
+            "備考"
+          ]
+        },
+        "maxZoom": 16.74
+      },
+      {
+        "type": "DataItem",
         "id": "盛土規制法/届出盛土",
         "shortId": "hkF",
         "name": "届出盛土",
         "class": "届出盛土",
         "source_type": "vector",
-        "tileUrl": "https://tileserver.geolonia.com/takamatsu_morido_reported_260330/tiles.json?key=YOUR-API-KEY",
+        "tileUrl": "https://tileserver.geolonia.com/takamatsu_morido_reported_260525/tiles.json?key=YOUR-API-KEY",
         "customDataSourceLayer": "届出盛土",
         "metadata": {
           "attributesOrder": [
