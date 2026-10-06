@@ -1432,7 +1432,7 @@
         "name": "許可盛土",
         "class": "許可盛土",
         "source_type": "vector",
-        "tileUrl": "https://takamatsu-city.kagawa.smartcity.geolonia.com/data/morido-allowed/latest/tiles/tiles.json",
+        "tileUrl": "https://takamatsu-city.kagawa.smartcity.geolonia.com/data/morido-allowed/preview-261006/tiles/tiles.json",
         "customDataSourceLayer": "g-simplestyle-v1",
         "metadata": {
           "attributesOrder": [
@@ -1466,7 +1466,7 @@
         "name": "検査済盛土",
         "class": "検査済盛土",
         "source_type": "vector",
-        "tileUrl": "https://takamatsu-city.kagawa.smartcity.geolonia.com/data/morido-checked/latest/tiles/tiles.json",
+        "tileUrl": "https://takamatsu-city.kagawa.smartcity.geolonia.com/data/morido-checked/preview-261006/tiles/tiles.json",
         "customDataSourceLayer": "g-simplestyle-v1",
         "metadata": {
           "attributesOrder": [
