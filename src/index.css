@@ -11,3 +11,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/*
+ * Netlifyのデプロイプレビュー（*.netlify.app）にだけ、Netlify自身が
+ * `data-netlify-deploy-id` 属性付きのdiv（中に地図と無関係なiframeを含む）を
+ * position: fixed; bottom: 0; z-index: 2147483647 で挿入してくる。
+ * 本番ドメインでは挿入されないため、この非表示指定は本番の見た目に影響しない。
+ *
+ * 画面上で地図の下端に重なって見えるうえ、印刷（Ctrl+P）時にもページ下部へ
+ * 部分的に印字されてしまうため、常時非表示にする。
+ */
+div[data-netlify-deploy-id] {
+  display: none !important;
+}
