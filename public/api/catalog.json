@@ -1504,8 +1504,8 @@
         "name": "届出盛土",
         "class": "届出盛土",
         "source_type": "vector",
-        "tileUrl": "https://tileserver.geolonia.com/takamatsu_morido_reported_260525/tiles.json?key=YOUR-API-KEY",
-        "customDataSourceLayer": "届出盛土",
+        "tileUrl": "https://takamatsu-city.kagawa.smartcity.geolonia.com/data/morido-reported/preview-261009/tiles/tiles.json",
+        "customDataSourceLayer": "g-simplestyle-v1",
         "metadata": {
           "attributesOrder": [
             "ID",
