@@ -19,6 +19,7 @@ import { ThirdPartyCatalogDataItem, walkThirdPartyCategories } from './api/third
 import { addLayersBefore } from './utils/addLayersBefore';
 import { moveMaskLayer2Top } from './utils/moveMaskLayer2Top';
 import { reorderMoridoZoneLayer } from './utils/moridoLayerOrder';
+import { isPopupTarget } from './utils/featureSelection';
 
 declare global {
   interface Window {
@@ -215,23 +216,21 @@ const MainMap: React.FC<Props> = (props) => {
         // 地番現況図: 地番は地図ラベルに表示済みのため属性情報は非表示にする方針(#20)。
         const noPopupIds = catalogDataItems.filter((item) => (item as any).metadata?.disablePopup === true).map((item) => item.id);
         const thirdPartySourceIds = thirdPartySource.map(item => item.sourceId).filter((id) => id !== 'v3' && !id.startsWith('ksj_'));
+        const selectionSources = {
+          noPopupIds,
+          customDataSourceIds,
+          tileUrlIds,
+          thirdPartySourceIds,
+          builtInSourceIds: [
+            'takamatsu',
+            'kihonzu',
+            'ksj_takamatsu', // 国土数値情報のデータを含める
+            SOURCES.OKUGAI_KOUKOKU_ID,
+          ],
+        };
         const allFeatures = map
           .queryRenderedFeatures(e.point)
-          // 独自タイル(tileUrl)の Point はラベル用の代表点なので選択対象から除外する。
-          // 除外しないとポリゴン本体とラベル代表点の両方が拾われ、ポップアップが重複する（#20）。
-          .filter(feature => !(feature.geometry.type === 'Point' && tileUrlIds.includes(feature.source)))
-          // disablePopup 指定レイヤー(地番現況図など)は Polygon 含め丸ごと除外 → 属性パネルを開かない
-          .filter(feature => !noPopupIds.includes(feature.source))
-          .filter(feature => (
-            feature.source === 'takamatsu' ||
-            feature.source === 'kihonzu' ||
-            feature.source === 'ksj_takamatsu' || // 国土数値情報のデータを含める
-            feature.source === SOURCES.OKUGAI_KOUKOKU_ID ||
-            customDataSourceIds.includes(feature.source) ||
-            tileUrlIds.includes(feature.source) ||
-            feature.properties._viewer_selectable === true ||
-            thirdPartySourceIds.includes(feature.source)
-          ));
+          .filter(feature => isPopupTarget(feature, selectionSources));
 
         const features: maplibregl.MapGeoJSONFeature[] = [];
         allFeatures.forEach((f1) => {
