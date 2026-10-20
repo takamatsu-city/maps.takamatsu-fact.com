@@ -14,7 +14,7 @@
     "name": "高松市航空写真",
     "class": "航空写真",
     "source_type": "raster",
-    "tileUrl": "https://tileserver.geolonia.com/takamatsu_aerial_photo/tiles.json?key=YOUR-API-KEY",
+    "tileUrl": "https://takamatsu-city.kagawa.smartcity.geolonia.com/data/aerial-photo/latest/tiles/tiles.json",
     "metadata": {}
   },
   {
