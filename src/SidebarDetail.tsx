@@ -11,7 +11,7 @@ import ReplaceSpecialText from './utils/ReplaceSpecialText';
 const KAGAWA_BOUSAI_PORTAL_URL = 'https://www.bousai-kagawa.jp/dis_portal/';
 const KAGAWA_BOUSAI_PORTAL_CLASSES = new Set(['水位（県防災）', '潮位（県防災）', '降雨量']);
 
-const SingleFeatureTable: React.FC<{feature: CatalogFeature}> = ({feature}) => {
+export const SingleFeatureTable: React.FC<{feature: CatalogFeature}> = ({feature}) => {
   const featureClass = feature.catalog?.class;
   if (typeof featureClass === 'string' && KAGAWA_BOUSAI_PORTAL_CLASSES.has(featureClass)) {
     const sensorName = feature.properties['名称'] ?? '';
@@ -28,7 +28,8 @@ const SingleFeatureTable: React.FC<{feature: CatalogFeature}> = ({feature}) => {
   }
 
   const detailItems = Object.entries(feature.properties).filter(([key, _value]) => !key.startsWith('_viewer_'));
-  const attributesOrder = feature.catalog.metadata.attributesOrder ?? [];
+  // Third-party catalog items (e.g. 国土数値情報) have no `metadata`, so it may be undefined here.
+  const attributesOrder = feature.catalog.metadata?.attributesOrder ?? [];
 
   detailItems.sort(([key1, _value1], [key2, _value2]) => {
     // make sure items with key=`class` and key=`subclass` are always on top
