@@ -36,9 +36,9 @@ describe('SingleFeatureTable', () => {
       properties: { a: '値A', b: '値B' },
     } as unknown as CatalogFeature;
 
-    const { container } = render(<SingleFeatureTable feature={feature} />);
+    render(<SingleFeatureTable feature={feature} />);
 
-    const labels = Array.from(container.querySelectorAll('th.label')).map((th) => th.textContent);
-    expect(labels).toEqual(['b', 'a']);
+    const rows = screen.getAllByRole('row').map((row) => row.textContent);
+    expect(rows).toEqual(['b値B', 'a値A']);
   });
 });
